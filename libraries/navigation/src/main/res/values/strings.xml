@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">AZO</string>
+    <string name="database">AZO</string>
+    <!--tab names -->
+    <string name="home">Home</string>
+    <string name="sermons">SERMONS</string>
+
+    <string name="facebook_app_id">207997947538198</string>
+    <string name="fb_login_protocol_scheme">fb207997947538198</string>
+
+    <string name="default_notification_channel_id">911</string>
+
+
+
+</resources>

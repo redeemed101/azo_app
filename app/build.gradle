@@ -1,0 +1,66 @@
+import com.azo.buildsrc.*;
+
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    compileSdk Versions.INSTANCE.compileSdk
+
+    defaultConfig {
+        applicationId Versions.INSTANCE.applicationId
+        minSdk Versions.INSTANCE.minSdk
+        targetSdk Versions.INSTANCE.targetSdk
+        versionCode 1
+        versionName Versions.INSTANCE.versionName
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    buildFeatures {
+        compose true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+}
+
+dependencies {
+    implementation project(":libraries:ui:common_ui")
+    implementation project(":libraries:ui:authentication")
+    implementation project(":libraries:ui:sermons")
+    implementation Libs.AndroidX.Core.core
+    implementation Libs.AndroidX.Compose.ui
+    implementation Libs.AndroidX.Compose.material
+    implementation Libs.AndroidX.Compose.ui_tooling_preview
+    implementation Libs.AndroidX.Lifecycle.lifecycleRuntime
+    implementation Libs.AndroidX.Compose.activity
+    testImplementation Libs.Testing.junit
+    androidTestImplementation Libs.Testing.junit_ext
+    androidTestImplementation Libs.Testing.espresso
+    androidTestImplementation Libs.AndroidX.Compose.junit
+    debugImplementation Libs.AndroidX.Compose.ui_tooling
+    debugImplementation Libs.AndroidX.Compose.ui_test
+}
