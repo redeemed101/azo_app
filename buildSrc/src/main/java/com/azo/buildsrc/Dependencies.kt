@@ -3,6 +3,7 @@ package com.azo.buildsrc
 object Libs {
     const val slf4j = "org.slf4j:slf4j-jdk14:1.7.25"
     const val material = "com.google.android.material:material:1.6.1"
+    const val coil = "io.coil-kt:coil-compose:2.1.0"
     const val prettyTime = "org.ocpsoft.prettytime:prettytime:4.0.4.Final"
     object Testing{
         const val junit = "junit:junit:4.13.2"
@@ -48,7 +49,7 @@ object Libs {
     }
 
     object Kotlin {
-        private const val version = "1.7.10"
+         const val version = "1.7.10"
         const val stdlib = "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$version"
         const val gradlePlugin = "org.jetbrains.kotlin:kotlin-gradle-plugin:$version"
         const val extensions = "org.jetbrains.kotlin:kotlin-android-extensions:$version"
@@ -77,7 +78,7 @@ object Libs {
         }
 
         object GraphQL {
-            private const val version = "2.5.12"
+            const val version = "2.5.12"
             const val plugin = "com.apollographql.apollo"
             const val runtime =  "com.apollographql.apollo:apollo-runtime:${version}"
             const val support =  "com.apollographql.apollo:apollo-coroutines-support:${version}"
@@ -112,7 +113,7 @@ object Libs {
 
 
         object Room{
-            private const val version = "2.4.3"
+            private const val version = "2.2.6"
             const val runtime = "androidx.room:room-runtime:$version"
             const val kapt_compiler = "androidx.room:room-compiler:$version"
             const val ktx = "androidx.room:room-ktx:$version"
@@ -194,14 +195,14 @@ object Libs {
         const val testing = "com.google.dagger:hilt-android-testing:$version"
         object AndroidX {
             private const val version = "1.0.0"
-            const val compose_navigation = "androidx.hilt:hilt-navigation-compose:1.0.0"
+            const val compose_navigation = "androidx.hilt:hilt-navigation-compose:$version"
             const val compiler = "androidx.hilt:hilt-compiler:$version"
-            const val viewModel = "androidx.hilt:hilt-lifecycle-viewmodel:$version"
+            const val viewModel = "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
         }
     }
     object Layout{
         private const val version = "2.1.4"
-        const val  constraint = "com.android.support.constraint:constraint-layout:$version"
+        const val  constraint = "androidx.constraintlayout:constraintlayout:$version"
 
 
     }

@@ -4,7 +4,13 @@ import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id(com.azo.buildsrc.Libs.Networking.GraphQL.plugin).version(com.azo.buildsrc.Libs.Networking.GraphQL.version)
+    id("kotlin-android")
+    id("kotlin-kapt")
+    "kotlinx-serialization"
 }
+
+
 
 android {
     compileSdk = Versions.compileSdk
@@ -44,18 +50,23 @@ dependencies {
     implementation(Libs.AndroidX.Paging.runtime)
     implementation(Libs.Kotlin.stdlib)
     implementation(Libs.AndroidX.Compose.paging)
-    implementation(Libs.AndroidX.Room.runtime)
-    implementation(Libs.AndroidX.Room.ktx)
-    implementation(Libs.AndroidX.Room.kapt_compiler)
+
 
     implementation(Libs.Networking.OkHttp.loggging)
     implementation(Libs.Networking.OkHttp.client)
 
-    implementation(Libs.AndroidX.Room.kapt_compiler)
-    implementation(Libs.AndroidX.Room.kapt_compiler)
+    implementation(Libs.AndroidX.Room.runtime)
+    implementation(Libs.AndroidX.Room.ktx)
+    kapt(Libs.AndroidX.Room.kapt_compiler)
+    implementation(Libs.AndroidX.Room.testing)
+    annotationProcessor(Libs.AndroidX.Room.kapt_compiler)
+
 
     implementation(Libs.Networking.GraphQL.runtime)
     implementation(Libs.Networking.GraphQL.support)
+
+
+
 
     implementation(Libs.Networking.Ktor.client)
     implementation(Libs.Networking.Ktor.serialization)
@@ -64,7 +75,7 @@ dependencies {
     implementation(Libs.Networking.Ktor.auth)
     implementation(Libs.Networking.Ktor.mock)
 
-    implementation(Libs.AndroidX.Room.testing)
+
     testImplementation(Libs.Testing.junit)
     androidTestImplementation(Libs.Testing.junit_ext)
     androidTestImplementation(Libs.Testing.espresso)

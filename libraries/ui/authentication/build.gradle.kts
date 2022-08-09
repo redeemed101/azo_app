@@ -90,15 +90,11 @@ dependencies{
     kapt(Libs.Hilt.compiler)
     kapt(Libs.Hilt.AndroidX.compiler)
     kapt(Libs.AssistedInjection.processor)
-    implementation(Libs.AndroidX.Room.runtime)
-    kapt(Libs.AndroidX.Room.kapt_compiler)
-    implementation(Libs.AndroidX.Room.ktx)
-    implementation(Libs.AndroidX.Room.testing)
+
+
     implementation(Libs.Networking.OkHttp.loggging)
     implementation(Libs.Networking.OkHttp.client)
-    implementation(Libs.Networking.GraphQL.runtime)
-    implementation(Libs.Networking.GraphQL.support)
-    implementation(Libs.Accompanist.coil)
+    implementation(Libs.coil)
     implementation(Libs.Accompanist.insets)
     implementation(Libs.Accompanist.swipe)
     androidTestImplementation(Libs.Testing.junit)
@@ -106,11 +102,13 @@ dependencies{
     androidTestImplementation(Libs.AndroidX.Test.rules)
     androidTestImplementation(Libs.Kotlin.Coroutines.test)
     androidTestImplementation(Libs.AndroidX.Compose.ui_test)
+
     androidTestImplementation(Libs.Hilt.android)
     androidTestImplementation(Libs.Hilt.AndroidX.viewModel)
     androidTestImplementation(Libs.Hilt.testing)
     kaptAndroidTest(Libs.Hilt.compiler)
     kaptAndroidTest(Libs.Hilt.AndroidX.compiler)
+
     kaptAndroidTest(Libs.AssistedInjection.processor)
     implementation(Libs.slf4j)
 

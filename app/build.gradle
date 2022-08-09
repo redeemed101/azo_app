@@ -3,8 +3,9 @@ import com.azo.buildsrc.*;
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
-}
+    id 'kotlin-kapt'
 
+}
 android {
     compileSdk Versions.INSTANCE.compileSdk
 
@@ -57,10 +58,5 @@ dependencies {
     implementation Libs.AndroidX.Compose.ui_tooling_preview
     implementation Libs.AndroidX.Lifecycle.lifecycleRuntime
     implementation Libs.AndroidX.Compose.activity
-    testImplementation Libs.Testing.junit
-    androidTestImplementation Libs.Testing.junit_ext
-    androidTestImplementation Libs.Testing.espresso
-    androidTestImplementation Libs.AndroidX.Compose.junit
-    debugImplementation Libs.AndroidX.Compose.ui_tooling
-    debugImplementation Libs.AndroidX.Compose.ui_test
+
 }

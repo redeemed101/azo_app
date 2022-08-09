@@ -36,7 +36,7 @@ import com.fov.common_ui.R
 import com.fov.common_ui.theme.buttonHeight
 import com.fov.common_ui.ui.composers.buttons.FacebookButton
 import com.fov.common_ui.ui.composers.buttons.GoogleButton
-import com.fov.common_ui.ui.composers.sections.CustomTextField
+import com.fov.common_ui.ui.composers.textfields.CustomTextField
 
 @Composable
 fun Login(

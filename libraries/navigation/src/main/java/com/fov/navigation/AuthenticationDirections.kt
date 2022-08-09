@@ -11,10 +11,7 @@ object AuthenticationDirections {
         override val arguments = emptyList<NamedNavArgument>()
         override val destination = RouteConstants.ONBOARDING
     }
-    val newFollow = object : NavigationCommand{
-        override val arguments = emptyList<NamedNavArgument>()
-        override val destination = RouteConstants.NEW_FOLLOW
-    }
+
     val login = object : NavigationCommand{
         override val arguments = emptyList<NamedNavArgument>()
         override val destination = RouteConstants.LOGIN
