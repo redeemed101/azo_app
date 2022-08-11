@@ -212,5 +212,17 @@ object Libs {
         const val dagger = "com.squareup.inject:assisted-inject-annotations-dagger2:$version"
         const val processor = "com.squareup.inject:assisted-inject-processor-dagger2:$version"
     }
+    object Koin{
+        const val version = "3.2.0"
+        const val android = "io.insert-koin:koin-android:$version"
+        const val koin = "io.insert-koin:koin-core:$version"
+        const val test = "io.insert-koin:koin-test:$version"
+        const val junit4 = "io.insert-koin:koin-test-junit4:$version"
+        const val ktor = "io.insert-koin:koin-ktor:$version"
+        const val slfj4 = "io.insert-koin:koin-logger-slf4j:$version"
+        const val work_manager = "io.insert-koin:koin-androidx-workmanager:$version"
+        const val navigation = "io.insert-koin:koin-androidx-navigation:$version"
+        const val compose = "io.insert-koin:koin-androidx-compose"
+    }
 
 }

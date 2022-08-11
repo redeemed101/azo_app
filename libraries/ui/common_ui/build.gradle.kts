@@ -56,7 +56,6 @@ dependencies {
     implementation(Libs.AndroidX.Compose.paging)
     implementation(Libs.coil)
     implementation(Libs.Hilt.AndroidX.compose_navigation)
-    implementation("io.coil-kt:coil-compose:2.1.0")
     androidTestImplementation(Libs.AndroidX.Compose.ui_test)
     implementation(Libs.AndroidX.Compose.runtime)
     implementation(Libs.AndroidX.Compose.runtimeLivedata)
