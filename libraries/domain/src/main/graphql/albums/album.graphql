@@ -1,0 +1,34 @@
+query getAlbum($id: String){
+    album(id: $id){
+        id
+        artworkPath
+        name
+        path
+        likes{
+            userId
+        }
+        songs{
+            id
+            name
+            path
+            likes{
+                userId
+            }
+            streams{
+                id
+            }
+            genres{
+                id
+                name
+            }
+        }
+        genres{
+            id
+            name
+        }
+        streams{
+            id
+        }
+    }
+
+}

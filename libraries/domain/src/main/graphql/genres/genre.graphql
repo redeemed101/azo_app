@@ -1,0 +1,29 @@
+query getGenre($id: String){
+    genre(id: $id){
+        id
+        name
+    }
+    songs{
+        id
+        name
+        path
+        artworkPath
+        likes{
+            userId
+        }
+        streams{
+            id
+        }
+
+        genres{
+            id
+            name
+        }
+    }
+    albums{
+        id
+        name
+        artworkPath
+    }
+
+}

@@ -1,0 +1,159 @@
+package com.fov.sermons.pagination
+
+import androidx.paging.PagingSource
+import androidx.paging.PagingState
+import com.fov.common_ui.utils.constants.SongRequestType
+import com.fov.domain.interactor.music.MusicInteractor
+import com.fov.domain.models.music.song.SongsResult
+import com.fov.music.models.Song
+
+class SongsSource constructor(
+    private val musicInteractor: MusicInteractor,
+    private val songRequestType: SongRequestType,
+    private  val search : String? = null,
+    private val genreId: String? = null,
+    private val artistId : String? = null,
+    private val userId  :  String? = null
+) : PagingSource<Int, Song>()  {
+    override fun getRefreshKey(state: PagingState<Int, Song>): Int? {
+        return state.anchorPosition?.let {
+            state.closestPageToPosition(it)?.prevKey?.plus(1)
+                ?: state.closestPageToPosition(it)?.nextKey?.minus(1)
+        }
+    }
+
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Song> {
+        return try {
+
+            val nextPage = params.key ?: 1
+            var songResult: SongsResult? = null
+            if (genreId != null) {
+                if (songRequestType == SongRequestType.GENRE_SONGS) {
+                    val result = musicInteractor.getGenreSongsGraph(genreId, nextPage)
+                    val songs = result?.songsPaginated()?.map { s ->
+                        Song.ModelMapper.fromGenreGraph(s)
+
+                    }
+                    if (songs != null) {
+                        LoadResult.Page(
+                            data = songs!!,
+                            prevKey = if (nextPage == 1) null else nextPage - 1,
+                            nextKey = nextPage.plus(1)
+                        )
+                    } else {
+                        LoadResult.Error(Exception(""))
+                    }
+                } else {
+                    LoadResult.Error(Exception(""))
+                }
+            }
+            else if(artistId != null){
+                if (songRequestType == SongRequestType.ARTIST_SONGS) {
+                    val result = musicInteractor.getArtistSongsGraph(artistId,nextPage)
+                    val songs = result?.songsPaginated()?.map { s ->
+                        Song.ModelMapper.fromArtistGraph(s)
+
+                    }
+                    if (songs != null) {
+                        LoadResult.Page(
+                            data = songs!!,
+                            prevKey = if (nextPage == 1) null else nextPage - 1,
+                            nextKey = nextPage.plus(1)
+                        )
+                    } else {
+                        LoadResult.Error(Exception(""))
+                    }
+                } else {
+                   LoadResult.Error(Exception(""))
+                }
+
+            }
+            else if(userId != null){
+                if (songRequestType == SongRequestType.LIKED_SONGS) {
+                    val result = musicInteractor.getUserLikedSongsPaginated(userId,nextPage)
+                    val songs = result?.likedSongsPaginated()?.map { s ->
+                        Song.ModelMapper.fromLikedSongsGraph(s)
+
+                    }
+                    if (songs != null) {
+                        LoadResult.Page(
+                            data = songs!!,
+                            prevKey = if (nextPage == 1) null else nextPage - 1,
+                            nextKey = nextPage.plus(1)
+                        )
+                    } else {
+                        LoadResult.Error(Exception(""))
+                    }
+                } else {
+                    LoadResult.Error(Exception(""))
+                }
+
+            }
+            else{
+                    if (search != null) {
+                        songResult = musicInteractor.searchSongs(search, nextPage)
+                        when {
+                            songResult != null -> {
+
+                                LoadResult.Page(
+                                    data = songResult!!.songs.map { song ->
+                                        Song.ModelMapper.from(song)
+                                    },
+                                    prevKey = if (nextPage == 1) null else nextPage - 1,
+                                    nextKey = nextPage.plus(1)
+                                )
+
+
+                            }
+                            else -> {
+                                LoadResult.Error(Exception(""))
+                            }
+                        }
+                    } else {
+                        if (songRequestType == SongRequestType.RECENT_SEARCH) {
+                            val res = musicInteractor
+                                .recentSongSearches()
+                                .map { recent ->
+                                    Song.ModelMapper.fromRecentSearch(recent)
+                                }
+                            LoadResult.Page(
+                                data = res,
+                                prevKey = if (nextPage == 1) null else nextPage - 1,
+                                nextKey = nextPage.plus(1)
+                            )
+                        } else {
+                            when (songRequestType) {
+                                SongRequestType.TOP_SONGS -> {
+                                    songResult = musicInteractor.getTopSongs(nextPage)
+                                }
+                                SongRequestType.FOR_YOU -> {
+                                    songResult = musicInteractor.getForYouSongs(nextPage)
+                                }
+
+                            }
+                            if (songResult != null) {
+
+                                LoadResult.Page(
+                                    data = songResult!!.songs.map { song ->
+                                        Song.ModelMapper.from(song)
+                                    },
+                                    prevKey = if (nextPage == 1) null else nextPage - 1,
+                                    nextKey = nextPage.plus(1)
+                                )
+
+
+                            } else {
+                                LoadResult.Error(Exception(""))
+                            }
+                        }
+                    }
+        }
+
+
+        }
+        catch (e: Exception) {
+            LoadResult.Error(e)
+        }
+    }
+
+}

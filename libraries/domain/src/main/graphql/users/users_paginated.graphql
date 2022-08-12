@@ -1,0 +1,15 @@
+query getPaginatedUsers($page:Int,$size:Int){
+    usersPaginated(page:$page,size:$size){
+        id
+        fullName
+        userName
+        profilePicPath
+        email
+        isClaimed
+        category
+        location
+        website
+        dOB
+        gender
+    }
+}

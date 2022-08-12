@@ -5,6 +5,11 @@ object Libs {
     const val material = "com.google.android.material:material:1.6.1"
     const val coil = "io.coil-kt:coil-compose:2.1.0"
     const val prettyTime = "org.ocpsoft.prettytime:prettytime:4.0.4.Final"
+    object SkyDoves{
+        private const val version = "1.1.0"
+        const val whatif = "com.github.skydoves:sandwich:$version"
+        const val sandwich = "com.github.skydoves:whatif:$version"
+    }
     object Testing{
         const val junit = "junit:junit:4.13.2"
         const val ver = "1.1.3"
@@ -78,11 +83,11 @@ object Libs {
         }
 
         object GraphQL {
-            const val version = "2.5.12"
-            const val plugin = "com.apollographql.apollo"
-            const val runtime =  "com.apollographql.apollo:apollo-runtime:${version}"
-            const val support =  "com.apollographql.apollo:apollo-coroutines-support:${version}"
-            const val gradlePlugin = "com.apollographql.apollo:apollo-gradle-plugin:${version}"
+            const val version = "3.5.0"
+            const val plugin = "com.apollographql.apollo3"
+            const val runtime =  "com.apollographql.apollo3:apollo-runtime:${version}"
+            const val support =  "com.apollographql.apollo3:apollo-coroutines-support:${version}"
+            const val gradlePlugin = "com.apollographql.apollo3:apollo-gradle-plugin:${version}"
         }
 
     }

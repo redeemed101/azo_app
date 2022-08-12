@@ -33,6 +33,7 @@ android {
     }
     buildFeatures {
         compose  = true
+        viewBinding =  true
     }
     composeOptions {
         kotlinCompilerExtensionVersion =  Versions.Compose.version
@@ -74,4 +75,5 @@ dependencies {
     implementation (Libs.AndroidX.Lifecycle.viewModelSavedState)
     testImplementation (Libs.AndroidX.Core.testImplementation)
     implementation (Libs.AndroidX.Core.start_runtime)
+    implementation(Libs.Google.ExoPlayer.expo)
 }

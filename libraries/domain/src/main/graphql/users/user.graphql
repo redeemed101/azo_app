@@ -1,0 +1,37 @@
+
+ query getUser($id: String){
+    user (id: $id){
+        id
+        fullName
+        profile
+        userName
+        profilePicPath
+        phoneNumber
+        email
+        isClaimed
+        category
+        location
+        website
+        dOB
+        gender
+      }
+       country
+        {
+          name
+        }
+      fullFollowers
+      {
+        id
+        fullName
+        userName
+        profilePicPath
+        email
+      }
+      fullFollowing{
+        id
+        fullName
+        userName
+        profilePicPath
+        email
+      }
+  }

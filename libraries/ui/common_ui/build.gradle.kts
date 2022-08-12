@@ -43,6 +43,7 @@ android {
 
 dependencies {
     implementation(project(":libraries:navigation"))
+    implementation(project(":libraries:domain"))
 
     implementation(Libs.AndroidX.Core.core)
     implementation(Libs.AndroidX.Core.compat)

@@ -1,0 +1,15 @@
+query getUsers{
+  users{
+    id
+    fullName
+    userName
+    profilePicPath
+    email
+    isClaimed
+    category
+    location
+    website
+    dOB
+    gender
+  }
+}

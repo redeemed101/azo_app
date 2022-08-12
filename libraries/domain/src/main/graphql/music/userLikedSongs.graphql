@@ -1,0 +1,20 @@
+ query getUserLikedSongs ($id: String){
+      likedSongs (id: $id){
+          id
+          name
+          path
+          artworkPath
+
+          likes{
+              userId
+          }
+          streams{
+              id
+          }
+
+          genres{
+              id
+              name
+          }
+      }
+ }

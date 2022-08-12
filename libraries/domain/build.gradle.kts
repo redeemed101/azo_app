@@ -1,3 +1,4 @@
+import com.android.build.gradle.internal.cxx.configure.gradleLocalProperties
 import com.azo.buildsrc.*;
 import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
 
@@ -9,7 +10,7 @@ plugins {
     id("kotlin-kapt")
     "kotlinx-serialization"
 }
-
+//apply(plugin = com.azo.buildsrc.Libs.Networking.GraphQL.plugin)
 
 
 android {
@@ -21,6 +22,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+        buildConfigField("String", "FOV_URL", getProps("URL"))
     }
 
     buildTypes {
@@ -30,6 +32,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        getByName("debug") {
+            buildConfigField("String", "URL", "URL")
         }
     }
     compileOptions {
@@ -66,7 +71,8 @@ dependencies {
     implementation(Libs.Networking.GraphQL.support)
 
 
-
+    implementation(Libs.SkyDoves.sandwich)
+    implementation(Libs.SkyDoves.whatif)
 
     implementation(Libs.Networking.Ktor.client)
     implementation(Libs.Networking.Ktor.serialization)
@@ -81,4 +87,28 @@ dependencies {
     androidTestImplementation(Libs.Testing.espresso)
 
     implementation(Libs.slf4j)
+}
+fun getProps(propName : String) : String{
+   return gradleLocalProperties(rootDir).getProperty(propName)
+}
+apollo {
+
+    service("albums") {
+        sourceFolder.set("albums")
+        packageName.set("com.fov.domain.albums")
+    }
+    service("genres") {
+        sourceFolder.set("genres")
+        packageName.set("com.fov.domain.genres")
+    }
+    service("users") {
+        sourceFolder.set("users")
+        packageName.set("com.fov.domain.users")
+    }
+
+    service("music") {
+        sourceFolder.set("music")
+        packageName.set("com.fov.domain.music")
+    }
+
 }

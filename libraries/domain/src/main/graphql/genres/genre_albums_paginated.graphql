@@ -1,0 +1,34 @@
+query getGenreAlbumsPaginated($id: String, $page:  Int, $size :  Int){
+    genre(id: $id){
+        id
+        name
+    }
+    albumsPaginated(page:$page,size:$size){
+        id
+        name
+        artworkPath
+        path
+        likes{
+            userId
+        }
+        songs{
+            id
+            name
+            path
+            artworkPath
+
+            likes{
+                userId
+            }
+            streams{
+                id
+            }
+
+            genres{
+                id
+                name
+            }
+        }
+    }
+
+}
