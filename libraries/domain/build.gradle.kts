@@ -67,7 +67,7 @@ dependencies {
     annotationProcessor(Libs.AndroidX.Room.kapt_compiler)
 
 
-    implementation(Libs.Networking.GraphQL.runtime)
+    //implementation(Libs.Networking.GraphQL.runtime)
     implementation(Libs.Networking.GraphQL.support)
 
 

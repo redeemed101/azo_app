@@ -55,6 +55,13 @@ dependencies {
     implementation(Libs.AndroidX.Compose.activity)
     implementation(Libs.AndroidX.Compose.navigation)
     implementation(Libs.AndroidX.Compose.paging)
+
+    implementation(Libs.AndroidX.Camera.core)
+    implementation (Libs.AndroidX.Camera.camera2)
+    implementation(Libs.AndroidX.Camera.lifecycle)
+    implementation (Libs.AndroidX.Camera.view)
+
+
     implementation(Libs.coil)
     implementation(Libs.Hilt.AndroidX.compose_navigation)
     androidTestImplementation(Libs.AndroidX.Compose.ui_test)

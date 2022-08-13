@@ -1,5 +1,8 @@
 package com.fov.sermons.events
 
+import com.fov.domain.database.models.DownloadedAlbum
+import com.fov.domain.database.models.DownloadedSong
+
 sealed class StoredMusicEvent {
     object LoadDownloadedSongs : StoredMusicEvent()
     object LoadDownloadedAlbums : StoredMusicEvent()
@@ -8,5 +11,4 @@ sealed class StoredMusicEvent {
     data class SaveDownloadedAlbum(val album : DownloadedAlbum) : StoredMusicEvent()
     data class DeleteDownloadedAlbum(val albumId : String) : StoredMusicEvent()
     data class DeleteDownloadedPlaylist(val playlistId : String) : StoredMusicEvent()
-    data class SaveDownloadedPlaylist(val playlist : DownloadedPlaylist) : StoredMusicEvent()
 }

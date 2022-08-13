@@ -1,5 +1,8 @@
 package com.fov.sermons.events
 
+import com.fov.sermons.models.Album
+import com.fov.sermons.models.Genre
+import com.fov.sermons.models.Song
 import com.fov.sermons.utils.MediaPlayback
 
 sealed class MusicEvent {
@@ -22,7 +25,6 @@ sealed class MusicEvent {
     object ClearRecentSongSearch : MusicEvent()
     object LoadRecentActivities : MusicEvent()
     object NavigateToHome : MusicEvent()
-
     data class LikeSong(val songId: String, val isLiked : Boolean) : MusicEvent()
     data class GetSong(val songId: String) : MusicEvent()
     data class LikeAlbum(val albumId: String,val isLiked : Boolean) : MusicEvent()
@@ -34,7 +36,6 @@ sealed class MusicEvent {
     data class ChangeSongSelected(val song : Song) : MusicEvent()
     data class AlbumSelected(val album : Album) : MusicEvent()
     data class GenreSelected(val genre : Genre) : MusicEvent()
-    data class MoodSelected(val mood : Mood) : MusicEvent()
     data class ChangeShowingSong(val show : Boolean) : MusicEvent()
     data class ChangeShowingAlbum(val show : Boolean) : MusicEvent()
     data class AddToNowPlaying(val song : Song) : MusicEvent()

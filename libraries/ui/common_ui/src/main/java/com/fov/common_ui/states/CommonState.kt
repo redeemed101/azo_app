@@ -1,4 +1,4 @@
-package com.example.common_ui.states
+package com.fov.common_ui.states
 
 
 import android.net.Uri
@@ -10,11 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.paging.PagingData
 import com.fov.common_ui.models.DownloadData
-import com.example.common_ui.theme.White009
-import com.fidarr.domain.database.models.User
-import com.fidarr.domain.models.users.UserWithStory
-import com.fidarr.navigation.BackPageData
-import com.fidarr.navigation.Screen
+import com.fov.common_ui.theme.White009
+import com.fov.domain.database.models.User
+import com.fov.navigation.BackPageData
+import com.fov.navigation.Screen
+import com.fov.common_ui.utils.BottomSheetOption
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import java.io.File
@@ -34,7 +34,6 @@ class CommonState(
     val currentTab : Screen  = Screen.Home,
     val numNotifications : Int = 15,
     val user : User? = null,
-    val usersWithStories : Flow<PagingData<UserWithStory>>? = null,
     val search : String = "",
     val hasSearchResult : Boolean = false,
     val errorMessage : String? = null,
@@ -78,7 +77,6 @@ class CommonState(
         var hasTopBar = state.hasTopBar
         var hasBottomBar = state.hasBottomBar
         var currentTab = state.currentTab
-        var usersWithStories = state.usersWithStories
         var search = state.search
         var hasSearchResult = state.hasSearchResult
         var  errorMessage = state.errorMessage
@@ -117,7 +115,6 @@ class CommonState(
                 currentTab,
                 numNotifications,
                 user,
-                usersWithStories,
                 search,
                 hasSearchResult,
                 errorMessage,

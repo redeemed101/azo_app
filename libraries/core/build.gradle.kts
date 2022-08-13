@@ -3,6 +3,7 @@ import com.azo.buildsrc.*;
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -42,4 +43,10 @@ dependencies {
     testImplementation(Libs.Testing.junit)
     androidTestImplementation(Libs.Testing.junit_ext)
     androidTestImplementation(Libs.Testing.espresso)
+    implementation(Libs.prettyTime)
+    implementation(Libs.AndroidX.DataStore.core)
+    implementation(Libs.AndroidX.DataStore.preferences)
+    implementation(Libs.AndroidX.DataStore.typed)
+    implementation(Libs.Hilt.android)
+    kapt(Libs.Hilt.compiler)
 }

@@ -5,6 +5,7 @@ import android.content.res.Resources.getSystem
 import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.grid.LazyGridItemScope
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.runtime.Composable
@@ -36,7 +37,17 @@ fun Context.isDarkThemeOn(): Boolean {
     //Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
 }
 
+public fun <T : Any> LazyListScope.itemsCustomized(
+    items: LazyPagingItems<T>,
+    itemContent: @Composable LazyItemScope.(value: T?, index: Int) -> Unit
+) {
+    items(
+        count = items.itemCount,
 
+        ) { index ->
+        itemContent(items[index], index)
+    }
+}
 
 public fun <T: Any> LazyGridScope.items(
     lazyPagingItems: LazyPagingItems<T>,

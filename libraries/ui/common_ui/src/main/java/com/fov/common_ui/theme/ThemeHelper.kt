@@ -3,6 +3,7 @@ package com.fov.common_ui.theme
 import android.content.res.Resources
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.unit.Dp
+import com.fov.common_ui.R
 
 object ThemeHelper {
 
@@ -10,15 +11,15 @@ object ThemeHelper {
     fun isDarkTheme(): Boolean {
         return true//isSystemInDarkTheme()
     }
-    /*@Composable
+    @Composable
     fun getLogoResource() : Int {
 
         return if(isDarkTheme()){
-            R.drawable.logo
+            R.drawable.avatar
         } else{
-            R.drawable.logo_red
+            R.drawable.avatar
         }
-    }*/
+    }
     @Composable
     fun getPxFromDP(sizeInDp: Dp) : Float{
         val scale = Resources.getSystem().displayMetrics.density
