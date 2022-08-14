@@ -15,6 +15,7 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+        buildConfigField("String", "FOV_URL", getProps("URL"))
     }
 
     buildTypes {
@@ -49,4 +50,7 @@ dependencies {
     implementation(Libs.AndroidX.DataStore.typed)
     implementation(Libs.Hilt.android)
     kapt(Libs.Hilt.compiler)
+}
+fun getProps(propName : String) : String{
+    return com.android.build.gradle.internal.cxx.configure.gradleLocalProperties(rootDir).getProperty(propName)
 }

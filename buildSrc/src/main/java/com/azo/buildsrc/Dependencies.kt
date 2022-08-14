@@ -61,6 +61,7 @@ object Libs {
         const val serialization = "org.jetbrains.kotlin:kotlin-serialization:$version"
         object Coroutines {
             private const val version = "1.6.4"
+            const val core ="org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
             const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
             const val test = "org.jetbrains.kotlinx:kotlinx-coroutines-test:$version"
         }
@@ -85,9 +86,11 @@ object Libs {
         object GraphQL {
             const val version = "3.5.0"
             const val plugin = "com.apollographql.apollo3"
-            const val runtime =  "com.apollographql.apollo3:apollo-runtime:${version}"
-            const val support =  "com.apollographql.apollo3:apollo-coroutines-support:${version}"
+            const val runtime =  "com.apollographql.apollo3:apollo-runtime"
+            const val support =  "com.apollographql.apollo3:apollo-coroutines-support:3.4.0"
             const val gradlePlugin = "com.apollographql.apollo3:apollo-gradle-plugin:${version}"
+            const val cache = "com.apollographql.apollo3:apollo-normalized-cache:${version}"
+            const val cache_sqlite = "com.apollographql.apollo3:apollo-normalized-cache-sqlite:${version}"
         }
 
     }

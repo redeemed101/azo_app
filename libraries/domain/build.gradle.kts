@@ -34,7 +34,7 @@ android {
             )
         }
         getByName("debug") {
-            buildConfigField("String", "URL", "URL")
+            buildConfigField("String", "FOV_URL", getProps("URL"))
         }
     }
     compileOptions {
@@ -67,8 +67,10 @@ dependencies {
     annotationProcessor(Libs.AndroidX.Room.kapt_compiler)
 
 
-    //implementation(Libs.Networking.GraphQL.runtime)
-    implementation(Libs.Networking.GraphQL.support)
+    implementation(Libs.Networking.GraphQL.runtime)
+    implementation(Libs.Networking.GraphQL.cache_sqlite)
+
+
 
 
     implementation(Libs.SkyDoves.sandwich)

@@ -1,6 +1,6 @@
 package com.fov.domain.remote.apollo.music
 
-import com.apollographql.apollo.ApolloClient
+import com.apollographql.apollo3.ApolloClient
 import com.fov.domain.music.*
 import com.fov.domain.albums.GetAlbumQuery
 import com.fov.domain.albums.GetAlbumsPaginatedQuery
@@ -20,7 +20,6 @@ class ApolloMusicServiceTestImpl constructor(
                 GetGenresQuery.Genre(
                     "Genre",
                     "$it",
-                    "Name$it"
                 )
             }
         )
@@ -31,14 +30,12 @@ class ApolloMusicServiceTestImpl constructor(
             GetGenreSongsPaginatedQuery.Genre(
                 "Genre",
                 "123",
-                "Name"
             ),
             List(20){ num ->
                 GetGenreSongsPaginatedQuery.SongsPaginated(
                     "Song",
                     "$num",
                     "Record",
-                    "",
                     emptyList(),
                     "https://picsum.photos/id/$num/200",
 
@@ -51,15 +48,13 @@ class ApolloMusicServiceTestImpl constructor(
             GetGenreAlbumsPaginatedQuery.Genre(
                 "Genre",
                 "1234",
-                "Name"
             ),
             List(20){ num ->
                 GetGenreAlbumsPaginatedQuery.AlbumsPaginated(
                     "Album",
                     "$num",
-                    "Name",
                     "https://picsum.photos/id/$num/200",
-                    "path",
+                    "https://picsum.photos/id/$num/200",
                     emptyList(),
                     List(10) { num ->
                         GetGenreAlbumsPaginatedQuery.Song(
@@ -67,7 +62,6 @@ class ApolloMusicServiceTestImpl constructor(
                             "Record",
                             "",
                             "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
-                            "https://picsum.photos/id/$num/200",
 
                         emptyList(),
                         emptyList(),
@@ -89,7 +83,6 @@ class ApolloMusicServiceTestImpl constructor(
           GetGenreQuery.Genre(
               "Genre",
               "1234",
-              "Genre1234"
           ),
           List(2){ num ->
               GetGenreQuery.Song(
@@ -97,14 +90,12 @@ class ApolloMusicServiceTestImpl constructor(
                   "$num",
                   "Record",
                   "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
-                  "https://picsum.photos/id/$num/200",
                   emptyList(),
                   emptyList(),
                   List(3){
                       GetGenreQuery.Genre1(
                           "Genre",
                           "$it",
-                          "Name$it"
                       )
                   }
               )
@@ -115,8 +106,6 @@ class ApolloMusicServiceTestImpl constructor(
                   "Album",
                   "$num",
                   "Name",
-                  "https://picsum.photos/200",
-
               )
           }
 
@@ -131,7 +120,6 @@ class ApolloMusicServiceTestImpl constructor(
                     "$num",
                     "Record",
                     "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
-                    "https://picsum.photos/id/$num/200",
 
                     emptyList(),
                     emptyList(),
@@ -139,7 +127,6 @@ class ApolloMusicServiceTestImpl constructor(
                         GetUserLikedSongsQuery.Genre(
                             "Genre",
                             "$it",
-                            "Name$it"
                         )
                     }
                 )
@@ -161,14 +148,12 @@ class ApolloMusicServiceTestImpl constructor(
                     "$num",
                     "Record",
                     "",
-                    "https://picsum.photos/id/$num/200",
                     emptyList(),
                     emptyList(),
                     List(3){
                         GetUserLikedSongsPaginatedQuery.Genre(
                             "Genre",
                             "$it",
-                            "Name$it"
                         )
                     }
                 )
@@ -186,7 +171,6 @@ class ApolloMusicServiceTestImpl constructor(
                     "$it",
                     "Lewis",
                     "kkkk",
-                    "jjjj",
                     emptyList(),
                     List(10) {
                         GetAlbumsPaginatedQuery.Song(
@@ -194,24 +178,20 @@ class ApolloMusicServiceTestImpl constructor(
                             "12345",
                             "This$it",
                             "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
-                            "https://picsum.photos/200",
                             List(100){
                                 GetAlbumsPaginatedQuery.Like1(
                                     "Like",
-                                    "User$it"
                                 )
                             },
                             List(100){
                                 GetAlbumsPaginatedQuery.Stream(
                                     "Stream",
-                                    "$it"
                                 )
                             },
                             List(5){
                                 GetAlbumsPaginatedQuery.Genre(
                                     "Genre",
                                     "1234",
-                                    "Genre$it"
                                 )
                             }
                         )
@@ -234,11 +214,9 @@ class ApolloMusicServiceTestImpl constructor(
                     "$it",
                     "Lewis",
                     "kkkk",
-                    "jjjj",
                     List(100){
                         GetUserLikedAlbumsPaginatedQuery.Like(
-                            "Like",
-                            "User$it"
+                            "L1",
                         )
                     },
                     List(10) {
@@ -247,25 +225,21 @@ class ApolloMusicServiceTestImpl constructor(
                             "12345",
                             "This$it",
                             "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
-                            "https://picsum.photos/200",
 
                             List(100){
                                 GetUserLikedAlbumsPaginatedQuery.Like1(
-                                    "Like",
-                                    "User$it"
+                                    "1",
                                 )
                             },
                             List(100){
                                 GetUserLikedAlbumsPaginatedQuery.Stream(
                                     "Stream",
-                                    "$it"
                                 )
                             },
                             List(5){
                                 GetUserLikedAlbumsPaginatedQuery.Genre(
                                     "Genre",
                                     "1234",
-                                    "Genre$it"
                                 )
                             }
                         )
@@ -274,13 +248,11 @@ class ApolloMusicServiceTestImpl constructor(
                         GetUserLikedAlbumsPaginatedQuery.Genre1(
                             "Genre",
                             "1234",
-                            "Genre$it"
                         )
                     },
                     List(100){
                         GetUserLikedAlbumsPaginatedQuery.Stream1(
                             "Stream",
-                            "$it"
                         )
                     },
                 )
@@ -297,7 +269,6 @@ class ApolloMusicServiceTestImpl constructor(
                 "123",
                 "Lewis",
                 "kkkk",
-                "jjjj",
                 emptyList(),
                 emptyList(),
                 emptyList(),

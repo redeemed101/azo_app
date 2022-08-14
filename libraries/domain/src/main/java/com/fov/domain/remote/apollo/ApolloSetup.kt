@@ -1,14 +1,15 @@
 package com.fov.domain.remote.apollo
 
-import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.subscription.WebSocketSubscriptionTransport
+import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.network.okHttpClient
+import com.fov.domain.BuildConfig
 //import com.fov.domain.BuildConfig
 import com.fov.domain.remote.mock.MockInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 
 class ApolloSetup {
-    fun setUpApolloClient(url: String, token: String = "", subscriptionUrl : String = ""): ApolloClient {
+    fun setUpApolloClient(url: String, token: String = ""): ApolloClient {
         val logging = HttpLoggingInterceptor()
         logging.level = HttpLoggingInterceptor.Level.BODY
         val okHttp = OkHttpClient
@@ -26,17 +27,9 @@ class ApolloSetup {
 
 
 
-        var builder = ApolloClient.builder()
-             .serverUrl("https://{BuildConfig.fovMusicApiUrl}${url}")
+        var builder = ApolloClient.Builder()
+             .serverUrl("https://${BuildConfig.FOV_URL}${url}")
              .okHttpClient(okHttp.build())
-        if(subscriptionUrl.isNotEmpty()){
-            val subscriptionTransportFactory = WebSocketSubscriptionTransport
-                .Factory(subscriptionUrl, okHttp.build())
-            builder
-                //.subscriptionConnectionParams(HeadersProvider.HEADERS)
-                .subscriptionTransportFactory(subscriptionTransportFactory)
-        }
-
             return builder.build();
     }
     fun setUpTestApolloClient(): ApolloClient {

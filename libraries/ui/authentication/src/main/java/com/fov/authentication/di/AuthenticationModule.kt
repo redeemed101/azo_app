@@ -29,12 +29,7 @@ object AuthenticationModule {
         cache: Cache
     ): AuthenticationRepository = AuthenticationDataRepository(remote,cache)
 
-    /*@Provides
-    fun providesAuthenticationRemote(
-        authenticationService : AuthenticationService
-    ): AuthenticationRemote = AuthenticationRemoteStore(
-        authenticationService
-    )*/
+
     @Provides
     fun providesAuthenticationRemote(
         authenticationService : AuthenticationKtorService
