@@ -27,12 +27,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.*
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
+import com.example.common_ui.utils.helpers.ShimmerAnimation
 import com.fov.common_ui.events.CommonEvent
 import com.fov.common_ui.states.CommonState
 import com.fov.common_ui.theme.ThemeHelper
 import com.fov.common_ui.theme.commonPadding
-import com.fov.common_ui.utils.helpers.ShimmerAnimation
 import com.fov.common_ui.viewModels.CommonViewModel
 import com.fov.sermons.R
 import com.fov.sermons.events.MusicEvent
@@ -67,7 +69,7 @@ private fun MusicPlayerView(
     musicState : MusicState,
     musicEvents : (event: MusicEvent) -> Unit,
 ) {
-    ProvideWindowInsets {
+
         BackHandler(onBack = {
             commonEvents(CommonEvent.ChangeHasDeepScreen(false,""))
             commonEvents(CommonEvent.NavigateUp)
@@ -132,13 +134,12 @@ private fun MusicPlayerView(
                                 )
                                 Spacer(modifier = Modifier.height(44.dp))
                                 Image(
-                                    painter = rememberImagePainter(
-                                        data = musicState.currentSong?.artwork ?: "https://www.pngkit.com/png/detail/115-1150342_user-avatar-icon-iconos-de-mujeres-a-color.png",
-                                        builder = {
-                                            crossfade(true)
-                                            fallback(ThemeHelper.getLogoResource())
-                                            placeholder(ThemeHelper.getLogoResource())
-                                        }
+                                    painter = rememberAsyncImagePainter(
+                                        ImageRequest.Builder(
+                                            LocalContext.current
+                                        )
+                                            .data(data = musicState.currentSong?.artwork ?: "https://www.pngkit.com/png/detail/115-1150342_user-avatar-icon-iconos-de-mujeres-a-color.png")
+                                            .build()
                                     ),
                                     contentDescription = "",
                                     modifier = Modifier
@@ -155,9 +156,9 @@ private fun MusicPlayerView(
                                     fontSize = 20.sp
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
-                                var ft = if(musicState.currentSong?.featuredArtists != null && musicState.currentSong?.featuredArtists.isNotEmpty()) "ft ${musicState.currentSong?.featuredArtists?.reduce { acc, string -> "$acc,$string" } ?: ""}" else ""
+
                                 EmphasisText(
-                                    text = "${musicState.currentSong?.artistName ?: "Lewis Msasa"} ${ft}",
+                                    text = "Apostle Ziba",
                                     fontWeight = FontWeight.Light,
                                     fontSize = 18.sp
                                 )
@@ -208,7 +209,7 @@ private fun MusicPlayerView(
                         }
         }
     }
-}
+
 
 }
 
@@ -286,8 +287,8 @@ fun SongBottomSheetHeader(
                 data = song.artwork,
                 builder = {
                     crossfade(true)
-                    fallback(R.drawable.image_placeholder)
-                    placeholder(R.drawable.image_placeholder)
+                    fallback(com.fov.common_ui.R.drawable.image_placeholder)
+                    placeholder(com.fov.common_ui.R.drawable.image_placeholder)
                 },
 
                 ),
@@ -307,7 +308,7 @@ fun SongBottomSheetHeader(
                 ),
             )
             Text(
-                song.artistName,
+                "Apostle Ziba",
                 textAlign = TextAlign.Start,
                 style = MaterialTheme.typography.caption.copy(
                     MaterialTheme.colors.onSurface,
@@ -464,10 +465,9 @@ fun MusicPlayerSheet(
                     fontSize = 20.sp
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                var ft =
-                    if (musicState.currentSong?.featuredArtists != null && musicState.currentSong?.featuredArtists.isNotEmpty()) "ft ${musicState.currentSong?.featuredArtists?.reduce { acc, string -> "$acc,$string" } ?: ""}" else ""
+
                 EmphasisText(
-                    text = "${musicState.currentSong?.artistName ?: ""} ${ft}",
+                    text = "Apostle Ziba",
                     fontWeight = FontWeight.Light,
                     fontSize = 18.sp
                 )

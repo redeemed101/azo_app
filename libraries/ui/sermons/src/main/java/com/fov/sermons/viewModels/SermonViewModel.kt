@@ -6,7 +6,25 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import com.fov.common_ui.utils.constants.AlbumRequestType
+import com.fov.common_ui.utils.constants.Constants
+import com.fov.common_ui.utils.constants.SongRequestType
+import com.fov.domain.database.models.ActivityType
+import com.fov.domain.database.models.RecentActivity
+import com.fov.domain.interactors.music.MusicInteractor
+import com.fov.navigation.NavigationManager
+import com.fov.navigation.SermonsDirections
+import com.fov.sermons.events.MusicEvent
+import com.fov.sermons.models.Genre
+import com.fov.sermons.models.GenreData
+import com.fov.sermons.models.LikedMusicData
+import com.fov.sermons.models.Song
+import com.fov.sermons.pagination.AlbumsSource
+import com.fov.sermons.pagination.SongsSource
 import com.fov.sermons.states.MusicState
+import com.fov.sermons.viewModels.helpers.MusicAlbumHelper
+import com.fov.sermons.viewModels.helpers.MusicSongHelper
+import com.fov.sermons.viewModels.helpers.RecentActivityHelper
 import com.google.android.exoplayer2.MediaItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,16 +35,12 @@ import javax.inject.Inject
 @HiltViewModel
 class SermonViewModel @Inject constructor(
     private val musicInteractor: MusicInteractor,
-    private val playlistInteractor: PlaylistInteractor,
     private val navigationManager: NavigationManager
 ) : ViewModel(){
     private val _uiState = MutableStateFlow(MusicState())
     val uiState: StateFlow<MusicState> = _uiState
-    private val musicPlaylistHelper : MusicPlaylistHelper = MusicPlaylistHelper(musicInteractor)
-    private val playlistHelper : PlaylistHelper = PlaylistHelper(playlistInteractor = playlistInteractor)
     private val musicAlbumHelper  = MusicAlbumHelper(musicInteractor = musicInteractor)
     private val musicSongHelper = MusicSongHelper(musicInteractor)
-    private val musicArtistHelper = MusicArtistHelper(musicInteractor)
     private val recentActivityHelper = RecentActivityHelper(musicInteractor)
     init {
 
@@ -70,15 +84,12 @@ class SermonViewModel @Inject constructor(
                     newAlbums = musicAlbumHelper.getNewAlbums(viewModelScope){
                         error = it.message
                     }
-
-                    trendingArtists = musicArtistHelper.getTrendingArtists(viewModelScope){
-                        error = it.message
-                    }
-
-
                 }
                 MusicEvent.GoToGenres ->{
-                    navigationManager.navigate(MusicDirections.genres)
+                    navigationManager.navigate(SermonsDirections.genres)
+                }
+                MusicEvent.LoadLikedAlbums ->{
+
                 }
                 MusicEvent.LoadGenres -> {
 
@@ -89,6 +100,9 @@ class SermonViewModel @Inject constructor(
 
 
 
+                }
+                is MusicEvent.LoadPlayer -> {
+                    player = event.player
                 }
                 is MusicEvent.GetArtistSongs -> {
                     artistSongs =  musicSongHelper.getArtistSongs(event.artistId, viewModelScope){
@@ -115,6 +129,9 @@ class SermonViewModel @Inject constructor(
                     loading = false
                 }
 
+                is MusicEvent.LoadPlayer -> {
+                    player = event.player
+                }
                 MusicEvent.LoadTopAlbums -> {
                     getTopAlbums()
                 }
@@ -139,7 +156,7 @@ class SermonViewModel @Inject constructor(
                         RecentActivity(
                             id = album.albumId,
                             title = album.albumName,
-                            subTitle = album.artistName,
+                            subTitle = album.description,
                             type = ActivityType.ALBUM.type,
                             image = album.artwork
                         ),
@@ -148,7 +165,7 @@ class SermonViewModel @Inject constructor(
 
                     }
                     //navigate
-                    navigationManager.navigate(MusicDirections.album)
+                    navigationManager.navigate(SermonsDirections.album)
                 }
                 is MusicEvent.ChangeSongSelected -> {
                     selectedSong = event.song
@@ -158,31 +175,23 @@ class SermonViewModel @Inject constructor(
                 }
                 is MusicEvent.PlaySong -> {
                     currentSong = event.song
-                    navigationManager.navigate(MusicDirections.playSong)
+                    navigationManager.navigate(SermonsDirections.playSong)
                 }
                 is MusicEvent.SongStarted ->{
                     songStarted = event.started
                 }
                 MusicEvent.NavigateToHome ->{
-                    navigationManager.navigate(MusicDirections.tab)
+                    navigationManager.navigate(SermonsDirections.tab)
                 }
                 is MusicEvent.SetMediaPlayback ->{
                     mediaPlayBack = event.player
                 }
-                is MusicEvent.AddToCurrentPlaylist-> {
-                    val item = MediaItem.fromUri( Uri.parse(
-                        event.url
-                    ))
-                    if(mediaPlayBack != null)
-                        mediaPlayBack!!.addMediaToPlaylist(item)
-                }
+
                 is MusicEvent.AddToNowPlaying -> {
                     val song = event.song
-                    //added
                     currentSong = event.song
                     isPlayerMinimized = false
                     songStarted = false
-                    //end of added
                     var currentList: MutableList<Song> = mutableListOf()
                     if(nowPlaying.isNotEmpty())
                         currentList = nowPlaying as MutableList<Song>
@@ -197,7 +206,7 @@ class SermonViewModel @Inject constructor(
                         RecentActivity(
                             id = song.songId,
                             title = song.songName,
-                            subTitle = song.artistName,
+                            subTitle = song.description,
                             type = ActivityType.SONG.type,
                             image = song.artwork
                         ),
@@ -206,11 +215,11 @@ class SermonViewModel @Inject constructor(
 
                     }
                     //navigate
-                    navigationManager.navigate(MusicDirections.song)
+                    navigationManager.navigate(SermonsDirections.song)
                 }
                 MusicEvent.GoToGenre -> {
                     //navigate to genre
-                    navigationManager.navigate(MusicDirections.genre)
+                    navigationManager.navigate(SermonsDirections.genre)
                 }
                 MusicEvent.LoadLikedMusic -> {
                     val likedAlbums = musicAlbumHelper.getUserLikedAlbums("userId",viewModelScope){
@@ -235,7 +244,7 @@ class SermonViewModel @Inject constructor(
                         likedAlbums = likedAlbums,
                         likedSongs = likedSongs
                     )
-                    navigationManager.navigate(CollectionDirections.likedMusic)
+                    //navigationManager.navigate(CollectionDirections.likedMusic)
                 }
                 is MusicEvent.GenreSelected -> {
                     loading = true
@@ -247,58 +256,18 @@ class SermonViewModel @Inject constructor(
                     val albums = musicAlbumHelper.getGenreAlbums(event.genre.genreId,viewModelScope){
                         error = it.message
                     }
-                    val artists = musicArtistHelper.getGenreArtists(event.genre.genreId,viewModelScope){
-                        error = it.message
-                    }
-                    val playlists = playlistHelper.getGenrePlaylists(event.genre.genreId,viewModelScope){
-                        error = it.message
-                    }
+
                     genreData = GenreData(
                         genre = event.genre,
                         albums = albums,
                         songs = songs,
-                        artists = artists,
-                        playlists = playlists
 
                     )
                     loading = false
 
                 }
                 MusicEvent.GoToCharts -> {
-                    navigationManager.navigate(MusicDirections.charts)
-                }
-                MusicEvent.LoadCharts -> {
-                    loading = true
-                    val trendingArtists = musicArtistHelper.getTrendingArtists(viewModelScope){
-                        error = it.message
-                    }
-                    val dailyCharts = playlistHelper.getDailyChartPlaylists(viewModelScope){
-                        error = it.message
-                    }
-                    val weeklyCharts = playlistHelper.getWeeklyChartPlaylists(viewModelScope){
-                        error = it.message
-                    }
-                    chartsData = ChartsData(
-                        trendingArtists = trendingArtists,
-                        dailyCharts = dailyCharts,
-                        weeklyCharts = weeklyCharts
-                    )
-                    loading = false
-
-                }
-                MusicEvent.LoadMoods -> {
-                    loading = true
-                    moods = musicPlaylistHelper.getMoods(viewModelScope){
-                        error = it.message
-                    }
-                    loading = false
-
-                }
-                MusicEvent.GoToMoods -> {
-                    navigationManager.navigate(MusicDirections.moods)
-                }
-                MusicEvent.GoToPlaylists -> {
-                    navigationManager.navigate(MusicDirections.playlists)
+                    navigationManager.navigate(SermonsDirections.charts)
                 }
 
                 MusicEvent.LoadRecentActivities -> {
@@ -313,25 +282,11 @@ class SermonViewModel @Inject constructor(
                     showingAlbum = event.show
                 }
 
-                MusicEvent.CreateNewPlaylist -> {
 
-                }
                 is MusicEvent.ChangeShowingSong -> {
                     showingSong = event.show
                 }
-                is MusicEvent.MoodSelected -> {
-                    loading = true
-                    val moodPlaylists = playlistHelper.getMoodPlaylists(event.mood.id,viewModelScope){
-                        error = it.message
-                    }
-                    loading = false
-                    selectedMood = SelectedMoodData(
-                        mood = event.mood,
-                        playlists = moodPlaylists
-                    )
-                    navigationManager.navigate(MusicDirections.mood)
 
-                }
             }
         }
     }
@@ -397,11 +352,7 @@ class SermonViewModel @Inject constructor(
     }
 
 
-    private fun getPlaylist(id :String){
-        viewModelScope.launch {
-            musicInteractor.getPlaylist(id)
-        }
-    }
+
     private  fun getGenres(callback : () -> Unit) {
 
         viewModelScope.launch{
@@ -410,9 +361,11 @@ class SermonViewModel @Inject constructor(
                 error = null
             }
             val res = musicInteractor.getGenresGraph()
-            var genresResult = res?.genres()?.map { g ->
+            var genresResult = res?.genres?.map { g ->
 
-                Genre.ModelMapper.fromGenresGraph(g)
+
+                    Genre.ModelMapper.fromGenresGraph(g!!)
+
 
             }
             if(genresResult != null){

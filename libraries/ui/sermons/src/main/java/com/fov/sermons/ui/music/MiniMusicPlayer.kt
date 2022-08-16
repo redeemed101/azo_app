@@ -15,12 +15,13 @@ import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.util.RepeatModeUtil
 import com.google.android.exoplayer2.Player.MediaItemTransitionReason
 import com.google.android.exoplayer2.ui.PlayerView
+import com.google.android.exoplayer2.ui.StyledPlayerView
 
 
 @Composable
 fun MiniMusicPlayer(
     modifier: Modifier,
-    exoPlayer: SimpleExoPlayer,
+    exoPlayer: ExoPlayer,
     sources : List<String>,
     onMediaReady : ()  ->Unit  = {},
     onMediaError : ()  ->Unit  = {},
@@ -64,7 +65,7 @@ fun MiniMusicPlayer(
                 }
             }
 
-            override fun onPlayerError(error: ExoPlaybackException) {
+            override fun onPlayerError(error: PlaybackException) {
                 onMediaError()
             }
 
@@ -85,6 +86,7 @@ fun MiniMusicPlayer(
                 }
                 setShutterBackgroundColor(color)
                 useArtwork = false
+                showController()
                 controllerHideOnTouch = false
                 controllerShowTimeoutMs = 0
                 setRepeatToggleModes(RepeatModeUtil.REPEAT_TOGGLE_MODE_ONE or RepeatModeUtil.REPEAT_TOGGLE_MODE_ALL)
@@ -97,11 +99,12 @@ fun MiniMusicPlayer(
     else{
          AndroidView(
             factory = { context ->
-                PlayerView(context).apply {
+                StyledPlayerView(context).apply {
 
                     player = exoPlayer
                     useArtwork = false
                     controllerHideOnTouch = false
+                    showController()
                     controllerShowTimeoutMs = 0
                     setRepeatToggleModes(RepeatModeUtil.REPEAT_TOGGLE_MODE_ONE or RepeatModeUtil.REPEAT_TOGGLE_MODE_ALL)
                     setShowShuffleButton(true)

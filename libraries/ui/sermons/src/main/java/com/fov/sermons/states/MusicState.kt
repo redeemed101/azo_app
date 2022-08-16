@@ -2,10 +2,10 @@ package com.fov.sermons.states
 
 import androidx.paging.PagingData
 import com.fov.domain.database.models.RecentActivity
-import com.fov.music.general.MediaPlayback
-import com.fov.music.models.*
+import com.fov.sermons.models.*
 import com.fov.sermons.models.*
 import com.fov.sermons.utils.MediaPlayback
+import com.google.android.exoplayer2.ExoPlayer
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
@@ -36,7 +36,8 @@ class MusicState(
     val selectedAlbum : Album? = null,
     val likedMusicData: LikedMusicData? = null,
     val isPlayerMinimized : Boolean = true,
-    val mediaPlayBack : MediaPlayback? = null
+    val mediaPlayBack : MediaPlayback? = null,
+    val player : ExoPlayer? = null
 
 ) {
     companion object {
@@ -71,6 +72,7 @@ class MusicState(
         var likedMusicData = state.likedMusicData
         var isPlayerMinimized = state.isPlayerMinimized
         var mediaPlayBack = state.mediaPlayBack
+        var player = state.player
 
 
         fun build(): MusicState {
@@ -101,7 +103,8 @@ class MusicState(
                 selectedAlbum,
                 likedMusicData,
                 isPlayerMinimized,
-                mediaPlayBack
+                mediaPlayBack,
+                player
 
             )
         }

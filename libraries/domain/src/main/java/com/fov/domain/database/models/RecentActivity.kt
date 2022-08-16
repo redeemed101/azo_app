@@ -18,6 +18,5 @@ data class RecentActivity(
 )
 enum class ActivityType(val type: String) {
     SONG("SONG"),
-    ARTIST("ARTIST"),
     ALBUM("ALBUM")
 }

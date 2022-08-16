@@ -4,9 +4,9 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.fov.core.utils.Constants
+import com.fov.common_ui.utils.constants.Constants
 import com.fov.domain.database.models.RecentActivity
-import com.fov.domain.interactor.music.MusicInteractor
+import com.fov.domain.interactors.music.MusicInteractor
 import com.fov.sermons.models.Song
 import com.fov.sermons.pagination.RecentActivitySource
 import com.fov.sermons.pagination.SongsSource

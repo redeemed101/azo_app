@@ -6,7 +6,9 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.paging.PagingData
@@ -16,6 +18,9 @@ import com.fov.domain.database.models.DownloadedSong
 import com.fov.sermons.events.MusicEvent
 import com.fov.sermons.events.StoredMusicEvent
 import com.fov.sermons.models.Song
+import com.fov.sermons.states.MusicState
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.SimpleExoPlayer
 import kotlinx.coroutines.flow.Flow
 
 
@@ -24,8 +29,17 @@ import kotlinx.coroutines.flow.Flow
 fun songColumn(
     title : String,
     songs : Flow<PagingData<DownloadedSong>>,
+    musicState: MusicState,
     musicEvents: (MusicEvent) -> Unit
 ){
+
+    val  context  = LocalContext.current
+    var exoPlayer = musicState.player
+    if(musicState.player == null) {
+        exoPlayer = remember {
+            ExoPlayer.Builder(context).build()
+        }
+    }
 
     val lazySongItems = songs.collectAsLazyPagingItems()
     if(lazySongItems.itemCount > 0)
@@ -48,7 +62,12 @@ fun songColumn(
                     "${index + 1}",
                     song!!.songName,
                     song!!.imagePath,
-                    {musicEvents(MusicEvent.PlaySong(Song.ModelMapper.fromDownloadedSong(song!!)))}
+                    {
+                        if (musicState.player == null){
+                            musicEvents(MusicEvent.LoadPlayer(exoPlayer!!))
+                        }
+                        musicEvents(MusicEvent.PlaySong(Song.ModelMapper.fromDownloadedSong(song!!)))
+                    }
 
 
                 )

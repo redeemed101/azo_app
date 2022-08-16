@@ -4,12 +4,13 @@ import com.fov.sermons.models.Album
 import com.fov.sermons.models.Genre
 import com.fov.sermons.models.Song
 import com.fov.sermons.utils.MediaPlayback
+import com.google.android.exoplayer2.ExoPlayer
+import com.google.android.exoplayer2.SimpleExoPlayer
 
 sealed class MusicEvent {
     object LoadTopSongs : MusicEvent()
     object GoToGenres: MusicEvent()
     object GoToCharts: MusicEvent()
-    object GoToMoods: MusicEvent()
     object GoToGenre : MusicEvent()
     data class SongStarted(val started: Boolean) : MusicEvent()
     object LoadTopAlbums : MusicEvent()
@@ -19,8 +20,6 @@ sealed class MusicEvent {
     object LoadHome : MusicEvent()
     object LoadForYou : MusicEvent()
     object LoadGenres : MusicEvent()
-    object LoadMoods : MusicEvent()
-    object LoadCharts : MusicEvent()
     object LoadRecentSearch : MusicEvent()
     object ClearRecentSongSearch : MusicEvent()
     object LoadRecentActivities : MusicEvent()
@@ -42,4 +41,5 @@ sealed class MusicEvent {
     data class PlaySong(val song : Song) : MusicEvent()
     data class SetMediaPlayback(val player : MediaPlayback) : MusicEvent()
     data class MinimizeMusicPlayer(val minimized: Boolean) : MusicEvent()
+    data class LoadPlayer(val player : ExoPlayer) : MusicEvent()
 }

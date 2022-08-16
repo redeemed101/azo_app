@@ -6,8 +6,8 @@ import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.fov.common_ui.utils.constants.AlbumRequestType
-import com.fov.core.utils.Constants
-import com.fov.domain.interactor.music.MusicInteractor
+import com.fov.common_ui.utils.constants.Constants
+import com.fov.domain.interactors.music.MusicInteractor
 import com.fov.sermons.models.Album
 import com.fov.sermons.pagination.AlbumsSource
 import kotlinx.coroutines.CoroutineScope

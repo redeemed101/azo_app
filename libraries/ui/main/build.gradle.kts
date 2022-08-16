@@ -4,7 +4,6 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
-    //id(com.azo.buildsrc.Libs.Networking.GraphQL.plugin).version(com.azo.buildsrc.Libs.Networking.GraphQL.version)
 }
 
 android {
@@ -64,6 +63,7 @@ dependencies {
     implementation(Libs.Kotlin.Coroutines.android)
 
     implementation(Libs.Networking.GraphQL.runtime)
+    implementation(Libs.Google.ExoPlayer.expo)
 
     implementation(Libs.coil)
     implementation(Libs.Hilt.AndroidX.compose_navigation)

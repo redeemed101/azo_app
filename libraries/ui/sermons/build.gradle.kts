@@ -38,6 +38,7 @@ android {
     composeOptions {
         kotlinCompilerExtensionVersion =  Versions.Compose.version
 
+
     }
 }
 
@@ -59,6 +60,7 @@ dependencies {
     implementation(Libs.AndroidX.Compose.paging)
     implementation(Libs.coil)
     implementation(Libs.Hilt.AndroidX.compose_navigation)
+    implementation(Libs.Networking.GraphQL.runtime)
     androidTestImplementation(Libs.AndroidX.Compose.ui_test)
     implementation(Libs.AndroidX.Compose.runtime)
     implementation(Libs.AndroidX.Compose.runtimeLivedata)
@@ -68,7 +70,7 @@ dependencies {
     testImplementation(Libs.Testing.junit)
     androidTestImplementation(Libs.Testing.junit_ext)
     androidTestImplementation(Libs.Testing.espresso)
-
+    implementation(Libs.AndroidX.Compose.view_binding)
     implementation(Libs.AndroidX.Lifecycle.viewModelKtx)
     implementation (Libs.AndroidX.Lifecycle.liveData)
     implementation (Libs.AndroidX.Lifecycle.lifecycleRuntime)
