@@ -47,6 +47,8 @@ dependencies {
     implementation(Libs.AndroidX.Core.core)
     implementation(Libs.AndroidX.Core.compat)
     implementation(Libs.material)
+    implementation(Libs.AndroidX.Compose.animation)
+    implementation(Libs.Accompanist.navigation)
     implementation (Libs.AndroidX.Compose.compiler)
     implementation(Libs.AndroidX.Compose.ui)
     implementation(Libs.AndroidX.Compose.foundation)

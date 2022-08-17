@@ -1,11 +1,9 @@
-package com.example.common_ui.utils.helpers
+package com.fov.common_ui.utils.helpers
 
 import android.content.Context
 import androidx.compose.ui.graphics.Color
-import com.example.common_ui.R
+import com.fov.common_ui.R
 import java.io.File
-import java.lang.Math.abs
-import java.lang.Math.log10
 import kotlin.random.Random
 
 object Utilities {

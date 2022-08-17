@@ -46,4 +46,5 @@ dependencies {
     implementation(Libs.Kotlin.stdlib)
     implementation(Libs.Hilt.AndroidX.compose_navigation)
     implementation(Libs.AndroidX.Compose.navigation)
+
 }

@@ -9,7 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
 import com.fov.sermons.utils.MediaPlayback
 import com.google.android.exoplayer2.*
-import com.google.android.exoplayer2.ui.PlayerView
+import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.exoplayer2.util.RepeatModeUtil.REPEAT_TOGGLE_MODE_ALL
 import com.google.android.exoplayer2.util.RepeatModeUtil.REPEAT_TOGGLE_MODE_ONE
 
@@ -29,7 +29,7 @@ fun MusicPlayer (
 
     // Do not recreate the player everytime this Composable commits
     val exoPlayer = remember {
-        SimpleExoPlayer.Builder(context).build()
+        ExoPlayer.Builder(context).build()
     }
 
     LaunchedEffect(sources) {
@@ -76,7 +76,7 @@ fun MusicPlayer (
 
     AndroidView(
         factory = { context ->
-            PlayerView(context).apply {
+            StyledPlayerView(context).apply {
                 
                 player = exoPlayer
                 useArtwork = false
