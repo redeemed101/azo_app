@@ -49,7 +49,9 @@ dependencies {
     implementation(Libs.material)
     implementation (Libs.AndroidX.Compose.compiler)
     implementation(Libs.AndroidX.Compose.ui)
+    implementation(Libs.AndroidX.Compose.foundation)
     implementation(Libs.AndroidX.Compose.material)
+    implementation(Libs.AndroidX.Compose.material_icons)
     implementation(Libs.AndroidX.Compose.tooling)
     implementation(Libs.AndroidX.Compose.activity)
     implementation(Libs.AndroidX.Compose.navigation)
@@ -64,6 +66,10 @@ dependencies {
 
     implementation(Libs.Networking.GraphQL.runtime)
     implementation(Libs.Google.ExoPlayer.expo)
+
+    implementation(Libs.Accompanist.swipe)
+    implementation(Libs.Accompanist.pager)
+    implementation(Libs.Accompanist.pager_indicators)
 
     implementation(Libs.coil)
     implementation(Libs.Hilt.AndroidX.compose_navigation)

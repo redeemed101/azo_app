@@ -1,4 +1,4 @@
-package com.fov.main.ui.sermons.audio
+package com.fov.main.ui.sermons.audio.general
 
 import android.widget.Toast
 import androidx.compose.animation.*

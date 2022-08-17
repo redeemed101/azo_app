@@ -138,8 +138,12 @@ private fun MusicPlayerView(
                                         ImageRequest.Builder(
                                             LocalContext.current
                                         )
-                                            .data(data = musicState.currentSong?.artwork ?: "https://www.pngkit.com/png/detail/115-1150342_user-avatar-icon-iconos-de-mujeres-a-color.png")
-                                            .build()
+                                        .data(data = musicState.currentSong?.artwork ?: "https://www.pngkit.com/png/detail/115-1150342_user-avatar-icon-iconos-de-mujeres-a-color.png")
+                                        .apply(block = fun ImageRequest.Builder.() {
+                                                crossfade(true)
+                                                fallback(com.fov.common_ui.R.drawable.image_placeholder)
+                                                placeholder(com.fov.common_ui.R.drawable.image_placeholder)
+                                       }).build()
                                     ),
                                     contentDescription = "",
                                     modifier = Modifier

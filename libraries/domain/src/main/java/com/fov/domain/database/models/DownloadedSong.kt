@@ -10,6 +10,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class DownloadedSong(
     @PrimaryKey(autoGenerate = true) val dbId: Long = Long.MIN_VALUE,
+
     val songName : String,
     val songPath : String,
     val songId : String,

@@ -12,6 +12,7 @@ data class Song(
     @SerializedName("id") val id : String,
     @SerializedName("path") val path : String,
     @SerializedName("previewPath") val previewPath : String,
+    @SerializedName("artworkPath") val artworkPath : String,
     @SerializedName("description") val description : String,
     @SerializedName("songGenres") val songGenres : List<Genre>,
     @SerializedName("songLikes") val songLikes : List<SongLike>,

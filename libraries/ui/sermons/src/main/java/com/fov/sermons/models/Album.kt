@@ -7,6 +7,7 @@ import com.fov.domain.music.GetUserLikedAlbumsPaginatedQuery
 
 data class Album(
     val albumId : String,
+    val artistName : String = "Apostle Ziba",
     val genres: List<String>? = listOf(),
     val artwork : String,
     val albumName : String,
@@ -65,14 +66,14 @@ data class Album(
         )
         fun  fromLikedAlbumsGraph(album : GetUserLikedAlbumsPaginatedQuery.LikedAlbumsPaginated) =
             Album(
-                albumId = album.id(),
+                albumId = album.id,
                 genres = listOf(),
-                artwork = album.artworkPath(),
-                albumName = album.name(),
-                description = album.name(),
-                path = album.path(),
-                userLikes = album.likes()?.map { like ->
-                    like.userId()
+                artwork = album.artworkPath,
+                albumName = album.name,
+                description = album.name,
+                path = album.path,
+                userLikes = album.likes?.map { like ->
+                    like?.userId ?: ""
                 } ?: emptyList(),
                 likes = 0,
                 streams = 0
@@ -80,14 +81,15 @@ data class Album(
             )
         fun fromGenreGraph(album : GetGenreAlbumsPaginatedQuery.AlbumsPaginated) =
             Album(
-                albumId = album.id(),
+                albumId = album.id,
                 genres = listOf(),
-                artwork = album.artworkPath(),
-                albumName = album.name(),
-                description = album.name(),
-                path = album.path(),
-                userLikes = album.likes()?.map { like ->
-                    like.userId()
+                artwork = album.artworkPath,
+                albumName = album.name,
+                description = album.name,
+                path = album.path,
+                userLikes = album.likes?.map { like ->
+                    like?.userId ?: ""
+
                 } ?: emptyList(),
                 likes = 0,
                 streams = 0

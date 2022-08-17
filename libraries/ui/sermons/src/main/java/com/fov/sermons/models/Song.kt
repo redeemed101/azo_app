@@ -12,6 +12,7 @@ data class Song(
     val songName : String,
     val songLength : String = "",
     val artwork : String,
+    val artistName: String = "Apostle Ziba",
     val description : String = "",
     val previewPath : String = "",
     val path : String = "",
@@ -55,36 +56,38 @@ data class Song(
             previewPath = song.previewPath,
             path = song.path,
             likes = song.likes,
-            streams = song.streams
+            streams = song.streams,
+            artistName = song.artistName
         )
         fun fromGenreGraph(song :  GetGenreSongsPaginatedQuery.SongsPaginated) =
             Song(
-                songName = song.name(),
-                songId = song.id(),
+                songName = song.name,
+                songId = song.id,
                 genres = listOf(),
                 songLength = "",
-                artwork = song.artworkPath(),
-                previewPath = song.path(),
-                path = song.path(),
+                artistName = "Apostle Ziba",
+                artwork = song.artworkPath,
+                previewPath = song.path,
+                path = song.path,
                 likes = 0,
-                userLikes = song.likes()?.map { like ->
-                    like.userId()
+                userLikes = song.likes?.map { like ->
+                    like?.userId ?: ""
                 } ?: emptyList(),
                 streams = 0
             )
       
         fun fromLikedSongsGraph(song :  GetUserLikedSongsPaginatedQuery.LikedSongsPaginated) =
             Song(
-                songName = song.name(),
-                songId = song.id(),
+                songName = song.name,
+                songId = song.id,
                 genres = listOf(),
                 songLength = "",
-                artwork = song.artworkPath(),
-                previewPath = song.path(),
-                path = song.path(),
+                artwork = song.artworkPath,
+                previewPath = song.path,
+                path = song.path,
                 likes = 0,
-                userLikes = song.likes()?.map { like ->
-                    like.userId()
+                userLikes = song.likes?.map { like ->
+                    like?.userId ?: ""
                 } ?: emptyList(),
                 streams = 0
             )
