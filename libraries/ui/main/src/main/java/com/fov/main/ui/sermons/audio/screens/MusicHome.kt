@@ -175,7 +175,7 @@ private fun getListOfGridItems(musicEvents : (event: MusicEvent) -> Unit, events
     return listOf(
         MusicHomeGridItem(
             "Genres",
-            R.drawable.ic_genre_music
+            com.fov.sermons.R.drawable.ic_genre_music
         ){
 
             musicEvents(MusicEvent.LoadGenres)
@@ -183,32 +183,7 @@ private fun getListOfGridItems(musicEvents : (event: MusicEvent) -> Unit, events
             events(CommonEvent.ChangeHasDeepScreen(true, "Genres"))
 
 
-        },
-        MusicHomeGridItem(
-            "Moods",
-            R.drawable.ic_music_mood
-        ){
-            events(CommonEvent.ChangeHasDeepScreen(true, "Moods"))
-            musicEvents(MusicEvent.LoadMoods)
-            musicEvents(MusicEvent.GoToMoods)
-        },
-        MusicHomeGridItem(
-            "Charts",
-            R.drawable.ic_music_chart
-        ){
-            events(CommonEvent.ChangeHasDeepScreen(true, "Charts"))
-            musicEvents(MusicEvent.LoadCharts)
-            musicEvents(MusicEvent.GoToCharts)
-        },
-        MusicHomeGridItem(
-            "Playlists",
-            R.drawable.ic_music_playlist
-        ){
-            events(CommonEvent.ChangeHasDeepScreen(true, "Playlists"))
-            events(CommonEvent.ChangeShowSearchOption(true))
-            musicEvents(MusicEvent.LoadPlaylists)
-            musicEvents(MusicEvent.GoToPlaylists)
-        },
+        }
     )
 }
 /*@OptIn(ExperimentalFoundationApi::class)

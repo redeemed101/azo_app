@@ -1,4 +1,4 @@
-package com.example.fidarrappcompose.ui.composables.music.screens
+package com.fov.main.ui.sermons.audio.screens
 
 
 import androidx.annotation.DrawableRes
@@ -21,45 +21,43 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.fidarr.music.R
+import coil.compose.rememberAsyncImagePainter
+import com.fov.sermons.R
 import coil.compose.rememberImagePainter
-import com.example.common_ui.composables.sections.section
-import com.example.common_ui.events.CommonEvent
-import com.example.common_ui.models.DownloadData
-import com.example.common_ui.states.CommonState
-import com.example.common_ui.theme.White009
-import com.example.common_ui.theme.commonPadding
-import com.example.common_ui.viewModels.CommonViewModel
-import com.example.fidarrappcompose.ui.composables.music.general.MusicGeneralScreen
+import coil.request.ImageRequest
+import com.fov.common_ui.events.CommonEvent
+import com.fov.common_ui.extensions.itemsCustomized
+import com.fov.common_ui.models.DownloadData
+import com.fov.common_ui.states.CommonState
+import com.fov.common_ui.theme.White009
+import com.fov.common_ui.theme.commonPadding
+import com.fov.common_ui.ui.composers.sections.Section
+import com.fov.common_ui.viewModels.CommonViewModel
 import com.fov.main.ui.sermons.audio.general.SongListItem
-import com.fidarr.domain.database.models.DownloadedSong
-import com.fidarr.music.events.MusicEvent
-import com.fidarr.music.events.PlaylistEvent
-import com.fidarr.music.events.StoredMusicEvent
-import com.fidarr.music.models.Song
-import com.fidarr.music.states.MusicState
-import com.fidarr.music.states.PlaylistState
-import com.fidarr.music.ui.music.ArtistsSection
-import com.fidarr.music.ui.music.MusicItem
-import com.fidarr.music.viewModels.MusicViewModel
-import com.fidarr.music.viewModels.PlaylistViewModel
-import com.fidarr.music.viewModels.StoredMusicViewModel
-import com.fidarr.navigation.Screen
-import com.google.android.exoplayer2.SimpleExoPlayer
+import com.fov.domain.database.models.DownloadedSong
+import com.fov.main.ui.sermons.audio.general.MusicGeneralScreen
+import com.fov.navigation.Screen
+import com.fov.sermons.events.MusicEvent
+import com.fov.sermons.events.StoredMusicEvent
+import com.fov.sermons.models.Song
+import com.fov.sermons.states.MusicState
+import com.fov.sermons.ui.music.MusicItem
+import com.fov.sermons.viewModels.SermonViewModel
+import com.fov.sermons.viewModels.StoredSermonViewModel
+import com.google.android.exoplayer2.ExoPlayer
+import kotlin.text.Typography.section
 
 
 @ExperimentalAnimationApi
 @Composable
 fun SongScreen(
-    musicViewModel : MusicViewModel,
+    musicViewModel : SermonViewModel,
     commonViewModel: CommonViewModel,
-    storedMusicViewModel: StoredMusicViewModel,
-    playlistViewModel: PlaylistViewModel
+    storedMusicViewModel: StoredSermonViewModel
 ){
 
     val commonState by commonViewModel.uiState.collectAsState()
     val musicState by musicViewModel.uiState.collectAsState()
-    val playlistState by playlistViewModel.uiState.collectAsState()
     val isDownloaded by storedMusicViewModel.isSongDownloadedAsync(musicState.selectedSong!!.songId).collectAsState(
         initial = false
     )
@@ -68,8 +66,6 @@ fun SongScreen(
         events = commonViewModel::handleCommonEvent,
         musicState = musicState,
         musicEvents = musicViewModel::handleMusicEvent,
-        playlistState = playlistState,
-        playlistEvents = playlistViewModel::handlePlaylistEvent,
         storedMusicEvents = storedMusicViewModel::handleMusicEvent,
         isDownloaded = isDownloaded
     )
@@ -84,8 +80,6 @@ private fun Song(
     events: (event: CommonEvent) -> Unit,
     musicState: MusicState,
     musicEvents: (event: MusicEvent) -> Unit,
-    playlistState: PlaylistState,
-    playlistEvents: (event: PlaylistEvent) -> Unit,
     storedMusicEvents: (event: StoredMusicEvent) -> Unit,
     isDownloaded : Boolean
 ) {
@@ -94,8 +88,6 @@ private fun Song(
         events = events,
         musicState = musicState,
         musicEvents = musicEvents,
-        playlistState = playlistState,
-        playlistEvents = playlistEvents,
         swipeToRefreshAction = {
             if(musicState.selectedSong != null)
                musicEvents(MusicEvent.SongSelected(musicState.selectedSong!!))
@@ -108,7 +100,7 @@ private fun Song(
         var exoPlayer = musicState.player
         if(musicState.player == null) {
             exoPlayer = remember {
-                SimpleExoPlayer.Builder(context).build()
+                ExoPlayer.Builder(context).build()
             }
         }
 
@@ -172,8 +164,8 @@ private fun Song(
                         data = song.artwork,
                         builder = {
                             crossfade(true)
-                            fallback(R.drawable.image_placeholder)
-                            placeholder(R.drawable.image_placeholder)
+                            fallback(com.fov.common_ui.R.drawable.image_placeholder)
+                            placeholder(com.fov.common_ui.R.drawable.image_placeholder)
                         }
                     ),
                     "",
@@ -210,7 +202,7 @@ private fun Song(
                         tint   = if(isDownloaded) MaterialTheme.colors.primary else MaterialTheme.colors.onSurface
                     ) {
                         if(!isDownloaded) {
-                            com.fidarr.music.utils.helpers.Utilities.downloadSong(
+                            com.fov.sermons.utils.helpers.Utilities.downloadSong(
                                 context = context,
                                 lifecycleOwner = lifecycleOwner,
                                 song = song,
@@ -241,7 +233,7 @@ private fun Song(
                             }
                         }
                         else{
-                            com.fidarr.music.utils.helpers.Utilities.unDownloadSong(
+                            com.fov.sermons.utils.helpers.Utilities.unDownloadSong(
                                 "",
                             ){
                                 storedMusicEvents(StoredMusicEvent.DeleteDownloadedSong(song.songId))
@@ -249,7 +241,7 @@ private fun Song(
                         }
                     }
                     IconView(
-                        R.drawable.ic_heart_white,
+                        com.fov.common_ui.R.drawable.ic_heart_white,
                         "Add",
                         tint   = if(isDownloaded || isLiked) MaterialTheme.colors.primary else MaterialTheme.colors.onSurface
                     ) {
@@ -261,7 +253,7 @@ private fun Song(
                         }
                     }
                     IconView(
-                        R.drawable.ic_send,
+                        com.fov.common_ui.R.drawable.ic_send,
                         "Share"
                     ) {}
                 }
@@ -292,7 +284,7 @@ private fun Song(
 
                         Row {
                             Icon(
-                                painter = painterResource(R.drawable.ic_play_circle),
+                                painter = painterResource(com.fov.common_ui.R.drawable.ic_play_circle),
                                 modifier = Modifier
                                     .padding(horizontal = 8.dp)
                                     .clickable {
@@ -320,7 +312,7 @@ private fun Song(
 
                         Row {
                             Icon(
-                                painter = painterResource(R.drawable.ic_shuffle),
+                                painter = painterResource(com.fov.common_ui.R.drawable.ic_shuffle),
                                 modifier = Modifier
                                     .padding(horizontal = 8.dp)
                                     .clickable {
@@ -358,7 +350,7 @@ private fun Song(
                 Box(
                     //modifier = Modifier.padding(commonPadding)
                 ) {
-                    section(
+                    Section(
                         title = "More from ${musicState.selectedSong!!.artistName}",
                         action = {},
                         showSeeAll = true,
@@ -370,7 +362,7 @@ private fun Song(
                                 .fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceEvenly
                         ) {
-                            items(songs!!) { song ->
+                            itemsCustomized(songs!!) { song,_ ->
                                 MusicItem(song = song!!) {
                                     musicEvents(MusicEvent.SongSelected(song!!))
                                     musicEvents(MusicEvent.ChangeShowingSong(true))
@@ -381,19 +373,7 @@ private fun Song(
                 }
 
 
-                Box(
-                    //modifier = Modifier.padding(commonPadding)
-                ) {
 
-
-                    ArtistsSection(
-                        title = "Related Artists",
-                        users = musicState.trendingArtists,
-                        showSeeAll = true
-                    ) {
-
-                    }
-                }
 
                 Spacer(modifier = Modifier.height(100.dp))
 
@@ -445,14 +425,13 @@ fun IconView(
         verticalAlignment = Alignment.CenterVertically
     ){
         Image(
-            painter = rememberImagePainter(
-                data = song.artwork,
-                builder = {
+            painter = rememberAsyncImagePainter(
+                ImageRequest.Builder(LocalContext.current).data(data = song.artwork)
+                    .apply(block = fun ImageRequest.Builder.() {
                     crossfade(true)
-                    fallback(R.drawable.image_placeholder)
-                    placeholder(R.drawable.image_placeholder)
-                },
-
+                    fallback(com.fov.common_ui.R.drawable.image_placeholder)
+                    placeholder(com.fov.common_ui.R.drawable.image_placeholder)
+                }).build()
             ),
             "",
             contentScale = ContentScale.FillWidth,
