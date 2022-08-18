@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import androidx.core.app.NotificationCompat
 import com.fov.common_ui.R
+import com.fov.main.MainActivity
 
 object Notification {
     // Notification ID.
@@ -33,30 +34,18 @@ object Notification {
         // Build the notification
         val builder = NotificationCompat.Builder(
             applicationContext,
-            // TODO: Step 1.8 use a notification channel
-            applicationContext.getString(R.string.default_notification_channel_id)
+            applicationContext.getString(R.string.fov_notification_channel_id)
         )
-            // TODO: Step 1.3 set title, text and icon to builder
-            .setSmallIcon(R.drawable.logo_red)
+
+            .setSmallIcon(R.drawable.ic_message_circle)
             .setContentTitle(title)
             .setContentText(messageBody)
-            // TODO: Step 1.13 set content intent
             .setContentIntent(contentPendingIntent)
-
-            // TODO: Step 2.5 set priority
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setAutoCancel(true)
-
-        // TODO Step 1.4 call notify
-        // Deliver the notification
         notify(NOTIFICATION_ID, builder.build())
     }
 
-// TODO: Step 1.14 Cancel all notifications
-    /**
-     * Cancels all notifications.
-     *
-     */
     fun NotificationManager.cancelNotifications() {
         cancelAll()
     }

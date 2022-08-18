@@ -66,6 +66,14 @@ dependencies {
     implementation(Libs.Kotlin.Coroutines.core)
     implementation(Libs.Kotlin.Coroutines.android)
 
+    implementation(Libs.AndroidX.Camera.core)
+    implementation(Libs.AndroidX.Camera.camera2)
+    implementation(Libs.AndroidX.Camera.lifecycle)
+    implementation(Libs.AndroidX.Camera.view)
+    implementation(Libs.AndroidX.DataStore.core)
+    implementation(Libs.AndroidX.DataStore.preferences)
+    implementation(Libs.AndroidX.DataStore.typed)
+
     implementation(Libs.Networking.GraphQL.runtime)
     implementation(Libs.Google.ExoPlayer.expo)
 
@@ -84,8 +92,20 @@ dependencies {
     implementation(Libs.Networking.Ktor.kotlinx_json)
     implementation(Libs.Networking.Ktor.logging)
 
+
+    implementation(Libs.Facebook.facebook_login)
+    implementation(Libs.Facebook.facebook_sdk)
+    implementation(Libs.Google.auth)
+    implementation(Libs.Google.firebase_messaging)
+    implementation(Libs.Google.location)
+
     implementation(Libs.Networking.OkHttp.loggging)
     implementation(Libs.Networking.OkHttp.client)
+
+    implementation(Libs.AndroidX.Room.runtime)
+    kapt(Libs.AndroidX.Room.kapt_compiler)
+    implementation (Libs.AndroidX.Room.ktx)
+    implementation(Libs.AndroidX.Room.testing)
 
     kapt(Libs.Hilt.compiler)
     kapt (Libs.Hilt.AndroidX.compiler)

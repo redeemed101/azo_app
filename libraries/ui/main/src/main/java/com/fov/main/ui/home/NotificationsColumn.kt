@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import com.fov.authentication.models.Notification
 import com.fov.common_ui.theme.AzoTheme
 import com.fov.common_ui.theme.commonPadding
+import com.fov.common_ui.ui.composers.sections.notificationsSingleRow
 import com.fov.domain.utils.constants.NotificationType
 
 

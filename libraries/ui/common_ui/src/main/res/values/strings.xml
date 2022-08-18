@@ -1,7 +1,7 @@
 <resources>
     <!--<string name="app_name">common-ui</string>-->
     <string name="app_name">AZO</string>
-    <string name="fov_notification_channel_id">notification_channel_fidarr</string>
-    <string name="fov_channel_description">Notification Channel for Fidarr</string>
+    <string name="fov_notification_channel_id">notification_channel_fov</string>
+    <string name="fov_channel_description">Notification Channel for FOV</string>
     <string name="fov_notification_channel_name">FOV Notification Channel</string>
 </resources>
