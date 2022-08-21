@@ -61,6 +61,12 @@ dependencies {
     implementation(Libs.AndroidX.Camera.lifecycle)
     implementation (Libs.AndroidX.Camera.view)
 
+    implementation(Libs.Networking.GraphQL.runtime)
+    implementation(Libs.AndroidX.Core.palette)
+
+    implementation(Libs.AndroidX.Core.worker_runtime)
+    implementation(Libs.AndroidX.Core.worker_runtime_ktx)
+
 
     implementation(Libs.coil)
     implementation(Libs.Hilt.AndroidX.compose_navigation)

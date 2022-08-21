@@ -40,7 +40,7 @@
         app:layout_constraintLeft_toRightOf="@id/exo_position"
         app:layout_constraintRight_toLeftOf="@id/exo_duration"
         app:layout_constraintTop_toTopOf="@id/exo_position"
-        app:played_color="@color/fidarr_red"
+        app:played_color="@android:color/holo_red_dark"
         app:unplayed_color="@android:color/darker_gray"
         app:buffered_color="@android:color/darker_gray"
         tools:layout_conversion_absoluteHeight="26dp"

@@ -29,9 +29,9 @@ data class UserModel(
             UserModel(
                 name = user.fullName,
                 email = user.email,
-                profile = user.profile,
-                userName = user.userName,
-                profilePic = user.profilePicPath,
+                profile = "",
+                userName = "",
+                profilePic = "",
                 id = user.id,
                 phoneNumber = user.phoneNumber,
 

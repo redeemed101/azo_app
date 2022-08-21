@@ -1,8 +1,5 @@
 package com.fov.domain.repositories.authentication
 
-import androidx.paging.PagingSource
-import com.fov.domain.database.models.RecentUserSearch
-import com.fov.domain.database.models.User
 import com.fov.domain.models.authentication.GeneralResult
 import com.fov.domain.models.authentication.login.RefreshTokenResult
 import com.fov.domain.models.authentication.login.SigninResult
@@ -10,8 +7,6 @@ import com.fov.domain.models.authentication.registration.SignupResult
 import com.fov.domain.models.authentication.users.DeleteAccountDTO
 import com.fov.domain.models.authentication.users.DisableAccountDTO
 import com.fov.domain.models.users.notifications.NotificationsResult
-import com.fov.domain.remote.authentication.AuthenticationRemoteStore
-import kotlinx.coroutines.flow.Flow
 
 interface AuthenticationRepository {
 

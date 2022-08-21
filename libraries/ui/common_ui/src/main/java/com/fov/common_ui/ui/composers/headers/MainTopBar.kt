@@ -1,4 +1,4 @@
-package com.example.common_ui.composables.headers
+package com.fov.common_ui.ui.composers.headers
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,10 +12,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.common_ui.theme.ThemeHelper
-import com.example.common_ui.theme.White009
-import com.example.common_ui.theme.commonPadding
-import com.fov.common_ui.ui.composers.headers.HeaderNotifications
+import com.fov.common_ui.theme.ThemeHelper
+import com.fov.common_ui.theme.White009
+import com.fov.common_ui.theme.commonPadding
+import com.fov.common_ui.R
 
 
 @Composable

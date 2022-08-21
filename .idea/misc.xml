@@ -15,9 +15,12 @@
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_notification_dark_empty.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_play_circle.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_plus.xml" value="0.1" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_profile.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_send.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_shuffle.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/drawable/ic_arrow_down.xml" value="0.1" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/drawable/ic_skip_back.xml" value="0.1" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/layout/exo_player_control_view_copy.xml" value="0.11302083333333333" />
       </map>
     </option>
   </component>

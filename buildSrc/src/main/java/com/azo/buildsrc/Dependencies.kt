@@ -149,23 +149,24 @@ object Libs {
         }
 
         object Compose {
-            const val ui = "androidx.compose.ui:ui:${Versions.Compose.version}"
-            const val material = "androidx.compose.material:material:${Versions.Compose.version}"
-            const val ui_tooling_preview = "androidx.compose.ui:ui-tooling-preview:${Versions.Compose.version}"
+            const val version = "1.2.1"
+            const val ui = "androidx.compose.ui:ui:${version}"
+            const val material = "androidx.compose.material:material:${version}"
+            const val ui_tooling_preview = "androidx.compose.ui:ui-tooling-preview:${version}"
             const val activity = "androidx.activity:activity-compose:1.3.1"
-            const val junit = "androidx.compose.ui:ui-test-junit4:${Versions.Compose.version}"
-            const val ui_tooling ="androidx.compose.ui:ui-tooling:${Versions.Compose.version}"
-            const val ui_test = "androidx.compose.ui:ui-test-manifest:${Versions.Compose.version}"
+            const val junit = "androidx.compose.ui:ui-test-junit4:${version}"
+            const val ui_tooling ="androidx.compose.ui:ui-tooling:${version}"
+            const val ui_test = "androidx.compose.ui:ui-test-manifest:${version}"
 
             const val compiler = "androidx.compose.compiler:compiler:${Versions.Compose.version}"
-            const val view_binding = "androidx.compose.ui:ui-viewbinding:${Versions.Compose.version}"
-            const val runtime = "androidx.compose.runtime:runtime:${Versions.Compose.version}"
-            const val runtimeLivedata = "androidx.compose.runtime:runtime-livedata:${Versions.Compose.version}"
-            const val material_icons = "androidx.compose.material:material-icons-extended:${Versions.Compose.version}"
-            const val foundation = "androidx.compose.foundation:foundation:${Versions.Compose.version}"
-            const val layout = "androidx.compose.foundation:foundation-layout:${Versions.Compose.version}"
-            const val tooling = "androidx.compose.ui:ui-tooling:${Versions.Compose.version}"
-            const val animation = "androidx.compose.animation:animation:${Versions.Compose.version}"
+            const val view_binding = "androidx.compose.ui:ui-viewbinding:${version}"
+            const val runtime = "androidx.compose.runtime:runtime:${version}"
+            const val runtimeLivedata = "androidx.compose.runtime:runtime-livedata:${version}"
+            const val material_icons = "androidx.compose.material:material-icons-extended:${version}"
+            const val foundation = "androidx.compose.foundation:foundation:${version}"
+            const val layout = "androidx.compose.foundation:foundation-layout:${version}"
+            const val tooling = "androidx.compose.ui:ui-tooling:${version}"
+            const val animation = "androidx.compose.animation:animation:${version}"
 
 
             private const val nav_version = "2.4.0-alpha04"

@@ -1,6 +1,6 @@
 package com.fov.domain.remote.apollo.users
 
-import com.apollographql.apollo.coroutines.await
+
 import com.fov.domain.users.GetPaginatedUsersQuery
 import com.fov.domain.users.GetUserQuery
 

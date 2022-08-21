@@ -6,9 +6,9 @@ import com.fov.domain.remote.mock.authentication.registration.GeneralMockRespons
 import com.fov.domain.remote.mock.authentication.registration.SignUpMockResponse
 import com.fov.domain.remote.mock.authentication.users.UserNotificationsMockResponse
 import com.fov.domain.remote.mock.authentication.users.UserNumNotificationsMockResponse
-import com.fidarr.domain.remote.mock.music.AlbumsMockResponse
-import com.fidarr.domain.remote.mock.music.SongMockResponse
-import com.fidarr.domain.remote.mock.music.SongsMockResponse
+import com.fov.domain.remote.mock.music.AlbumsMockResponse
+import com.fov.domain.remote.mock.music.SongMockResponse
+import com.fov.domain.remote.mock.music.SongsMockResponse
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*
 import io.ktor.client.features.*

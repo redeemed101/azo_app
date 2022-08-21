@@ -1,8 +1,8 @@
-package com.fidarr.domain.remote.mock.music
+package com.fov.domain.remote.mock.music
 
-import com.fidarr.domain.models.music.artist.Artist
-import com.fidarr.domain.models.music.song.Song
-import com.fidarr.domain.models.music.song.SongsResult
+
+import com.fov.domain.models.music.song.Song
+import com.fov.domain.models.music.song.SongsResult
 import com.google.gson.Gson
 
 
@@ -15,15 +15,8 @@ object SongMockResponse {
             artworkPath = "https://picsum.photos/200",
             previewPath = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
             description = "",
-            artist = Artist(
-                name = "",
-                isProfileClaimed = false,
-                id = "",
-                artistGenres = emptyList(),
-                imagePath = "https://picsum.photos/200"
-            ),
+
             songGenres = emptyList(),
-            featuringArtists = emptyList(),
             songLikes = emptyList(),
             songStreams = emptyList()
         )
@@ -41,15 +34,7 @@ object SongsMockResponse {
                 artworkPath = "https://picsum.photos/200",
                 previewPath = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
                 description = "",
-                artist = Artist(
-                    name = "",
-                    isProfileClaimed = false,
-                    id = "",
-                    artistGenres = emptyList(),
-                    imagePath = "https://picsum.photos/200"
-                ),
                 songGenres = emptyList(),
-                featuringArtists = emptyList(),
                 songLikes = emptyList(),
                 songStreams = emptyList()
 

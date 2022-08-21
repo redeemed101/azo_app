@@ -13,8 +13,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.example.common_ui.theme.FidarrAppComposeTheme
-import com.example.common_ui.theme.ShimmerColorShades
+import com.fov.common_ui.theme.AzoTheme
+import com.fov.common_ui.theme.ShimmerColorShades
 
 @Composable
 fun ShimmerCircleItem(
@@ -50,7 +50,7 @@ fun ShimmerCircleItem(
 @Composable
 @Preview
 fun ShimmerPreview(){
-    FidarrAppComposeTheme() {
+    AzoTheme() {
         ShimmerAnimation(size = 50.dp, isCircle = false)
     }
 }

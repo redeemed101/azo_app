@@ -10,6 +10,6 @@ object Versions {
     const val kapt = "1.7.10"
 
     object Compose{
-        const val version = "1.2.0"
+        const val version = "1.3.0"
     }
 }

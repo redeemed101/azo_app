@@ -11,7 +11,6 @@ class ApolloUsersServiceTestImpl  constructor(
     override suspend fun getUser(id: String): GetUserQuery.Data? {
         return GetUserQuery.Data(
             GetUserQuery.User(
-                "User",
                 "sdfsdfsdf",
                 "Lewis Msasa",
                 "Lewis is amazing",
@@ -27,12 +26,11 @@ class ApolloUsersServiceTestImpl  constructor(
                 "Male",
             ),
             GetUserQuery.Country(
-                "Country",
+
                 "Malawi"
             ),
             List(20){
                 GetUserQuery.FullFollower(
-             "FullFollower",
                     "12345",
                     "Godmond",
                     "go",
@@ -43,7 +41,6 @@ class ApolloUsersServiceTestImpl  constructor(
             },
             List(20){
                 GetUserQuery.FullFollowing(
-                    "FullFollowing",
                     "12345",
                     "Godmond",
                     "go",
@@ -59,7 +56,6 @@ class ApolloUsersServiceTestImpl  constructor(
         return GetPaginatedUsersQuery.Data(
             List(20) {
                 GetPaginatedUsersQuery.UsersPaginated(
-                    "User",
                     "1234",
                     "Lewis Msasa",
                     "lmsasajnr",

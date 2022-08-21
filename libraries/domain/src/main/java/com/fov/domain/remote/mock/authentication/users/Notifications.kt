@@ -27,42 +27,20 @@ object UserNotificationsMockResponse {
                    notifier = UserDTO(
                        fullName = "Lewis Msasa",
                        email = "lmsasa@gmail.com",
-                       profile = "Awesome Dude",
-                       userName = "@lmsasa",
                        privateKey = "1234",
                        publicKey = "1234",
-                       profilePicPath ="https://picsum.photos/200",
                        id = "12345",
                        emailConfirmed = false,
-                       numFollowers = 0,
-                       numFollowing = 0,
                        phoneNumber = "",
-                       isClaimed = true,
-                       category  =  "Public Figure",
-                       dob = "10-April-1994",
-                       location = "",
-                       gender = "Female",
-                       website = ""
                    ),
                    notified = UserDTO(
                        fullName = "Lewis Msasa Jnr",
                        email = "lmsasajnr@gmail.com",
-                       profile = "Awesome Dude",
-                       userName = "@lmsasajnr",
                        privateKey = "1234",
                        publicKey = "1234",
-                       profilePicPath ="https://picsum.photos/200",
                        id = "12345",
                        emailConfirmed = false,
-                       numFollowers = 0,
-                       numFollowing = 0,
                        phoneNumber = "",
-                       isClaimed = true,
-                       category  =  "Public Figure",
-                       dob = "10-April-1994",
-                       location = "",
-                       gender = "Female",
-                       website = ""
                    )
 
                )

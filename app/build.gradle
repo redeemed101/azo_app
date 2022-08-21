@@ -53,6 +53,13 @@ dependencies {
     implementation project(":libraries:ui:main")
     implementation project(":libraries:ui:authentication")
     implementation project(":libraries:ui:sermons")
+    implementation project(":libraries:navigation")
+    implementation project(":libraries:core")
+
+    implementation Libs.Hilt.android
+    implementation Libs.AndroidX.Compose.navigation
+    implementation Libs.Hilt.AndroidX.compose_navigation
+
     implementation Libs.AndroidX.Core.core
     implementation Libs.AndroidX.Compose.ui
     implementation Libs.AndroidX.Compose.material

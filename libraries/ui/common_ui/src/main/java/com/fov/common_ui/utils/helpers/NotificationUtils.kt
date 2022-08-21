@@ -35,12 +35,12 @@ fun NotificationManager.sendDownloadNotification(title:String,
                                                  notificationId : Int) : NotificationCompat.Builder{
 
     val builder = NotificationCompat.Builder(applicationContext,
-        applicationContext.getString(R.string.fidarr_notification_channel_id)).apply {
+        applicationContext.getString(R.string.fov_notification_channel_id)).apply {
         setContentTitle(title)
         setSilent(true)
 
         setContentText(messageBody)
-        setSmallIcon(R.drawable.logo_red)
+        setSmallIcon(R.drawable.avatar)
         priority = NotificationCompat.PRIORITY_LOW
     }
 
@@ -68,10 +68,10 @@ fun NotificationManager.sendNotification(title:String, messageBody: String, appl
     // Build the notification
     val builder = NotificationCompat.Builder(
         applicationContext,
-        applicationContext.getString(R.string.fidarr_notification_channel_id)
+        applicationContext.getString(R.string.fov_notification_channel_id)
     )
 
-        .setSmallIcon(R.drawable.logo_red)
+        .setSmallIcon(R.drawable.avatar)
         .setContentTitle(title)
         .setContentText(messageBody)
 
@@ -90,10 +90,10 @@ class NotificationUtils{
             // Create the NotificationChannel, but only on API 26+ because
             // the NotificationChannel class is new and not in the support library
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                val id = applicationContext.getString(R.string.fidarr_notification_channel_id)
-                val name = applicationContext.getString(R.string.fidarr_notification_channel_name)
+                val id = applicationContext.getString(R.string.fov_notification_channel_id)
+                val name = applicationContext.getString(R.string.fov_notification_channel_name)
                 val descriptionText =
-                    applicationContext.getString(R.string.fidarr_channel_description)
+                    applicationContext.getString(R.string.fov_channel_description)
                 val importance = NotificationManager.IMPORTANCE_DEFAULT
                 val channel = NotificationChannel(id, name, importance).apply {
                     description = descriptionText

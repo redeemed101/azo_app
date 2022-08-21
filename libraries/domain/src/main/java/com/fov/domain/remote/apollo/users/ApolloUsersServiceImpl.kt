@@ -1,7 +1,7 @@
 package com.fov.domain.remote.apollo.users
 
-import com.apollographql.apollo.ApolloClient
-import com.apollographql.apollo.coroutines.await
+import com.apollographql.apollo3.ApolloClient
+import com.apollographql.apollo3.api.Optional
 import com.fov.domain.remote.apollo.ApolloSetup
 import com.fov.domain.users.GetPaginatedUsersQuery
 import com.fov.domain.users.GetUserQuery
@@ -12,20 +12,13 @@ class ApolloUsersServiceImpl constructor(
 ) : ApolloUsersService {
     private var apolloClient: ApolloClient = apolloSetup.setUpApolloClient("/users/graphql")
     override suspend fun getUser(id :String): GetUserQuery.Data? {
-        val res = apolloClient.query(GetUserQuery
-            .builder()
-            .id(id)
-            .build()).await()
+        val res = apolloClient.query(GetUserQuery(Optional.presentIfNotNull(id))).execute()
         return res.data
     }
     override suspend fun getPaginatedUsers(page : Int, size :  Int): GetPaginatedUsersQuery.Data? {
-         val res = apolloClient.query(
-             GetPaginatedUsersQuery
-                 .builder()
-                 .page(page)
-                 .size(size)
-                 .build()
-         ).await()
+         val res = apolloClient.query(GetPaginatedUsersQuery(Optional.presentIfNotNull(page)
+             ,Optional.presentIfNotNull(size))
+         ).execute()
         return res.data
     }
 }

@@ -6,7 +6,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.LifecycleOwner
-import com.example.common_ui.composables.headers.mainTopBar
+import com.fov.common_ui.ui.composers.headers.mainTopBar
 import com.fidarr.music.ui.general.headers.mainMusicTab
 import com.fov.authentication.events.UsersEvent
 import com.fov.authentication.states.UsersState
