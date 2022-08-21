@@ -3,7 +3,7 @@ package com.fov.sermons.pagination
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.fov.common_ui.utils.constants.AlbumRequestType
-import com.fov.domain.interactor.music.MusicInteractor
+import com.fov.domain.interactors.music.MusicInteractor
 import com.fov.domain.models.music.album.AlbumsResult
 import com.fov.sermons.models.Album
 
@@ -28,8 +28,8 @@ class AlbumsSource constructor(
                if(albumRequestType == AlbumRequestType.GENRE_ALBUMS) {
 
                         val result = musicInteractor.getGenreAlbumsGraph(genreId, nextPage)
-                        val albums = result?.albumsPaginated()?.map { a ->
-                            Album.ModelMapper.fromGenreGraph(a)
+                        val albums = result?.albumsPaginated?.map { a ->
+                            Album.ModelMapper.fromGenreGraph(a!!)
                         }
                         if(albums != null) {
                             LoadResult.Page(
@@ -51,8 +51,8 @@ class AlbumsSource constructor(
                 if(albumRequestType == AlbumRequestType.LIKED_ALBUMS) {
 
                     val result = musicInteractor.getUserLikedAlbumsPaginated(userId, nextPage)
-                    val albums = result?.likedAlbumsPaginated()?.map { a ->
-                        Album.ModelMapper.fromLikedAlbumsGraph(a)
+                    val albums = result?.likedAlbumsPaginated?.map { a ->
+                        Album.ModelMapper.fromLikedAlbumsGraph(a!!)
                     }
                     if(albums != null) {
                         LoadResult.Page(
@@ -76,7 +76,12 @@ class AlbumsSource constructor(
                     AlbumRequestType.TOP_ALBUMS -> {
                         albumResult = musicInteractor.getTopAlbums(nextPage)
                     }
+                    AlbumRequestType.ALL_ALBUMS ->{
+                        musicInteractor.getAlbumsGraph(nextPage)
+                    }
+                    else -> {
 
+                    }
                 }
                 if (albumResult != null) {
 

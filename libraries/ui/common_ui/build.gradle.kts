@@ -44,6 +44,7 @@ android {
 dependencies {
     implementation(project(":libraries:navigation"))
     implementation(project(":libraries:domain"))
+    implementation(project(":libraries:core"))
 
     implementation(Libs.AndroidX.Core.core)
     implementation(Libs.AndroidX.Core.compat)
@@ -66,6 +67,9 @@ dependencies {
 
     implementation(Libs.AndroidX.Core.worker_runtime)
     implementation(Libs.AndroidX.Core.worker_runtime_ktx)
+
+    implementation(Libs.AndroidX.Lifecycle.liveData)
+    implementation(Libs.AndroidX.Lifecycle.lifecycleRuntime)
 
 
     implementation(Libs.coil)

@@ -17,13 +17,13 @@ data class Genre(
             )
         fun fromGenresGraph(genre : GetGenresQuery.Genre) =
             Genre(
-                genreId = genre.id(),
-                name = genre.name()
+                genreId = genre.id,
+                name = genre.name
             )
         fun fromGenreGraph(genre : GetGenreQuery.Data) =
             Genre(
-                name = genre.genre()!!.name(),
-                genreId = genre.genre()!!.id()
+                name = genre.genre!!.name,
+                genreId = genre.genre!!.id
             )
     }
 }

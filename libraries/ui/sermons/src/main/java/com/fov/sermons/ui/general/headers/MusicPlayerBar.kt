@@ -12,15 +12,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.common_ui.theme.FidarrAppComposeTheme
-import com.fidarr.music.ui.EmphasisText
-import com.fidarr.music.ui.IconButton
+import com.fov.common_ui.theme.AzoTheme
+import com.fov.sermons.ui.EmphasisText
+import com.fov.sermons.ui.IconButton
 
 
 @Preview
 @Composable
 fun prevMusicPlayerBar(){
-    FidarrAppComposeTheme {
+    AzoTheme {
         MusicPlayerBar()
     }
 }

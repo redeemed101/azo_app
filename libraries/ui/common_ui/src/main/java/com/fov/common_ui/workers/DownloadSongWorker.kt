@@ -126,7 +126,7 @@ class DownloadSongWorker (context: Context, workerParams: WorkerParameters) : Wo
 
             builder.setContentTitle("Download Failed")
                 .setContentText("Failed to download $details ${throwable.message}")
-                .setSmallIcon(R.drawable.logo_red)
+                .setSmallIcon(R.drawable.avatar)
                 .clearActions()
                 .setProgress(0,0,false)
 
@@ -143,7 +143,7 @@ class DownloadSongWorker (context: Context, workerParams: WorkerParameters) : Wo
 
         builder.setContentTitle("Download complete")
             .setContentText("The File was successfully  downloaded")
-            .setSmallIcon(R.drawable.logo_red)
+            .setSmallIcon(R.drawable.avatar)
             .setProgress(0,0,false)
             .clearActions()
 
@@ -174,7 +174,7 @@ class DownloadSongWorker (context: Context, workerParams: WorkerParameters) : Wo
         cancelDownload = true
         builder.setContentTitle("Download Cancelled")
             .setContentText("")
-            .setSmallIcon(R.drawable.logo_red)
+            .setSmallIcon(R.drawable.avatar)
             .clearActions()
             .setProgress(0,0,false)
         //.setAutoCancel(true)

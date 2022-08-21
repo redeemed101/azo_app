@@ -6,6 +6,7 @@
         <entry key="..\:/Projects/android/azo/libraries/navigation/src/main/res/drawable/ic_music.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/authentication/src/main/res/drawable/ic_eye.xml" value="0.124" />
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_arrow_forward.xml" value="0.124" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_back_arrow.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_downloaded.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_eye.xml" value="0.124" />
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_facebook_.xml" value="0.124" />
@@ -19,6 +20,8 @@
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_send.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_shuffle.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/drawable/ic_arrow_down.xml" value="0.1" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/drawable/ic_downloaded.xml" value="0.1" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/drawable/ic_search_music.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/drawable/ic_skip_back.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/layout/exo_player_control_view_copy.xml" value="0.11302083333333333" />
       </map>

@@ -10,8 +10,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.fov.common_ui.composables.sections.section
+import com.fov.common_ui.extensions.itemsCustomized
 import com.fov.common_ui.theme.AzoTheme
+import com.fov.common_ui.ui.composers.sections.Section
 import com.fov.sermons.events.MusicEvent
 import com.fov.sermons.mock.data.albums.ALBUMS
 import com.fov.sermons.models.Album
@@ -44,7 +45,7 @@ fun Albums(
 ){
     val lazyAlbumItems = albums.collectAsLazyPagingItems()
     if(lazyAlbumItems.itemCount > 0)
-    section(title,{}){
+    Section(title,{}){
 
         LazyRow(modifier = Modifier
             .padding(top = 10.dp)
@@ -52,7 +53,7 @@ fun Albums(
             ,
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            items(lazyAlbumItems){ album ->
+            itemsCustomized(lazyAlbumItems){ album,_ ->
                 AlbumItem(album = album!!, onDownloadedIconClicked = {}){
 
                     musicEvents(MusicEvent.AlbumSelected(album!!))

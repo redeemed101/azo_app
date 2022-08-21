@@ -3,9 +3,9 @@ package com.fov.sermons.pagination
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.fov.common_ui.utils.constants.SongRequestType
-import com.fov.domain.interactor.music.MusicInteractor
+import com.fov.domain.interactors.music.MusicInteractor
 import com.fov.domain.models.music.song.SongsResult
-import com.fov.music.models.Song
+import com.fov.sermons.models.Song
 
 class SongsSource constructor(
     private val musicInteractor: MusicInteractor,
@@ -30,8 +30,8 @@ class SongsSource constructor(
             if (genreId != null) {
                 if (songRequestType == SongRequestType.GENRE_SONGS) {
                     val result = musicInteractor.getGenreSongsGraph(genreId, nextPage)
-                    val songs = result?.songsPaginated()?.map { s ->
-                        Song.ModelMapper.fromGenreGraph(s)
+                    val songs = result?.songsPaginated?.map { s ->
+                        Song.ModelMapper.fromGenreGraph(s!!)
 
                     }
                     if (songs != null) {
@@ -47,32 +47,12 @@ class SongsSource constructor(
                     LoadResult.Error(Exception(""))
                 }
             }
-            else if(artistId != null){
-                if (songRequestType == SongRequestType.ARTIST_SONGS) {
-                    val result = musicInteractor.getArtistSongsGraph(artistId,nextPage)
-                    val songs = result?.songsPaginated()?.map { s ->
-                        Song.ModelMapper.fromArtistGraph(s)
 
-                    }
-                    if (songs != null) {
-                        LoadResult.Page(
-                            data = songs!!,
-                            prevKey = if (nextPage == 1) null else nextPage - 1,
-                            nextKey = nextPage.plus(1)
-                        )
-                    } else {
-                        LoadResult.Error(Exception(""))
-                    }
-                } else {
-                   LoadResult.Error(Exception(""))
-                }
-
-            }
             else if(userId != null){
                 if (songRequestType == SongRequestType.LIKED_SONGS) {
                     val result = musicInteractor.getUserLikedSongsPaginated(userId,nextPage)
-                    val songs = result?.likedSongsPaginated()?.map { s ->
-                        Song.ModelMapper.fromLikedSongsGraph(s)
+                    val songs = result?.likedSongsPaginated?.map { s ->
+                        Song.ModelMapper.fromLikedSongsGraph(s!!)
 
                     }
                     if (songs != null) {
@@ -130,6 +110,9 @@ class SongsSource constructor(
                                     songResult = musicInteractor.getForYouSongs(nextPage)
                                 }
 
+                                else -> {
+
+                                }
                             }
                             if (songResult != null) {
 

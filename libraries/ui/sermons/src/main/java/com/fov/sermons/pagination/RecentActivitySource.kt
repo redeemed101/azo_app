@@ -3,7 +3,7 @@ package com.fov.sermons.pagination
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.fov.domain.database.models.RecentActivity
-import com.fov.domain.interactor.music.MusicInteractor
+import com.fov.domain.interactors.music.MusicInteractor
 
 class RecentActivitySource constructor(
     private val musicInteractor: MusicInteractor,

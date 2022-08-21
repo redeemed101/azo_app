@@ -34,9 +34,7 @@ fun AlbumItem(
     onDownloadedIconClicked : () -> Unit = {},
     onClick : () -> Unit = {}
 ){
-    var ft = ""
-    if(album.featuredArtists?.isNotEmpty() == true)
-        " ft ${album.featuredArtists?.reduce { acc, string -> "$acc,$string" } ?: ""}"
+
     Column(
         modifier = Modifier
             .padding(horizontal = 10.dp)
@@ -100,7 +98,7 @@ fun AlbumItem(
         }
         Text(
 
-            "${album.artistName} ${ft}",
+            "${album.artistName}",
             modifier = Modifier.padding(top = 10.dp),
             textAlign = TextAlign.Start,
             style = MaterialTheme.typography.h5.copy(

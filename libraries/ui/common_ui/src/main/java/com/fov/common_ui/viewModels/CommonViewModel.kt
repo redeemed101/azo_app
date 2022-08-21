@@ -119,7 +119,7 @@ class CommonViewModel @Inject constructor(
     init {
 
         viewModelScope.launch {
-                 sharedPreferences.isVerified?.collect { isVer ->
+                 sharedPreferences.isVerified?.collectLatest { isVer ->
                      _uiState.value = uiState.value.build {
                          if(isVer != null)
                              isVerified = isVer
@@ -128,7 +128,7 @@ class CommonViewModel @Inject constructor(
 
                  }
                  sharedPreferences.accessToken?.let { token ->
-                     token.collect { it ->
+                     token.collectLatest { it ->
                          if(it != null && it != "") {
 
                              userDao.getUser().collect { usr ->
@@ -268,9 +268,7 @@ class CommonViewModel @Inject constructor(
                 is CommonEvent.ChangeBackPageData -> {
                        backPageData = event.data
                 }
-                is CommonEvent.NavigateToProfile -> {
-                    navigationManager.navigate(HomeDirections.profile)
-                }
+
                 is CommonEvent.ChangeTopBarColor -> {
                     topBarColor = event.color
                 }
