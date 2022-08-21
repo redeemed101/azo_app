@@ -77,7 +77,16 @@ dependencies{
     implementation(Libs.AndroidX.Compose.navigation)
     implementation(Libs.AndroidX.Paging.runtime)
     implementation(Libs.AndroidX.Compose.paging)
+
     implementation(Libs.Hilt.AndroidX.compose_navigation)
+    implementation(Libs.Hilt.android)
+    //implementation(Libs.Hilt.AndroidX.viewModel)
+    compileOnly(Libs.AssistedInjection.dagger)
+    kapt(Libs.Hilt.compiler)
+    kapt(Libs.Hilt.AndroidX.compiler)
+    kapt(Libs.AssistedInjection.processor)
+
+
     implementation(Libs.AndroidX.Lifecycle.viewModelKtx)
     implementation(Libs.AndroidX.Lifecycle.liveData)
     implementation(Libs.AndroidX.Lifecycle.lifecycleRuntime)

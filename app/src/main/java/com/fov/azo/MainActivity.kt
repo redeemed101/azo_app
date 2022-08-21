@@ -39,9 +39,11 @@ import com.fov.sermons.viewModels.SermonViewModel
 import com.fov.sermons.viewModels.StoredSermonViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     private var account: GoogleSignInAccount? = null
     private var mGoogleSignInClient: GoogleSignInClient? = null
@@ -117,15 +119,3 @@ class MainActivity : ComponentActivity() {
     }
 }
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    AzoTheme {
-        Greeting("Android")
-    }
-}

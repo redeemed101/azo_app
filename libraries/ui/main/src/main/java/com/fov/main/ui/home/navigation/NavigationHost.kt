@@ -39,7 +39,7 @@ fun NavigationHost(
         ) {
 
         navigation(
-            startDestination = HomeDirections.home.destination,
+            startDestination = SermonsDirections.genres.destination,
             route = AuthenticationDirections.mainTab.destination
         ) {
 

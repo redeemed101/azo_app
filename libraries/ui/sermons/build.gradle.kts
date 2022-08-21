@@ -2,6 +2,7 @@ import com.azo.buildsrc.*;
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
 
 android {
@@ -59,7 +60,15 @@ dependencies {
     implementation(Libs.AndroidX.Compose.navigation)
     implementation(Libs.AndroidX.Compose.paging)
     implementation(Libs.coil)
+
     implementation(Libs.Hilt.AndroidX.compose_navigation)
+    implementation(Libs.Hilt.android)
+    //implementation(Libs.Hilt.AndroidX.viewModel)
+    compileOnly(Libs.AssistedInjection.dagger)
+    kapt(Libs.Hilt.compiler)
+    kapt(Libs.Hilt.AndroidX.compiler)
+    kapt(Libs.AssistedInjection.processor)
+
     implementation(Libs.Networking.GraphQL.runtime)
     androidTestImplementation(Libs.AndroidX.Compose.ui_test)
     implementation(Libs.AndroidX.Compose.runtime)

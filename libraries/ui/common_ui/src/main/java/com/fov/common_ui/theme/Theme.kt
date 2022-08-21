@@ -28,7 +28,7 @@ onSurface = Color.Black,
 )
 
 @Composable
-fun AzoTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
+fun AzoTheme(darkTheme: Boolean = ThemeHelper.isDarkTheme(), content: @Composable () -> Unit) {
     val colors = if (darkTheme) {
         DarkColorPalette
     } else {
