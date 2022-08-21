@@ -11,8 +11,8 @@ interface UserDao {
     @Query("SELECT * FROM User")
     fun getUser(): Flow<User>
 
-    @Query("SELECT * FROM User WHERE id = :id")
-    fun getUserById(id: String): Flow<User>
+    //@Query("SELECT * FROM User WHERE id = :id")
+    //fun getUserById(id: String): Flow<User>
 
     @Query("SELECT * FROM User")
     fun getUsers(): Flow<List<User>>
@@ -21,8 +21,8 @@ interface UserDao {
     suspend fun insertAll(vararg user: User)
 
     @Query("DELETE FROM User")
-    suspend fun deleteAll()
+    suspend fun deleteAll() : Int
 
     @Delete
-    suspend fun delete(user: User)
+    suspend fun delete(user: User) : Int
 }

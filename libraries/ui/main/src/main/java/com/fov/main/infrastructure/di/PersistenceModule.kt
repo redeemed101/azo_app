@@ -1,15 +1,12 @@
-package com.example.fidarrappcompose.infrastructure.di
+package com.fov.main.infrastructure.di
 
 import android.app.Application
 import android.content.Context
-import androidx.room.Room
-import com.example.fidarrappcompose.R
-import com.example.fidarrappcompose.infrastructure.persistence.AppDatabase
-import com.fidarr.core.di.Preferences
-import com.fidarr.domain.cache.Cache
-import com.fidarr.domain.cache.CacheTest
-import com.fidarr.domain.cache.RoomCache
-import com.fidarr.domain.database.daos.*
+import com.fov.core.di.Preferences
+import com.fov.domain.cache.Cache
+import com.fov.domain.cache.CacheTest
+import com.fov.domain.database.daos.*
+import com.fov.main.infrastructure.persistence.AppDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,7 +23,7 @@ object PersistenceModule  {
         return AppDatabase
             .createDatabase(
                 application,
-                application.getString(R.string.database)
+                application.getString(com.fov.common_ui.R.string.database)
             )
         /*return Room
             .databaseBuilder(
@@ -43,11 +40,7 @@ object PersistenceModule  {
         return appDatabase.userDao()
     }
 
-    @Provides
-    @Singleton
-    fun provideDownloadedPlaylistsDao(appDatabase: AppDatabase): DownloadedPlaylistDao {
-        return appDatabase.downloadedPlaylistsDao()
-    }
+
     @Provides
     @Singleton
     fun provideDownloadedSongsDao(appDatabase: AppDatabase): DownloadedSongsDao {
@@ -71,22 +64,15 @@ object PersistenceModule  {
     fun provideRecentSongSearchDao(appDatabase: AppDatabase): RecentSongSearchDao {
         return appDatabase.recentSongSearchDao()
     }
-    @Provides
-    @Singleton
-    fun provideRecentUserSearchDao(appDatabase: AppDatabase): RecentUserSearchDao {
-        return appDatabase.recentUserSearchDao()
-    }
 
     @Provides
     @Singleton
     fun provideCache(
-        userSearchDao: RecentUserSearchDao,
         songSearchDao: RecentSongSearchDao,
         recentActivityDao: RecentActivityDao
     ) : Cache {
         return CacheTest(
             songSearchDao,
-            userSearchDao,
             recentActivityDao
         )
     }

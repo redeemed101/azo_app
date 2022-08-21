@@ -104,11 +104,7 @@ class SermonViewModel @Inject constructor(
                 is MusicEvent.LoadPlayer -> {
                     player = event.player
                 }
-                is MusicEvent.GetArtistSongs -> {
-                    artistSongs =  musicSongHelper.getArtistSongs(event.artistId, viewModelScope){
-                        error = it.message
-                    }
-                }
+
 
                 is MusicEvent.SearchSongTextChanged -> {
                     searchSongText = event.search
@@ -287,6 +283,7 @@ class SermonViewModel @Inject constructor(
                     showingSong = event.show
                 }
 
+                else -> {}
             }
         }
     }

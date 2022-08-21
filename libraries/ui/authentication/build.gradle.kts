@@ -84,11 +84,8 @@ dependencies{
     implementation(Libs.AndroidX.Lifecycle.viewModelSavedState)
     testImplementation(Libs.AndroidX.Core.testImplementation)
     implementation(Libs.AndroidX.Core.start_runtime)
-    implementation(Libs.Hilt.android)
-    implementation(Libs.Hilt.AndroidX.viewModel)
+
     compileOnly(Libs.AssistedInjection.dagger)
-    kapt(Libs.Hilt.compiler)
-    kapt(Libs.Hilt.AndroidX.compiler)
     kapt(Libs.AssistedInjection.processor)
 
 
@@ -103,11 +100,7 @@ dependencies{
     androidTestImplementation(Libs.Kotlin.Coroutines.test)
     androidTestImplementation(Libs.AndroidX.Compose.ui_test)
 
-    androidTestImplementation(Libs.Hilt.android)
-    androidTestImplementation(Libs.Hilt.AndroidX.viewModel)
-    androidTestImplementation(Libs.Hilt.testing)
-    kaptAndroidTest(Libs.Hilt.compiler)
-    kaptAndroidTest(Libs.Hilt.AndroidX.compiler)
+    implementation(Libs.Networking.GraphQL.runtime)
 
     kaptAndroidTest(Libs.AssistedInjection.processor)
     implementation(Libs.slf4j)

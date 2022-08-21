@@ -1,4 +1,4 @@
-package com.fov.main
+package com.fov.azo
 
 import android.app.Application
 import androidx.camera.camera2.Camera2Config

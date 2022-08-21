@@ -5,6 +5,7 @@ object Versions {
     const val minSdk = 26
     const val targetSdk = 32
     const val compileSdk = 32
+    const val kotlin = "1.7.10"
     const val applicationId = "com.fov.azo"
     const val versionName = "1.0"
     const val kapt = "1.7.10"

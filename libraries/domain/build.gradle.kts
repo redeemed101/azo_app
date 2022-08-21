@@ -11,7 +11,9 @@ plugins {
     "kotlinx-serialization"
 }
 //apply(plugin = com.azo.buildsrc.Libs.Networking.GraphQL.plugin)
-
+kapt {
+    correctErrorTypes =  true
+}
 
 android {
     compileSdk = Versions.compileSdk
@@ -65,6 +67,8 @@ dependencies {
     kapt(Libs.AndroidX.Room.kapt_compiler)
     implementation(Libs.AndroidX.Room.testing)
     annotationProcessor(Libs.AndroidX.Room.kapt_compiler)
+
+    implementation(Libs.Serialization.gson)
 
 
     implementation(Libs.Networking.GraphQL.runtime)

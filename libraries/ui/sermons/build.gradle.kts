@@ -78,4 +78,7 @@ dependencies {
     testImplementation (Libs.AndroidX.Core.testImplementation)
     implementation (Libs.AndroidX.Core.start_runtime)
     implementation(Libs.Google.ExoPlayer.expo)
+
+    implementation(Libs.AndroidX.Core.worker_runtime)
+    implementation (Libs.AndroidX.Core.worker_runtime_ktx)
 }

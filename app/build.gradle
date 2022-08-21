@@ -4,6 +4,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
 
 }
 android {
@@ -55,10 +56,34 @@ dependencies {
     implementation project(":libraries:ui:sermons")
     implementation project(":libraries:navigation")
     implementation project(":libraries:core")
+    implementation project(":libraries:domain")
+
+
 
     implementation Libs.Hilt.android
     implementation Libs.AndroidX.Compose.navigation
     implementation Libs.Hilt.AndroidX.compose_navigation
+
+    androidTestImplementation Libs.Hilt.android
+    //androidTestImplementation Libs.Hilt.AndroidX.viewModel
+    androidTestImplementation Libs.Hilt.testing
+    kaptAndroidTest Libs.Hilt.compiler
+    kaptAndroidTest Libs.Hilt.AndroidX.compiler
+
+    implementation Libs.AndroidX.Camera.core
+    implementation Libs.AndroidX.Camera.camera2
+    implementation Libs.AndroidX.Camera.lifecycle
+    implementation Libs.AndroidX.Camera.view
+    implementation Libs.AndroidX.DataStore.core
+    implementation Libs.AndroidX.DataStore.preferences
+    implementation Libs.AndroidX.DataStore.typed
+
+    implementation Libs.Hilt.android
+    //implementation Libs.Hilt.AndroidX.viewModel
+    compileOnly Libs.AssistedInjection.dagger
+    kapt Libs.Hilt.compiler
+    kapt Libs.Hilt.AndroidX.compiler
+    kapt Libs.AssistedInjection.processor
 
     implementation Libs.AndroidX.Core.core
     implementation Libs.AndroidX.Compose.ui

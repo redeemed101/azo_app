@@ -4,6 +4,11 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
+}
+
+kapt {
+    correctErrorTypes =  true
 }
 
 android {
@@ -33,6 +38,15 @@ android {
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+    buildFeatures {
+        compose  = true
+
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion =  Versions.Compose.version
+
+
     }
 }
 
@@ -84,7 +98,7 @@ dependencies {
     implementation(Libs.coil)
     implementation(Libs.Hilt.AndroidX.compose_navigation)
     implementation(Libs.Hilt.android)
-    implementation(Libs.Hilt.AndroidX.viewModel)
+    //implementation(Libs.Hilt.AndroidX.viewModel)
     compileOnly(Libs.AssistedInjection.dagger)
 
     implementation(Libs.Networking.Ktor.client)

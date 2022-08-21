@@ -38,7 +38,7 @@ class Utilities {
         ){
 
            val albumPath = "${
-               Utilities
+               com.fov.common_ui.utils.helpers.Utilities
                    .getCacheDirectory(
                        context
                    ).absolutePath}/${album.albumName}"
@@ -111,7 +111,7 @@ class Utilities {
             val imageUrl = song.artwork
             val details = song.songName
             var basePath = "${
-                Utilities
+                com.fov.common_ui.utils.helpers.Utilities
                     .getCacheDirectory(
                         context
                     ).absolutePath}"

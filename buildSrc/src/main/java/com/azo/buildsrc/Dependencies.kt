@@ -5,6 +5,10 @@ object Libs {
     const val material = "com.google.android.material:material:1.6.1"
     const val coil = "io.coil-kt:coil-compose:2.1.0"
     const val prettyTime = "org.ocpsoft.prettytime:prettytime:4.0.4.Final"
+    object Serialization{
+       private const val version = "2.9.1"
+       const val gson = "com.google.code.gson:gson:$version"
+    }
     object SkyDoves{
         private const val version = "1.1.0"
         const val whatif = "com.github.skydoves:sandwich:$version"
@@ -121,7 +125,7 @@ object Libs {
 
 
         object Room{
-            private const val version = "2.2.6"
+            private const val version = "2.4.3"
             const val runtime = "androidx.room:room-runtime:$version"
             const val kapt_compiler = "androidx.room:room-compiler:$version"
             const val ktx = "androidx.room:room-ktx:$version"
@@ -196,7 +200,7 @@ object Libs {
         }
     }
     object Hilt {
-        private const val version = "2.38.1"
+        private const val version = "2.42"
 
         const val gradlePlugin = "com.google.dagger:hilt-android-gradle-plugin:$version"
         const val android = "com.google.dagger:hilt-android:$version"

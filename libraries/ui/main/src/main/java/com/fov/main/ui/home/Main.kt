@@ -15,9 +15,9 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import com.example.fidarrappcompose.utils.helpers.setUpBottomSheet
-import com.example.fidarrappcompose.utils.helpers.setUpSnackBar
-import com.example.fidarrappcompose.utils.helpers.setUpToast
+import com.fov.main.utils.helpers.setUpBottomSheet
+import com.fov.main.utils.helpers.setUpSnackBar
+import com.fov.main.utils.helpers.setUpToast
 import com.fov.main.ui.home.topBar.BuildTopBar
 import com.fov.authentication.viewModels.UsersViewModel
 import com.fov.common_ui.events.CommonEvent

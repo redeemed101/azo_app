@@ -1,7 +1,6 @@
-package com.example.fidarrappcompose.infrastructure.di
+package com.fov.main.infrastructure.di
 
-import com.apollographql.apollo.ApolloClient
-import com.fidarr.domain.database.daos.UserDao
+
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

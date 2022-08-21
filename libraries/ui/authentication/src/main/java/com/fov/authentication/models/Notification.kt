@@ -16,7 +16,7 @@ data class Notification(
             Notification(
                 notifier =  notification.notifier.fullName,
                 notifierId = notification.notifier.id,
-                notifierImgUrl = notification.notifier.profilePicPath,
+                notifierImgUrl = "",
                 notification = notification.description,
                 friendlyTime = Utils.getPrettyTime(notification.dateCreated),
                 notificationType = notification.type//NotificationType.FOLLOW.type

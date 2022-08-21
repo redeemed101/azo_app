@@ -1,4 +1,4 @@
-package com.example.fidarrappcompose.utils.helpers
+package com.fov.main.utils.helpers
 
 import android.content.Context
 import android.widget.Toast
@@ -6,7 +6,7 @@ import androidx.compose.material.BottomSheetScaffoldState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.SnackbarHostState
 import androidx.compose.runtime.Composable
-import com.example.common_ui.composables.sections.DarkOverlay
+import com.fov.common_ui.ui.composers.sections.DarkOverlay
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 

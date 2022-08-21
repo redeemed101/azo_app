@@ -2,6 +2,8 @@ package com.fov.sermons.viewModels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.fov.domain.interactors.music.MusicInteractor
+import com.fov.domain.interactors.music.StoredMusicInteractor
 import com.fov.sermons.events.StoredMusicEvent
 import com.fov.sermons.states.StoredMusicState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,10 +26,7 @@ class StoredSermonViewModel  @Inject constructor(
         return storedMusicInteractor.isAlbumThere(id)
 
     }
-    fun isPlaylistDownloadedAsync(id : String) : Flow<Boolean> {
-        return storedMusicInteractor.isPlaylistThere(id)
 
-    }
     fun isSongDownloadedAsync(id : String) : Flow<Boolean> {
 
         return storedMusicInteractor.isSongThere(id)//CompletableDeferred(true)
@@ -63,17 +62,9 @@ class StoredSermonViewModel  @Inject constructor(
                         storedMusicInteractor.deleteDownloadedAlbum(event.albumId)
                     }
                 }
-                is StoredMusicEvent.DeleteDownloadedPlaylist -> {
-                    viewModelScope.launch {
-                        storedMusicInteractor.deleteDownloadedPlaylist(event.playlistId)
-                    }
-                }
-                is StoredMusicEvent.SaveDownloadedPlaylist -> {
-                    viewModelScope.launch {
-                        storedMusicInteractor.saveDownloadedPlaylist(event.playlist)
-                    }
-                }
 
+
+                else -> {}
             }
         }
     }
