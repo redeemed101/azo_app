@@ -12,13 +12,13 @@
         android:layout_height="wrap_content"
         android:id="@+id/ytPlayer"
         app:layout_constraintTop_toTopOf="parent"/>
-    <ImageButton
+    <Button
         android:id="@+id/quit"
-        android:src="@drawable/ic_x_circle"
-        android:layout_width="wrap_content"
-        android:background="@color/white"
+
+        android:layout_width="40dp"
+        android:background="@drawable/ic_x_circle"
         android:clickable="true"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         app:layout_constraintTop_toTopOf="parent"

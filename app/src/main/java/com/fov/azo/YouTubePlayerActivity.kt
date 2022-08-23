@@ -2,8 +2,12 @@ package com.fov.azo
 
 import android.os.Bundle
 import android.view.View
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.compose.material.MaterialTheme
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import com.fov.domain.BuildConfig
 import com.google.android.youtube.player.YouTubeBaseActivity
 import com.google.android.youtube.player.YouTubeInitializationResult
@@ -17,7 +21,9 @@ class YouTubePlayerActivity : YouTubeBaseActivity()  {
         setContentView(R.layout.youtube_player_view)
 
         val ytPlayer = findViewById<YouTubePlayerView>(R.id.ytPlayer)
-        val closeButton = findViewById<ImageButton>(R.id.quit)
+        val closeButton = findViewById<Button>(R.id.quit)
+
+        window.statusBarColor =  Color.Transparent.toArgb()
 
         closeButton.setOnClickListener {
             finish()
