@@ -6,12 +6,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.fov.common_ui.R
 @Composable
-fun searchHeaderIcon(onAction :  ()  -> Unit){
+fun searchHeaderIcon(
+    tintColor : Color =   MaterialTheme.colors.surface,
+    onAction :  ()  -> Unit){
     Image(
         painterResource(R.drawable.ic_search),
         "",
@@ -21,7 +24,7 @@ fun searchHeaderIcon(onAction :  ()  -> Unit){
             ).clickable{
                 onAction()
             },
-        colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
+        colorFilter = ColorFilter.tint(tintColor)
     )
 
 }

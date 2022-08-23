@@ -49,10 +49,12 @@ dependencies {
     implementation(project(":libraries:domain"))
     implementation(project(":libraries:core"))
     implementation(project(":libraries:ui:common_ui"))
-    //implementation(files("libs\\YouTubeAndroidPlayerApi.jar"))
+    implementation(files("libs\\YouTubeAndroidPlayerApi.jar"))
 
     implementation(Libs.Networking.Ktor.negotiation)
     implementation(Libs.Networking.Ktor.kotlinx_json)
+
+    implementation(Libs.Youtube.youtubePlayer)
 
     implementation(Libs.AndroidX.Core.core)
     implementation(Libs.AndroidX.Core.compat)

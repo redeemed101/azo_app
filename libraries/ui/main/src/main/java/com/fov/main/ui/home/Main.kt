@@ -47,6 +47,7 @@ fun MainTabUI(
     usersViewModel: UsersViewModel,
     commonViewModel: CommonViewModel,
     storedMusicViewModel: StoredSermonViewModel,
+    playVideo : (videoId : String) -> Unit,
     navigate : (route : NavigationCommand) -> Unit
 ){
     //val state by mainViewModel.uiState.collectAsState()
@@ -59,6 +60,7 @@ fun MainTabUI(
         usersViewModel,
         commonViewModel,
         storedMusicViewModel,
+        playVideo,
         navigate
     )
 }
@@ -74,6 +76,7 @@ fun MainHome(
     usersViewModel: UsersViewModel,
     commonViewModel: CommonViewModel,
     storedMusicViewModel: StoredSermonViewModel,
+    playVideo : (videoId : String) -> Unit,
     navigate : (route : NavigationCommand) -> Unit
 ){
 
@@ -97,6 +100,9 @@ fun MainHome(
         storedMusicViewModel.isAlbumDownloadedAsync(it)
             .collectAsState( initial = false ).value
     } ?: false
+
+    val backgroundColor = MaterialTheme.colors.onSurface
+    val tintColor = MaterialTheme.colors.surface
 
 
 
@@ -135,6 +141,8 @@ fun MainHome(
                 scaffoldState = scaffoldState,
 
                 topBar = BuildTopBar(
+                    backgroundColor = backgroundColor,
+                    tintColor = tintColor,
                     scope = scope,
                     context = context,
                     bottomSheetScaffoldState =bottomSheetScaffoldState ,
@@ -149,6 +157,7 @@ fun MainHome(
                     isSongDownloaded = isSongDownloaded
                 ),
                 bottomBar = BuildBottomBar(
+                    backgroundColor = backgroundColor,
                     commonState = commonState,
                     events = events,
                     musicEvents = musicEvents,
@@ -165,6 +174,7 @@ fun MainHome(
                      usersViewModel,
                      commonViewModel,
                      storedMusicViewModel,
+                     playVideo
                  )
 
             }

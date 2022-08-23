@@ -49,7 +49,7 @@ public fun <T : Any> LazyListScope.itemsCustomized(
     }
 }
 
-public fun <T: Any> LazyGridScope.items(
+public fun <T: Any> LazyGridScope.itemsCustom(
     lazyPagingItems: LazyPagingItems<T>,
     itemContent: @Composable LazyGridItemScope.(value: T?) -> Unit
 ) {

@@ -1,11 +1,18 @@
 package com.fov.main.ui.home.bottomBar
 
+import android.content.Intent
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.size
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.zIndex
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.fov.common_ui.events.CommonEvent
 import com.fov.common_ui.states.CommonState
@@ -19,43 +26,54 @@ import com.fov.sermons.events.MusicEvent
 
 @Composable
 fun BuildBottomBar(
+    backgroundColor: Color = MaterialTheme.colors.onSurface,
+    selectedItemColor : Color =   MaterialTheme.colors.surface,
+    unSelectedItemColor : Color =   MaterialTheme.colors.primary,
     commonState: CommonState,
     events : (CommonEvent) -> Unit,
     musicEvents :  (MusicEvent) -> Unit,
     navigate : (route : NavigationCommand) -> Unit,
-    currentTab : String
+    currentTab : String,
+
 ) : @Composable () -> Unit{
+    val context = LocalContext.current
     return {
 
         if(commonState.hasBottomBar){
-            var backgroundColor = MaterialTheme.colors.surface
-            if (ThemeHelper.isDarkTheme())
-                backgroundColor = MaterialTheme.colors.surface
-            var selectedItemColor = MaterialTheme.colors.primary
-            if (ThemeHelper.isDarkTheme()) {
-                selectedItemColor = MaterialTheme.colors.onSurface
-            }
 
             BottomNavigation(
+                modifier = Modifier.height(80.dp).zIndex(1f),
                 backgroundColor = backgroundColor,
-                contentColor = DarkGrey
+                contentColor = DarkGrey,
+                elevation = 100.dp
             ) {
 
 
                 tabItems.forEach { screen ->
+                    val size = if(currentTab == screen.route.destination) 60.dp else 30.dp
                     BottomNavigationItem(
+                        modifier = Modifier.zIndex(2f),
                         icon = {
 
                                 Icon(
                                     painter = painterResource(screen.iconResourceId!!),
-                                    ""
+                                    "",
+                                    modifier = Modifier.size(size),
+
                                 )
 
                         },
-                        label = { Text(stringResource(screen.resourceId!!)) },
+                        label =  {
+                                   //if(currentTab != screen.route.destination)
+                                      Text(
+                                          stringResource(screen.resourceId!!)
+                                      )
+
+
+                                 } ,
                         selected = currentTab == screen.route.destination,
                         selectedContentColor = selectedItemColor,
-                        unselectedContentColor = Color.Gray,
+                        unselectedContentColor = unSelectedItemColor,
                         onClick = {
                             events(CommonEvent.ChangeTab(screen))
                             events(CommonEvent.ChangeHasDeepScreen(false, ""))
@@ -66,6 +84,7 @@ fun BuildBottomBar(
 
                                 musicEvents(MusicEvent.LoadHome)
                             }
+
 
 
 

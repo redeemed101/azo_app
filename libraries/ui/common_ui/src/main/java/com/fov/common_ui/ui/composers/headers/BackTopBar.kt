@@ -48,12 +48,13 @@ fun backTopBar(title : String,
                backAction : (isDeep: Boolean, title : String) -> Unit,
                backPageData : BackPageData,
                size : Dp = 60.dp,
-               backgroundColor : Color = MaterialTheme.colors.surface,
+               tintColor : Color =   MaterialTheme.colors.surface,
+               backgroundColor: Color = MaterialTheme.colors.onSurface,
                extraComposable :  @Composable() () -> Unit = {
                    Spacer(modifier = Modifier.width(10.dp))
                }
 ){
-    //var backgroundColor = if(ThemeHelper.isDarkTheme())  White009 else  MaterialTheme.colors.surface;
+
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -79,14 +80,14 @@ fun backTopBar(title : String,
                     }
                     .height((size / 2))
                     .padding(horizontal = 6.dp),
-                tint = MaterialTheme.colors.onSurface,
+                tint = tintColor,
                 contentDescription = "")
             Spacer(modifier = Modifier.width(10.dp))
             Text(
                 title,
                 textAlign = TextAlign.Center,
                 style = MaterialTheme.typography.h5.copy(
-                    MaterialTheme.colors.onSurface,
+                    tintColor,
                     fontWeight = FontWeight.Bold,
                 ),
             )

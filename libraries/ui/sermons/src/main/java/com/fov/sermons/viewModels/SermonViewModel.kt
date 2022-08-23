@@ -55,6 +55,7 @@ class SermonViewModel @Inject constructor(
         getTopAlbums()
         getForYou()
         getTopSongs()
+        getGenres {  }
     }
 
     fun isSongLiked(song: Song, userId: String) : Boolean {

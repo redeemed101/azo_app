@@ -37,6 +37,7 @@ android {
         }
         getByName("debug") {
             buildConfigField("String", "FOV_URL", getProps("URL"))
+            buildConfigField("String", "YOUTUBE_KEY", getProps("YOUTUBE_KEY"))
         }
     }
     compileOptions {

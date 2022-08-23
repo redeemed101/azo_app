@@ -26,9 +26,14 @@ import com.fov.common_ui.viewModels.CommonViewModel
 import com.fov.sermons.ui.music.MusicSection
 import com.fov.sermons.viewModels.SermonViewModel
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Icon
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.fov.common_ui.states.CommonState
 import com.fov.main.ui.sermons.audio.general.MusicGeneralScreen
+import com.fov.navigation.BackPageData
+import com.fov.sermons.R
 import com.fov.sermons.events.MusicEvent
 import com.fov.sermons.mock.data.songs.PAGER_IMAGES
 import com.fov.sermons.states.MusicState
@@ -116,7 +121,7 @@ private fun MusicHome(
                 /*item {
                 MusicHomeGrid()
             }*/
-                val gridItems = getListOfGridItems(musicEvents,events)
+                val gridItems = getListOfGridItems(musicState,musicEvents,events)
                 items(gridItems.windowed(2, 2, true)) { sublist ->
                     Row(
                         Modifier
@@ -128,7 +133,6 @@ private fun MusicHome(
                                 backgroundColor = White009,
                                 modifier = Modifier
                                     .padding(2.dp)
-
                                     .fillParentMaxWidth(.5f),
                                 elevation = 8.dp,
                             ) {
@@ -171,43 +175,30 @@ private fun MusicHome(
     }
 
 }
-private fun getListOfGridItems(musicEvents : (event: MusicEvent) -> Unit, events : (event : CommonEvent) -> Unit) : List<MusicHomeGridItem>{
-    return listOf(
-        MusicHomeGridItem(
-            "Genres",
-            com.fov.sermons.R.drawable.ic_genre_music
-        ){
+private fun getListOfGridItems(
+    musicState: MusicState,
+    musicEvents : (event: MusicEvent) -> Unit,
+    events : (event : CommonEvent) -> Unit
+) : List<MusicHomeGridItem>{
+    val list = mutableListOf<MusicHomeGridItem>()
+    if(musicState.genres.isNotEmpty())
+        musicState.genres.forEach { genre ->
+            list.add(MusicHomeGridItem(
+                genre.name,
+                R.drawable.ic_genre_music
+            ){
 
-            musicEvents(MusicEvent.LoadGenres)
-            musicEvents(MusicEvent.GoToGenres)
-            events(CommonEvent.ChangeHasDeepScreen(true, "Genres"))
+                events(CommonEvent.ChangeHasDeepScreen(true, genre.name))
+                events(CommonEvent.ChangeBackPageData(BackPageData(true,"Genres")))
+                musicEvents(MusicEvent.GenreSelected(genre))
+                musicEvents(MusicEvent.GoToGenre)
 
-
+            })
         }
-    )
+    return list
+
 }
-/*@OptIn(ExperimentalFoundationApi::class)
-@Composable
-fun  MusicHomeGrid(){
-    val gridItems = getListOfGridItems()
-    LazyVerticalGrid(
-        cells = GridCells.Fixed(2),
-        modifier = Modifier.padding(horizontal = padding10),
 
-    ) {
-       items(gridItems.count()) { index  ->
-           Card(
-               backgroundColor = MaterialTheme.colors.onSurface.copy(alpha = 0.05f),
-               modifier = Modifier
-                   .padding(2.dp)
-                   .fillMaxWidth(),
-               elevation = 0.dp,
-           ) {
-               GridItem(item = gridItems[index])
-           }
-        }
-    }
-}*/
 @Composable
 private fun GridItem(
     item: MusicHomeGridItem
@@ -218,20 +209,24 @@ private fun GridItem(
         modifier = Modifier
             .padding(padding10)
             .height(40.dp)
+            .background(MaterialTheme.colors.primary.copy(alpha = 1f))
             .clickable {
                 item.action()
             }
             //.background(White009)
     ) {
-        Image(
-            painter = painterResource(item.icon),
-            ""
-
+        Icon(
+            painter = painterResource(id = item.icon),
+            tint =  MaterialTheme.colors.primaryVariant,
+            modifier = Modifier.padding(10.dp),
+            contentDescription = null
         )
+
         Text(item.name,
             textAlign = TextAlign.Start,
+            modifier = Modifier.padding(10.dp),
             style = MaterialTheme.typography.caption.copy(
-                MaterialTheme.colors.onSurface,
+                MaterialTheme.colors.primaryVariant,
                 fontWeight = FontWeight.Bold
             )
         )

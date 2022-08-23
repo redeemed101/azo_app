@@ -5,6 +5,9 @@ object Libs {
     const val material = "com.google.android.material:material:1.6.1"
     const val coil = "io.coil-kt:coil-compose:2.1.0"
     const val prettyTime = "org.ocpsoft.prettytime:prettytime:4.0.4.Final"
+    object Youtube{
+        const val youtubePlayer = "com.pierfrancescosoffritti.androidyoutubeplayer:core:11.1.0"
+    }
     object Serialization{
        private const val version = "2.9.1"
        const val gson = "com.google.code.gson:gson:$version"

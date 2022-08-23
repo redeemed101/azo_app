@@ -34,9 +34,13 @@ fun prevHeaderNotifications(){
     }
 }
 @Composable
-fun HeaderNotifications(notif : Int,
+fun HeaderNotifications(
+
+                        notif : Int,
                         size: Dp,
-                        action : () -> Unit){
+                        iconColor: Color = MaterialTheme.colors.onPrimary,
+                        action : () -> Unit,
+){
     val numDigits = notif.length();
     var notifText = notif.toString();
     if(numDigits == 1){
@@ -61,7 +65,7 @@ fun HeaderNotifications(notif : Int,
                 modifier = Modifier
                     .width(size)
                     .height(size),
-                tint = MaterialTheme.colors.onSecondary,
+                tint = iconColor,
 
 
             )

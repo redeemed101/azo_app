@@ -59,6 +59,8 @@ dependencies {
     implementation project(":libraries:core")
     implementation project(":libraries:domain")
 
+    implementation files('libs/YouTubeAndroidPlayerApi.jar')
+
     implementation Libs.Networking.Ktor.negotiation
     implementation Libs.Networking.Ktor.kotlinx_json
     implementation Libs.Serialization.gson

@@ -13,6 +13,7 @@ class RouteConstants {
         val HOME = "home"
         val LIKED_SERMON = "liked_sermon"
         val SERMONS = "sermon"
+        val VIDEOS = "video"
         val REGISTRATION = "registration"
         val MAINTAB = "mainTab"
         val NOTIFICATIONS = "notifications"

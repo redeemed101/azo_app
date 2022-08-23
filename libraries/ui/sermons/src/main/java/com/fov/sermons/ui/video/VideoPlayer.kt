@@ -11,6 +11,7 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.source.ProgressiveMediaSource
 import com.google.android.exoplayer2.ui.PlayerView
+import com.google.android.exoplayer2.ui.StyledPlayerView
 import com.google.android.exoplayer2.upstream.DataSource
 import com.google.android.exoplayer2.upstream.DefaultDataSourceFactory
 import com.google.android.exoplayer2.util.Util
@@ -44,7 +45,7 @@ fun VideoPlayer (source : String = "https://commondatastorage.googleapis.com/gtv
 
     AndroidView(
         factory = { context ->
-            PlayerView(context).apply {
+            StyledPlayerView(context).apply {
                 player = exoPlayer
 
             }

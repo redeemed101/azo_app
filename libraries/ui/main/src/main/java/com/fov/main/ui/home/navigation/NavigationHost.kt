@@ -2,9 +2,14 @@ package com.fov.main.ui.home.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.ExperimentalComposeUiApi
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.zIndex
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -23,6 +28,11 @@ import kotlinx.coroutines.InternalCoroutinesApi
 import com.fov.main.ui.home.screens.Home
 import com.fov.main.ui.home.screens.NotificationScreen
 import com.fov.main.ui.home.screens.SearchScreen
+import com.fov.main.ui.sermons.video.screens.VideoHomeScreen
+import com.fov.navigation.VideoDirections
+import com.fov.sermons.ui.video.VideoPlayer
+import com.fov.sermons.ui.video.YouTubeVideoPlayer
+import com.fov.sermons.ui.video.youtube.TubeVideoPlayer
 
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalFoundationApi::class,
@@ -36,9 +46,11 @@ fun NavigationHost(
     usersViewModel: UsersViewModel,
     commonViewModel: CommonViewModel,
     storedMusicViewModel: StoredSermonViewModel,
+    playVideo : (id:String) -> Unit
 ) {
     NavHost(
         navController,
+        modifier = Modifier.zIndex(-1f),
         startDestination = AuthenticationDirections.mainTab.destination,
 
         ) {
@@ -83,6 +95,23 @@ fun NavigationHost(
                     usersViewModel = usersViewModel,
                     musicViewModel = musicViewModel
                 )
+            }
+
+            //video
+            composable(
+                VideoDirections.tab.destination,
+                arguments = VideoDirections.tab.arguments
+            ) {
+                Column {
+                    VideoHomeScreen(
+                        musicViewModel,
+                        commonViewModel,
+                        playVideo
+                    )
+
+                }
+               
+
             }
 
             //music

@@ -13,6 +13,7 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -27,7 +28,9 @@ import kotlinx.coroutines.launch
 
 
 @Composable
-fun moreHeaderIcon(onAction :  ()  -> Unit){
+fun moreHeaderIcon(
+    tintColor : Color =   MaterialTheme.colors.surface,
+    onAction :  ()  -> Unit){
     Image(
             painterResource(R.drawable.ic_more_vertical),
             "",
@@ -38,7 +41,7 @@ fun moreHeaderIcon(onAction :  ()  -> Unit){
                 .clickable {
                     onAction()
                 },
-            colorFilter = ColorFilter.tint(MaterialTheme.colors.onSurface)
+            colorFilter = ColorFilter.tint(tintColor)
     )
 
 }

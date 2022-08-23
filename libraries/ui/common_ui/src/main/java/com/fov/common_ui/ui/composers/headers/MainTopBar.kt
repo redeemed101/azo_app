@@ -9,26 +9,26 @@ import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.fov.common_ui.theme.ThemeHelper
-import com.fov.common_ui.theme.White009
 import com.fov.common_ui.theme.commonPadding
 import com.fov.common_ui.R
 
 
 @Composable
-fun mainTopBar(size : Dp = 80.dp,
-               numNotifications : Int,
-               notificationClicked : ()-> Unit,
-               profileClicked : () -> Unit,
-               searchClicked : () -> Unit
+fun mainTopBar(
+    backgroundColor: Color = MaterialTheme.colors.onSurface,
+    tintColor : Color = MaterialTheme.colors.onPrimary,
+    size : Dp = 80.dp,
+    numNotifications : Int,
+    notificationClicked : ()-> Unit,
+    profileClicked : () -> Unit,
+    searchClicked : () -> Unit
 ){
 
-    var backgroundColor = MaterialTheme.colors.surface;
-    if(ThemeHelper.isDarkTheme())
-        backgroundColor = White009
 
      Row(
          verticalAlignment = Alignment.CenterVertically,
@@ -50,13 +50,16 @@ fun mainTopBar(size : Dp = 80.dp,
          Row(
              horizontalArrangement = Arrangement.SpaceEvenly
          ) {
-            HeaderNotifications(notif = numNotifications,size * 0.3f){
+            HeaderNotifications(
+                notif = numNotifications,
+                size=size * 0.3f,
+                iconColor = tintColor){
                 notificationClicked()
             }
              Icon(
                  painterResource(R.drawable.ic_search_icon),
                  "",
-                 tint = MaterialTheme.colors.onSecondary,
+                 tint = tintColor,
                  modifier = Modifier
                      .padding(commonPadding)
                      .height(size * 0.3f)

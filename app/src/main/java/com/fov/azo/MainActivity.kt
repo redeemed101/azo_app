@@ -1,5 +1,6 @@
 package com.fov.azo
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -19,6 +20,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.rememberNavController
 import com.example.fidarrappcompose.utils.helpers.LocalSysUiController
@@ -39,6 +41,7 @@ import com.fov.sermons.viewModels.SermonViewModel
 import com.fov.sermons.viewModels.StoredSermonViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.youtube.player.YouTubeBaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.InternalCoroutinesApi
 import javax.inject.Inject
@@ -72,10 +75,9 @@ class MainActivity : ComponentActivity() {
 
                 AzoTheme {
 
-                if (ThemeHelper.isDarkTheme())
-                    window.statusBarColor = MaterialTheme.colors.onPrimary.toArgb()
-                else
-                    window.statusBarColor = MaterialTheme.colors.primary.toArgb()
+
+                    window.statusBarColor = MaterialTheme.colors.onSurface.toArgb()
+
 
                 navigationManager.commands.collectAsState().value.also{ command ->
                     if(command.destination.isNotEmpty()){
@@ -97,7 +99,12 @@ class MainActivity : ComponentActivity() {
                     }
 
                 }
-
+                   val context = LocalContext.current
+                   val videoPlay = { videoId : String ->
+                       var intent = Intent(context, YouTubePlayerActivity::class.java)
+                       intent.putExtra("videoId",videoId)
+                       context.startActivity(intent)
+                   }
 
                     Box(
                         modifier = Modifier.systemBarsPadding()
@@ -109,6 +116,7 @@ class MainActivity : ComponentActivity() {
                             usersViewModel,
                             commonViewModel,
                             storedMusicViewModel,
+                            videoPlay
                         ){
                             navigationManager.navigate(it)
                         }
