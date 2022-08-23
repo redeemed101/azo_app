@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 
 @Composable
@@ -14,9 +15,7 @@ internal fun MusicHomePagerItem(
     Box(modifier) {
         // Our page content, displaying a random image
         Image(
-            painter = rememberImagePainter(
-                data = image,
-            ),
+            painter = rememberAsyncImagePainter(model = image),
             contentDescription = null,
             modifier = Modifier.matchParentSize()
         )

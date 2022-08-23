@@ -11,7 +11,7 @@ class ExceptionHandler {
     companion object {
         suspend fun getError(response: HttpResponse): GeneralError {
 
-            response.content.readUTF8Line()?.let {
+            response.bodyAsText()?.let {
 
                 var gson = Gson()
 

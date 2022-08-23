@@ -27,7 +27,6 @@ sealed class MusicEvent {
     data class LikeSong(val songId: String, val isLiked : Boolean) : MusicEvent()
     data class GetSong(val songId: String) : MusicEvent()
     data class LikeAlbum(val albumId: String,val isLiked : Boolean) : MusicEvent()
-    data class GetArtistSongs(val artistId : String) : MusicEvent()
     data class SearchSongTextChanged(val search : String) : MusicEvent()
     data class SearchSong(val search : String) : MusicEvent()
     data class SaveRecentSearch(val song:Song) : MusicEvent()

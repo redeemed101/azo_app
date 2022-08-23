@@ -1,6 +1,7 @@
 package com.fov.domain.utils.utilities
 
-import io.ktor.client.features.*
+import io.ktor.client.plugins.*
+
 
 class Failure{
     companion object{

@@ -3,6 +3,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
+    kotlin("plugin.serialization").version("1.7.10")
 }
 
 android {
@@ -48,6 +49,10 @@ dependencies {
     implementation(project(":libraries:domain"))
     implementation(project(":libraries:core"))
     implementation(project(":libraries:ui:common_ui"))
+    //implementation(files("libs\\YouTubeAndroidPlayerApi.jar"))
+
+    implementation(Libs.Networking.Ktor.negotiation)
+    implementation(Libs.Networking.Ktor.kotlinx_json)
 
     implementation(Libs.AndroidX.Core.core)
     implementation(Libs.AndroidX.Core.compat)
@@ -63,7 +68,6 @@ dependencies {
 
     implementation(Libs.Hilt.AndroidX.compose_navigation)
     implementation(Libs.Hilt.android)
-    //implementation(Libs.Hilt.AndroidX.viewModel)
     compileOnly(Libs.AssistedInjection.dagger)
     kapt(Libs.Hilt.compiler)
     kapt(Libs.Hilt.AndroidX.compiler)

@@ -1,9 +1,9 @@
 package com.fov.domain.models.music.song
-import com.fov.domain.models.music.song.Song
+import androidx.annotation.Keep
 import kotlinx.serialization.Serializable
 
-
+@Keep
 @Serializable
 data class SongsResult(
-    val songs : List<Song> = emptyList()
+   val songs : List<Song> = emptyList()
 )

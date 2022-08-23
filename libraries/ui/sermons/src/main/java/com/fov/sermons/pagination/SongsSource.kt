@@ -12,7 +12,6 @@ class SongsSource constructor(
     private val songRequestType: SongRequestType,
     private  val search : String? = null,
     private val genreId: String? = null,
-    private val artistId : String? = null,
     private val userId  :  String? = null
 ) : PagingSource<Int, Song>()  {
     override fun getRefreshKey(state: PagingState<Int, Song>): Int? {

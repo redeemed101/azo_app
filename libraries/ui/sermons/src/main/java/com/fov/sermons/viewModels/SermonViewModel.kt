@@ -6,6 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.fov.common_ui.utils.constants.AlbumRequestType
 import com.fov.common_ui.utils.constants.Constants
 import com.fov.common_ui.utils.constants.SongRequestType
@@ -15,6 +17,8 @@ import com.fov.domain.interactors.music.MusicInteractor
 import com.fov.navigation.NavigationManager
 import com.fov.navigation.SermonsDirections
 import com.fov.sermons.events.MusicEvent
+import com.fov.sermons.mock.data.albums.ALBUMS
+import com.fov.sermons.mock.data.songs.SONGS
 import com.fov.sermons.models.Genre
 import com.fov.sermons.models.GenreData
 import com.fov.sermons.models.LikedMusicData
@@ -29,6 +33,7 @@ import com.google.android.exoplayer2.MediaItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -39,14 +44,17 @@ class SermonViewModel @Inject constructor(
 ) : ViewModel(){
     private val _uiState = MutableStateFlow(MusicState())
     val uiState: StateFlow<MusicState> = _uiState
+
     private val musicAlbumHelper  = MusicAlbumHelper(musicInteractor = musicInteractor)
     private val musicSongHelper = MusicSongHelper(musicInteractor)
     private val recentActivityHelper = RecentActivityHelper(musicInteractor)
+
     init {
 
-        getTopSongs()
+
         getTopAlbums()
         getForYou()
+        getTopSongs()
     }
 
     fun isSongLiked(song: Song, userId: String) : Boolean {
@@ -58,7 +66,9 @@ class SermonViewModel @Inject constructor(
 
             when (event) {
                 MusicEvent.LoadTopSongs ->{
-                    getTopSongs()
+                    topSongsPaged = musicSongHelper.getTopSongs(viewModelScope){
+                        error = it.message
+                    }
 
                 }
                 is MusicEvent.GetSong ->{
@@ -79,17 +89,17 @@ class SermonViewModel @Inject constructor(
                 }
                 MusicEvent.LoadHome -> {
                     newSongs = musicSongHelper.getNewSongs(viewModelScope){
-                        error = it.message
+                       error = it.message
                     }
                     newAlbums = musicAlbumHelper.getNewAlbums(viewModelScope){
                         error = it.message
                     }
+
+
+
                 }
                 MusicEvent.GoToGenres ->{
                     navigationManager.navigate(SermonsDirections.genres)
-                }
-                MusicEvent.LoadLikedAlbums ->{
-
                 }
                 MusicEvent.LoadGenres -> {
 
@@ -113,7 +123,7 @@ class SermonViewModel @Inject constructor(
                 is MusicEvent.SearchSong ->{
                     loading = true
                     recentSongSearch = musicSongHelper.searchSongs(event.search,viewModelScope){
-                        error = it.message
+                       error = it.message
                     }
                     loading = false
                 }
@@ -125,9 +135,6 @@ class SermonViewModel @Inject constructor(
                     loading = false
                 }
 
-                is MusicEvent.LoadPlayer -> {
-                    player = event.player
-                }
                 MusicEvent.LoadTopAlbums -> {
                     getTopAlbums()
                 }
@@ -152,7 +159,7 @@ class SermonViewModel @Inject constructor(
                         RecentActivity(
                             id = album.albumId,
                             title = album.albumName,
-                            subTitle = album.description,
+                            subTitle = album.artistName,
                             type = ActivityType.ALBUM.type,
                             image = album.artwork
                         ),
@@ -185,9 +192,11 @@ class SermonViewModel @Inject constructor(
 
                 is MusicEvent.AddToNowPlaying -> {
                     val song = event.song
+                    //added
                     currentSong = event.song
                     isPlayerMinimized = false
                     songStarted = false
+                    //end of added
                     var currentList: MutableList<Song> = mutableListOf()
                     if(nowPlaying.isNotEmpty())
                         currentList = nowPlaying as MutableList<Song>
@@ -202,7 +211,7 @@ class SermonViewModel @Inject constructor(
                         RecentActivity(
                             id = song.songId,
                             title = song.songName,
-                            subTitle = song.description,
+                            subTitle = song.artistName,
                             type = ActivityType.SONG.type,
                             image = song.artwork
                         ),
@@ -231,7 +240,7 @@ class SermonViewModel @Inject constructor(
                 }
                 MusicEvent.GoToLikedMusic ->{
                     val likedAlbums = musicAlbumHelper.getUserLikedAlbums("userId",viewModelScope){
-                        error = it.message
+                       error = it.message
                     }
                     val  likedSongs = musicSongHelper.getLikedSongs("userId",viewModelScope){
                         error = it.message
@@ -247,7 +256,7 @@ class SermonViewModel @Inject constructor(
                     selectedGenre = event.genre
                     //load genre data
                     val songs = musicSongHelper.getGenreSongs(event.genre.genreId,viewModelScope){
-                        error = it.message
+                       error = it.message
                     }
                     val albums = musicAlbumHelper.getGenreAlbums(event.genre.genreId,viewModelScope){
                         error = it.message
@@ -278,12 +287,13 @@ class SermonViewModel @Inject constructor(
                     showingAlbum = event.show
                 }
 
-
                 is MusicEvent.ChangeShowingSong -> {
                     showingSong = event.show
                 }
 
-                else -> {}
+                MusicEvent.LoadLikedAlbums -> {
+
+                }
             }
         }
     }
@@ -360,9 +370,7 @@ class SermonViewModel @Inject constructor(
             val res = musicInteractor.getGenresGraph()
             var genresResult = res?.genres?.map { g ->
 
-
-                    Genre.ModelMapper.fromGenresGraph(g!!)
-
+                Genre.ModelMapper.fromGenresGraph(g!!)
 
             }
             if(genresResult != null){

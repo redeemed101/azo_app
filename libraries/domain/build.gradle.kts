@@ -8,7 +8,7 @@ plugins {
     id(com.azo.buildsrc.Libs.Networking.GraphQL.plugin).version(com.azo.buildsrc.Libs.Networking.GraphQL.version)
     id("kotlin-android")
     id("kotlin-kapt")
-    "kotlinx-serialization"
+    kotlin("plugin.serialization").version("1.7.10")
 }
 //apply(plugin = com.azo.buildsrc.Libs.Networking.GraphQL.plugin)
 kapt {
@@ -81,7 +81,8 @@ dependencies {
     implementation(Libs.SkyDoves.whatif)
 
     implementation(Libs.Networking.Ktor.client)
-    implementation(Libs.Networking.Ktor.serialization)
+    implementation(Libs.Networking.Ktor.negotiation)
+    //implementation(Libs.Networking.Ktor.serialization)
     implementation(Libs.Networking.Ktor.kotlinx_json)
     implementation(Libs.Networking.Ktor.logging)
     implementation(Libs.Networking.Ktor.auth)

@@ -5,6 +5,7 @@ import com.fov.domain.models.music.song.Song
 import com.fov.domain.models.music.song.SongsResult
 import com.fov.domain.utils.constants.QueryConstants
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.request.*
 import io.ktor.http.*
 
@@ -16,21 +17,21 @@ class MusicKtorService constructor(private val client: HttpClient)  {
         headers {
             append("Content-Type", "application/json")
         }
-    }
+    }.body()
 
     suspend fun getTopAlbums(page: Int): AlbumsResult?  =  client.request("music/Album/topAlbums?page=${page}&size=${QueryConstants.NUM_ROWS}") {
         method = HttpMethod.Get
         headers {
             append("Content-Type", "application/json")
         }
-    }
+    }.body()
 
     suspend fun getForYouSongs(page: Int): SongsResult? =  client.request("music/Song/forYou?page=${page}&size=${QueryConstants.NUM_ROWS}") {
         method = HttpMethod.Get
         headers {
             append("Content-Type", "application/json")
         }
-    }
+    }.body()
 
 
 
@@ -39,7 +40,7 @@ class MusicKtorService constructor(private val client: HttpClient)  {
         headers {
             append("Content-Type", "application/json")
         }
-    }
+    }.body()
 
 
 
@@ -48,5 +49,5 @@ class MusicKtorService constructor(private val client: HttpClient)  {
         headers {
             append("Content-Type", "application/json")
         }
-    }
+    }.body()
 }

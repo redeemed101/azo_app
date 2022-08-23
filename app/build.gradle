@@ -5,6 +5,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
+    id 'org.jetbrains.kotlin.plugin.serialization' version "1.7.10"
 
 }
 android {
@@ -58,11 +59,15 @@ dependencies {
     implementation project(":libraries:core")
     implementation project(":libraries:domain")
 
-
+    implementation Libs.Networking.Ktor.negotiation
+    implementation Libs.Networking.Ktor.kotlinx_json
+    implementation Libs.Serialization.gson
 
     implementation Libs.Hilt.android
     implementation Libs.AndroidX.Compose.navigation
     implementation Libs.Hilt.AndroidX.compose_navigation
+
+    implementation Libs.Layout.constraint
 
     androidTestImplementation Libs.Hilt.android
     //androidTestImplementation Libs.Hilt.AndroidX.viewModel

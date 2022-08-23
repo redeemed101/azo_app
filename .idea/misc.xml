@@ -3,7 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/android/azo/app/src/main/res/drawable/ic_logo.xml" value="0.1" />
+        <entry key="..\:/Projects/android/azo/app/src/main/res/layout/activity_splash_screen.xml" value="0.11195542046605876" />
+        <entry key="..\:/Projects/android/azo/app/src/main/res/layout/facebook_login_button.xml" value="0.11195542046605876" />
         <entry key="..\:/Projects/android/azo/libraries/navigation/src/main/res/drawable/ic_music.xml" value="0.1" />
+        <entry key="..\:/Projects/android/azo/libraries/navigation/src/main/res/drawable/ic_watch_video.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/authentication/src/main/res/drawable/ic_eye.xml" value="0.124" />
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_arrow_forward.xml" value="0.124" />
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_back_arrow.xml" value="0.1" />
@@ -11,6 +15,7 @@
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_eye.xml" value="0.124" />
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_facebook_.xml" value="0.124" />
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_heart_filled.xml" value="0.1" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_logo.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_mic.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_more_vertical.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_notification_dark_empty.xml" value="0.1" />

@@ -11,17 +11,23 @@ import com.fov.domain.models.authentication.users.DisableAccountDTO
 import com.fov.domain.models.users.notifications.NotificationsResult
 import com.fov.domain.utils.constants.QueryConstants
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
 
 class AuthenticationKtorService constructor(private val client: HttpClient) {
 
 
-    suspend fun logout(): Void = client.request("users/User/logout") {
-        method = HttpMethod.Get
-        headers {
-            append("Content-Type", "application/json")
+    suspend fun logout(): GeneralResult {
+        val res : HttpResponse = client.request("users/User/logout") {
+            method = HttpMethod.Get
+            headers {
+                append("Content-Type", "application/json")
+            }
         }
+        val status = res.status
+        return res.body()
     }
 
     suspend fun socialSignin(signinRequest: SocialMediaLoginRequest): SigninResult =
@@ -30,9 +36,9 @@ class AuthenticationKtorService constructor(private val client: HttpClient) {
             headers {
                 append("Content-Type", "application/json")
             }
-            body = signinRequest
+            setBody(signinRequest)
 
-        }
+        }.body()
 
     suspend fun signUp(signupRequest: SignupRequest): SignupResult =
         client.request("users/User/signup") {
@@ -40,9 +46,9 @@ class AuthenticationKtorService constructor(private val client: HttpClient) {
             headers {
                 append("Content-Type", "application/json")
             }
-            body = signupRequest
+            setBody(signupRequest)
 
-        }
+        }.body()
 
     suspend fun resetPassword(request: ResetPasswordRequest): SigninResult =
         client.request("users/User/reset") {
@@ -50,8 +56,8 @@ class AuthenticationKtorService constructor(private val client: HttpClient) {
             headers {
                 append("Content-Type", "application/json")
             }
-            body = request
-        }
+            setBody(request)
+        }.body()
 
     suspend fun resendCode(userId: String, reset: Boolean): GeneralResult =
         client.request("users/User/resendUserCode?isReset=$reset") {
@@ -59,8 +65,8 @@ class AuthenticationKtorService constructor(private val client: HttpClient) {
             headers {
                 append("Content-Type", "application/json")
             }
-            body = userId
-        }
+            setBody(userId)
+        }.body()
 
     suspend fun changePassword(request: PasswordChangeRequest): GeneralResult =
         client.request("users/User/passwordchange") {
@@ -68,8 +74,8 @@ class AuthenticationKtorService constructor(private val client: HttpClient) {
             headers {
                 append("Content-Type", "application/json")
             }
-            body = request
-        }
+            setBody(request)
+        }.body()
 
     suspend fun verifyUserCode(request: VerifyCodeRequest): GeneralResult =
         client.request("users/User/verifyUserCode") {
@@ -77,8 +83,8 @@ class AuthenticationKtorService constructor(private val client: HttpClient) {
             headers {
                 append("Content-Type", "application/json")
             }
-            body = request
-        }
+            setBody(request)
+        }.body()
 
     suspend fun refreshToken(request: RefreshTokenRequest): RefreshTokenResult =
         client.request("users/Token/refresh") {
@@ -86,8 +92,9 @@ class AuthenticationKtorService constructor(private val client: HttpClient) {
             headers {
                 append("Content-Type", "application/json")
             }
-            body = request
-        }
+            setBody(request)
+        }.body()
+
 
     suspend fun signIn(request: SigninRequest, restore: Boolean): SigninResult =
         client.request("users/User/signin?restore=$restore") {
@@ -95,8 +102,8 @@ class AuthenticationKtorService constructor(private val client: HttpClient) {
             headers {
                 append("Content-Type", "application/json")
             }
-            body = request
-        }
+            setBody(request)
+        }.body()
 
     suspend fun forgotPassword(email: String): GeneralResult =
         client.request("users/User/forgotPassword") {
@@ -104,8 +111,8 @@ class AuthenticationKtorService constructor(private val client: HttpClient) {
             headers {
                 append("Content-Type", "application/json")
             }
-            body = email
-        }
+            setBody(email)
+        }.body()
 
 
     suspend fun getUserNotifications(userId:String,page: Int, unread: Boolean): NotificationsResult? {
@@ -118,7 +125,7 @@ class AuthenticationKtorService constructor(private val client: HttpClient) {
             headers {
                 append("Content-Type", "application/json")
             }
-        }
+        }.body()
     }
 
     suspend fun getNumberUnreadNotifications(id: String): Int  =  client.request("users/User/numNotifications/$id") {
@@ -127,7 +134,7 @@ class AuthenticationKtorService constructor(private val client: HttpClient) {
             append("Content-Type", "application/json")
         }
 
-    }
+    }.body()
 
     suspend  fun deleteAccount(delete: DeleteAccountDTO) : GeneralResult =
         client.request("users/User/deleteAccount") {
@@ -135,14 +142,14 @@ class AuthenticationKtorService constructor(private val client: HttpClient) {
             headers {
                 append("Content-Type", "application/json")
             }
-            body = delete
-        }
+            setBody(delete)
+        }.body()
     suspend  fun disableAccount(disable: DisableAccountDTO) : GeneralResult =
         client.request("users/User/disableAccount") {
             method = HttpMethod.Post
             headers {
                 append("Content-Type", "application/json")
             }
-            body = disable
-        }
+            setBody(disable)
+        }.body()
 }

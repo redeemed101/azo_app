@@ -1,20 +1,22 @@
 package com.fov.domain.remote.ktor
 
 import android.util.Log
-//import com.fov.domain.BuildConfig
+import com.fov.domain.BuildConfig
 import com.fov.domain.exceptions.ServerException
 import com.fov.domain.utils.utilities.ExceptionHandler
 import io.ktor.client.*
+import io.ktor.client.call.*
 import io.ktor.client.engine.android.*
-import io.ktor.client.features.*
-import io.ktor.client.features.auth.*
-import io.ktor.client.features.auth.providers.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
-import io.ktor.client.features.logging.*
-import io.ktor.client.features.observer.*
+import io.ktor.client.plugins.*
+import io.ktor.client.plugins.auth.*
+import io.ktor.client.plugins.auth.providers.*
+import io.ktor.client.plugins.logging.*
+import io.ktor.client.plugins.observer.*
+import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
+import io.ktor.client.statement.*
 import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
 class KtorClient {
@@ -28,55 +30,56 @@ class KtorClient {
 
 
             defaultRequest {
-                host = "{BuildConfig.URL}"
+                host = "${BuildConfig.FOV_URL}"
                 url {
                    protocol = URLProtocol.HTTPS
                 }
             }
-
+            expectSuccess = true
             HttpResponseValidator {
-                validateResponse {
-                    val statusCode = it.status.value
-                    when (statusCode) {
-                        in 300..399 -> print(it.content.toString())
+                validateResponse { response ->
+                    val statusCode = response.status
+                    val error: Error = response.body()
+                    when (statusCode.value) {
+                        in 300..399 -> print(response.bodyAsText())
                         in 400..499 -> {
-                            print(it.content.toString())
-                            throw ClientRequestException(it,it.content.toString())
+                            print(response.bodyAsText())
+                            throw ClientRequestException(response,response.bodyAsText())
                         }
-                        in 500..599 -> print(it.content.toString())
+                        in 500..599 -> print(response.bodyAsText())
                     }
                 }
-                handleResponseException { exception ->
+                handleResponseExceptionWithRequest { exception,httpRequest ->
+                    val clientException = exception as? ClientRequestException ?: return@handleResponseExceptionWithRequest
+                    val exceptionResponse = clientException.response
+                   val error = when (httpRequest) {
 
-                   val error = when (exception) {
-
-                        is ClientRequestException -> ExceptionHandler.getError(exception.response)
-                        else -> throw Exception("Something went wrong ${exception.message}") //or do whatever you need
+                        is HttpRequest -> ExceptionHandler.getError(exceptionResponse)
+                        else -> throw Exception("Something went wrong ${exceptionResponse.bodyAsText()}") //or do whatever you need
                     }
                     throw ServerException(error.errorDescription)
-                    /*val clientException = exception as? ClientRequestException ?: return@handleResponseException
-                    val exceptionResponse = exception.response
-                     if (exceptionResponse.status == HttpStatusCode.NotFound) {
-                        val exceptionResponseText = exceptionResponse.readText()
-                        throw MissingPageException(exceptionResponse, exceptionResponseText)
-                    }*/
+
                 }
             }
 
-            install(JsonFeature) {
-                serializer = KotlinxSerializer(Json.Default)
 
-                engine {
-                    connectTimeout = TIME_OUT
-                    socketTimeout = TIME_OUT
-                }
+
+            install(ContentNegotiation) {
+                json(Json {
+                    prettyPrint = true
+                    isLenient = true
+                })
             }
 
             install(Auth) {
                 basic {
-                    sendWithoutRequest = true
-                    username = "fov@enyo2021"
-                    password = "fov@Namande@1190"
+                    sendWithoutRequest { request ->
+                        request.url.host == "0.0.0.0"
+                    }
+                    credentials {
+                        BasicAuthCredentials(username = "fov@enyo2021",
+                            password = "fov@Namande@1190")
+                    }
                 }
             }
 

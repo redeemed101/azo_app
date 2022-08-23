@@ -27,20 +27,21 @@ object SongsMockResponse {
     operator fun invoke(): String {
 
         val obj = SongsResult(
-            songs = listOf(Song(
-                name = "Lewis James",
-                id = "1234",
-                path = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
-                artworkPath = "https://picsum.photos/200",
-                previewPath = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
-                description = "",
-                songGenres = emptyList(),
-                songLikes = emptyList(),
-                songStreams = emptyList()
+            songs =  List(20) {
+                Song(
+                    name = "Lewis James $it",
+                    id = "1234",
+                    path = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
+                    artworkPath = "https://picsum.photos/200",
+                    previewPath = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
+                    description = "",
+                    songGenres = emptyList(),
+                    songLikes = emptyList(),
+                    songStreams = emptyList()
 
-            ))
-        )
-        return Gson().toJson(obj)
+                )
+            })
+                return Gson().toJson(obj)
+            }
 
     }
-}

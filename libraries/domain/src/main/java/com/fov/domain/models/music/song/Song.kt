@@ -1,11 +1,12 @@
 package com.fov.domain.models.music.song
 
 
+import androidx.annotation.Keep
 import com.fov.domain.models.music.genre.Genre
 import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
 
-
+@Keep
 @Serializable
 data class Song(
     @SerializedName("name") val name : String,

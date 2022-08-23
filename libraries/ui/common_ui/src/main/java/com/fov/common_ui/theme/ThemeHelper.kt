@@ -15,9 +15,9 @@ object ThemeHelper {
     fun getLogoResource() : Int {
 
         return if(isDarkTheme()){
-            R.drawable.avatar
+            R.drawable.fov_logo
         } else{
-            R.drawable.avatar
+            R.drawable.fov_logo
         }
     }
     @Composable

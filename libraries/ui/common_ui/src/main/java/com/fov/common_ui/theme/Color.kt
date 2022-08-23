@@ -6,7 +6,9 @@ val Purple700 = Color(0xFF3700B3)
 val Purple200 = Color(0xFFBB86FC)
 val Purple500 = Color(0xFF6200EE)
 val Teal200 = Color(0xFF03DAC5)
-
+val FovPurple = Color(0xFF850284)
+val FovBlue = Color(0xFF044B95)
+val FovYellow = Color(0xFFFDFA26)
 val MainText = Color(0xFF58433E)
 
 val MainGrey = Color(0x1A58433E)

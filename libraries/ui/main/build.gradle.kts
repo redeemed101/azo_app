@@ -5,6 +5,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("dagger.hilt.android.plugin")
+    kotlin("plugin.serialization").version("1.7.10")
 }
 
 kapt {
@@ -58,6 +59,9 @@ dependencies {
     implementation(project(":libraries:ui:authentication"))
     implementation(project(":libraries:ui:sermons"))
 
+    //implementation(Libs.Networking.Ktor.serialization)
+     implementation(Libs.Networking.Ktor.kotlinx_json)
+
     implementation(Libs.AndroidX.Core.core)
     implementation(Libs.AndroidX.Core.compat)
     implementation(Libs.material)
@@ -102,7 +106,7 @@ dependencies {
     compileOnly(Libs.AssistedInjection.dagger)
 
     implementation(Libs.Networking.Ktor.client)
-    implementation(Libs.Networking.Ktor.serialization)
+    implementation(Libs.Networking.Ktor.negotiation)
     implementation(Libs.Networking.Ktor.kotlinx_json)
     implementation(Libs.Networking.Ktor.logging)
 

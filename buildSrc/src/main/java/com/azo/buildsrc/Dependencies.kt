@@ -64,6 +64,7 @@ object Libs {
         const val extensions = "org.jetbrains.kotlin:kotlin-android-extensions:$version"
         const val serialization = "org.jetbrains.kotlin:kotlin-serialization:$version"
         object Coroutines {
+
             private const val version = "1.6.4"
             const val core ="org.jetbrains.kotlinx:kotlinx-coroutines-core:$version"
             const val android = "org.jetbrains.kotlinx:kotlinx-coroutines-android:$version"
@@ -72,12 +73,13 @@ object Libs {
     }
     object Networking{
         object Ktor{
-            private const val version = "1.5.0"
+            private const val version = "2.1.0"
             const val client =  "io.ktor:ktor-client-android:$version"
             const val serialization =  "io.ktor:ktor-client-serialization:$version"
             const val auth = "io.ktor:ktor-client-auth:$version"
-            const val kotlinx_json =  "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
+            const val kotlinx_json =  "io.ktor:ktor-serialization-kotlinx-json:$version"
             const val logging = "io.ktor:ktor-client-logging-jvm:$version"
+            const val negotiation = "io.ktor:ktor-client-content-negotiation:$version"
             const val mock = "io.ktor:ktor-client-mock:$version"
         }
 
@@ -140,7 +142,7 @@ object Libs {
         }
 
         object Paging{
-            private const val version = "3.1.1"
+            private const val version = "3.0.0-rc01"
             const val runtime = "androidx.paging:paging-runtime:$version"
 
         }

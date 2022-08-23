@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import com.fov.common_ui.extensions.itemsCustomized
 import com.fov.common_ui.ui.composers.sections.Section
 import com.fov.common_ui.theme.AzoTheme
 import com.fov.sermons.events.MusicEvent
@@ -60,7 +61,7 @@ fun MusicSection(title : String,
             .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceEvenly
         ) {
-            items(lazySongItems){ song ->
+            itemsCustomized(lazySongItems){ song,_ ->
                 MusicItem(song = song!!){
                     navigateTabAction()
                    musicEvents(MusicEvent.SaveRecentSearch(song!!))

@@ -39,10 +39,11 @@ fun mainTopBar(size : Dp = 80.dp,
              .background(backgroundColor)
      ){
 
-         Image( painter = painterResource(ThemeHelper.getLogoResource()),
+         Image(
+             painter = painterResource(ThemeHelper.getLogoResource()),
              "logo",
               modifier = Modifier
-                  .height(size * 0.4f)
+                  .height(size * 0.8f)
                   .padding(horizontal = commonPadding)
                   .padding(vertical = 4.dp)
          )
@@ -65,7 +66,7 @@ fun mainTopBar(size : Dp = 80.dp,
                      }
 
              )
-             Icon(
+             /*Icon(
                  painterResource(R.drawable.ic_profile),
                  "",
                  tint = MaterialTheme.colors.onSecondary,
@@ -77,7 +78,7 @@ fun mainTopBar(size : Dp = 80.dp,
                         profileClicked()
                      }
 
-             )
+             )*/
          }
          
      }

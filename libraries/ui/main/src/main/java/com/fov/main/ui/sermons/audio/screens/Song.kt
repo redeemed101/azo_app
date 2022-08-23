@@ -140,7 +140,7 @@ private fun Song(
             val lifecycleOwner = LocalLifecycleOwner.current
             val song = musicState.selectedSong!!
 
-            val isLiked = song.userLikes.contains(commonState.user!!.id)
+            val isLiked = false//song.userLikes.contains(commonState.user!!.id)
 
 
             val verticalGradientBrush = Brush.verticalGradient(

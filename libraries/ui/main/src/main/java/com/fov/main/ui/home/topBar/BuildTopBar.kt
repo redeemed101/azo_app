@@ -116,7 +116,7 @@ fun BuildTopBar(
                         }
                         if (musicState.showingSong) {
                             val song = musicState.selectedSong!!
-                            val isLiked = song.userLikes.contains(commonState.user!!.id)
+                            val isLiked = false//song.userLikes.contains(commonState.user!!.id)
                             bottomSheetShowMoreContent = {
                                 songBottomSheet(
                                     song = song,

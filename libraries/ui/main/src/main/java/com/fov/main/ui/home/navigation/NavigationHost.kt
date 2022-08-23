@@ -2,7 +2,9 @@ package com.fov.main.ui.home.navigation
 
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -18,10 +20,13 @@ import com.fov.sermons.ui.MusicPlayerScreen
 import com.fov.sermons.viewModels.SermonViewModel
 import com.fov.sermons.viewModels.StoredSermonViewModel
 import kotlinx.coroutines.InternalCoroutinesApi
+import com.fov.main.ui.home.screens.Home
+import com.fov.main.ui.home.screens.NotificationScreen
+import com.fov.main.ui.home.screens.SearchScreen
 
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalFoundationApi::class,
-    InternalCoroutinesApi::class
+    InternalCoroutinesApi::class, ExperimentalComposeUiApi::class, ExperimentalMaterialApi::class
 )
 @Composable
 fun NavigationHost(
@@ -39,11 +44,11 @@ fun NavigationHost(
         ) {
 
         navigation(
-            startDestination = SermonsDirections.genres.destination,
+            startDestination =  HomeDirections.home.destination,
             route = AuthenticationDirections.mainTab.destination
         ) {
 
-            /*composable(
+            composable(
                 HomeDirections.home.destination,
                 arguments = HomeDirections.home.arguments
             ) {
@@ -78,7 +83,7 @@ fun NavigationHost(
                     usersViewModel = usersViewModel,
                     musicViewModel = musicViewModel
                 )
-            }*/
+            }
 
             //music
             composable(

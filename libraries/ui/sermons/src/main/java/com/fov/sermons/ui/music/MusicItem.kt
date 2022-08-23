@@ -11,12 +11,15 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import com.fov.sermons.models.Song
 
 @Preview(showBackground = true)
@@ -40,13 +43,13 @@ fun MusicItem(
 
     ) {
         Image(
-            painter = rememberImagePainter(
-                data = song.artwork,
-                builder = {
+            painter = rememberAsyncImagePainter(
+                ImageRequest.Builder(LocalContext.current).data(data = song.artwork).apply(
+                    block = fun ImageRequest.Builder.() {
                     crossfade(true)
                     fallback(R.drawable.image_placeholder)
                     placeholder(R.drawable.image_placeholder)
-                }
+                }).build()
             ),
             contentDescription = null,
             modifier = Modifier.size(200.dp)

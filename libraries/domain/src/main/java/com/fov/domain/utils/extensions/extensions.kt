@@ -1,7 +1,7 @@
 package com.fov.domain.utils.extensions
 
 import com.fov.domain.utils.utilities.Failure
-import io.ktor.client.features.*
+import io.ktor.client.plugins.*
 
 fun Exception.toCustomExceptions() = when (this) {
     is ServerResponseException -> Failure.httpErrorInternalServerError(this)

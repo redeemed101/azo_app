@@ -44,7 +44,7 @@ class MusicAlbumHelper constructor(
                 AlbumsSource(
                     musicInteractor = musicInteractor,
                     AlbumRequestType.GENRE_ALBUMS,
-                    userId  = id
+                    genreId  = id
                 )
             }.flow
                 .cachedIn(scope)

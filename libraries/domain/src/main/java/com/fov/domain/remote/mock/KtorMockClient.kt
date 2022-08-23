@@ -11,11 +11,11 @@ import com.fov.domain.remote.mock.music.SongMockResponse
 import com.fov.domain.remote.mock.music.SongsMockResponse
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*
-import io.ktor.client.features.*
-import io.ktor.client.features.json.*
-import io.ktor.client.features.json.serializer.*
+import io.ktor.client.plugins.*
+import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.http.*
+import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 
 class KtorMockClient {
@@ -150,11 +150,13 @@ class KtorMockClient {
                     }
                 }
             }
-
-            install(JsonFeature) {
-                serializer = KotlinxSerializer(Json)
-
+            install(ContentNegotiation) {
+                json(Json {
+                    prettyPrint = true
+                    isLenient = true
+                })
             }
+
             install(DefaultRequest) {
                 header(HttpHeaders.ContentType, ContentType.Application.Json)
             }

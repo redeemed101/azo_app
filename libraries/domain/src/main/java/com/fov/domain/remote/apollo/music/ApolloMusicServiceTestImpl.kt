@@ -18,8 +18,8 @@ class ApolloMusicServiceTestImpl constructor(
         return GetGenresQuery.Data(
             List(5){
                 GetGenresQuery.Genre(
-                    "Genre",
                     "$it",
+                    "Genre",
                 )
             }
         )
@@ -28,8 +28,8 @@ class ApolloMusicServiceTestImpl constructor(
 
         return GetGenreSongsPaginatedQuery.Data(
             GetGenreSongsPaginatedQuery.Genre(
+                "1234",
                 "Genre",
-                "123",
             ),
             List(20){ num ->
                 GetGenreSongsPaginatedQuery.SongsPaginated(
@@ -46,8 +46,8 @@ class ApolloMusicServiceTestImpl constructor(
     override suspend fun  getGenreAlbumsPaginated(id:String, page:Int, size:Int): GetGenreAlbumsPaginatedQuery.Data? {
         return GetGenreAlbumsPaginatedQuery.Data(
             GetGenreAlbumsPaginatedQuery.Genre(
-                "Genre",
                 "1234",
+                "Genre",
             ),
             List(20){ num ->
                 GetGenreAlbumsPaginatedQuery.AlbumsPaginated(

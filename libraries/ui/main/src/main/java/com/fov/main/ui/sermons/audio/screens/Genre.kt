@@ -71,18 +71,23 @@ private fun Genre(
                 modifier = Modifier
                     .verticalScroll(scrollState)
             ) {
+
                 MusicSection(
-                    "New Singles", false, musicState.genreData!!.songs,{}) {
+                    "New Singles", false,
+                    musicState.genreData!!.songs,
+                    musicEvents
+                ) {
 
                 }
                 Spacer(modifier = Modifier.height(commonPadding))
+                Spacer(modifier = Modifier.height(commonPadding))
                 Albums(
-                    "Top Albums", musicState.genreData!!.albums,
+                    "Top Albums",
+                    musicState.genreData!!.albums,
                     musicEvents
                 ) {  }
-                Spacer(modifier = Modifier.height(commonPadding))
 
-                Spacer(modifier = Modifier.height(commonPadding))
+
 
                 Spacer(modifier = Modifier.height(100.dp))
             }

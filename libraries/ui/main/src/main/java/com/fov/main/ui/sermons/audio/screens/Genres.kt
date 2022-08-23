@@ -73,8 +73,8 @@ private fun Genres(
         }
     ) {
         LaunchedEffect(commonState.hasDeepScreen) {
-           // musicEvents(MusicEvent.LoadGenres)
-            events(CommonEvent.ChangeBackPageData(BackPageData()))
+             musicEvents(MusicEvent.LoadGenres)
+             events(CommonEvent.ChangeBackPageData(BackPageData()))
 
         }
 

@@ -27,6 +27,25 @@ class MusicSongHelper constructor(
        return s?.let { Song.ModelMapper.from(it) }
 
    }
+    fun getTopSongs(scope : CoroutineScope, error : (Exception) -> Unit): Flow<PagingData<Song>> {
+
+        try {
+
+            return Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
+                SongsSource(
+                    musicInteractor = musicInteractor,
+                    SongRequestType.TOP_SONGS,
+                )
+            }.flow
+                .cachedIn(scope)
+
+
+        }
+        catch(ex : Exception) {
+            error(ex)
+        }
+        return flowOf(PagingData.from(emptyList()))
+    }
 
    fun getRecentSongSearch(scope : CoroutineScope,error : (Exception) -> Unit): Flow<PagingData<Song>> {
 
