@@ -16,7 +16,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import com.fov.common_ui.events.CommonEvent
 import com.fov.common_ui.states.CommonState
 import com.fov.common_ui.theme.padding10
@@ -56,9 +58,9 @@ fun BottomMusicPlayer(
                 val playerBox = Column {
                     val player = MiniMusicPlayer(
                         modifier = Modifier
-                            .background(MaterialTheme.colors.onSurface.copy(alpha = 1f))
+                            .background(MaterialTheme.colors.surface)
                             .fillMaxWidth()
-                            .padding(bottom = if (musicState.isPlayerMinimized) 50.dp else 0.dp)
+                            .padding(bottom = if (musicState.isPlayerMinimized) 80.dp else 0.dp)
                             .height(if (musicState.isPlayerMinimized) 80.dp else maxHeight / 5f),
                         exoPlayer = musicState.player!!,
                         onClicked = {
@@ -123,21 +125,21 @@ fun MusicPlayerContainer(
 
                         }
                         .padding(horizontal = padding10)
-                        .offset(y = (-30).dp)
+                        .offset(y = (-40).dp)
                 ) {
                     Image(
-                        painter = rememberImagePainter(
-                            data = musicState.currentSong!!.artwork,
-                            builder = {
-                                crossfade(true)
-                                fallback(R.drawable.image_placeholder)
-                                placeholder(R.drawable.image_placeholder)
-                            }
+                        painter = rememberAsyncImagePainter(
+                            ImageRequest.Builder(LocalContext.current)
+                                .data(data = musicState.currentSong!!.artwork).apply(block = fun ImageRequest.Builder.() {
+                                    crossfade(true)
+                                    fallback(R.drawable.image_placeholder)
+                                    placeholder(R.drawable.image_placeholder)
+                                }).build()
                         ),
                         contentDescription = null,
                         modifier = Modifier
                             //.align(Alignment.CenterStart)
-                            .size(50.dp)
+                            .size(40.dp)
                     )
                     Column(
                         modifier = Modifier.padding(horizontal = padding10)

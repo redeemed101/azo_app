@@ -23,10 +23,7 @@ class RouteConstants {
         val CHANGEPASSWORD = "change_password"
         val GENRES = "genres"
         val GENRE = "genre"
-        val CHARTS = "charts"
-        val MOODS = "moods"
-        val MOOD = "mood"
-        val PLAYLISTS = "playlists"
+        val DOWNLOADED = "downloaded_sermons"
     }
 
 

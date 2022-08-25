@@ -43,23 +43,22 @@ fun SearchField(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier.padding(vertical = 4.dp)
     ){
-        var textBackgroundColor = DarkGrey
-        if(ThemeHelper.isDarkTheme())
-            textBackgroundColor = MaterialTheme.colors.onBackground
+
+        val textBackgroundColor = MaterialTheme.colors.primary.copy(alpha = 0.8f)
         TextField(
             value = value,
             singleLine = true,
             maxLines = 1,
-            textStyle = TextStyle(color = MaterialTheme.colors.onPrimary,
+            textStyle = TextStyle(color = MaterialTheme.colors.surface,
                 textAlign = TextAlign.Justify),
             onValueChange = onChange,
             colors = TextFieldDefaults.textFieldColors(
-                textColor = MaterialTheme.colors.onPrimary,
+                textColor = MaterialTheme.colors.surface,
                 backgroundColor = textBackgroundColor,
                 cursorColor = MaterialTheme.colors.primary,
                 focusedIndicatorColor = MaterialTheme.colors.primary,
-                unfocusedIndicatorColor = MaterialTheme.colors.onPrimary,
-                placeholderColor = Color.LightGray
+                unfocusedIndicatorColor = MaterialTheme.colors.surface,
+                placeholderColor = MaterialTheme.colors.surface.copy(alpha = 0.4f)
 
             ),
             visualTransformation = visualTransformation,
@@ -69,7 +68,7 @@ fun SearchField(
                 Icon(
                     painterResource(R.drawable.ic_search),
                     "",
-                    tint = MaterialTheme.colors.onPrimary,
+                    tint = MaterialTheme.colors.surface,
                     modifier = Modifier
                         //.padding(top = 5.dp, bottom = 5.dp)
                         .height((height * 0.9f))
@@ -80,9 +79,9 @@ fun SearchField(
             trailingIcon = {
                 if(!value.text.equals(""))
                     Icon(
-                        painterResource(R.drawable.ic_x_circle),
+                        painterResource(R.drawable.ic_x),
                         "",
-                        tint = MaterialTheme.colors.onPrimary,
+                        tint = MaterialTheme.colors.surface,
                         modifier = Modifier
                             //.padding(top = 5.dp, bottom = 5.dp)
                             .height((height * 0.9f))

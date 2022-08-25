@@ -96,6 +96,7 @@ private fun Song(
 
         val scope = rememberCoroutineScope()
         val backgroundColor = MaterialTheme.colors.surface
+        val tintColor = MaterialTheme.colors.onSurface
         val  context  = LocalContext.current
         var exoPlayer = musicState.player
         if(musicState.player == null) {
@@ -108,10 +109,7 @@ private fun Song(
             events(CommonEvent.ChangeHasDeepScreen(true,""))
             events(CommonEvent.ChangeShowMoreOptions(true))
             events(CommonEvent.ChangeTopBarColor(backgroundColor))
-            //events(CommonEvent.ChangeHasTopBar(false))
-
-
-
+            events(CommonEvent.ChangeTopBarTintColor(tintColor))
             if(musicState.selectedSong != null) {
                 events(CommonEvent.ChangeBottomSheetHeader{
                     SongBottomSheetHeader(musicState.selectedSong!!)
@@ -127,7 +125,6 @@ private fun Song(
                 musicEvents(MusicEvent.ChangeShowingSong(false))
                 events(CommonEvent.ChangeShowMoreOptions(false))
                 events(CommonEvent.ChangeTopBarColor(White009))
-                //events(CommonEvent.ChangeHasTopBar(true))
                 events(CommonEvent.ChangeBottomSheetHeader{
                 })
             }
@@ -160,13 +157,13 @@ private fun Song(
                     .verticalScroll(scrollState)
             ) {
                 Image(
-                    painter = rememberImagePainter(
-                        data = song.artwork,
-                        builder = {
-                            crossfade(true)
-                            fallback(com.fov.common_ui.R.drawable.image_placeholder)
-                            placeholder(com.fov.common_ui.R.drawable.image_placeholder)
-                        }
+                    painter = rememberAsyncImagePainter(
+                        ImageRequest.Builder(LocalContext.current).data(data = song.artwork)
+                            .apply(block = fun ImageRequest.Builder.() {
+                                crossfade(true)
+                                fallback(com.fov.common_ui.R.drawable.image_placeholder)
+                                placeholder(com.fov.common_ui.R.drawable.image_placeholder)
+                            }).build()
                     ),
                     "",
                     contentScale = ContentScale.FillWidth,
@@ -265,6 +262,9 @@ private fun Song(
 
                 ) {
                     Button(
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = MaterialTheme.colors.onSurface
+                        ),
                         onClick = {
                             if (musicState.player == null){
                                 musicEvents(MusicEvent.LoadPlayer(exoPlayer!!))
@@ -290,10 +290,10 @@ private fun Song(
                                     .clickable {
 
                                     },
-                                tint = MaterialTheme.colors.onSurface,
+                                tint = MaterialTheme.colors.surface,
                                 contentDescription = ""
                             )
-                            Text("Play", color = Color.White)
+                            Text("Play", color = MaterialTheme.colors.surface)
                         }
                     }
                     Button(
@@ -302,11 +302,11 @@ private fun Song(
                         },
                         shape = RoundedCornerShape(20),
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color.White
+                            backgroundColor = MaterialTheme.colors.surface
                         ),
                         modifier = Modifier
                             .width(screenWidth * 0.4f)
-                            .border(width = 1.dp, MaterialTheme.colors.primary)
+                            .border(width = 1.dp, MaterialTheme.colors.onSurface)
                     ) {
 
 
@@ -317,10 +317,10 @@ private fun Song(
                                     .padding(horizontal = 8.dp)
                                     .clickable {
                                     },
-                                tint = MaterialTheme.colors.primary,
+                                tint = MaterialTheme.colors.onSurface,
                                 contentDescription = ""
                             )
-                            Text("Shuffle", color = MaterialTheme.colors.primary)
+                            Text("Shuffle", color = MaterialTheme.colors.onSurface)
                         }
                     }
                 }
@@ -426,7 +426,9 @@ fun IconView(
     ){
         Image(
             painter = rememberAsyncImagePainter(
-                ImageRequest.Builder(LocalContext.current).data(data = song.artwork)
+                    ImageRequest
+                    .Builder(LocalContext.current)
+                    .data(data = song.artwork)
                     .apply(block = fun ImageRequest.Builder.() {
                     crossfade(true)
                     fallback(com.fov.common_ui.R.drawable.image_placeholder)
@@ -444,7 +446,7 @@ fun IconView(
                 song.songName,
                 textAlign = TextAlign.Start,
                 style = MaterialTheme.typography.caption.copy(
-                    MaterialTheme.colors.onSurface,
+                    MaterialTheme.colors.surface,
                     fontWeight = FontWeight.Bold
                 ),
             )
@@ -452,7 +454,7 @@ fun IconView(
                 song.artistName,
                 textAlign = TextAlign.Start,
                 style = MaterialTheme.typography.caption.copy(
-                    MaterialTheme.colors.onSurface,
+                    MaterialTheme.colors.surface,
 
                     ),
 

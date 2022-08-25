@@ -27,7 +27,7 @@ fun bottomSheetContent(
             Modifier
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
-                .background(DarkThemeBarsBlack)
+                .background(MaterialTheme.colors.onSurface)
             //.height(200.dp)
         ) {
             Column(modifier =
@@ -51,12 +51,12 @@ fun bottomSheetContent(
                                 painter = painterResource(it.icon),
                                 contentDescription = "",
                                 modifier = Modifier.width(50.dp),
-                                tint = MaterialTheme.colors.onSurface
+                                tint = MaterialTheme.colors.surface
                             )
                         }
                         Spacer(Modifier.padding(horizontal = 4.dp))
                         Text(text = it.text,
-                            color = MaterialTheme.colors.onSurface,
+                            color = MaterialTheme.colors.surface,
                         )
                     }
                 }

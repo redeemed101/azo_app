@@ -1,13 +1,10 @@
 package com.fov.sermons.viewModels
 
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
-import androidx.paging.PagingData
-import androidx.paging.cachedIn
 import com.fov.common_ui.utils.constants.AlbumRequestType
 import com.fov.common_ui.utils.constants.Constants
 import com.fov.common_ui.utils.constants.SongRequestType
@@ -17,8 +14,6 @@ import com.fov.domain.interactors.music.MusicInteractor
 import com.fov.navigation.NavigationManager
 import com.fov.navigation.SermonsDirections
 import com.fov.sermons.events.MusicEvent
-import com.fov.sermons.mock.data.albums.ALBUMS
-import com.fov.sermons.mock.data.songs.SONGS
 import com.fov.sermons.models.Genre
 import com.fov.sermons.models.GenreData
 import com.fov.sermons.models.LikedMusicData
@@ -29,11 +24,9 @@ import com.fov.sermons.states.MusicState
 import com.fov.sermons.viewModels.helpers.MusicAlbumHelper
 import com.fov.sermons.viewModels.helpers.MusicSongHelper
 import com.fov.sermons.viewModels.helpers.RecentActivityHelper
-import com.google.android.exoplayer2.MediaItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -272,8 +265,8 @@ class SermonViewModel @Inject constructor(
                     loading = false
 
                 }
-                MusicEvent.GoToCharts -> {
-                    navigationManager.navigate(SermonsDirections.charts)
+                MusicEvent.GoToDownloadedSermons -> {
+                    navigationManager.navigate(SermonsDirections.downloaded_tab)
                 }
 
                 MusicEvent.LoadRecentActivities -> {

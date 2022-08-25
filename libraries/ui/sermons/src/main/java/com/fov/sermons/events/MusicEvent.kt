@@ -10,7 +10,7 @@ import com.google.android.exoplayer2.SimpleExoPlayer
 sealed class MusicEvent {
     object LoadTopSongs : MusicEvent()
     object GoToGenres: MusicEvent()
-    object GoToCharts: MusicEvent()
+    object GoToDownloadedSermons: MusicEvent()
     object GoToGenre : MusicEvent()
     data class SongStarted(val started: Boolean) : MusicEvent()
     object LoadTopAlbums : MusicEvent()

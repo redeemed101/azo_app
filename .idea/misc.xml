@@ -11,6 +11,7 @@
         <entry key="..\:/Projects/android/azo/app/src/main/res/layout/youtube_player_view.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/app/src/main/res/layout/youtubeplayer_view.xml" value="0.12952898550724637" />
         <entry key="..\:/Projects/android/azo/libraries/navigation/src/main/res/drawable/ic_music.xml" value="0.1" />
+        <entry key="..\:/Projects/android/azo/libraries/navigation/src/main/res/drawable/ic_music_library.xml" value="0.136" />
         <entry key="..\:/Projects/android/azo/libraries/navigation/src/main/res/drawable/ic_watch_video.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/authentication/src/main/res/drawable/ic_eye.xml" value="0.124" />
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_arrow_forward.xml" value="0.124" />
@@ -33,9 +34,17 @@
         <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/drawable/ic_arrow_down.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/drawable/ic_downloaded.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/drawable/ic_genre_music.xml" value="0.1" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/drawable/ic_pause.xml" value="0.1405" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/drawable/ic_play.xml" value="0.1405" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/drawable/ic_repeat.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/drawable/ic_search_music.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/drawable/ic_skip_back.xml" value="0.1" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/drawable/ic_skip_forward.xml" value="0.1405" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/layout/exo_player_control_view.xml" value="0.10663627152988855" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/layout/exo_player_control_view2.xml" value="0.10663627152988855" />
         <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/layout/exo_player_control_view_copy.xml" value="0.11302083333333333" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/layout/exo_player_custom.xml" value="0.1" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/layout/exoplayer_main_custom.xml" value="0.10663627152988855" />
         <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/layout/youtube_player_view.xml" value="0.12952898550724637" />
       </map>
     </option>

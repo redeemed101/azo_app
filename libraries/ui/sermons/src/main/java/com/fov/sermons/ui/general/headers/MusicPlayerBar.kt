@@ -1,4 +1,4 @@
-package com.fidarr.music.ui.general.headers
+package com.fov.sermons.ui.general.headers
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -39,7 +39,7 @@ fun MusicPlayerBar(){
             size = 35.dp,
             onClick = {/*TODO*/ }
         )
-        EmphasisText(text = "NOW PLAYING")
+        EmphasisText(text = "PLAYING!!!")
         IconButton(
             imageVector = Icons.Filled.MoreVert,
             size = 35.dp,

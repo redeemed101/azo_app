@@ -135,7 +135,10 @@ fun MainHome(
 
           Box() {
 
-
+           LaunchedEffect(commonState.currentTab){
+               events(CommonEvent.ChangeTopBarColor(backgroundColor))
+               events(CommonEvent.ChangeTopBarTintColor(tintColor))
+           }
             Scaffold(
 
                 scaffoldState = scaffoldState,
@@ -166,7 +169,8 @@ fun MainHome(
                 )
 
             ) {
-                 it.calculateBottomPadding()
+                 val bp = it.calculateBottomPadding()
+
                  NavigationHost(
                      navController,
                      mainViewModel,
@@ -176,6 +180,8 @@ fun MainHome(
                      storedMusicViewModel,
                      playVideo
                  )
+                Spacer(modifier = Modifier.padding(bp))
+
 
             }
 

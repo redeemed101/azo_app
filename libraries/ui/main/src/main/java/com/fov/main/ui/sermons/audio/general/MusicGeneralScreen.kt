@@ -125,6 +125,7 @@ fun MusicGeneralScreen(
                 Box(
                     modifier = Modifier
                         .align(Alignment.BottomEnd)
+                        .systemBarsPadding()
                 ) {
 
                     if (musicState.nowPlaying.isNotEmpty() && commonState.hasBottomBar) {

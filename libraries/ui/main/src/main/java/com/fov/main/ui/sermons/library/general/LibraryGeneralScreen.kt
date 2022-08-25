@@ -1,19 +1,39 @@
-package com.fov.main.ui.sermons.video.general
+package com.fov.main.ui.sermons.library.general
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.*
+import androidx.compose.animation.core.MutableTransitionState
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.collectAsLazyPagingItems
+import coil.compose.rememberImagePainter
+import com.fov.common_ui.R
 import com.fov.common_ui.events.CommonEvent
 import com.fov.common_ui.states.CommonState
+import com.fov.common_ui.theme.DarkThemeBarsBlack
+import com.fov.common_ui.theme.commonPadding
+import com.fov.common_ui.theme.padding10
 import com.fov.common_ui.ui.composers.general.LoadingBox
 import com.fov.common_ui.ui.composers.sections.SearchBar
+import com.fov.main.ui.sermons.audio.general.BottomMusicPlayer
 import com.fov.sermons.events.MusicEvent
 import com.fov.sermons.states.MusicState
 import com.google.accompanist.swiperefresh.SwipeRefresh
@@ -22,7 +42,7 @@ import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 
 @ExperimentalAnimationApi
 @Composable
-fun VideoGeneralScreen(
+fun LibraryGeneralScreen(
     commonState : CommonState,
     events: (event: CommonEvent) -> Unit,
     musicState: MusicState,
@@ -103,9 +123,25 @@ fun VideoGeneralScreen(
                         }
                     }
                 }
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.BottomEnd)
+                ) {
 
+                    if (musicState.nowPlaying.isNotEmpty() && commonState.hasBottomBar) {
+
+                        BottomMusicPlayer(
+                            musicState = musicState,
+                            commonState = commonState,
+                            commonEvents = events,
+                            musicEvents = musicEvents
+                        )
+                    }
+
+
+                }
             }
-            Spacer(modifier = Modifier.height(100.dp))
+
 
         }
 

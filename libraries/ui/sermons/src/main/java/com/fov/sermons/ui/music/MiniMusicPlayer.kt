@@ -1,15 +1,18 @@
 package com.fov.sermons.ui.music
 
 import android.net.Uri
+import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.compose.ui.viewinterop.AndroidViewBinding
 import com.fov.common_ui.theme.White009
 import com.fov.sermons.databinding.ExoPlayerCustomBinding
+import com.fov.sermons.databinding.ExoplayerMainCustomBinding
 import com.fov.sermons.utils.MediaPlayback
 import com.google.android.exoplayer2.*
 import com.google.android.exoplayer2.util.RepeatModeUtil
@@ -77,7 +80,9 @@ fun MiniMusicPlayer(
     }
     val color = White009.toArgb()
     if (minimized) {
-        AndroidViewBinding(ExoPlayerCustomBinding::inflate, modifier = modifier) {
+        AndroidViewBinding(
+            ExoPlayerCustomBinding::inflate,
+            modifier = modifier) {
 
             player.apply {
                 player = exoPlayer
@@ -97,24 +102,26 @@ fun MiniMusicPlayer(
         }
     }
     else{
-         AndroidView(
-            factory = { context ->
-                StyledPlayerView(context).apply {
-
-                    player = exoPlayer
-                    useArtwork = false
-                    controllerHideOnTouch = false
-                    showController()
-                    controllerShowTimeoutMs = 0
-                    setRepeatToggleModes(RepeatModeUtil.REPEAT_TOGGLE_MODE_ONE or RepeatModeUtil.REPEAT_TOGGLE_MODE_ALL)
-                    setShowShuffleButton(true)
 
 
-                }
+        AndroidViewBinding(
+            ExoplayerMainCustomBinding::inflate,
+            modifier = modifier) {
 
-            },
-            modifier = modifier
-        )
+            mainPlayer.apply {
+                player = exoPlayer
+
+                //setShutterBackgroundColor(color)
+                useArtwork = false
+                showController()
+                controllerHideOnTouch = false
+                controllerShowTimeoutMs = 0
+                setRepeatToggleModes(RepeatModeUtil.REPEAT_TOGGLE_MODE_ONE or RepeatModeUtil.REPEAT_TOGGLE_MODE_ALL)
+                setShowShuffleButton(true)
+
+            }
+
+        }
 
 
     }

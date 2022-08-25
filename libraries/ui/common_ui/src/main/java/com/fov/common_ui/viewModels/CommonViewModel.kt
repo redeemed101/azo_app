@@ -29,6 +29,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import javax.inject.Inject
 import androidx.camera.core.ImageCapture.Metadata
+import androidx.compose.material.MaterialTheme
 import androidx.core.net.toFile
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -53,6 +54,13 @@ class CommonViewModel @Inject constructor(
 
     private var cameraExecutor: ExecutorService = Executors.newSingleThreadExecutor()
     val permissionsInitiallyRequestedState = MutableStateFlow(false)
+
+    init{
+        _uiState.value.build {
+            //topBarColor = MaterialTheme.colors.onSurface
+            //topBarTintColor = MaterialTheme.colors.surface
+        }
+    }
 
 
 
@@ -271,6 +279,9 @@ class CommonViewModel @Inject constructor(
 
                 is CommonEvent.ChangeTopBarColor -> {
                     topBarColor = event.color
+                }
+                is CommonEvent.ChangeTopBarTintColor -> {
+                    topBarTintColor = event.color
                 }
                 CommonEvent.NavigateToSearch -> {
                     navigationManager.navigate(Screen.Search.route)

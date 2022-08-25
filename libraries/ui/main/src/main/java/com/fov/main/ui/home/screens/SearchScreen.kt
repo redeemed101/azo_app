@@ -104,7 +104,7 @@ private fun Search(
                 var searchText by remember { mutableStateOf(TextFieldValue(usersState.searchUserText)) }
                 SearchField(
                     value = searchText,
-                    placeholder = "Artists, music or people",
+                    placeholder = "sermons",
                     onChange = {
                         usersEvents(UsersEvent.SearchUserTextChanged(it.text))
                         searchText = it

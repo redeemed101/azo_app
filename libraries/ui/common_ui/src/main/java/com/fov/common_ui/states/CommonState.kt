@@ -49,6 +49,7 @@ class CommonState(
     val showSearchOption : Boolean = false,
     val showSearchBar : Boolean = false,
     val topBarColor : Color = White009,
+    val topBarTintColor : Color = White009,
     val bottomSheetHeader : @Composable ColumnScope.() -> Unit = {},
     val bottomSheetAction :  () -> Unit = {},
     val showAddToPlaylist: Boolean = false,
@@ -92,6 +93,7 @@ class CommonState(
         var showSearchOption = state.showSearchOption
         var showSearchBar = state.showSearchBar
         var topBarColor = state.topBarColor
+        var topBarTintColor = state.topBarTintColor
         var bottomSheetHeader = state.bottomSheetHeader
         var bottomSheetAction = state.bottomSheetAction
         var showAddToPlaylist = state.showAddToPlaylist
@@ -130,6 +132,7 @@ class CommonState(
                 showSearchOption,
                 showSearchBar,
                 topBarColor,
+                topBarTintColor,
                 bottomSheetHeader,
                 bottomSheetAction,
                 showAddToPlaylist,

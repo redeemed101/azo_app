@@ -8,6 +8,8 @@ import android.os.Handler
 import android.os.Looper
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.TextView
+import androidx.compose.material.MaterialTheme
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -43,11 +45,13 @@ class SplashScreenActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash_screen)
         val layout = findViewById<ConstraintLayout>(R.id.splashLayout)
+        val text = findViewById<TextView>(R.id.textViewId)
+        text.setTextColor(Color.White.toArgb())
         var  logo = com.fov.common_ui.R.drawable.fov_logo
         var backgroundColor = Color.White.toArgb()
         if (applicationContext.isDarkThemeOn()){
            logo = com.fov.common_ui.R.drawable.fov_logo
-           backgroundColor = Color.Black.toArgb()
+           backgroundColor = Color(0xFF044B95).toArgb()
         }
         val imageView = findViewById<ImageView>(R.id.imageView)
         imageView.setImageResource(logo)

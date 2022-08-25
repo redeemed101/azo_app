@@ -42,6 +42,7 @@ sealed class CommonEvent {
     data class ChangeHasBottomBar(val showBottomBar: Boolean) : CommonEvent()
     data class ChangeTab(val tab: Screen) : CommonEvent()
     data class ChangeTopBarColor(val color: Color) : CommonEvent()
+    data class ChangeTopBarTintColor(val color: Color) : CommonEvent()
     data class ChangeLoading(val loading: Boolean) : CommonEvent()
     data class ChangeBottomSheetHeader(val header: @Composable ColumnScope.() -> Unit) : CommonEvent()
     data class ChangeBottomSheetAction(val action : () -> Unit) : CommonEvent()

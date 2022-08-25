@@ -40,6 +40,7 @@ import com.fov.sermons.R
 import com.fov.sermons.events.MusicEvent
 import com.fov.sermons.models.Song
 import com.fov.sermons.states.MusicState
+import com.fov.sermons.ui.music.MiniMusicPlayer
 import com.fov.sermons.ui.music.MusicPlayer
 import com.fov.sermons.viewModels.SermonViewModel
 import kotlinx.coroutines.InternalCoroutinesApi
@@ -167,21 +168,16 @@ private fun MusicPlayerView(
                                     fontSize = 18.sp
                                 )
                                 val currentSource = musicState.currentSong?.path ?: "https://file-fovs-com.github.io/uploads/2017/11/file_fov_MP3_700KB.mp3"
-                                if(isSongLoaded) {
-                                    MusicPlayer(
-                                        modifier = Modifier
-                                            .height(maxHeight / 5f)
-                                            .width(maxWidth),
-                                        onMediaReady = {
-                                            isSongLoaded  = true
-                                        },
-                                        onMediaBuffering = {
-                                            isSongLoaded  =  false
-                                        },
-                                        onMediaError = {
-                                            isSongLoaded  = false
-                                            Toast.makeText(context,"Loading song failed",Toast.LENGTH_LONG)
-                                        },
+                                if(isSongLoaded && musicState.player != null) {
+                                    MiniMusicPlayer(
+                                        modifier  = Modifier
+                                            .background(MaterialTheme.colors.surface.copy(alpha = 1f))
+                                            .fillMaxWidth()
+                                            .padding(bottom = if (musicState.isPlayerMinimized) 50.dp else 0.dp)
+                                            .height(if (musicState.isPlayerMinimized) 80.dp else maxHeight / 5f),
+                                        exoPlayer = musicState.player!!,
+                                        alreadyPlaying = musicState.isSongStarted,
+                                        minimized = musicState.isPlayerMinimized,
                                         sources = listOf(currentSource)
                                     )
                                 }
@@ -287,15 +283,13 @@ fun SongBottomSheetHeader(
         verticalAlignment = Alignment.CenterVertically
     ){
         Image(
-            painter = rememberImagePainter(
-                data = song.artwork,
-                builder = {
+            painter = rememberAsyncImagePainter(
+                ImageRequest.Builder(LocalContext.current).data(data = song.artwork).apply(block = fun ImageRequest.Builder.() {
                     crossfade(true)
                     fallback(com.fov.common_ui.R.drawable.image_placeholder)
                     placeholder(com.fov.common_ui.R.drawable.image_placeholder)
-                },
-
-                ),
+                }).build()
+            ),
             "",
             contentScale = ContentScale.FillWidth,
             modifier = Modifier
@@ -445,14 +439,13 @@ fun MusicPlayerSheet(
                 )
                 Spacer(modifier = Modifier.height(44.dp))
                 Image(
-                    painter = rememberImagePainter(
-                        data = musicState.currentSong?.artwork
-                            ?: "https://www.pngkit.com/png/detail/115-1150342_user-avatar-icon-iconos-de-mujeres-a-color.png",
-                        builder = {
+
+                    painter = rememberAsyncImagePainter(
+                        ImageRequest.Builder(LocalContext.current).data(data = musicState.currentSong?.artwork ?:  "https://www.pngkit.com/png/detail/115-1150342_user-avatar-icon-iconos-de-mujeres-a-color.png").apply(block = fun ImageRequest.Builder.() {
                             crossfade(true)
-                            fallback(ThemeHelper.getLogoResource())
-                            placeholder(ThemeHelper.getLogoResource())
-                        }
+                            fallback(com.fov.common_ui.R.drawable.image_placeholder)
+                            placeholder(com.fov.common_ui.R.drawable.image_placeholder)
+                        }).build()
                     ),
                     contentDescription = "",
                     modifier = Modifier

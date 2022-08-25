@@ -83,10 +83,13 @@ private fun AlbumView(
         }
     ) {
         val backgroundColor = MaterialTheme.colors.surface
+        val tintColor = MaterialTheme.colors.onSurface
+
         LaunchedEffect(commonState.hasDeepScreen) {
             events(CommonEvent.ChangeHasDeepScreen(true,""))
             events(CommonEvent.ChangeShowMoreOptions(true))
             events(CommonEvent.ChangeTopBarColor(backgroundColor))
+            events(CommonEvent.ChangeTopBarTintColor(tintColor))
 
             if(musicState.selectedAlbum != null) {
                 events(CommonEvent.ChangeBottomSheetHeader{
@@ -111,7 +114,7 @@ private fun AlbumView(
             val context = LocalContext.current
             val lifecycleOwner = LocalLifecycleOwner.current
             val album = musicState.selectedAlbum!!
-            val isLiked = musicState.selectedAlbum!!.userLikes.contains(commonState.user!!.id)
+            val isLiked = false//musicState.selectedAlbum!!.userLikes.contains(commonState.user!!.id)
             val verticalGradientBrush = Brush.verticalGradient(
                 colors = listOf(
                     backgroundColor,
@@ -253,6 +256,9 @@ private fun AlbumView(
 
                 ) {
                     Button(
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = MaterialTheme.colors.onSurface
+                        ),
                         onClick = {
 
                         },
@@ -268,10 +274,10 @@ private fun AlbumView(
                                     .padding(horizontal = 8.dp)
                                     .clickable {
                                     },
-                                tint = MaterialTheme.colors.onSurface,
+                                tint = MaterialTheme.colors.surface,
                                 contentDescription = ""
                             )
-                            Text("Play", color = Color.White)
+                            Text("Play", color = MaterialTheme.colors.surface)
                         }
                     }
                     Button(
@@ -280,7 +286,7 @@ private fun AlbumView(
                         },
                         shape = RoundedCornerShape(20),
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color.White
+                            backgroundColor = MaterialTheme.colors.surface
                         ),
                         modifier = Modifier
                             .width(screenWidth * 0.4f)
@@ -295,10 +301,10 @@ private fun AlbumView(
                                     .padding(horizontal = 8.dp)
                                     .clickable {
                                     },
-                                tint = MaterialTheme.colors.primary,
+                                tint = MaterialTheme.colors.onSurface,
                                 contentDescription = ""
                             )
-                            Text("Shuffle", color = MaterialTheme.colors.primary)
+                            Text("Shuffle", color = MaterialTheme.colors.onSurface)
                         }
                     }
                 }
@@ -342,7 +348,7 @@ private fun AlbumView(
                 album.albumName,
                 textAlign = TextAlign.Start,
                 style = MaterialTheme.typography.caption.copy(
-                    MaterialTheme.colors.onSurface,
+                    MaterialTheme.colors.surface,
                     fontWeight = FontWeight.Bold
                 ),
             )
@@ -350,7 +356,7 @@ private fun AlbumView(
                 album.artistName,
                 textAlign = TextAlign.Start,
                 style = MaterialTheme.typography.caption.copy(
-                    MaterialTheme.colors.onSurface,
+                    MaterialTheme.colors.surface,
 
                     ),
 

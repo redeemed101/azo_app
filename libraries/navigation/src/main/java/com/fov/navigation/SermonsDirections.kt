@@ -33,34 +33,15 @@ object SermonsDirections {
         })
         override val destination = RouteConstants.GENRE
     }
-    val charts = object : NavigationCommand{
+    val downloaded_tab = object : NavigationCommand{
 
         override val arguments = listOf(navArgument(Constants.MAINTAB) {
-            defaultValue = RouteConstants.CHARTS
+            defaultValue = RouteConstants.DOWNLOADED
         })
-        override val destination = RouteConstants.CHARTS
+        override val destination = RouteConstants.DOWNLOADED
     }
-    val moods = object : NavigationCommand{
 
-        override val arguments = listOf(navArgument(Constants.MAINTAB) {
-            defaultValue = RouteConstants.MOODS
-        })
-        override val destination = RouteConstants.MOODS
-    }
-    val mood = object : NavigationCommand{
 
-        override val arguments = listOf(navArgument(Constants.MAINTAB) {
-            defaultValue = RouteConstants.MOOD
-        })
-        override val destination = RouteConstants.MOOD
-    }
-    val playlists = object : NavigationCommand{
-
-        override val arguments = listOf(navArgument(Constants.MAINTAB) {
-            defaultValue = RouteConstants.PLAYLISTS
-        })
-        override val destination = RouteConstants.PLAYLISTS
-    }
     val song = object : NavigationCommand{
 
         override val arguments = listOf(navArgument(Constants.MAINTAB) {

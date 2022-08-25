@@ -26,6 +26,7 @@ import com.fov.navigation.Screen
 import com.fov.sermons.events.MusicEvent
 import com.fov.sermons.events.StoredMusicEvent
 import com.fov.sermons.states.MusicState
+import com.fov.sermons.ui.general.headers.mainLibraryBar
 import com.fov.sermons.ui.general.headers.mainVideoTab
 import kotlinx.coroutines.CoroutineScope
 
@@ -56,15 +57,15 @@ fun BuildTopBar(
             if (commonState.hasDeepScreen) {
 
 
-
                 backTopBar(
                     title = commonState.screenTitle,
-                    backgroundColor = backgroundColor,
-                    tintColor = tintColor,
+                    backgroundColor = commonState.topBarColor,
+                    tintColor = commonState.topBarTintColor,
                     backAction = { isDeep, title ->
                         events(CommonEvent.ChangeHasDeepScreen(isDeep, title))
                         events(CommonEvent.ChangeShowMoreOptions(false))
-                        events(CommonEvent.ChangeTopBarColor(White009))
+                        events(CommonEvent.ChangeTopBarColor(backgroundColor))
+                        events(CommonEvent.ChangeTopBarTintColor(tintColor))
                         events(CommonEvent.ChangeShowSearchOption(false))
                         musicEvents(MusicEvent.ChangeShowingSong(false))
                         events(CommonEvent.NavigateUp)
@@ -103,7 +104,7 @@ fun BuildTopBar(
                         }
                         if (musicState.showingAlbum) {
                             val album = musicState.selectedAlbum!!
-                            val isLiked = album.userLikes.contains(commonState.user!!.id)
+                            val isLiked = true//album.userLikes.contains(commonState.user!!.id)
                             bottomSheetShowMoreContent = {
                                 albumBottomSheet(
                                     album = album,
@@ -143,14 +144,14 @@ fun BuildTopBar(
                             )
                         )
                         moreHeaderIcon(
-                            tintColor = tintColor,
+                            tintColor = commonState.topBarTintColor,
                             onAction = bottomSheetShowMoreContent
                         )
 
 
                     } else if (commonState.showSearchOption) {
                         searchHeaderIcon(
-                            tintColor = tintColor
+                            tintColor = commonState.topBarTintColor
                         ) {
                             events(CommonEvent.ChangeShowSearchBar(true))
                             events(CommonEvent.ChangeHasTopBar(false))
@@ -196,6 +197,15 @@ fun BuildTopBar(
                     }
                     Screen.Video -> {
                         mainVideoTab(
+                            backgroundColor = backgroundColor,
+                            tintColor = tintColor,
+                        ) {
+                            events(CommonEvent.ChangeHasDeepScreen(true, "Search"))
+                            events(CommonEvent.NavigateToSearch)
+                        }
+                    }
+                    Screen.Library ->{
+                        mainLibraryBar(
                             backgroundColor = backgroundColor,
                             tintColor = tintColor,
                         ) {
