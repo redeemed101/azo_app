@@ -1,6 +1,7 @@
 package com.fov.sermons.ui.music
 
 import android.net.Uri
+import android.view.View
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -109,8 +110,11 @@ fun MiniMusicPlayer(
             modifier = modifier) {
 
             mainPlayer.apply {
-                player = exoPlayer
 
+
+                player = exoPlayer
+                if( alreadyPlaying)
+                visibility = View.VISIBLE
                 //setShutterBackgroundColor(color)
                 useArtwork = false
                 showController()
