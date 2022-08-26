@@ -30,6 +30,7 @@ import com.fov.common_ui.extensions.itemsCustomized
 import com.fov.common_ui.models.DownloadData
 import com.fov.common_ui.states.CommonState
 import com.fov.common_ui.theme.White009
+import com.fov.common_ui.theme.bottomTabHeight
 import com.fov.common_ui.theme.commonPadding
 import com.fov.common_ui.ui.composers.sections.Section
 import com.fov.common_ui.viewModels.CommonViewModel
@@ -372,10 +373,8 @@ private fun Song(
                     }
                 }
 
-
-
-
-                Spacer(modifier = Modifier.height(100.dp))
+                Spacer(modifier = Modifier.height(commonPadding))
+                Spacer(modifier = Modifier.height(bottomTabHeight))
 
             }
 

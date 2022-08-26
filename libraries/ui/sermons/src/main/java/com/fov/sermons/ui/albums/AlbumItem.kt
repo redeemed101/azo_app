@@ -51,7 +51,8 @@ fun AlbumItem(
                 bitmap = bitmap.asImageBitmap(),
                 contentDescription = null,
                 contentScale = ContentScale.FillHeight,
-                modifier = Modifier.clip(MaterialTheme.shapes.medium)
+                modifier = Modifier.size(200.dp)
+                    .clip(MaterialTheme.shapes.medium)
 
             )
 

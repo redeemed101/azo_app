@@ -1,10 +1,7 @@
 package com.fov.main.ui.sermons.library.screen
 
 import androidx.compose.animation.ExperimentalAnimationApi
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.*
@@ -16,6 +13,8 @@ import com.fov.common_ui.events.CommonEvent
 import com.fov.common_ui.viewModels.CommonViewModel
 import com.fov.sermons.viewModels.SermonViewModel
 import com.fov.common_ui.states.CommonState
+import com.fov.common_ui.theme.bottomTabHeight
+import com.fov.common_ui.theme.commonPadding
 import com.fov.main.ui.sermons.audio.general.MusicGeneralScreen
 import com.fov.main.ui.sermons.library.general.LibraryGeneralScreen
 import com.fov.main.ui.sermons.library.sections.DownloadedAlbumsTab
@@ -62,9 +61,11 @@ private fun LibraryHome(
     storedMusicEvents : (event: StoredMusicEvent) -> Unit
 
     ){
-    LaunchedEffect(commonState.hasDeepScreen) {
+    val scope = rememberCoroutineScope()
+    LaunchedEffect(commonState.currentTab) {
 
-        musicEvents(MusicEvent.LoadHome)
+        storedMusicEvents(StoredMusicEvent.LoadDownloadedSongs)
+        storedMusicEvents(StoredMusicEvent.LoadDownloadedAlbums)
     }
     LibraryGeneralScreen(
         commonState = commonState,
@@ -150,6 +151,9 @@ private fun LibraryHome(
                         musicEvents = musicEvents,
                         commonState = commonState, events = events)
                 }
+
+                Spacer(modifier = Modifier.height(commonPadding))
+                Spacer(modifier = Modifier.height(bottomTabHeight))
 
             }
         }

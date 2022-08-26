@@ -12,11 +12,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import com.fov.common_ui.theme.commonPadding
 import com.fov.sermons.R
 import com.fov.sermons.models.Song
@@ -73,22 +76,24 @@ fun SongListItem(
                         bitmap = bitmap.asImageBitmap(),
                         contentDescription = null,
                         contentScale = ContentScale.FillHeight,
-                        //modifier = Modifier.height(100.dp)
+                        modifier = Modifier.height(100.dp)
 
                     )
                 }
-                Image(
-                    painter = rememberImagePainter(
-                        data = song.artwork,
-                        builder = {
-                            crossfade(true)
-                            fallback(com.fov.common_ui.R.drawable.image_placeholder)
-                            placeholder(com.fov.common_ui.R.drawable.image_placeholder)
-                        }
-                    ),
-                    contentDescription = null,
-                    //modifier = Modifier.size(200.dp)
-                )
+                else {
+                    Image(
+                        painter = rememberAsyncImagePainter(
+                            ImageRequest.Builder(LocalContext.current).data(data = song.artwork)
+                                .apply(block = fun ImageRequest.Builder.() {
+                                    crossfade(true)
+                                    fallback(com.fov.common_ui.R.drawable.image_placeholder)
+                                    placeholder(com.fov.common_ui.R.drawable.image_placeholder)
+                                }).build()
+                        ),
+                        contentDescription = null,
+                        //modifier = Modifier.size(200.dp)
+                    )
+                }
             }
             Column(
                 modifier = Modifier.padding(horizontal = 10.dp)
@@ -102,7 +107,7 @@ fun SongListItem(
                     ),
                 )
                 Text(
-                    "Apostle Ziba",
+                    song.artistName,
                     textAlign = TextAlign.Start,
                     style = MaterialTheme.typography.caption.copy(
                         MaterialTheme.colors.onSurface,

@@ -23,9 +23,9 @@ data class Album(
         fun fromDownloadedAlbum(album : DownloadedAlbum) = Album(
             albumId = album.albumId,
             genres = listOf(),
-            artwork = "",
+            artwork = album.imagePath,
             albumName = album.albumName,
-            description = "",
+            description = "This is a good series",
             path = "",
             likes = 0,
             streams = 0,

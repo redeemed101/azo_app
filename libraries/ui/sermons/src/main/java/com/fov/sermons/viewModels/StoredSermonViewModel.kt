@@ -37,10 +37,14 @@ class StoredSermonViewModel  @Inject constructor(
         _uiState.value = uiState.value.build {
             when (event) {
                 StoredMusicEvent.LoadDownloadedSongs -> {
-                    downloadedSongs =  storedMusicInteractor.getDownloadedSongs()
+
+                        downloadedSongs = storedMusicInteractor.getDownloadedSongs()
+
                 }
                 StoredMusicEvent.LoadDownloadedAlbums -> {
-                    downloadedAlbums = storedMusicInteractor.getDownloadedAlbums()
+
+                        downloadedAlbums = storedMusicInteractor.getDownloadedAlbums()
+
                 }
                 is StoredMusicEvent.SaveDownloadedSong -> {
                     viewModelScope.launch {

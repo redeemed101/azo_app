@@ -24,6 +24,7 @@ import com.fov.common_ui.R
 import com.fov.common_ui.events.CommonEvent
 import com.fov.common_ui.models.DownloadData
 import com.fov.common_ui.states.CommonState
+import com.fov.common_ui.theme.bottomTabHeight
 import com.fov.common_ui.theme.commonPadding
 import com.fov.common_ui.viewModels.CommonViewModel
 import com.fov.main.ui.sermons.audio.general.SongListItem
@@ -316,6 +317,8 @@ private fun AlbumView(
                     }
 
                 }
+                Spacer(modifier = Modifier.height(commonPadding))
+                Spacer(modifier = Modifier.height(bottomTabHeight))
             }
         }
     }

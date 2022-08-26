@@ -16,19 +16,19 @@ interface DownloadedSongsDao {
     fun getDownloadedSongsPaginated(): DataSource.Factory<Int, DownloadedSong>
 
     @Query("DELETE FROM DownloadedSong")
-    suspend fun deleteAll()
+    suspend fun deleteAll() : Int
 
     @Delete
-    suspend fun delete(song : DownloadedSong)
+    suspend fun delete(song : DownloadedSong) : Int
 
     @Query("DELETE FROM DownloadedSong WHERE songId=:id")
-    suspend fun deleteSong(id : String)
+    suspend fun deleteSong(id : String) : Int
 
     @Insert
-    fun insertAll(vararg songs: DownloadedSong)
+    fun insertAll(vararg songs: DownloadedSong) : List<Long>
 
     @Update
-    fun update(vararg song: DownloadedSong)
+    fun update(vararg song: DownloadedSong) : Int
 
     @Query("SELECT EXISTS(SELECT * FROM DownloadedSong WHERE songId= :id)")
     fun doesSongExist(id : String) : Flow<Boolean>

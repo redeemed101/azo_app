@@ -9,67 +9,51 @@ import com.fov.domain.database.models.DownloadedAlbum
 import com.fov.domain.database.models.DownloadedSong
 import com.fov.domain.remote.apollo.music.ApolloMusicService
 import com.fov.domain.repositories.music.SermonRepository
+import com.fov.domain.repositories.music.StoredSermonRepository
 import com.fov.domain.utils.constants.QueryConstants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class StoredMusicInteractor constructor(
-    private val downloadedSongsDao: DownloadedSongsDao,
-    private val downloadedAlbumsDao: DownloadedAlbumsDao,
-    private val sermonRepository: SermonRepository,
-    private val sermonGraphQLService: ApolloMusicService
+    private val storedSermonRepository: StoredSermonRepository
 ) {
      fun getDownloadedSongs() =
-            Pager(
-                PagingConfig(pageSize = QueryConstants.NUM_ROWS),
-                null,
-                downloadedSongsDao.getDownloadedSongsPaginated()
-                    .asPagingSourceFactory(
-                    )
-            ).flow
+         storedSermonRepository.getDownloadedSongs()
 
-    fun getDownloadedAlbums() =
-        Pager(
-            PagingConfig(pageSize = QueryConstants.NUM_ROWS),
-            null,
-            downloadedAlbumsDao.getDownloadedAlbumsPaginated().asPagingSourceFactory(
 
-            )
-        ).flow
+     fun getDownloadedAlbums() =
+        storedSermonRepository.getDownloadedAlbums()
+
 
     suspend fun saveDownloadedSong(song : DownloadedSong) =  withContext(Dispatchers.IO) {
-       if(song.dbId == null)
-         downloadedSongsDao.insertAll(song)
-        else
-            downloadedSongsDao.update(song)
+          storedSermonRepository.saveDownloadedSong(song)
     }
     suspend fun saveDownloadedAlbum(album : DownloadedAlbum) =  withContext(Dispatchers.IO) {
-        if(album.dbId == null)
-            downloadedAlbumsDao.insertAll(album)
-        else
-            downloadedAlbumsDao.update(album)
+        storedSermonRepository.saveDownloadedAlbum(album)
     }
 
     suspend fun deleteDownloadedSong(songId : String) = withContext(Dispatchers.IO) {
-        downloadedSongsDao.deleteSong(songId)
+        storedSermonRepository.deleteDownloadedSong(songId)
     }
 
     suspend fun deleteDownloadedAlbum(albumId : String) = withContext(Dispatchers.IO) {
-        downloadedAlbumsDao.deleteAlbum(albumId)
+        storedSermonRepository.deleteDownloadedAlbum(albumId)
     }
     suspend fun deleteAllDownloadedSongs() = withContext(Dispatchers.IO) {
-        downloadedSongsDao.deleteAll()
+        storedSermonRepository.deleteAllDownloadedSongs()
     }
     suspend fun deleteAllDownloadedAlbums() = withContext(Dispatchers.IO) {
-        downloadedAlbumsDao.deleteAll()
+        storedSermonRepository.deleteAllDownloadedAlbums()
     }
 
 
     fun isAlbumThere(id :  String) =
-        downloadedAlbumsDao.doesAlbumExist(id)
+        storedSermonRepository.isAlbumThere(id)
 
-     fun isSongThere(id :  String)
-        =  downloadedSongsDao.doesSongExist(id)
+
+   fun isSongThere(id :  String) =
+        storedSermonRepository.isSongThere(id)
+
 
 }
 

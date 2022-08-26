@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.fov.common_ui.events.CommonEvent
 import com.fov.common_ui.states.CommonState
+import com.fov.common_ui.theme.bottomTabHeight
 import com.fov.common_ui.theme.commonPadding
 import com.fov.common_ui.viewModels.CommonViewModel
 import com.fov.main.ui.sermons.audio.general.MusicGeneralScreen
@@ -88,8 +89,8 @@ private fun Genre(
                 ) {  }
 
 
-
-                Spacer(modifier = Modifier.height(100.dp))
+                Spacer(modifier = Modifier.height(commonPadding))
+                Spacer(modifier = Modifier.height(bottomTabHeight))
             }
         }
     }

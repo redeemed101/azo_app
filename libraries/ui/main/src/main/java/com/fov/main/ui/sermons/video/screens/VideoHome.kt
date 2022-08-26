@@ -32,6 +32,7 @@ import com.fov.common_ui.events.CommonEvent
 import com.fov.common_ui.extensions.itemsCustom
 import com.fov.common_ui.extensions.itemsCustomized
 import com.fov.common_ui.states.CommonState
+import com.fov.common_ui.theme.bottomTabHeight
 import com.fov.common_ui.theme.commonPadding
 import com.fov.common_ui.theme.padding10
 import com.fov.common_ui.viewModels.CommonViewModel
@@ -152,6 +153,7 @@ private fun videos(
 
            }
        }
-       Spacer(modifier = Modifier.height(100.dp))
+       Spacer(modifier = Modifier.height(commonPadding))
+       Spacer(modifier = Modifier.height(bottomTabHeight))
     }
 }

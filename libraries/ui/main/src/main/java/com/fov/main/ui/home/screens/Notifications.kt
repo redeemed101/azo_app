@@ -30,6 +30,8 @@ import com.fov.common_ui.viewModels.CommonViewModel
 import com.fov.main.ui.home.HomeGeneralScreen
 import kotlinx.coroutines.flow.Flow
 import androidx.compose.foundation.lazy.LazyListScope
+import com.fov.common_ui.theme.bottomTabHeight
+import com.fov.common_ui.theme.commonPadding
 
 @ExperimentalMaterialApi
 @Composable
@@ -103,6 +105,8 @@ private fun NotificationsScreen(
                         Spacer(modifier = Modifier.padding(vertical = padding10))
                         }
 
+
+
                     }
                     notifications.apply {
 
@@ -136,6 +140,8 @@ private fun NotificationsScreen(
                     }
 
                 }
+                Spacer(modifier = Modifier.height(commonPadding))
+                Spacer(modifier = Modifier.height(bottomTabHeight))
             }
 
 

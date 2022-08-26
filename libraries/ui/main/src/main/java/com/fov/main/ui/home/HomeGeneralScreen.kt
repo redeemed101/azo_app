@@ -12,6 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.lifecycleScope
 import com.fov.common_ui.events.CommonEvent
 import com.fov.common_ui.states.CommonState
@@ -65,15 +66,20 @@ fun HomeGeneralScreen(
                 }
                 else {
                     pageContent()
+
+
                 }
             }
             Box (
                 modifier = Modifier
+                    .height(280.dp)
                     .align(Alignment.BottomEnd)
             ){
-
+                //Spacer(modifier = Modifier.height(280.dp))
             }
+
         }
+
 
     }
 

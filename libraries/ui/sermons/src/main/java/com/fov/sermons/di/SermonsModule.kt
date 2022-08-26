@@ -7,8 +7,7 @@ import com.fov.domain.interactors.music.MusicInteractor
 import com.fov.domain.interactors.music.StoredMusicInteractor
 import com.fov.domain.remote.apollo.music.ApolloMusicService
 import com.fov.domain.remote.music.*
-import com.fov.domain.repositories.music.SermonRepository
-import com.fov.domain.repositories.music.SermonRepositoryImpl
+import com.fov.domain.repositories.music.*
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,16 +22,17 @@ object SermonsModule {
         graphQLService : ApolloMusicService
     ): MusicInteractor = MusicInteractor(repository,graphQLService)
 
+    @Provides
+    fun providesStoredSermonRepository(
+        downloadedSongsDao: DownloadedSongsDao,
+        downloadedAlbumsDao: DownloadedAlbumsDao
+    ) : StoredSermonRepository = StoredSermonRepositoryMockImpl()
 
 
     @Provides
     fun providesStoredMusicInteractor(
-        downloadedSongsDao: DownloadedSongsDao,
-        downloadedAlbumsDao: DownloadedAlbumsDao,
-        repository: SermonRepository,
-        graphQLService : ApolloMusicService
-    ): StoredMusicInteractor = StoredMusicInteractor(downloadedSongsDao,
-        downloadedAlbumsDao,repository,graphQLService)
+        storedSermonRepository: StoredSermonRepository
+    ): StoredMusicInteractor = StoredMusicInteractor(storedSermonRepository)
 
 
     @Provides

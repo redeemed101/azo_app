@@ -180,7 +180,7 @@ fun MainHome(
                      storedMusicViewModel,
                      playVideo
                  )
-                Spacer(modifier = Modifier.padding(bp))
+
 
 
             }

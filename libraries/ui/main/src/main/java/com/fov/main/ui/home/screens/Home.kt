@@ -21,6 +21,7 @@ import com.fov.authentication.states.UsersState
 import com.fov.authentication.viewModels.UsersViewModel
 import com.fov.common_ui.events.CommonEvent
 import com.fov.common_ui.states.CommonState
+import com.fov.common_ui.theme.bottomTabHeight
 import com.fov.common_ui.theme.commonPadding
 import com.fov.common_ui.viewModels.CommonViewModel
 import com.fov.main.ui.home.HomeGeneralScreen
@@ -72,6 +73,7 @@ private fun homeScreen(
             events(CommonEvent.OnEndRefresh)
         }
     ) {
+
         val scrollState = rememberScrollState(0)
         BoxWithConstraints() {
             val screenWidth = maxWidth
@@ -142,11 +144,11 @@ private fun homeScreen(
                         /*events(CommonEvent.ChangeTab(Screen.Music))*/
                         }
                     )
-                    Spacer(modifier = Modifier.height(commonPadding))
-                    Spacer(modifier = Modifier.height(commonPadding))
+
 
                 }
-
+                Spacer(modifier = Modifier.height(commonPadding))
+                Spacer(modifier = Modifier.height(bottomTabHeight))
             }
 
 

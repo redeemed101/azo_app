@@ -37,7 +37,7 @@ fun mainLibraryBar(
             .background(backgroundColor)
     ){
         Text(
-            "Collection",
+            "Library",
             textAlign = TextAlign.Start,
             modifier = Modifier.padding(horizontal = commonPadding),
             style = MaterialTheme.typography.h5.copy(

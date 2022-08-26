@@ -3,6 +3,8 @@ package com.fov.main.ui.sermons.library.sections
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
@@ -17,6 +19,8 @@ import com.example.common_ui.utils.helpers.ShimmerAnimation
 import com.fov.common_ui.events.CommonEvent
 import com.fov.common_ui.extensions.itemsCustomized
 import com.fov.common_ui.states.CommonState
+import com.fov.common_ui.theme.bottomTabHeight
+import com.fov.common_ui.theme.commonPadding
 import com.fov.common_ui.utils.helpers.Utilities
 import com.fov.main.ui.sermons.audio.general.SongListItem
 import com.fov.main.ui.sermons.audio.screens.SongBottomSheetHeader
@@ -43,7 +47,10 @@ fun DownloadedSongsTab(
             LazyColumn {
                 itemsCustomized(items!!) { dSong,idx ->
                     val song = Song.ModelMapper.fromDownloadedSong(dSong!!)
-                    SongListItem(song =song!!, showArtwork = true, isDownloadedSong = true, onDownloadedIconClicked = {
+                    SongListItem(song =song!!,
+                        showArtwork = true,
+                        isDownloadedSong = true,
+                        onDownloadedIconClicked = {
                           com.fov.sermons.utils.helpers.Utilities.unDownloadSong(""){
                               storedMusicEvents(StoredMusicEvent.DeleteDownloadedSong(song.songId))
                           }
@@ -87,6 +94,10 @@ fun DownloadedSongsTab(
                             }
                         }
                     }
+                }
+                item{
+                    Spacer(modifier = Modifier.height(commonPadding))
+                    Spacer(modifier = Modifier.height(bottomTabHeight))
                 }
             }
         }

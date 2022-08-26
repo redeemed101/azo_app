@@ -25,6 +25,7 @@ import com.fov.authentication.states.UsersState
 import com.fov.authentication.viewModels.UsersViewModel
 import com.fov.common_ui.events.CommonEvent
 import com.fov.common_ui.states.CommonState
+import com.fov.common_ui.theme.bottomTabHeight
 import com.fov.common_ui.theme.commonPadding
 import com.fov.common_ui.ui.composers.sections.SearchField
 import com.fov.common_ui.viewModels.CommonViewModel
@@ -208,7 +209,8 @@ private fun Search(
                     )
                 }
 
-                Spacer(modifier = Modifier.height(100.dp))
+                Spacer(modifier = Modifier.height(commonPadding))
+                Spacer(modifier = Modifier.height(bottomTabHeight))
 
             }
 

@@ -159,18 +159,17 @@ private fun MusicHome(
                         musicEvents
                     ) {  }
                 }
-                item {
-                    Spacer(modifier = Modifier.height(commonPadding))
-                }
 
                 item {
                     Spacer(modifier = Modifier.height(commonPadding))
+                    Spacer(modifier = Modifier.height(bottomTabHeight))
                 }
 
 
 
 
             }
+
         }
     }
 
