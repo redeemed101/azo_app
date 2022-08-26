@@ -31,6 +31,7 @@ fun SongListItem(
     isDownloadedSong : Boolean = false,
     onDownloadedIconClicked : () -> Unit = {},
     showArtwork : Boolean = false,
+    rowClick : () -> Unit = {},
     action  : () -> Unit
 ){
     Row(
@@ -38,6 +39,9 @@ fun SongListItem(
         verticalAlignment = Alignment.CenterVertically,
         modifier = Modifier
             .fillMaxWidth()
+            .clickable {
+                rowClick()
+            }
             .padding(vertical = commonPadding, horizontal = commonPadding)
     ) {
         Row(

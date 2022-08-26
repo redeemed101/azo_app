@@ -186,16 +186,18 @@ class SermonViewModel @Inject constructor(
 
                 is MusicEvent.AddToNowPlaying -> {
                     val song = event.song
+                    selectedSong = song
                     //added
-                    currentSong = event.song
+
                     isPlayerMinimized = false
                     songStarted = false
                     //end of added
                     var currentList: MutableList<Song> = mutableListOf()
-                    if(nowPlaying.isNotEmpty())
-                        currentList = nowPlaying as MutableList<Song>
+                    //if(nowPlaying.isNotEmpty())
+                       // currentList = nowPlaying as MutableList<Song>
                     currentList.add(song)
                     nowPlaying = currentList
+                    currentSong = event.song
                 }
                 is MusicEvent.SongSelected -> {
                     val song = event.song

@@ -13,8 +13,8 @@ val SONGS = List(20){
         songName = "Black Excellence $it",
         artwork = "https://picsum.photos/id/1002/200/",
         songLength = "12:00",
-        previewPath = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
-        path = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3"
+        previewPath = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+        path = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
     )
 }
 

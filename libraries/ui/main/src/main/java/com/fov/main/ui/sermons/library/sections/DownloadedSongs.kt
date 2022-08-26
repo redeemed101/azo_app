@@ -54,7 +54,11 @@ fun DownloadedSongsTab(
                           com.fov.sermons.utils.helpers.Utilities.unDownloadSong(""){
                               storedMusicEvents(StoredMusicEvent.DeleteDownloadedSong(song.songId))
                           }
-                    } ) {
+                    },
+                    rowClick = {
+                           musicEvents(MusicEvent.SongSelected(song!!))
+                        }
+                    ) {
                         musicEvents(MusicEvent.ChangeSongSelected(song!!))
                         events(CommonEvent.ChangeBottomSheetHeader{
                             SongBottomSheetHeader(song!!)

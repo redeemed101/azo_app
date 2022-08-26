@@ -44,7 +44,7 @@
             android:layout_marginEnd="7dp"
             android:layout_marginRight="7dp"
             android:layout_weight="1"
-            app:played_color="@color/white"
+            app:played_color="#044B95"
             app:unplayed_color="@android:color/darker_gray"
             app:buffered_color="@android:color/darker_gray"
            />
@@ -84,10 +84,18 @@
 
         <ImageButton android:id="@id/exo_play"
             android:src="@drawable/ic_play"
+            android:layout_height="20dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="fitCenter"
             style="@style/ExoMediaButton.Play"/>
 
         <ImageButton android:id="@id/exo_pause"
             android:src="@drawable/ic_pause"
+            android:layout_height="20dp"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:scaleType="fitCenter"
             style="@style/ExoMediaButton.Pause"/>
 
         <!--<ImageButton android:id="@id/exo_ffwd"

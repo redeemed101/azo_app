@@ -270,6 +270,7 @@ private fun Song(
                             if (musicState.player == null){
                                 musicEvents(MusicEvent.LoadPlayer(exoPlayer!!))
                             }
+                            //musicEvents(MusicEvent.ChangeSongSelected(song!!))
                             musicEvents(MusicEvent.AddToNowPlaying(musicState.selectedSong!!))
                             //musicEvents(MusicEvent.PlaySong(musicState.selectedSong!!))
                             //added

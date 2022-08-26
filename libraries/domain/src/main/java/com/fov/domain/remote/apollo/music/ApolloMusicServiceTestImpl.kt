@@ -61,7 +61,7 @@ class ApolloMusicServiceTestImpl constructor(
                             "$num",
                             "Record",
                             "",
-                            "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
+                            "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
 
                         emptyList(),
                         emptyList(),
@@ -89,7 +89,7 @@ class ApolloMusicServiceTestImpl constructor(
                   "Song",
                   "$num",
                   "Record",
-                  "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
+                  "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                   emptyList(),
                   emptyList(),
                   List(3){
@@ -119,7 +119,7 @@ class ApolloMusicServiceTestImpl constructor(
                     "Song",
                     "$num",
                     "Record",
-                    "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
+                    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
 
                     emptyList(),
                     emptyList(),
@@ -177,7 +177,7 @@ class ApolloMusicServiceTestImpl constructor(
                    "Song",
                             "12345",
                             "This$it",
-                            "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
+                            "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                             List(100){
                                 GetAlbumsPaginatedQuery.Like1(
                                     "Like",
@@ -224,7 +224,7 @@ class ApolloMusicServiceTestImpl constructor(
                             "Song",
                             "12345",
                             "This$it",
-                            "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
+                            "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
 
                             List(100){
                                 GetUserLikedAlbumsPaginatedQuery.Like1(

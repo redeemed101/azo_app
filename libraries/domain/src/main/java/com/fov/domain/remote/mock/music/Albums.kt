@@ -22,9 +22,9 @@ object AlbumsMockResponse {
                             Song(
                                 name = "song$it",
                                 id = "$it",
-                                path = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
+                                path = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                                 artworkPath = "https://picsum.photos/200",
-                                previewPath = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
+                                previewPath = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                                 description = "",
                                 songGenres = listOf(),
                                 songLikes = listOf(),

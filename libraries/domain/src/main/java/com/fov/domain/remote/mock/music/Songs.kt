@@ -11,9 +11,9 @@ object SongMockResponse {
         val obj = Song(
             name = "Lewis James",
             id = "1234",
-            path = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
+            path = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
             artworkPath = "https://picsum.photos/200",
-            previewPath = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
+            previewPath = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
             description = "",
 
             songGenres = emptyList(),
@@ -31,9 +31,9 @@ object SongsMockResponse {
                 Song(
                     name = "Lewis James $it",
                     id = "1234",
-                    path = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
+                    path = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                     artworkPath = "https://picsum.photos/200",
-                    previewPath = "https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3",
+                    previewPath = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                     description = "",
                     songGenres = emptyList(),
                     songLikes = emptyList(),

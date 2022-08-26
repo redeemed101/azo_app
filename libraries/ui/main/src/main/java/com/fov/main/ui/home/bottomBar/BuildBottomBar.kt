@@ -75,6 +75,7 @@ fun BuildBottomBar(
                             events(CommonEvent.ChangeTab(screen))
                             events(CommonEvent.ChangeHasDeepScreen(false, ""))
                             events(CommonEvent.ChangeBackPageData(BackPageData()))
+                            musicEvents(MusicEvent.MinimizeMusicPlayer(true))
                             navigate(screen.route)
 
                             if(screen == Screen.Music){
