@@ -13,7 +13,7 @@ object Data {
         songPath = "/data/data/com.fov.azo/files/i will rise - ROCK rec.mp3",
         songId = "1234",
         artistName = "Apostle Ziba",
-        imagePath = "/data/data/com.fov.azo/files/fov_logo-bg.png"
+        imagePath = "/data/data/com.fov.azo/files/fov_logo-bg.png="
     )
     val SONGS =
         List(5){
@@ -23,7 +23,7 @@ object Data {
                 songPath = "/data/data/com.fov.azo/files/i will rise - ROCK rec.mp3",
                 songId = "1234",
                 artistName = "Apostle Ziba",
-                imagePath = "/data/data/com.fov.azo/files/fov_logo-bg.png"
+                imagePath = "/data/data/com.fov.azo/files/apostle.jpg"
             )
         }
     val ALBUMS = List(5){
@@ -33,7 +33,7 @@ object Data {
             albumPath = "/data/data/com.fov.azo/files/Excellence",
             albumName = "Excellence and Wisdom",
             artistName = "Apostle Ziba",
-            imagePath = "/data/data/com.fov.azo/files/Excellence/fov_logo.jpg"
+            imagePath = "/data/data/com.fov.azo/files/apostle2.jpg"
         )
     }
 }

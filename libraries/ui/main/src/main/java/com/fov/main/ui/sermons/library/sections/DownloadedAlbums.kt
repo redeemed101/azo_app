@@ -1,14 +1,12 @@
 package com.fov.main.ui.sermons.library.sections
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.fov.common_ui.events.CommonEvent
 import com.fov.common_ui.states.CommonState
@@ -36,24 +34,28 @@ fun DownloadedAlbumsTab(
     BoxWithConstraints {
         val totalWidth = maxWidth
         if(items != null){
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                modifier = Modifier.padding(padding10),
+            Column {
+                LazyVerticalGrid(
+                    columns = GridCells.Adaptive(200.dp),
+                    modifier = Modifier.padding(padding10).padding(bottom = bottomTabHeight),
+                    horizontalArrangement = Arrangement.SpaceEvenly,
+                    verticalArrangement = Arrangement.SpaceEvenly
 
                 ) {
-                items(items.itemCount) { index ->
-                    val album  = Album.ModelMapper.fromDownloadedAlbum(items[index]!!)
-                    AlbumItem(album = album, isDownloaded = true, onDownloadedIconClicked = {
+                    items(items.itemCount) { index ->
+                        val album = Album.ModelMapper.fromDownloadedAlbum(items[index]!!)
+                        AlbumItem(album = album, isDownloaded = true, onDownloadedIconClicked = {
 
-                    }){
-                        musicEvents(MusicEvent.AlbumSelected(album))
+                        }) {
+                            musicEvents(MusicEvent.AlbumSelected(album))
+                        }
                     }
+
                 }
-                item{
-                    Spacer(modifier = Modifier.height(commonPadding))
-                    Spacer(modifier = Modifier.height(bottomTabHeight))
-                }
+                Spacer(modifier = Modifier.height(commonPadding))
+                Spacer(modifier = Modifier.height(bottomTabHeight))
             }
+
         }
     }
 }

@@ -2,7 +2,7 @@ package com.fov.sermons.mock.data.songs
 
 import com.fov.sermons.models.Song
 val PAGER_IMAGES = listOf(
-"https://picsum.photos/id/1/200",
+"/data/data/com.fov.azo/files/apostle2.jpg",
 "https://picsum.photos/id/10/200/",
 "https://picsum.photos/id/1000/200/",
 "https://picsum.photos/id/1002/200/"

@@ -128,7 +128,7 @@ private fun LibraryHome(
                         Column {
 
                             Text(
-                                "Albums",
+                                "Series",
                                 style = MaterialTheme.typography.h5.copy(
                                     MaterialTheme.colors.surface,
                                     fontWeight = FontWeight.Bold,
