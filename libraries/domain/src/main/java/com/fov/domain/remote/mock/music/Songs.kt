@@ -9,7 +9,7 @@ import com.google.gson.Gson
 object SongMockResponse {
     operator fun invoke(): String {
         val obj = Song(
-            name = "Lewis James",
+            name = "Sermon 1",
             id = "1234",
             path = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
             artworkPath = "https://picsum.photos/200",
@@ -29,7 +29,7 @@ object SongsMockResponse {
         val obj = SongsResult(
             songs =  List(20) {
                 Song(
-                    name = "Lewis James $it",
+                    name = "Sermon $it",
                     id = "1234",
                     path = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                     artworkPath = "https://picsum.photos/200",

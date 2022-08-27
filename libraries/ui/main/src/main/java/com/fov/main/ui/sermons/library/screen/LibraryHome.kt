@@ -66,6 +66,8 @@ private fun LibraryHome(
 
         storedMusicEvents(StoredMusicEvent.LoadDownloadedSongs)
         storedMusicEvents(StoredMusicEvent.LoadDownloadedAlbums)
+        events(CommonEvent.ChangeBottomSheetHeader{
+        })
     }
     LibraryGeneralScreen(
         commonState = commonState,

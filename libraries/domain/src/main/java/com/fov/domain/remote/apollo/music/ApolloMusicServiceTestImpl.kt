@@ -19,7 +19,7 @@ class ApolloMusicServiceTestImpl constructor(
             List(5){
                 GetGenresQuery.Genre(
                     "$it",
-                    "Genre",
+                    "Category $it",
                 )
             }
         )
@@ -29,13 +29,13 @@ class ApolloMusicServiceTestImpl constructor(
         return GetGenreSongsPaginatedQuery.Data(
             GetGenreSongsPaginatedQuery.Genre(
                 "1234",
-                "Genre",
+                "Category",
             ),
             List(20){ num ->
                 GetGenreSongsPaginatedQuery.SongsPaginated(
-                    "Song",
-                    "$num",
-                    "Record",
+                    "1234",
+                    "Sermon",
+                    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                     emptyList(),
                     "https://picsum.photos/id/$num/200",
 
@@ -47,21 +47,21 @@ class ApolloMusicServiceTestImpl constructor(
         return GetGenreAlbumsPaginatedQuery.Data(
             GetGenreAlbumsPaginatedQuery.Genre(
                 "1234",
-                "Genre",
+                "Category 1",
             ),
             List(20){ num ->
                 GetGenreAlbumsPaginatedQuery.AlbumsPaginated(
-                    "Album",
+                    "Series $num",
                     "$num",
                     "https://picsum.photos/id/$num/200",
-                    "https://picsum.photos/id/$num/200",
+                    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                     emptyList(),
                     List(10) { num ->
                         GetGenreAlbumsPaginatedQuery.Song(
                             "$num",
                             "Record",
-                            "",
                             "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                            "https://picsum.photos/id/$num/200",
 
                         emptyList(),
                         emptyList(),
@@ -81,20 +81,20 @@ class ApolloMusicServiceTestImpl constructor(
 
       return GetGenreQuery.Data(
           GetGenreQuery.Genre(
-              "Genre",
               "1234",
+              "Category 1",
           ),
           List(2){ num ->
               GetGenreQuery.Song(
-                  "Song",
-                  "$num",
-                  "Record",
+                  "1234",
+                  "Sermon $num",
                   "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                  "https://picsum.photos/id/$num/200",
                   emptyList(),
                   emptyList(),
                   List(3){
                       GetGenreQuery.Genre1(
-                          "Genre",
+                          "Category",
                           "$it",
                       )
                   }
@@ -116,17 +116,17 @@ class ApolloMusicServiceTestImpl constructor(
         return GetUserLikedSongsQuery.Data(
             List(20){ num ->
                 GetUserLikedSongsQuery.LikedSong(
-                    "Song",
-                    "$num",
-                    "Record",
+                    "1234",
+                    "Sermon $num",
                     "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                    "https://picsum.photos/id/$num/200",
 
                     emptyList(),
                     emptyList(),
                     List(3){
                         GetUserLikedSongsQuery.Genre(
-                            "Genre",
-                            "$it",
+                            "1234",
+                            "Category $it",
                         )
                     }
                 )
@@ -144,10 +144,10 @@ class ApolloMusicServiceTestImpl constructor(
         return GetUserLikedSongsPaginatedQuery.Data(
             List(20){ num ->
                 GetUserLikedSongsPaginatedQuery.LikedSongsPaginated(
-                    "Song",
-                    "$num",
-                    "Record",
-                    "",
+                    "1234",
+                    "Sermon $num",
+                    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                    "https://picsum.photos/id/$num/200",
                     emptyList(),
                     emptyList(),
                     List(3){
@@ -169,15 +169,15 @@ class ApolloMusicServiceTestImpl constructor(
                 GetAlbumsPaginatedQuery.AlbumsPaginated(
                     "Album",
                     "$it",
-                    "Lewis",
+                    "https://picsum.photos/id/$it/200",
                     "kkkk",
                     emptyList(),
                     List(10) {
                         GetAlbumsPaginatedQuery.Song(
                    "Song",
                             "12345",
-                            "This$it",
                             "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                            "https://picsum.photos/id/$it/200",
                             List(100){
                                 GetAlbumsPaginatedQuery.Like1(
                                     "Like",
@@ -210,10 +210,10 @@ class ApolloMusicServiceTestImpl constructor(
         return GetUserLikedAlbumsPaginatedQuery.Data(
             List(20) {
                 GetUserLikedAlbumsPaginatedQuery.LikedAlbumsPaginated(
-                    "Album",
-                    "$it",
-                    "Lewis",
-                    "kkkk",
+                    "21",
+                    "https://picsum.photos/id/$it/200",
+                    "Series $it",
+                    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                     List(100){
                         GetUserLikedAlbumsPaginatedQuery.Like(
                             "L1",
@@ -265,9 +265,9 @@ class ApolloMusicServiceTestImpl constructor(
 
         return GetAlbumQuery.Data(
             GetAlbumQuery.Album(
-                "Album",
-                "123",
-                "Lewis",
+                "1234",
+                "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                "Category 1",
                 "kkkk",
                 emptyList(),
                 emptyList(),

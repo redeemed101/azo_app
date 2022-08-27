@@ -146,7 +146,7 @@ private fun MusicHome(
                 }
                 item {
                     MusicSection(
-                        "New Singles", false, musicState.newSongs,
+                        "New Sermons", false, musicState.newSongs,
                         musicEvents
                     )
                 }
@@ -155,7 +155,7 @@ private fun MusicHome(
                 }
                 item {
                     Albums(
-                        "New Albums", musicState.newAlbums,
+                        "New Series", musicState.newAlbums,
                         musicEvents
                     ) {  }
                 }

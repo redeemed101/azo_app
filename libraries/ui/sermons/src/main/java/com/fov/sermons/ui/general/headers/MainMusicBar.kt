@@ -48,7 +48,7 @@ fun mainMusicTab(
             .background(backgroundColor)
     ){
         Text(
-            "Music",
+            "Sermons",
             textAlign = TextAlign.Start,
             modifier = Modifier.padding(horizontal = commonPadding),
             style = MaterialTheme.typography.h5.copy(

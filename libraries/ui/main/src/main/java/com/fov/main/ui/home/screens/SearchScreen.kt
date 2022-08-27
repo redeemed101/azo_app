@@ -203,7 +203,7 @@ private fun Search(
 
                     Spacer(modifier = Modifier.height(10.dp))
                     MusicSection(
-                        title = "Music",
+                        title = "Sermons",
                         hasSearchResult = commonState.hasSearchResult,
                         musicState.recentSongSearch, musicEvents
                     )

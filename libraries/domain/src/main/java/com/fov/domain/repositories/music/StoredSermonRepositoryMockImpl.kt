@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.flowOf
 object Data {
     val SONG =  DownloadedSong(
         dbId = 1234,
-        songName = "Wisdom and Creativity",
+        songName = "Wisdom and Creativity 1",
         songPath = "/data/data/com.fov.azo/files/i will rise - ROCK rec.mp3",
         songId = "1234",
         artistName = "Apostle Ziba",
@@ -19,7 +19,7 @@ object Data {
         List(5){
             DownloadedSong(
                 dbId = 1234,
-                songName = "Wisdom and Creativity",
+                songName = "Wisdom and Creativity $it",
                 songPath = "/data/data/com.fov.azo/files/i will rise - ROCK rec.mp3",
                 songId = "1234",
                 artistName = "Apostle Ziba",

@@ -115,7 +115,7 @@ private fun homeScreen(
 
                 if (musicState.forYouPaged != null) {
                     MusicSection(
-                        "For You", false, musicState.forYouPaged!!,
+                        "Sermons For You", false, musicState.forYouPaged!!,
                         musicEvents,
                         navigateTabAction = {/*events(CommonEvent.ChangeTab(Screen.Music))*/ }
                     )
@@ -127,7 +127,7 @@ private fun homeScreen(
                     musicEvents
                 )*/
                     MusicSection(
-                        "Top Singles",
+                        "Top Sermons",
                         false,
                         musicState.topSongsPaged!!,
                         musicEvents,
@@ -138,7 +138,7 @@ private fun homeScreen(
                 if (musicState.topAlbumsPaged != null) {
 
                     Albums(
-                        "Top Albums", musicState.topAlbumsPaged!!,
+                        "Top Series", musicState.topAlbumsPaged!!,
                         musicEvents,
                         navigateTabAction = {
                         /*events(CommonEvent.ChangeTab(Screen.Music))*/

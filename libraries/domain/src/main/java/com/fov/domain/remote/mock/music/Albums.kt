@@ -8,9 +8,9 @@ import com.google.gson.Gson
 object AlbumsMockResponse {
     operator fun invoke(): String {
             val obj = AlbumsResult(
-                albums = listOf(
+                albums = List(20) {
                     Album(
-                        name = "Bob James",
+                        name = "Series $it",
                         id = "1234",
                         path = "",
                         artworkPath = "https://picsum.photos/200",
@@ -18,9 +18,9 @@ object AlbumsMockResponse {
                         albumGenres = listOf(),
                         albumLikes = listOf(),
                         albumStreams = listOf(),
-                        songs = List(10){
+                        songs = List(10) {
                             Song(
-                                name = "song$it",
+                                name = "sermon $it",
                                 id = "$it",
                                 path = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                                 artworkPath = "https://picsum.photos/200",
@@ -33,9 +33,10 @@ object AlbumsMockResponse {
                             )
                         }
                     )
-                )
+                })
 
-            )
+
+
         return Gson().toJson(obj)
     }
 }

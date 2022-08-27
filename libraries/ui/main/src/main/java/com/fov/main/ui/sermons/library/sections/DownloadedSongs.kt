@@ -9,6 +9,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -41,7 +42,9 @@ fun DownloadedSongsTab(
     events : (event: CommonEvent) -> Unit
 ){
     val items = storedMusicState.downloadedSongs.collectAsLazyPagingItems()
+
     BoxWithConstraints {
+
         val totalWidth = maxWidth
         if(items != null){
             LazyColumn {
@@ -56,14 +59,17 @@ fun DownloadedSongsTab(
                           }
                     },
                     rowClick = {
-                           musicEvents(MusicEvent.SongSelected(song!!))
+                        //musicEvents(MusicEvent.SaveRecentSearch(song!!))
+                        musicEvents(MusicEvent.SongSelected(song!!))
+                        //musicEvents(MusicEvent.ChangeShowingSong(true))
                         }
                     ) {
                         musicEvents(MusicEvent.ChangeSongSelected(song!!))
+                        musicEvents(MusicEvent.ChangeShowingSong(true))
                         events(CommonEvent.ChangeBottomSheetHeader{
                             SongBottomSheetHeader(song!!)
                         })
-                        commonState.bottomSheetAction()
+                         commonState.bottomSheetAction()
                     }
                 }
                 items.apply {
