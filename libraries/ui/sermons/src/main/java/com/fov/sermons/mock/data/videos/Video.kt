@@ -7,7 +7,7 @@ val VIDEOS = List(20) {
         videoId = "HzeK7g8cD0Y",
          genres = emptyList(),
          videoName = "Video number $it",
-         artwork = "https://picsum.photos/200",
+         artwork = "/data/data/com.fov.azo/files/apostle.jpg",
          description  = "",
     )
 }
