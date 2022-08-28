@@ -8,6 +8,8 @@ sealed class Screen(val route: NavigationCommand, @StringRes val resourceId: Int
     object Music : Screen(SermonsDirections.tab, R.string.sermons, R.drawable.ic_music)
     object Video : Screen(VideoDirections.tab, R.string.videos, R.drawable.ic_watch_video)
     object Library : Screen(SermonsDirections.downloaded_tab, R.string.library, R.drawable.ic_music_library)
+    object News : Screen(HomeDirections.news, R.string.news, R.drawable.ic_news)
+
     object Registration : Screen(AuthenticationDirections.registration)
     object Onboarding : Screen(AuthenticationDirections.registration)
 
@@ -26,5 +28,6 @@ val tabItems = listOf(
     Screen.Home,
     Screen.Music,
     Screen.Video,
-    Screen.Library
+    Screen.Library,
+    Screen.News
 )

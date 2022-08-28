@@ -35,6 +35,21 @@ object HomeDirections {
         override val destination = RouteConstants.SEARCH
     }
 
+    val webview = object : NavigationCommand{
+
+        override val arguments = listOf(navArgument(Constants.MAINTAB) {
+            defaultValue = RouteConstants.HOME
+        })
+        override val destination = RouteConstants.WEBVIEW
+    }
+    val news = object : NavigationCommand{
+
+        override val arguments = listOf(navArgument(Constants.MAINTAB) {
+            defaultValue = RouteConstants.NEWS
+        })
+        override val destination = RouteConstants.NEWS
+    }
+
     val notifications = object : NavigationCommand{
 
         override val arguments = listOf(navArgument(Constants.MAINTAB) {

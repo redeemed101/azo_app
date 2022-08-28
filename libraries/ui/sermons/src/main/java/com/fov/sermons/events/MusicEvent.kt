@@ -18,6 +18,7 @@ sealed class MusicEvent {
     object LoadLikedAlbums :  MusicEvent()
     object LoadLikedMusic:  MusicEvent()
     object LoadHome : MusicEvent()
+    object LoadVideos : MusicEvent()
     object LoadForYou : MusicEvent()
     object LoadGenres : MusicEvent()
     object LoadRecentSearch : MusicEvent()

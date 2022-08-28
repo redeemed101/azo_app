@@ -76,12 +76,15 @@ fun BuildBottomBar(
                             events(CommonEvent.ChangeHasDeepScreen(false, ""))
                             events(CommonEvent.ChangeBackPageData(BackPageData()))
                             musicEvents(MusicEvent.MinimizeMusicPlayer(true))
-                            navigate(screen.route)
+
 
                             if(screen == Screen.Music){
 
                                 musicEvents(MusicEvent.LoadHome)
                             }
+
+
+                            navigate(screen.route)
 
 
 

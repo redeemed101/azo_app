@@ -4,6 +4,8 @@ class RouteConstants {
 
     companion object {
         val LOGIN = "login"
+        val WEBVIEW = "webview"
+        val NEWS = "news"
         val SERMON = "song"
         val PLAY_SERMON = "play_sermon"
         val ALBUM = "album"

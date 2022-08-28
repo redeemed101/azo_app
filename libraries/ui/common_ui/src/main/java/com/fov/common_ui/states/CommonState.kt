@@ -10,6 +10,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.paging.PagingData
 import com.fov.common_ui.models.DownloadData
+import com.fov.common_ui.models.NewsModel
 import com.fov.common_ui.theme.White009
 import com.fov.domain.database.models.User
 import com.fov.navigation.BackPageData
@@ -55,7 +56,9 @@ class CommonState(
     val showAddToPlaylist: Boolean = false,
     val downloadData : DownloadData =  DownloadData(),
     val showAddPlaylist : Boolean = false,
-    val userId : String =  ""
+    val userId : String =  "",
+    val webUrl : String = "",
+    val news : Flow<PagingData<NewsModel>> = flowOf(PagingData.from(emptyList())),
 
 ) {
 
@@ -100,6 +103,8 @@ class CommonState(
         var downloadData  = state.downloadData
         var showAddPlaylist = state.showAddPlaylist
         var userId =  state.userId
+        var webUrl = state.webUrl
+        var news = state.news
 
         fun build(): CommonState {
             return CommonState(
@@ -138,7 +143,9 @@ class CommonState(
                 showAddToPlaylist,
                 downloadData,
                 showAddPlaylist,
-                userId
+                userId,
+                webUrl,
+                news
             )
         }
     }

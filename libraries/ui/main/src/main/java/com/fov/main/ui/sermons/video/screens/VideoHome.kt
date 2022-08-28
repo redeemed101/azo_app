@@ -75,12 +75,12 @@ private fun videos(
         musicState = musicState,
         musicEvents = musicEvents,
         swipeToRefreshAction = {
-            musicEvents(MusicEvent.LoadHome)
+            musicEvents(MusicEvent.LoadVideos)
         }
     ) {
 
-       LaunchedEffect(commonState.hasDeepScreen) {
-           musicEvents(MusicEvent.LoadGenres)
+       LaunchedEffect(commonState.currentTab) {
+           musicEvents(MusicEvent.LoadVideos)
            events(CommonEvent.ChangeBackPageData(BackPageData()))
 
        }
@@ -90,7 +90,7 @@ private fun videos(
 
 
        }
-       val videos = flowOf(PagingData.from(VIDEOS)).collectAsLazyPagingItems()
+       val videos = musicState.videos.collectAsLazyPagingItems()
        LazyVerticalGrid(
            columns = GridCells.Fixed(3),
            modifier = Modifier

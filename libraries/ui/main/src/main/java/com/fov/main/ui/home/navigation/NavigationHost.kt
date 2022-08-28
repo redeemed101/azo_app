@@ -13,7 +13,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.fov.authentication.viewModels.UsersViewModel
+import com.fov.common_ui.ui.composers.general.WebView
 import com.fov.common_ui.viewModels.CommonViewModel
+import com.fov.main.ui.home.WebViewScreen
 import com.fov.main.ui.sermons.audio.screens.*
 import com.fov.main.viewModels.MainViewModel
 import com.fov.navigation.AuthenticationDirections
@@ -26,6 +28,7 @@ import kotlinx.coroutines.InternalCoroutinesApi
 import com.fov.main.ui.home.screens.Home
 import com.fov.main.ui.home.screens.NotificationScreen
 import com.fov.main.ui.home.screens.SearchScreen
+import com.fov.main.ui.news.screens.NewsHome
 import com.fov.main.ui.sermons.library.screen.LibraryHomeScreen
 import com.fov.main.ui.sermons.video.screens.VideoHomeScreen
 import com.fov.navigation.VideoDirections
@@ -93,6 +96,17 @@ fun NavigationHost(
                     usersViewModel = usersViewModel,
                     musicViewModel = musicViewModel
                 )
+            }
+            composable(
+                HomeDirections.webview.destination,
+                arguments = HomeDirections.webview.arguments
+            ) {
+
+              WebViewScreen(
+                  commonViewModel
+              )
+
+
             }
 
             //video
@@ -193,6 +207,18 @@ fun NavigationHost(
                     storedSermonViewModel = storedMusicViewModel,
                     commonViewModel = commonViewModel
                 )
+
+
+            }
+
+            //news
+            composable(
+                HomeDirections.news.destination,
+                arguments = HomeDirections.news.arguments
+            ) {
+
+               NewsHome(commonViewModel = commonViewModel,
+                   sermonViewModel = musicViewModel)
 
 
             }

@@ -5,6 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.fov.common_ui.utils.constants.AlbumRequestType
 import com.fov.common_ui.utils.constants.Constants
 import com.fov.common_ui.utils.constants.SongRequestType
@@ -14,10 +16,8 @@ import com.fov.domain.interactors.music.MusicInteractor
 import com.fov.navigation.NavigationManager
 import com.fov.navigation.SermonsDirections
 import com.fov.sermons.events.MusicEvent
-import com.fov.sermons.models.Genre
-import com.fov.sermons.models.GenreData
-import com.fov.sermons.models.LikedMusicData
-import com.fov.sermons.models.Song
+import com.fov.sermons.mock.data.videos.VIDEOS
+import com.fov.sermons.models.*
 import com.fov.sermons.pagination.AlbumsSource
 import com.fov.sermons.pagination.SongsSource
 import com.fov.sermons.states.MusicState
@@ -25,8 +25,10 @@ import com.fov.sermons.viewModels.helpers.MusicAlbumHelper
 import com.fov.sermons.viewModels.helpers.MusicSongHelper
 import com.fov.sermons.viewModels.helpers.RecentActivityHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -48,6 +50,7 @@ class SermonViewModel @Inject constructor(
         getTopAlbums()
         getForYou()
         getTopSongs()
+        //getVideos()
         getGenres {  }
     }
 
@@ -80,6 +83,9 @@ class SermonViewModel @Inject constructor(
                     viewModelScope.launch {
                         musicInteractor.likeAlbum(event.albumId)
                     }
+                }
+                MusicEvent.LoadVideos -> {
+                    videos = getVideos()
                 }
                 MusicEvent.LoadHome -> {
                     newSongs = musicSongHelper.getNewSongs(viewModelScope){
@@ -324,6 +330,10 @@ class SermonViewModel @Inject constructor(
                 }
             }
         }
+    }
+    private fun getVideos() : Flow<PagingData<Video>> {
+         return flowOf(PagingData.from(VIDEOS))
+
     }
     private fun getForYou(){
         _uiState.value = uiState.value.build {

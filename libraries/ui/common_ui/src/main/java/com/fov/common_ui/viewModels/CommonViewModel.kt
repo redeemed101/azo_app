@@ -34,6 +34,8 @@ import androidx.core.net.toFile
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.fov.common_ui.mock.data.NEWS
+import com.fov.common_ui.models.NewsModel
 import com.fov.common_ui.pagination.FilesSource
 import com.fov.domain.utils.constants.QueryConstants
 import kotlinx.coroutines.flow.*
@@ -206,6 +208,10 @@ class CommonViewModel @Inject constructor(
 
 
                 }
+                CommonEvent.LoadNews -> {
+                    news = getNews()
+                }
+
                 is CommonEvent.ChangeShowMoreOptions -> {
                     showMoreOptions = event.show
                 }
@@ -222,6 +228,12 @@ class CommonViewModel @Inject constructor(
                 }
                 is  CommonEvent.ChangeImagePreview ->{
                     previewUri = event.previewUri
+                }
+                is CommonEvent.ChangeWebViewUrl -> {
+                    webUrl = event.uri
+                }
+                CommonEvent.NavigateToWebView ->{
+                    navigationManager.navigate(HomeDirections.webview)
                 }
                 is CommonEvent.HasSearched -> {
                     hasSearchResult = event.searched
@@ -295,7 +307,10 @@ class CommonViewModel @Inject constructor(
             }
         }
     }
+    private fun getNews(): Flow<PagingData<NewsModel>> {
+       return flowOf(PagingData.from(NEWS))
 
+    }
     private fun getFiles(extension : String) : Flow<PagingData<File>> {
         try{
             return Pager(PagingConfig(pageSize = QueryConstants.NUM_ROWS)) {

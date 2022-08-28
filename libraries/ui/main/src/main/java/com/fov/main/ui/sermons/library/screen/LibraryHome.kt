@@ -109,7 +109,7 @@ private fun LibraryHome(
                         Column {
 
                             Text(
-                                "Songs",
+                                "Sermon",
                                 style = MaterialTheme.typography.h5.copy(
                                     MaterialTheme.colors.surface,
                                     fontWeight = FontWeight.Bold,
