@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.WindowManager
+import android.view.animation.AnimationUtils
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.compose.material.MaterialTheme
@@ -63,6 +64,20 @@ class SplashScreenActivity : AppCompatActivity() {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             window.statusBarColor = backgroundColor
         }
+
+        // HERE WE ARE TAKING THE REFERENCE OF OUR IMAGE
+        // SO THAT WE CAN PERFORM ANIMATION USING THAT IMAGE
+
+        val slideAnimation = AnimationUtils.loadAnimation(this, R.anim.side_slide)
+        imageView.startAnimation(slideAnimation)
+
+
+        val slideAnimationText = AnimationUtils.loadAnimation(this, R.anim.side_slide2)
+        text.startAnimation(slideAnimationText)
+
+
+
+
 
         supportActionBar?.hide()
         CoroutineScope(Dispatchers.Main).launch {

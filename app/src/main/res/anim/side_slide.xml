@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--THIS CODE IS FOR SIDE ANIMATION-->
+    <translate
+        android:duration="2500"
+        android:fromXDelta="-50%"
+        android:fromYDelta="0%" />
+
+    <alpha
+        android:duration="2500"
+        android:fromAlpha="0.1"
+        android:toAlpha="1.0" />
+
+
+
+    <alpha xmlns:android="http://schemas.android.com/apk/res/android"
+        android:interpolator="@android:anim/accelerate_interpolator"
+        android:fromAlpha="1.0"
+        android:toAlpha="0.0"
+        android:fillAfter="true"
+        android:startOffset="2500"
+        android:duration="2500" />
+</set>
