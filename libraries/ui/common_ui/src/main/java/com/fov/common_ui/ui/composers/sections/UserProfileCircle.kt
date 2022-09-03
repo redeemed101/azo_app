@@ -12,11 +12,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import com.fov.common_ui.R
 
 
@@ -64,13 +67,13 @@ fun UserProfileCircle(
         ) {
 
             Image(
-                painter = rememberImagePainter(
-                    data = url,
-                    builder = {
+                painter = rememberAsyncImagePainter(
+                    ImageRequest.Builder(LocalContext.current)
+                        .data(data = url).apply(block = fun ImageRequest.Builder.() {
                         crossfade(true)
                         fallback(R.drawable.avatar)
                         placeholder(R.drawable.avatar)
-                    }
+                    }).build()
                 ),
                 contentDescription = null,
                 modifier = Modifier.size(128.dp)

@@ -22,6 +22,7 @@
             <option value="$PROJECT_DIR$/libraries/ui/common_ui" />
             <option value="$PROJECT_DIR$/libraries/ui/main" />
             <option value="$PROJECT_DIR$/libraries/ui/sermons" />
+            <option value="$PROJECT_DIR$/libraries/ui/shorts" />
           </set>
         </option>
       </GradleProjectSettings>

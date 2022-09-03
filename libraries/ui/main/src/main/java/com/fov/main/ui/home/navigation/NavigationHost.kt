@@ -32,6 +32,7 @@ import com.fov.main.ui.news.screens.NewsHome
 import com.fov.main.ui.sermons.library.screen.LibraryHomeScreen
 import com.fov.main.ui.sermons.video.screens.VideoHomeScreen
 import com.fov.navigation.VideoDirections
+import com.fov.shorts.viewModels.ShortViewModel
 
 
 @OptIn(ExperimentalAnimationApi::class, ExperimentalFoundationApi::class,
@@ -45,6 +46,7 @@ fun NavigationHost(
     usersViewModel: UsersViewModel,
     commonViewModel: CommonViewModel,
     storedMusicViewModel: StoredSermonViewModel,
+    shortViewModel: ShortViewModel,
     playVideo : (id:String) -> Unit
 ) {
 
@@ -68,7 +70,8 @@ fun NavigationHost(
                 Home(
                     commonViewModel,
                     musicViewModel,
-                    usersViewModel
+                    usersViewModel,
+                    shortViewModel
                 )
 
             }

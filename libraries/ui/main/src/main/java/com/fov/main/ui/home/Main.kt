@@ -32,6 +32,7 @@ import com.fov.navigation.NavigationCommand
 import com.fov.navigation.Screen
 import com.fov.sermons.viewModels.SermonViewModel
 import com.fov.sermons.viewModels.StoredSermonViewModel
+import com.fov.shorts.viewModels.ShortViewModel
 import kotlinx.coroutines.InternalCoroutinesApi
 
 @ExperimentalFoundationApi
@@ -46,6 +47,7 @@ fun MainTabUI(
     musicViewModel: SermonViewModel,
     usersViewModel: UsersViewModel,
     commonViewModel: CommonViewModel,
+    shortViewModel: ShortViewModel,
     storedMusicViewModel: StoredSermonViewModel,
     playVideo : (videoId : String) -> Unit,
     navigate : (route : NavigationCommand) -> Unit
@@ -60,6 +62,7 @@ fun MainTabUI(
         usersViewModel,
         commonViewModel,
         storedMusicViewModel,
+        shortViewModel,
         playVideo,
         navigate
     )
@@ -76,6 +79,7 @@ fun MainHome(
     usersViewModel: UsersViewModel,
     commonViewModel: CommonViewModel,
     storedMusicViewModel: StoredSermonViewModel,
+    shortViewModel: ShortViewModel,
     playVideo : (videoId : String) -> Unit,
     navigate : (route : NavigationCommand) -> Unit
 ){
@@ -178,6 +182,7 @@ fun MainHome(
                      usersViewModel,
                      commonViewModel,
                      storedMusicViewModel,
+                     shortViewModel,
                      playVideo
                  )
 

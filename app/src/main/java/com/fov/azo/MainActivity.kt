@@ -1,6 +1,7 @@
 package com.fov.azo
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -39,6 +40,7 @@ import com.fov.navigation.GeneralDirections
 import com.fov.navigation.NavigationManager
 import com.fov.sermons.viewModels.SermonViewModel
 import com.fov.sermons.viewModels.StoredSermonViewModel
+import com.fov.shorts.viewModels.ShortViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.youtube.player.YouTubeBaseActivity
@@ -52,6 +54,7 @@ class MainActivity : ComponentActivity() {
     private var mGoogleSignInClient: GoogleSignInClient? = null
     private val mainViewModel: MainViewModel by viewModels()
     private val commonViewModel: CommonViewModel by viewModels()
+    private val shortViewModel : ShortViewModel by viewModels()
     private val musicViewModel: SermonViewModel by viewModels()
     private val registrationViewModel: RegistrationViewModel by viewModels()
     private val usersViewModel : UsersViewModel by viewModels()
@@ -76,10 +79,12 @@ class MainActivity : ComponentActivity() {
                 AzoTheme {
 
 
-                    window.statusBarColor = MaterialTheme.colors.onSurface.toArgb()
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        window.statusBarColor = MaterialTheme.colors.onSurface.toArgb()
+                    }
 
 
-                navigationManager.commands.collectAsState().value.also{ command ->
+                    navigationManager.commands.collectAsState().value.also{ command ->
                     if(command.destination.isNotEmpty()){
                         if(command.destination == GeneralDirections.back.destination) {
 
@@ -115,6 +120,7 @@ class MainActivity : ComponentActivity() {
                             musicViewModel,
                             usersViewModel,
                             commonViewModel,
+                            shortViewModel,
                             storedMusicViewModel,
                             videoPlay
                         ){

@@ -8,4 +8,8 @@ data class Video(
     val artistName: String = "Apostle Ziba",
     val description : String = "",
     //val path : String = "",
-)
+){
+    object ModelMapper {
+
+    }
+}

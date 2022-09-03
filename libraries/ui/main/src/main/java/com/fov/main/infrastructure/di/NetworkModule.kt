@@ -17,6 +17,7 @@ import com.fov.domain.remote.apollo.users.ApolloUsersServiceTestImpl
 import com.fov.domain.remote.authentication.AuthenticationKtorService
 import com.fov.domain.remote.mock.KtorMockClient
 import com.fov.domain.remote.music.MusicKtorService
+import com.fov.domain.remote.video.VideoKtorService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -110,6 +111,13 @@ object NetworkModule {
     fun providesMusicKtorService(client : HttpClient) : MusicKtorService {
 
         return MusicKtorService(client)
+    }
+
+    @Provides
+    @Singleton
+    fun providesVideoKtorService(client : HttpClient) : VideoKtorService {
+
+        return VideoKtorService(client)
     }
 
 

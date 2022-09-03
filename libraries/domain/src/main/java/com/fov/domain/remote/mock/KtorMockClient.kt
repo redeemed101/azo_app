@@ -9,6 +9,7 @@ import com.fov.domain.remote.mock.authentication.users.UserNumNotificationsMockR
 import com.fov.domain.remote.mock.music.AlbumsMockResponse
 import com.fov.domain.remote.mock.music.SongMockResponse
 import com.fov.domain.remote.mock.music.SongsMockResponse
+import com.fov.domain.remote.mock.video.VideosMockResponse
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*
 import io.ktor.client.plugins.*
@@ -72,6 +73,12 @@ class KtorMockClient {
                                     to listOf(ContentType.Application.Json.toString()))
                             val page = request.url.parameters["page"]
                             respond(AlbumsMockResponse(), HttpStatusCode.OK, responseHeaders)
+                        }
+                        "music/Video/getVideos" -> {
+                            val responseHeaders = headersOf("Content-Type"
+                                    to listOf(ContentType.Application.Json.toString()))
+                            val page = request.url.parameters["page"]
+                            respond(VideosMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
                         "/music/Song/topSongs" ->{
                             val responseHeaders = headersOf("Content-Type"

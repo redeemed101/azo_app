@@ -22,7 +22,7 @@
         android:theme="@style/Theme.Azo"
         tools:targetApi="31">
         <service
-            android:name="com.fov.main.infrastructure.services.FcmService"
+            android:name=".FcmService"
             android:exported="false" >
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -55,6 +55,12 @@
             android:theme="@style/Theme.Azo">
 
         </activity>
+        <activity
+            android:name="com.fov.main.ShortsActivity"
+            android:exported="true"
+            android:theme="@style/Theme.Azo.NoActionBar"/>
+
+
 
         <activity
             android:name=".SplashScreenActivity"

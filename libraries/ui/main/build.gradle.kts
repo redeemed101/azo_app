@@ -13,11 +13,11 @@ kapt {
 }
 
 android {
-    compileSdk = 32
+    compileSdk = Versions.compileSdk
 
     defaultConfig {
-        minSdk = 21
-        targetSdk = 32
+        minSdk = Versions.minSdk
+        targetSdk = Versions.targetSdk
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -54,6 +54,7 @@ android {
 dependencies {
     implementation(project(":libraries:navigation"))
     implementation(project(":libraries:ui:common_ui"))
+    implementation(project(":libraries:ui:shorts"))
     implementation(project(":libraries:core"))
     implementation(project(":libraries:domain"))
     implementation(project(":libraries:ui:authentication"))

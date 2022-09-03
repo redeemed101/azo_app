@@ -55,15 +55,22 @@ dependencies {
     implementation project(":libraries:ui:main")
     implementation project(":libraries:ui:authentication")
     implementation project(":libraries:ui:sermons")
+    implementation project(":libraries:ui:shorts")
     implementation project(":libraries:navigation")
     implementation project(":libraries:core")
     implementation project(":libraries:domain")
 
     implementation files('libs/YouTubeAndroidPlayerApi.jar')
 
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
     implementation Libs.Networking.Ktor.negotiation
     implementation Libs.Networking.Ktor.kotlinx_json
     implementation Libs.Serialization.gson
+
+    implementation Libs.AndroidX.Paging.runtime
+    implementation Libs.AndroidX.Compose.paging
+    implementation Libs.coil
 
     implementation Libs.Hilt.android
     implementation Libs.AndroidX.Compose.navigation

@@ -25,6 +25,7 @@ import com.fov.common_ui.theme.bottomTabHeight
 import com.fov.common_ui.theme.commonPadding
 import com.fov.common_ui.viewModels.CommonViewModel
 import com.fov.main.ui.home.HomeGeneralScreen
+import com.fov.main.ui.home.Shorts
 import com.fov.main.ui.sermons.audio.general.MusicHomePager
 import com.fov.navigation.BackPageData
 import com.fov.navigation.Screen
@@ -34,16 +35,21 @@ import com.fov.sermons.states.MusicState
 import com.fov.sermons.ui.music.MusicSection
 import com.fov.sermons.viewModels.SermonViewModel
 import com.fov.sermons.ui.albums.Albums
+import com.fov.shorts.events.ShortEvent
+import com.fov.shorts.states.ShortState
+import com.fov.shorts.viewModels.ShortViewModel
 
 @Composable
 fun Home(
     commonViewModel: CommonViewModel,
     musicViewModel: SermonViewModel,
-    usersViewModel: UsersViewModel
+    usersViewModel: UsersViewModel,
+    shortViewModel: ShortViewModel,
 ) {
     val state by commonViewModel.uiState.collectAsState()
     val musicState by musicViewModel.uiState.collectAsState()
     val usersState by usersViewModel.uiState.collectAsState()
+    val shortsState by shortViewModel.uiState.collectAsState()
     homeScreen(
         commonState = state,
         events = commonViewModel::handleCommonEvent,
@@ -51,6 +57,8 @@ fun Home(
         musicEvents = musicViewModel::handleMusicEvent,
         usersState = usersState,
         usersEvents = usersViewModel::handleUsersEvent,
+        shortState = shortsState,
+        shortEvents = shortViewModel::handleMainEvent
     )
 }
 @Composable
@@ -60,7 +68,9 @@ private fun homeScreen(
     musicState: MusicState,
     musicEvents: (event: MusicEvent) -> Unit,
     usersState: UsersState,
-    usersEvents: (event: UsersEvent) -> Unit
+    usersEvents: (event: UsersEvent) -> Unit,
+    shortState: ShortState,
+    shortEvents : (event : ShortEvent) -> Unit
 ) {
     HomeGeneralScreen(
         commonState = commonState,
@@ -86,6 +96,15 @@ private fun homeScreen(
                         scrollState
                     )
             ) {
+
+                if (shortState.shorts != null){
+
+                    Shorts(
+                        shortState = shortState,
+                        events =shortEvents )
+                    Spacer(modifier = Modifier.height(6.dp))
+                }
+
                 Box(
                     Modifier
                         .fillMaxWidth()

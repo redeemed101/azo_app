@@ -13,6 +13,7 @@ import com.fov.common_ui.utils.constants.SongRequestType
 import com.fov.domain.database.models.ActivityType
 import com.fov.domain.database.models.RecentActivity
 import com.fov.domain.interactors.music.MusicInteractor
+import com.fov.domain.interactors.video.VideoInteractor
 import com.fov.navigation.NavigationManager
 import com.fov.navigation.SermonsDirections
 import com.fov.sermons.events.MusicEvent
@@ -20,6 +21,7 @@ import com.fov.sermons.mock.data.videos.VIDEOS
 import com.fov.sermons.models.*
 import com.fov.sermons.pagination.AlbumsSource
 import com.fov.sermons.pagination.SongsSource
+import com.fov.sermons.pagination.VideoSource
 import com.fov.sermons.states.MusicState
 import com.fov.sermons.viewModels.helpers.MusicAlbumHelper
 import com.fov.sermons.viewModels.helpers.MusicSongHelper
@@ -35,6 +37,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SermonViewModel @Inject constructor(
     private val musicInteractor: MusicInteractor,
+    private val videoInteractor : VideoInteractor,
     private val navigationManager: NavigationManager
 ) : ViewModel(){
     private val _uiState = MutableStateFlow(MusicState())
@@ -85,7 +88,9 @@ class SermonViewModel @Inject constructor(
                     }
                 }
                 MusicEvent.LoadVideos -> {
-                    videos = getVideos()
+
+                        videos = getVideos()
+
                 }
                 MusicEvent.LoadHome -> {
                     newSongs = musicSongHelper.getNewSongs(viewModelScope){
@@ -332,6 +337,15 @@ class SermonViewModel @Inject constructor(
         }
     }
     private fun getVideos() : Flow<PagingData<Video>> {
+
+            val videosResult = Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
+                VideoSource(
+                    videoInteractor = videoInteractor,
+                )
+            }.flow
+
+            //return videosResult
+
          return flowOf(PagingData.from(VIDEOS))
 
     }
