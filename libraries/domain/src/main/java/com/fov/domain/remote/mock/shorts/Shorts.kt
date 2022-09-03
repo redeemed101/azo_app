@@ -1,4 +1,4 @@
-package com.fov.shorts.mock.data
+package com.fov.domain.remote.mock.shorts
 
 import com.fov.domain.models.shorts.Short
 import com.fov.domain.models.shorts.ShortType

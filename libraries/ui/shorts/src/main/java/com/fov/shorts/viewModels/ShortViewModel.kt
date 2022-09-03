@@ -5,7 +5,6 @@ import androidx.lifecycle.*
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import com.fov.domain.interactors.video.VideoInteractor
-import com.fov.domain.models.shorts.ShortItem
 import com.fov.shorts.events.ShortEvent
 import com.fov.shorts.paging.dataSources.ShortsDataSource
 import com.fov.shorts.states.ShortState

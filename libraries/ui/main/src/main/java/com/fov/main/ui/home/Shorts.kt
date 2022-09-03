@@ -46,7 +46,7 @@ private fun shorts(
 
     val lazyShorts = shortState.shorts?.collectAsLazyPagingItems()
 
-    var backgroundColor = MaterialTheme.colors.onSurface;
+    var backgroundColor = MaterialTheme.colors.onSurface.copy(alpha = 0.9f);
 
     Column(
         modifier = Modifier.background(backgroundColor)
@@ -81,6 +81,7 @@ private fun shorts(
                     ShortItem(short = short!!) {
                         events(ShortEvent.ShortSelected(short!!))
                         var intent = Intent(context, ShortsActivity::class.java)
+                        intent.putExtra("shortType",short!!.type)
                         intent.putExtra("shortPath",short!!.path)
                         context.startActivity(intent)
                         events(ShortEvent.ToggleShowShort(true))

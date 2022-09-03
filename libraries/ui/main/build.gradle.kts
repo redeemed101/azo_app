@@ -62,6 +62,7 @@ dependencies {
 
     //implementation(Libs.Networking.Ktor.serialization)
      implementation(Libs.Networking.Ktor.kotlinx_json)
+    implementation("com.squareup.picasso:picasso:2.71828")
 
     implementation(Libs.AndroidX.Core.core)
     implementation(Libs.AndroidX.Core.compat)
