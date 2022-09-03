@@ -18,9 +18,9 @@ class VideoInteractor constructor(
         ShortsResult(
             shorts = List(20) {
                 Short(
-                    "short $it",
-                    "",
-                    ""
+                    name = "Short $it",
+                    path = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                    id = "123$it"
                 )
             }
         )

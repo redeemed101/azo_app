@@ -34,7 +34,7 @@ class ShortsActivity : AppCompatActivity(), ShortsCallback {
     @Inject
     lateinit var networkWatcher: NetworkWatcher
 
-    var shortId  = ""
+    var shortPath  = ""
     @InternalCoroutinesApi
     @ExperimentalCoroutinesApi
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -64,11 +64,15 @@ class ShortsActivity : AppCompatActivity(), ShortsCallback {
                 Log.d("NETWORK", "Network In App: $connected")
             }
         }
+        val path = intent.getStringExtra("shortPath")
+        if(path != null){
+            shortPath = path
+        }
 
         val short = shortViewModel.uiState.value.short
-        if(short != null){
+        if(shortPath != null){
             var videoView = VideoView(this)
-            val uri = Uri.parse(short.path)
+            val uri = Uri.parse(shortPath)
             videoView.setVideoURI(uri)
             val duration = videoView.duration
             listOfViews.add(ShortsView(videoView, 5))
@@ -79,6 +83,7 @@ class ShortsActivity : AppCompatActivity(), ShortsCallback {
             }
         }
         else{
+
             finish()
         }
 

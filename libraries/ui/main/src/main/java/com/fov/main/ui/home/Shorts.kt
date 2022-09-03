@@ -27,7 +27,7 @@ fun Shorts(
     title : String = ""
 ){
 
-    stories(
+    shorts(
         shortState,
         events,
         title
@@ -36,7 +36,7 @@ fun Shorts(
 }
 
 @Composable
-private fun stories(
+private fun shorts(
 
     shortState : ShortState,
     events: (event: ShortEvent) -> Unit,
@@ -81,6 +81,7 @@ private fun stories(
                     ShortItem(short = short!!) {
                         events(ShortEvent.ShortSelected(short!!))
                         var intent = Intent(context, ShortsActivity::class.java)
+                        intent.putExtra("shortPath",short!!.path)
                         context.startActivity(intent)
                         events(ShortEvent.ToggleShowShort(true))
 

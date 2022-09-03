@@ -47,12 +47,12 @@ class SplashScreenActivity : AppCompatActivity() {
         setContentView(R.layout.activity_splash_screen)
         val layout = findViewById<ConstraintLayout>(R.id.splashLayout)
         val text = findViewById<TextView>(R.id.textViewId)
-        text.setTextColor(Color.White.toArgb())
+        text.setTextColor(Color(0xFF044B95).toArgb())
         var  logo = com.fov.common_ui.R.drawable.fov_logo
         var backgroundColor = Color.White.toArgb()
         if (applicationContext.isDarkThemeOn()){
            logo = com.fov.common_ui.R.drawable.fov_logo
-           backgroundColor = Color(0xFF044B95).toArgb()
+           backgroundColor = Color(0xFFFFFF).toArgb()
         }
         val imageView = findViewById<ImageView>(R.id.imageView)
         imageView.setImageResource(logo)

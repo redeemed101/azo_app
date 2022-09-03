@@ -48,6 +48,10 @@
         <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/layout/exo_player_custom.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/layout/exoplayer_main_custom.xml" value="0.10663627152988855" />
         <entry key="..\:/Projects/android/azo/libraries/ui/sermons/src/main/res/layout/youtube_player_view.xml" value="0.12952898550724637" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/shorts/src/main/res/drawable/green_lightgray_drawable.xml" value="0.105" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/shorts/src/main/res/drawable/ic_back.xml" value="0.105" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/shorts/src/main/res/drawable/ic_back_arrow.xml" value="0.105" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/shorts/src/main/res/drawable/ic_plus.xml" value="0.105" />
         <entry key="..\:/Projects/android/azo/libraries/ui/shorts/src/main/res/layout/progress_short_view.xml" value="0.21557971014492755" />
       </map>
     </option>
