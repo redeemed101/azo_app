@@ -18,7 +18,7 @@ class VideoInteractor constructor(
     suspend fun getShorts(page: Int) : ShortsResult? =  withContext(Dispatchers.IO) {
         ShortsResult(
             shorts = SHORTS
-            
+
         )
     }
 

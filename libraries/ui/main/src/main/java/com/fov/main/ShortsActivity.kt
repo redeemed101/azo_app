@@ -156,7 +156,7 @@ class ShortsActivity : AppCompatActivity(), ShortsCallback {
         videoView.setOnClickListener {
 
         }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+        //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
             videoView.setOnInfoListener(object : MediaPlayer.OnInfoListener {
                 override fun onInfo(mp: MediaPlayer?, what: Int, extra: Int): Boolean {
                     if (what == MediaPlayer.MEDIA_INFO_VIDEO_RENDERING_START) {
@@ -168,6 +168,6 @@ class ShortsActivity : AppCompatActivity(), ShortsCallback {
                     return false
                 }
             })
-        }
+        //}
     }
 }
