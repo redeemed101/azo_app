@@ -38,6 +38,8 @@ android {
         getByName("debug") {
             buildConfigField("String", "FOV_URL", getProps("URL"))
             buildConfigField("String", "YOUTUBE_KEY", getProps("YOUTUBE_KEY"))
+            buildConfigField("String", "STRIPE_ACCOUNT_ID", getProps("STRIPE_ACCOUNT_ID"))
+            buildConfigField("String", "STRIPE_KEY", getProps("STRIPE_KEY"))
         }
     }
     compileOptions {

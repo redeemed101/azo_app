@@ -30,6 +30,7 @@ import com.fov.common_ui.theme.AzoTheme
 import com.fov.common_ui.ui.composers.general.LoadingBox
 import com.fov.common_ui.viewModels.CommonViewModel
 import com.fov.core.di.Preferences
+import com.fov.domain.BuildConfig
 import com.fov.main.ui.home.MainTabUI
 import com.fov.main.viewModels.MainViewModel
 import com.fov.navigation.GeneralDirections
@@ -42,6 +43,7 @@ import com.fov.shorts.viewModels.ShortViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.stripe.android.ApiResultCallback
+import com.stripe.android.PaymentConfiguration
 import com.stripe.android.PaymentIntentResult
 import com.stripe.android.Stripe
 import com.stripe.android.model.ConfirmPaymentIntentParams
@@ -79,14 +81,8 @@ class MainActivity : ComponentActivity() {
     
     
     val payByStripe : (card : CardInputWidget,publishableKey: String,accountId : String, clientSecret : String) -> Unit =
-        { cardInputWidget, publishableKey,accountId, clientSecret ->
+        { cardInputWidget, _, _, clientSecret ->
 
-        paymentLauncher = PaymentLauncher.Companion.create(
-            this,
-            publishableKey,
-            accountId,
-            ::onStripePaymentResult
-        )
         cardInputWidget.paymentMethodCreateParams?.let { params ->
                 val confirmParams = ConfirmPaymentIntentParams
                     .createWithPaymentMethodCreateParams(params, clientSecret)
@@ -97,13 +93,11 @@ class MainActivity : ComponentActivity() {
     private fun onStripePaymentResult(paymentResult: PaymentResult) {
         when(paymentResult){
             PaymentResult.Completed ->{
-
+                showToast("Completed")
             }
-            PaymentResult.Completed->{
 
-            }
             PaymentResult.Canceled->{
-
+                showToast("canceled")
             }
             else -> {
 
@@ -118,6 +112,13 @@ class MainActivity : ComponentActivity() {
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        paymentLauncher = PaymentLauncher.Companion.create(
+            this,
+            BuildConfig.STRIPE_KEY,
+            BuildConfig.STRIPE_ACCOUNT_ID,
+            ::onStripePaymentResult
+        )
 
         val payEvents = paymentViewModel::handlePaymentEvent
         payEvents(PayEvent.LoadStripePaymentMethod(payByStripe))

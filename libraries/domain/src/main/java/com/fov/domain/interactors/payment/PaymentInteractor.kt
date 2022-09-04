@@ -7,4 +7,6 @@ class PaymentInteractor  constructor(
     private val paymentRepository: PaymentRepository
 ) {
     suspend fun getStripeClientSecret(products: ProductRequest) = paymentRepository.getStripeClientSecret(products = products)
+
+    suspend fun getStripeCredentials() = paymentRepository.getStripeCredentials()
 }

@@ -29,6 +29,7 @@ import androidx.compose.material.*
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.*
 import com.fov.common_ui.theme.buttonHeight
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalComposeUiApi::class)
@@ -41,6 +42,9 @@ fun StripeForm(
 
     val (focusRequester) = FocusRequester.createRefs()
     val focusManager = LocalFocusManager.current
+    val snackBarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
+
     BoxWithConstraints() {
         val screenWidth = maxWidth
         Column(
@@ -49,12 +53,24 @@ fun StripeForm(
             modifier = modifier
         )
         {
+            if (payState.errorText != null){
+                  Text(
+                      text = payState.errorText,
+                      style = MaterialTheme.typography.caption.copy(
+                          Color.Red,
+                          fontWeight = FontWeight.Bold,
+
+
+                          ),
+                  )
+            }
             Text(
                 "Pay through Stripe",
                 textAlign = TextAlign.Start,
                 style = MaterialTheme.typography.h5.copy(
                     MaterialTheme.colors.onSurface,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+
                 ),
                 modifier = Modifier
                     .align(alignment = Alignment.Start)
@@ -62,7 +78,7 @@ fun StripeForm(
             )
             Spacer(modifier = Modifier.padding(12.dp))
 
-            var amountField by remember { mutableStateOf(TextFieldValue(payState.amount.toString())) }
+            /*var amountField by remember { mutableStateOf(TextFieldValue(payState.amount.toString())) }
             CustomTextField(
                 value = amountField,
                 placeholder = "Amount",
@@ -85,11 +101,13 @@ fun StripeForm(
                 width = screenWidth,
                 padding = commonPadding,
                 shape = RoundedCornerShape(10)
-            )
+            )*/
 
             Spacer(modifier = Modifier.padding(12.dp))
             
-            CardInput(modifier = Modifier.fillMaxWidth().padding(commonPadding), payEvents)
+            CardInput(modifier = Modifier
+                .fillMaxWidth()
+                .padding(commonPadding), payEvents)
 
             Spacer(modifier = Modifier.padding(12.dp))
             Column(
@@ -104,14 +122,24 @@ fun StripeForm(
                         .height(buttonHeight),
 
                     onClick = {
-                        //events(RegistrationEvent.RegistrationClicked)
-                        if(payState.cardWidget != null
+
+
+                        if(
+                            payState.cardWidget != null
                             && payState.clientStripeSecret != null
                             && payState.stripePublishableKey != null && payState.stripeAccountId != null) {
-                            payState.stripePaymentMethod(payState.cardWidget,
-                                payState.stripePublishableKey,
-                                payState.stripeAccountId,
-                                payState.clientStripeSecret)
+                            val widget = payState.cardWidget
+                            if(widget.paymentMethodCreateParams != null){
+                                payEvents(PayEvent.SetErrorText(null))
+                                payState.stripePaymentMethod(payState.cardWidget,
+                                    payState.stripePublishableKey,
+                                    payState.stripeAccountId,
+                                    payState.clientStripeSecret)
+                            }
+                            else{
+                               payEvents(PayEvent.SetErrorText("Fill all Card Details"))
+                            }
+
                         }
 
                     }) {

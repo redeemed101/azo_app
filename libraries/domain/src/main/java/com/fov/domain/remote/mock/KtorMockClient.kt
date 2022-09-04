@@ -9,6 +9,8 @@ import com.fov.domain.remote.mock.authentication.users.UserNumNotificationsMockR
 import com.fov.domain.remote.mock.music.AlbumsMockResponse
 import com.fov.domain.remote.mock.music.SongMockResponse
 import com.fov.domain.remote.mock.music.SongsMockResponse
+import com.fov.domain.remote.mock.payment.PaymentStripeCredentialsMockResponse
+import com.fov.domain.remote.mock.payment.PaymentStripeCustomerIdResponse
 import com.fov.domain.remote.mock.video.VideosMockResponse
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*
@@ -30,6 +32,16 @@ class KtorMockClient {
                 }*/
                 addHandler { request ->
                     when (request.url.encodedPath) {
+                        "/payment/Stripe/getClientSecret" -> {
+                            val responseHeaders = headersOf("Content-Type"
+                                    to listOf(ContentType.Application.Json.toString()))
+                            respond(PaymentStripeCustomerIdResponse(), HttpStatusCode.OK, responseHeaders)
+                        }
+                        "/payment/Stripe/credentials" -> {
+                            val responseHeaders = headersOf("Content-Type"
+                                    to listOf(ContentType.Application.Json.toString()))
+                            respond(PaymentStripeCredentialsMockResponse(), HttpStatusCode.OK, responseHeaders)
+                        }
                         "/users/User/signup" -> {
 
                             val responseHeaders = headersOf("Content-Type"

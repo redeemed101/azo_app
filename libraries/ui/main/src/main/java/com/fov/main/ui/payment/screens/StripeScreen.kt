@@ -56,7 +56,7 @@ private fun stripeScreen(
             //events(CommonEvent.ChangeShowMoreOptions(true))
             //events(CommonEvent.ChangeTopBarColor(backgroundColor))
             //events(CommonEvent.ChangeTopBarTintColor(tintColor))
-
+            payEvent(PayEvent.LoadStripeClientSecret)
 
 
         }

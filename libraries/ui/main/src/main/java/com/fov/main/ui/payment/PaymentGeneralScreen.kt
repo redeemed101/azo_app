@@ -3,6 +3,7 @@ package com.fov.main.ui.payment
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Surface
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -31,6 +32,8 @@ fun PaymentGeneralScreen(
     BackHandler(onBack = {
         backHandler()
     })
+
+
     Surface(
         color = MaterialTheme.colors.surface,
         modifier = Modifier

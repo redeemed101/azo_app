@@ -14,7 +14,8 @@ class PayState(
     val stripeAccountId: String? = null,
     val stripePaymentMethod: (CardInputWidget, String,String, String) -> Unit = {_,_, _,_ ->
 
-    }
+    },
+    val errorText : String? = null
 ){
     companion object {
         fun initialise(): PayState = PayState()
@@ -29,6 +30,7 @@ class PayState(
         var clientStripeSecret = state.clientStripeSecret
         var stripePublishableKey = state.stripePublishableKey
         var stripeAccountId = state.stripeAccountId
+        var errorText = state.errorText
         fun build(): PayState {
             return PayState(
                 loading,
@@ -39,6 +41,7 @@ class PayState(
                 stripePublishableKey,
                 stripeAccountId,
                 stripePaymentMethod,
+                errorText
 
             )
         }
