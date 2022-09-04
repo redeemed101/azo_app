@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PaymentViewModel @Inject constructor(
-  private val paymentInteractor: PaymentInteractor
+  //private val paymentInteractor: PaymentInteractor
 )
     :  ViewModel()  {
 
