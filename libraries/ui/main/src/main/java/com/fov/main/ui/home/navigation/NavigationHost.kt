@@ -29,9 +29,11 @@ import com.fov.main.ui.home.screens.Home
 import com.fov.main.ui.home.screens.NotificationScreen
 import com.fov.main.ui.home.screens.SearchScreen
 import com.fov.main.ui.news.screens.NewsHome
+import com.fov.main.ui.payment.screens.StripeScreen
 import com.fov.main.ui.sermons.library.screen.LibraryHomeScreen
 import com.fov.main.ui.sermons.video.screens.VideoHomeScreen
 import com.fov.navigation.VideoDirections
+import com.fov.payment.viewModels.PaymentViewModel
 import com.fov.shorts.viewModels.ShortViewModel
 
 
@@ -47,6 +49,7 @@ fun NavigationHost(
     commonViewModel: CommonViewModel,
     storedMusicViewModel: StoredSermonViewModel,
     shortViewModel: ShortViewModel,
+    paymentViewModel: PaymentViewModel,
     playVideo : (id:String) -> Unit
 ) {
 
@@ -67,12 +70,14 @@ fun NavigationHost(
                 arguments = HomeDirections.home.arguments
             ) {
 
-                Home(
+                /*Home(
                     commonViewModel,
                     musicViewModel,
                     usersViewModel,
                     shortViewModel
-                )
+                )*/
+                StripeScreen(commonViewModel = commonViewModel,
+                    paymentViewModel = paymentViewModel)
 
             }
 

@@ -30,6 +30,7 @@ import com.fov.main.ui.home.navigation.NavigationHost
 import com.fov.main.viewModels.MainViewModel
 import com.fov.navigation.NavigationCommand
 import com.fov.navigation.Screen
+import com.fov.payment.viewModels.PaymentViewModel
 import com.fov.sermons.viewModels.SermonViewModel
 import com.fov.sermons.viewModels.StoredSermonViewModel
 import com.fov.shorts.viewModels.ShortViewModel
@@ -49,6 +50,7 @@ fun MainTabUI(
     commonViewModel: CommonViewModel,
     shortViewModel: ShortViewModel,
     storedMusicViewModel: StoredSermonViewModel,
+    paymentViewModel: PaymentViewModel,
     playVideo : (videoId : String) -> Unit,
     navigate : (route : NavigationCommand) -> Unit
 ){
@@ -63,6 +65,7 @@ fun MainTabUI(
         commonViewModel,
         storedMusicViewModel,
         shortViewModel,
+        paymentViewModel,
         playVideo,
         navigate
     )
@@ -80,6 +83,7 @@ fun MainHome(
     commonViewModel: CommonViewModel,
     storedMusicViewModel: StoredSermonViewModel,
     shortViewModel: ShortViewModel,
+    paymentViewModel: PaymentViewModel,
     playVideo : (videoId : String) -> Unit,
     navigate : (route : NavigationCommand) -> Unit
 ){
@@ -183,6 +187,7 @@ fun MainHome(
                      commonViewModel,
                      storedMusicViewModel,
                      shortViewModel,
+                     paymentViewModel,
                      playVideo
                  )
 

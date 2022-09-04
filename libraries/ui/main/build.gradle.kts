@@ -55,6 +55,7 @@ dependencies {
     implementation(project(":libraries:navigation"))
     implementation(project(":libraries:ui:common_ui"))
     implementation(project(":libraries:ui:shorts"))
+    implementation(project(":libraries:ui:payment"))
     implementation(project(":libraries:core"))
     implementation(project(":libraries:domain"))
     implementation(project(":libraries:ui:authentication"))

@@ -68,6 +68,8 @@ dependencies {
     implementation Libs.Networking.Ktor.kotlinx_json
     implementation Libs.Serialization.gson
 
+    implementation Libs.Stripe.stripe
+
     implementation Libs.AndroidX.Paging.runtime
     implementation Libs.AndroidX.Compose.paging
     implementation Libs.coil
@@ -77,6 +79,7 @@ dependencies {
     implementation Libs.Hilt.AndroidX.compose_navigation
 
     implementation Libs.Layout.constraint
+    implementation project(path: ':libraries:ui:payment')
 
     androidTestImplementation Libs.Hilt.android
     //androidTestImplementation Libs.Hilt.AndroidX.viewModel
