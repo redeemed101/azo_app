@@ -1,5 +1,7 @@
 package com.fov.payment.ui.stripe
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -26,9 +28,13 @@ import com.fov.common_ui.ui.composers.textfields.CustomTextField
 import com.fov.payment.events.PayEvent
 import com.fov.payment.states.PayState
 import androidx.compose.material.*
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.input.*
 import com.fov.common_ui.theme.buttonHeight
+import com.fov.payment.R
+import com.fov.payment.models.PaymentMethod
+import com.fov.payment.ui.general.PaymentMethodItem
 import kotlinx.coroutines.launch
 
 
@@ -77,6 +83,8 @@ fun StripeForm(
                     .padding(start = commonPadding)
             )
             Spacer(modifier = Modifier.padding(12.dp))
+
+
 
             /*var amountField by remember { mutableStateOf(TextFieldValue(payState.amount.toString())) }
             CustomTextField(
