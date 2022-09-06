@@ -18,9 +18,6 @@ import com.fov.common_ui.viewModels.CommonViewModel
 import com.fov.main.ui.home.WebViewScreen
 import com.fov.main.ui.sermons.audio.screens.*
 import com.fov.main.viewModels.MainViewModel
-import com.fov.navigation.AuthenticationDirections
-import com.fov.navigation.HomeDirections
-import com.fov.navigation.SermonsDirections
 import com.fov.sermons.ui.MusicPlayerScreen
 import com.fov.sermons.viewModels.SermonViewModel
 import com.fov.sermons.viewModels.StoredSermonViewModel
@@ -29,10 +26,11 @@ import com.fov.main.ui.home.screens.Home
 import com.fov.main.ui.home.screens.NotificationScreen
 import com.fov.main.ui.home.screens.SearchScreen
 import com.fov.main.ui.news.screens.NewsHome
+import com.fov.main.ui.payment.screens.PaymentOptionsScreen
 import com.fov.main.ui.payment.screens.StripeScreen
 import com.fov.main.ui.sermons.library.screen.LibraryHomeScreen
 import com.fov.main.ui.sermons.video.screens.VideoHomeScreen
-import com.fov.navigation.VideoDirections
+import com.fov.navigation.*
 import com.fov.payment.viewModels.PaymentViewModel
 import com.fov.shorts.viewModels.ShortViewModel
 
@@ -76,8 +74,9 @@ fun NavigationHost(
                     usersViewModel,
                     shortViewModel
                 )*/
-                StripeScreen(commonViewModel = commonViewModel,
-                    paymentViewModel = paymentViewModel)
+                PaymentOptionsScreen(
+                    commonViewModel = commonViewModel,
+                    paymentViewModel = paymentViewModel )
 
             }
 
@@ -228,6 +227,29 @@ fun NavigationHost(
                NewsHome(commonViewModel = commonViewModel,
                    sermonViewModel = musicViewModel)
 
+
+            }
+
+            //payment
+            composable(
+                PaymentDirections.options.destination,
+                arguments = PaymentDirections.options.arguments
+            ) {
+
+
+                PaymentOptionsScreen(
+                    commonViewModel = commonViewModel,
+                    paymentViewModel = paymentViewModel )
+
+            }
+            composable(
+                PaymentDirections.stripe.destination,
+                arguments = PaymentDirections.stripe.arguments
+            ) {
+
+
+                StripeScreen(commonViewModel = commonViewModel,
+                    paymentViewModel = paymentViewModel)
 
             }
 

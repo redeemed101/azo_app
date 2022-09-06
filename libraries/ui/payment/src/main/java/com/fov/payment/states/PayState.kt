@@ -1,6 +1,7 @@
 package com.fov.payment.states
 
 import com.fov.payment.events.PayEvent
+import com.fov.payment.models.PaymentMethod
 import com.stripe.android.view.CardInputWidget
 
 
@@ -15,7 +16,8 @@ class PayState(
     val stripePaymentMethod: (CardInputWidget, String,String, String) -> Unit = {_,_, _,_ ->
 
     },
-    val errorText : String? = null
+    val errorText : String? = null,
+    val paymentMethods : List<PaymentMethod> = emptyList()
 ){
     companion object {
         fun initialise(): PayState = PayState()
@@ -31,6 +33,7 @@ class PayState(
         var stripePublishableKey = state.stripePublishableKey
         var stripeAccountId = state.stripeAccountId
         var errorText = state.errorText
+        var paymentMethods = state.paymentMethods
         fun build(): PayState {
             return PayState(
                 loading,
@@ -41,7 +44,8 @@ class PayState(
                 stripePublishableKey,
                 stripeAccountId,
                 stripePaymentMethod,
-                errorText
+                errorText,
+                paymentMethods
 
             )
         }

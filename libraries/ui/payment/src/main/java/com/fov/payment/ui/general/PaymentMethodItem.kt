@@ -21,45 +21,29 @@ import com.fov.payment.R
 
 import com.fov.payment.models.PaymentMethod
 
-@Preview(showBackground = true)
-@Composable
-fun prevPaymentMethodItem(
 
-){
-    AzoTheme {
-        PaymentMethodItem(
-            method = PaymentMethod("Debit Card", "Pay through your card", R.drawable.credit_card),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(commonPadding)
-        )
-    }
-}
 
 @Composable
 fun PaymentMethodItem(
     method : PaymentMethod,
     modifier : Modifier,
-    tintColor : Color = MaterialTheme.colors.primary,
+    tintColor : Color = MaterialTheme.colors.surface,
     onClick : () -> Unit = {}
 ){
     Row(
        verticalAlignment = Alignment.CenterVertically,
        horizontalArrangement = Arrangement.Start,
-       modifier = modifier
+       modifier = modifier.clickable {
+           onClick()
+       }
 
     ){
         Icon(
             painterResource(method.icon),
             "",
             tint = tintColor,
-            modifier = Modifier
-                //.padding(top = 5.dp, bottom = 5.dp)
-                //.height(50.dp)
-                //.width(screenWidth * 0.2f)
-                .clickable {
+            modifier = Modifier.size(60.dp)
 
-                }
 
         )
         Column(

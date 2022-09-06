@@ -35,14 +35,14 @@ fun PaymentOptionsScreen(
     val payState by paymentViewModel.uiState.collectAsState()
     paymentOptionsScreen(commonState = commonState, events = commonViewModel::handleCommonEvent ,
         payState = payState,
-        payEvent = paymentViewModel::handlePaymentEvent )
+        payEvents = paymentViewModel::handlePaymentEvent )
 }
 @Composable
 private fun  paymentOptionsScreen(
     commonState : CommonState,
     events: (event: CommonEvent) -> Unit,
     payState: PayState,
-    payEvent: (PayEvent) -> Unit
+    payEvents: (PayEvent) -> Unit
 ){
     PaymentGeneralScreen(
         commonState = commonState,
@@ -52,7 +52,7 @@ private fun  paymentOptionsScreen(
         val tintColor = MaterialTheme.colors.onSurface
         LaunchedEffect(commonState.hasDeepScreen) {
 
-            payEvent(PayEvent.LoadStripeClientSecret)
+            payEvents(PayEvent.LoadStripeClientSecret)
 
 
         }
@@ -82,9 +82,7 @@ private fun  paymentOptionsScreen(
                     .background(brush = verticalGradientBrush)
                     .verticalScroll(scrollState)
             ) {
-                ChoosePaymentOption(methods = List(5) {
-                    PaymentMethod("Payment $it", "This is Payment Method $it", R.drawable.credit_card)
-                })
+                ChoosePaymentOption(payState, payEvents = payEvents)
             }
         }
 

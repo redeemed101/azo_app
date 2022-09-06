@@ -13,17 +13,30 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.fov.common_ui.theme.commonPadding
+import com.fov.payment.events.PayEvent
 import com.fov.payment.models.PaymentMethod
+import com.fov.payment.models.PaymentType
+import com.fov.payment.states.PayState
 import com.fov.payment.ui.general.PaymentMethodItem
 
 @Composable
 fun ChoosePaymentOption(
-    methods : List<PaymentMethod>,
+   payState: PayState,
+   payEvents: (PayEvent) -> Unit
 ){
     BoxWithConstraints() {
         val screenWidth = maxWidth
+
         Column {
-            methods.forEach { method ->
+            payState.paymentMethods.forEach { method ->
+                var onClick: () -> Unit = {
+
+                }
+                if (method.type == PaymentType.CARD.name){
+                    onClick = {
+                        payEvents(PayEvent.GoToStripeOptions)
+                    }
+                }
                 PaymentMethodItem(
                     method = method,
                     modifier = Modifier
@@ -38,7 +51,7 @@ fun ChoosePaymentOption(
                         .padding(commonPadding),
 
                 ){
-
+                     onClick()
                 }
             }
         }

@@ -5,6 +5,8 @@ import com.stripe.android.view.CardInputWidget
 
 sealed class PayEvent {
     object LoadStripeClientSecret : PayEvent()
+    object GoToOptions : PayEvent()
+    object GoToStripeOptions : PayEvent()
     data class LoadStripeWidget(val cardInputWidget: CardInputWidget) : PayEvent()
     data class LoadStripePaymentMethod(val method: (CardInputWidget, String,String, String) -> Unit) : PayEvent()
     data class LoadClientStripeSecret(val secret: String): PayEvent()

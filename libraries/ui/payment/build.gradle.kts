@@ -43,6 +43,7 @@ android {
 
 dependencies {
     implementation(project(":libraries:domain"))
+    implementation(project(":libraries:navigation"))
     implementation(project(":libraries:core"))
     implementation(project(":libraries:ui:common_ui"))
     implementation(Libs.AndroidX.Core.core)
