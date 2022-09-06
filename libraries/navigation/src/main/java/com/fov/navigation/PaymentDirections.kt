@@ -19,4 +19,11 @@ object PaymentDirections {
         })
         override val destination = "stripe_payment"
     }
+    val code = object : NavigationCommand{
+
+        override val arguments = listOf(navArgument(Constants.MAINTAB) {
+            defaultValue = RouteConstants.HOME
+        })
+        override val destination = "code_payment"
+    }
 }

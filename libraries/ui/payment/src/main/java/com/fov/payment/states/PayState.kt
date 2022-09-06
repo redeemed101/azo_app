@@ -1,13 +1,12 @@
 package com.fov.payment.states
 
-import com.fov.payment.events.PayEvent
 import com.fov.payment.models.PaymentMethod
 import com.stripe.android.view.CardInputWidget
 
 
 class PayState(
     val loading: Boolean = false,
-    val amount: Float = 0.0f,
+    val activationCode: String = "",
     val isPaymentValid: Boolean = false,
     val cardWidget: CardInputWidget? = null,
     val clientStripeSecret : String? = null,
@@ -25,7 +24,7 @@ class PayState(
     fun build(block: PayState.Builder.() -> Unit) = PayState.Builder(this).apply(block).build()
     class Builder(private val state: PayState) {
         var loading = state.loading
-        var amount = state.amount
+        var activationCode = state.activationCode
         var isPaymentValid = state.isPaymentValid
         var cardInputWidget = state.cardWidget
         var stripePaymentMethod = state.stripePaymentMethod
@@ -37,7 +36,7 @@ class PayState(
         fun build(): PayState {
             return PayState(
                 loading,
-                amount,
+                activationCode,
                 isPaymentValid,
                 cardInputWidget,
                 clientStripeSecret,

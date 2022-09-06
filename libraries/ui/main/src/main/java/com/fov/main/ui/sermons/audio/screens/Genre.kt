@@ -60,7 +60,7 @@ private fun Genre(
             }
         },
         backHandler = {
-            events(CommonEvent.ChangeHasDeepScreen(true, "Genres"))
+            //events(CommonEvent.ChangeHasDeepScreen(true, "Genres"))
         }
     ) {
         BoxWithConstraints() {

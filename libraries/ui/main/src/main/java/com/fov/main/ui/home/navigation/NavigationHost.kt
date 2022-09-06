@@ -26,6 +26,7 @@ import com.fov.main.ui.home.screens.Home
 import com.fov.main.ui.home.screens.NotificationScreen
 import com.fov.main.ui.home.screens.SearchScreen
 import com.fov.main.ui.news.screens.NewsHome
+import com.fov.main.ui.payment.screens.ActivationCodeScreen
 import com.fov.main.ui.payment.screens.PaymentOptionsScreen
 import com.fov.main.ui.payment.screens.StripeScreen
 import com.fov.main.ui.sermons.library.screen.LibraryHomeScreen
@@ -68,15 +69,15 @@ fun NavigationHost(
                 arguments = HomeDirections.home.arguments
             ) {
 
-                /*Home(
+                Home(
                     commonViewModel,
                     musicViewModel,
                     usersViewModel,
                     shortViewModel
-                )*/
-                PaymentOptionsScreen(
+                )
+                /*PaymentOptionsScreen(
                     commonViewModel = commonViewModel,
-                    paymentViewModel = paymentViewModel )
+                    paymentViewModel = paymentViewModel )*/
 
             }
 
@@ -249,6 +250,16 @@ fun NavigationHost(
 
 
                 StripeScreen(commonViewModel = commonViewModel,
+                    paymentViewModel = paymentViewModel)
+
+            }
+            composable(
+                PaymentDirections.code.destination,
+                arguments = PaymentDirections.code.arguments
+            ) {
+
+
+                ActivationCodeScreen(commonViewModel = commonViewModel,
                     paymentViewModel = paymentViewModel)
 
             }

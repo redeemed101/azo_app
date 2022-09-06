@@ -8,10 +8,8 @@ import com.fov.navigation.NavigationManager
 import com.fov.domain.interactors.payment.PaymentInteractor
 import com.fov.domain.models.payment.ProductRequest
 import com.fov.navigation.PaymentDirections
-import com.fov.navigation.SermonsDirections
 import com.fov.payment.data.METHODS
 import com.fov.payment.events.PayEvent
-import com.fov.payment.models.PaymentMethod
 import com.fov.payment.states.PayState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -67,14 +65,23 @@ class PaymentViewModel @Inject constructor(
     fun handlePaymentEvent(event : PayEvent){
         _uiState.value = uiState.value.build {
             when (event) {
+                is PayEvent.SetActivationCode ->{
+                     activationCode = event.code
+                }
+                PayEvent.SubmitCode ->{
+
+                }
                PayEvent.LoadStripeClientSecret ->{
                     getStripeClientSecretId()
                }
                 PayEvent.GoToOptions ->{
                     navigationManager.navigate(PaymentDirections.options)
                 }
-                PayEvent.GoToStripeOptions ->{
+                PayEvent.GoToStripeOption ->{
                     navigationManager.navigate(PaymentDirections.stripe)
+                }
+                PayEvent.GoToCodeOption ->{
+                    navigationManager.navigate(PaymentDirections.code)
                 }
                is PayEvent.LoadStripeWidget ->{
                     cardInputWidget = event.cardInputWidget

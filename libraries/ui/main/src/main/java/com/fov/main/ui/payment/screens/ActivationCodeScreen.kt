@@ -17,29 +17,26 @@ import com.fov.common_ui.events.CommonEvent
 import com.fov.common_ui.states.CommonState
 import com.fov.common_ui.viewModels.CommonViewModel
 import com.fov.main.ui.payment.PaymentGeneralScreen
-import com.fov.main.ui.sermons.audio.screens.AlbumBottomSheetHeader
 import com.fov.payment.events.PayEvent
 import com.fov.payment.states.PayState
+import com.fov.payment.ui.stripe.ActivationCodeForm
 import com.fov.payment.ui.stripe.StripeForm
 import com.fov.payment.viewModels.PaymentViewModel
-import com.fov.sermons.events.MusicEvent
 
 
 @Composable
-fun StripeScreen(
+fun ActivationCodeScreen(
     commonViewModel: CommonViewModel,
     paymentViewModel: PaymentViewModel
 ){
-
     val commonState by commonViewModel.uiState.collectAsState()
     val payState by paymentViewModel.uiState.collectAsState()
-    stripeScreen(commonState = commonState, events = commonViewModel::handleCommonEvent ,
+    activationCodeScreen(commonState = commonState, events = commonViewModel::handleCommonEvent ,
         payState = payState,
         payEvent = paymentViewModel::handlePaymentEvent )
 }
-
 @Composable
-private fun stripeScreen(
+private fun activationCodeScreen(
     commonState : CommonState,
     events: (event: CommonEvent) -> Unit,
     payState: PayState,
@@ -51,11 +48,13 @@ private fun stripeScreen(
         swipeToRefreshAction = {}) {
         val backgroundColor = MaterialTheme.colors.surface
         val tintColor = MaterialTheme.colors.onSurface
+
+        val headerBackgroundColor = MaterialTheme.colors.onSurface
+        val headerTintColor = MaterialTheme.colors.surface
         LaunchedEffect(commonState.hasDeepScreen) {
-            events(CommonEvent.ChangeHasDeepScreen(true,"Debit Card"))
-            events(CommonEvent.ChangeShowMoreOptions(true))
-            events(CommonEvent.ChangeTopBarColor(backgroundColor))
-            events(CommonEvent.ChangeTopBarTintColor(tintColor))
+            events(CommonEvent.ChangeHasDeepScreen(true,"Activation Code"))
+            events(CommonEvent.ChangeTopBarColor(headerBackgroundColor))
+            events(CommonEvent.ChangeTopBarTintColor(headerTintColor))
             payEvent(PayEvent.LoadStripeClientSecret)
 
 
@@ -63,16 +62,13 @@ private fun stripeScreen(
         DisposableEffect(true){
             onDispose {
                 events(CommonEvent.ChangeHasDeepScreen(false, ""))
-                events(CommonEvent.ChangeTopBarColor(backgroundColor))
+                //events(CommonEvent.ChangeTopBarColor(backgroundColor))
                 events(CommonEvent.ChangeBottomSheetHeader{
                 })
             }
         }
         BoxWithConstraints {
-            val screenWidth = maxWidth
-            val screenHeight = maxHeight
-            val context = LocalContext.current
-            val lifecycleOwner = LocalLifecycleOwner.current
+
             val verticalGradientBrush = Brush.verticalGradient(
                 colors = listOf(
                     backgroundColor,
@@ -89,7 +85,7 @@ private fun stripeScreen(
                     .background(brush = verticalGradientBrush)
                     .verticalScroll(scrollState)
             ) {
-                StripeForm(
+                ActivationCodeForm(
                     modifier = Modifier.fillMaxWidth(),
                     payState = payState,
                     payEvents = payEvent)

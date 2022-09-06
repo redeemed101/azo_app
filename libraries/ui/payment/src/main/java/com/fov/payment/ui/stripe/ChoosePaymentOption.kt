@@ -14,7 +14,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import com.fov.common_ui.theme.commonPadding
 import com.fov.payment.events.PayEvent
-import com.fov.payment.models.PaymentMethod
 import com.fov.payment.models.PaymentType
 import com.fov.payment.states.PayState
 import com.fov.payment.ui.general.PaymentMethodItem
@@ -32,9 +31,16 @@ fun ChoosePaymentOption(
                 var onClick: () -> Unit = {
 
                 }
-                if (method.type == PaymentType.CARD.name){
-                    onClick = {
-                        payEvents(PayEvent.GoToStripeOptions)
+                when (method.type){
+                   PaymentType.CARD.name -> {
+                       onClick = {
+                           payEvents(PayEvent.GoToStripeOption)
+                       }
+                   }
+                   PaymentType.CODE.name -> {
+                       onClick = {
+                           payEvents(PayEvent.GoToCodeOption)
+                       }
                     }
                 }
                 PaymentMethodItem(

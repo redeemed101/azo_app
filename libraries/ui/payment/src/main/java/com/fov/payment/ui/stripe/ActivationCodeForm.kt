@@ -1,13 +1,12 @@
 package com.fov.payment.ui.stripe
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.runtime.getValue
+import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.SnackbarHostState
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -16,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -23,24 +23,15 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.fov.common_ui.theme.buttonHeight
 import com.fov.common_ui.theme.commonPadding
 import com.fov.common_ui.ui.composers.textfields.CustomTextField
 import com.fov.payment.events.PayEvent
 import com.fov.payment.states.PayState
-import androidx.compose.material.*
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.input.*
-import com.fov.common_ui.theme.buttonHeight
-import com.fov.payment.R
-import com.fov.payment.models.PaymentMethod
-import com.fov.payment.ui.general.PaymentMethodItem
-import kotlinx.coroutines.launch
-
 
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun StripeForm(
+fun ActivationCodeForm(
     modifier: Modifier,
     payState: PayState,
     payEvents: (PayEvent) -> Unit
@@ -60,24 +51,24 @@ fun StripeForm(
         )
         {
             if (payState.errorText != null){
-                  Text(
-                      text = payState.errorText,
-                      style = MaterialTheme.typography.caption.copy(
-                          Color.Red,
-                          fontWeight = FontWeight.Bold,
+                Text(
+                    text = payState.errorText,
+                    style = MaterialTheme.typography.caption.copy(
+                        Color.Red,
+                        fontWeight = FontWeight.Bold,
 
 
-                          ),
-                  )
+                        ),
+                )
             }
             Text(
-                "Pay through Stripe",
+                "Enter Activation Code",
                 textAlign = TextAlign.Start,
                 style = MaterialTheme.typography.h5.copy(
                     MaterialTheme.colors.onSurface,
                     fontWeight = FontWeight.Bold,
 
-                ),
+                    ),
                 modifier = Modifier
                     .align(alignment = Alignment.Start)
                     .padding(start = commonPadding)
@@ -86,19 +77,20 @@ fun StripeForm(
 
 
 
-            /*var amountField by remember { mutableStateOf(TextFieldValue(payState.amount.toString())) }
+            var codeField by remember { mutableStateOf(TextFieldValue(payState.activationCode.toString())) }
             CustomTextField(
-                value = amountField,
-                placeholder = "Amount",
+                value = codeField,
+                placeholder = "Activation Code",
                 modifier = Modifier.focusRequester(focusRequester),
                 onChange = {
                     //events(RegistrationEvent.FullNameChanged(it.text))
-                    amountField = it
+                    payEvents(PayEvent.SetActivationCode(it.text))
+                    codeField = it
 
                 },
                 keyboardOptions = KeyboardOptions(
                     imeAction = ImeAction.Next,
-                    keyboardType = KeyboardType.Decimal
+                    keyboardType = KeyboardType.Number
                 ),
                 keyboardActions = KeyboardActions(
                     onNext = {
@@ -109,13 +101,10 @@ fun StripeForm(
                 width = screenWidth,
                 padding = commonPadding,
                 shape = RoundedCornerShape(10)
-            )*/
+            )
 
             Spacer(modifier = Modifier.padding(12.dp))
-            
-            CardInput(modifier = Modifier
-                .fillMaxWidth()
-                .padding(commonPadding), payEvents)
+
 
             Spacer(modifier = Modifier.padding(12.dp))
             Column(
@@ -130,30 +119,18 @@ fun StripeForm(
                         .height(buttonHeight),
 
                     onClick = {
-
-
-                        if(
-                            payState.cardWidget != null
-                            && payState.clientStripeSecret != null
-                            && payState.stripePublishableKey != null && payState.stripeAccountId != null) {
-                            val widget = payState.cardWidget
-                            if(widget.paymentMethodCreateParams != null){
-                                payEvents(PayEvent.SetErrorText(null))
-                                payState.stripePaymentMethod(payState.cardWidget,
-                                    payState.stripePublishableKey,
-                                    payState.stripeAccountId,
-                                    payState.clientStripeSecret)
-                            }
-                            else{
-                               payEvents(PayEvent.SetErrorText("Fill all Card Details"))
-                            }
-
+                        if (payState.activationCode != null && payState.activationCode.isNotEmpty()) {
+                            payEvents(PayEvent.SetErrorText(null))
+                            payEvents(PayEvent.SubmitCode)
+                        }
+                        else{
+                            payEvents(PayEvent.SetErrorText("Enter activation code"))
                         }
 
                     }) {
 
                     Text(
-                        "Make Payment",
+                        "Submit Code",
                         color = MaterialTheme.colors.surface
                     )
 
