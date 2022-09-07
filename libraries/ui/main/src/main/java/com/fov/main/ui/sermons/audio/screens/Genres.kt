@@ -71,9 +71,6 @@ private fun Genres(
         musicEvents = musicEvents,
         swipeToRefreshAction = {
             musicEvents(MusicEvent.LoadGenres)
-        },
-        backHandler = {
-            events(CommonEvent.ChangeHasDeepScreen(false, ""))
         }
     ) {
         LaunchedEffect(commonState.hasDeepScreen) {

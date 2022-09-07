@@ -28,16 +28,15 @@ import com.fov.sermons.viewModels.SermonViewModel
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.graphics.ColorFilter
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.fov.common_ui.states.CommonState
 import com.fov.main.ui.sermons.audio.general.MusicGeneralScreen
-import com.fov.navigation.BackPageData
 import com.fov.sermons.R
 import com.fov.sermons.events.MusicEvent
 import com.fov.sermons.mock.data.songs.PAGER_IMAGES
 import com.fov.sermons.states.MusicState
 import com.fov.sermons.ui.albums.Albums
+
+
 
 
 @ExperimentalAnimationApi
@@ -188,7 +187,7 @@ private fun getListOfGridItems(
             ){
 
                 events(CommonEvent.ChangeHasDeepScreen(true, genre.name))
-                events(CommonEvent.ChangeBackPageData(BackPageData(true,"Genres")))
+                //events(CommonEvent.ChangeBackPageData(BackPageData(true,"Genres")))
                 musicEvents(MusicEvent.GenreSelected(genre))
                 musicEvents(MusicEvent.GoToGenre)
 

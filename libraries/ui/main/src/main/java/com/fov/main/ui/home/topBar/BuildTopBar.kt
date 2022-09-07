@@ -16,6 +16,7 @@ import com.fov.common_ui.states.CommonState
 import com.fov.common_ui.theme.White009
 import com.fov.common_ui.ui.composers.general.searchHeaderIcon
 import com.fov.common_ui.ui.composers.headers.backTopBar
+import com.fov.common_ui.ui.composers.headers.mainNewsBar
 import com.fov.main.ui.general.moreHeaderIcon
 import com.fov.main.ui.home.sections.albumBottomSheet
 import com.fov.main.ui.home.sections.ownerUserBottomSheet
@@ -206,6 +207,15 @@ fun BuildTopBar(
                     }
                     Screen.Library ->{
                         mainLibraryBar(
+                            backgroundColor = backgroundColor,
+                            tintColor = tintColor,
+                        ) {
+                            events(CommonEvent.ChangeHasDeepScreen(true, "Search"))
+                            events(CommonEvent.NavigateToSearch)
+                        }
+                    }
+                    Screen.News ->{
+                        mainNewsBar(
                             backgroundColor = backgroundColor,
                             tintColor = tintColor,
                         ) {
