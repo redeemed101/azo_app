@@ -4,6 +4,7 @@ import com.fov.authentication.models.UserModel
 import com.fov.domain.database.models.User
 
 sealed class RegistrationEvent {
+
     object DismissErrorDialog : RegistrationEvent()
     object RegistrationClicked : RegistrationEvent()
     object RegistrationNavigationClicked : RegistrationEvent()

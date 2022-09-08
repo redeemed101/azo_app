@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/android/azo/app/src/main/res/drawable/ic_launcher_background.xml" value="0.124" />
         <entry key="..\:/Projects/android/azo/app/src/main/res/drawable/ic_logo.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/app/src/main/res/drawable/ic_x.xml" value="0.132" />
         <entry key="..\:/Projects/android/azo/app/src/main/res/drawable/ic_x_circle.xml" value="0.116" />
@@ -10,11 +11,15 @@
         <entry key="..\:/Projects/android/azo/app/src/main/res/layout/facebook_login_button.xml" value="0.11195542046605876" />
         <entry key="..\:/Projects/android/azo/app/src/main/res/layout/youtube_player_view.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/app/src/main/res/layout/youtubeplayer_view.xml" value="0.12952898550724637" />
+        <entry key="..\:/Projects/android/azo/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.124" />
+        <entry key="..\:/Projects/android/azo/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.124" />
         <entry key="..\:/Projects/android/azo/libraries/navigation/src/main/res/drawable/ic_music.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/navigation/src/main/res/drawable/ic_music_library.xml" value="0.136" />
         <entry key="..\:/Projects/android/azo/libraries/navigation/src/main/res/drawable/ic_news.xml" value="0.105" />
         <entry key="..\:/Projects/android/azo/libraries/navigation/src/main/res/drawable/ic_watch_video.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/authentication/src/main/res/drawable/ic_eye.xml" value="0.124" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/authentication/src/main/res/drawable/ic_listen.xml" value="0.124" />
+        <entry key="..\:/Projects/android/azo/libraries/ui/authentication/src/main/res/drawable/ic_watch.xml" value="0.124" />
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_arrow_forward.xml" value="0.124" />
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_back_arrow.xml" value="0.1" />
         <entry key="..\:/Projects/android/azo/libraries/ui/common_ui/src/main/res/drawable/ic_downloaded.xml" value="0.1" />

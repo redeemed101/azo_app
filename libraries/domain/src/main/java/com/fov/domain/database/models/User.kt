@@ -13,7 +13,6 @@ data class User(
     val name: String,
     val email : String,
     val profile:String,
-    val userName: String,
     val privateKey: String = "",
     val publicKey: String = "",
     val profilePicPath: String = "",

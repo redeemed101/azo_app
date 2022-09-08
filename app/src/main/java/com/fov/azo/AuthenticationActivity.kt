@@ -59,8 +59,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class AuthenticationActivity : AppCompatActivity() {
-    private var account: GoogleSignInAccount? = null
-    private var mGoogleSignInClient: GoogleSignInClient? = null
+
     private val registrationViewModel: RegistrationViewModel by viewModels()
     private val loginViewModel : LoginViewModel by viewModels()
 
@@ -69,10 +68,6 @@ class AuthenticationActivity : AppCompatActivity() {
 
     @Inject
     lateinit var sharedPrefs : Preferences
-
-
-    var callbackManager: CallbackManager? = null
-
 
 
     private val RC_SIGN_IN = 1
@@ -84,33 +79,11 @@ class AuthenticationActivity : AppCompatActivity() {
         androidx.compose.ui.ExperimentalComposeUiApi::class
     )
     override fun onCreate(savedInstanceState: Bundle?) {
-        callbackManager = CallbackManager.Factory.create();
 
         //notification channel
         NotificationUtils.createNotificationChannel(this)
 
-        //express login
-        LoginManager.getInstance().retrieveLoginStatus(this, object : LoginStatusCallback {
-            override fun onCompleted(accessToken: AccessToken) {
-                // User was previously logged in, can log them in directly here.
-                // If this callback is called, a popup notification appears that says
-                // "Logged in as <User Name>"
-            }
 
-            override fun onFailure() {
-                // No access token could be retrieved for the user
-            }
-
-            override fun onError(exception: Exception) {
-                // An error occurred
-            }
-        })
-
-
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestEmail()
-            .build()
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
         super.onCreate(savedInstanceState)
 
 
@@ -194,14 +167,7 @@ class AuthenticationActivity : AppCompatActivity() {
                             composable(AuthenticationDirections.login.destination) {
                                 EnterAnimation {
                                     Login(
-                                        loginViewModel = loginViewModel,
-                                        callbackManager = callbackManager!!,
-                                        OnGoogleSignIn = {
-                                            OnGoogleSignIn()
-                                        },
-                                        facebookUserProfile = { token ->
-                                            getUserProfile(token)
-                                        }
+                                        loginViewModel = loginViewModel
                                     )
                                 }
                             }
@@ -209,14 +175,7 @@ class AuthenticationActivity : AppCompatActivity() {
                                 EnterAnimation{
 
                                     Registration(
-                                        viewModel = registrationViewModel,
-                                        callbackManager = callbackManager!!,
-                                        OnGoogleSignIn = {
-                                            OnGoogleSignIn()
-                                        },
-                                        facebookUserProfile = {token ->
-                                            getUserProfile(token)
-                                        }
+                                        viewModel = registrationViewModel
                                     )
                                 }
                             }
@@ -267,82 +226,11 @@ class AuthenticationActivity : AppCompatActivity() {
 
     override fun onStart() {
 
-        account = GoogleSignIn.getLastSignedInAccount(this)
 
         super.onStart()
 
         var  events = registrationViewModel::handleRegistrationEvent
-        if(account != null) {
-
-            account!!.email?.let {
-                events(RegistrationEvent.EmailChanged(it))
-            }
-            account!!.displayName?.let {
-                events(RegistrationEvent.FullNameChanged("${it}"))
-            }
-            events(RegistrationEvent.UsernameChanged(""))
-            events(RegistrationEvent.SocialMediaServiceChanged("GOOGLE"))
-            account!!.idToken?.let {
-                events(RegistrationEvent.SocialMediaTokenChanged(it))
-            }
-            events(RegistrationEvent.SocialMediaIsFirstTimeChanged(true))
-            events(RegistrationEvent.SocialRegisterClicked)
-        }
-    }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        callbackManager!!.onActivityResult(requestCode, resultCode, data)
-        super.onActivityResult(requestCode, resultCode, data)
-        if(resultCode != RESULT_CANCELED){
-            if (requestCode === RC_SIGN_IN) {
-
-                val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
-                account = task.getResult(ApiException::class.java)
-
-            }
-        }
-
 
     }
 
-
-    private fun getUserProfile(currentAccessToken: AccessToken) {
-        val request = GraphRequest.newMeRequest(
-            currentAccessToken
-        ) { `object`, response ->
-            Log.d("TAG", `object`.toString())
-            try {
-                var  events = registrationViewModel::handleRegistrationEvent
-                val firstName = `object`?.getString("first_name")
-                val lastName = `object`?.getString("last_name")
-                val email = `object`?.getString("email")
-                val id = `object`?.getString("id")
-                val image_url ="https://graph.facebook.com/$id/picture?type=normal"
-                if (email != null)
-                  events(RegistrationEvent.EmailChanged(email!!))
-                events(RegistrationEvent.FullNameChanged("${firstName} ${lastName}"))
-                events(RegistrationEvent.UsernameChanged(""))
-                events(RegistrationEvent.SocialMediaServiceChanged("FACEBOOK"))
-                events(RegistrationEvent.SocialMediaTokenChanged(currentAccessToken.token))
-                events(RegistrationEvent.SocialMediaIsFirstTimeChanged(true))
-                events(RegistrationEvent.SocialRegisterClicked)
-
-            } catch (e: JSONException) {
-                e.printStackTrace()
-            }
-        }
-        val parameters = Bundle()
-        parameters.putString("fields", "first_name,last_name,email,id")
-        request.parameters = parameters
-        request.executeAsync()
-    }
-
-
-    fun OnGoogleSignIn() {
-        mGoogleSignInClient?.signInIntent?.let {
-            val signInIntent: Intent = it
-            //startForResult.launch(it)
-            startActivityForResult(signInIntent, RC_SIGN_IN)
-        };
-
-    }
 }

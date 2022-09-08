@@ -52,17 +52,11 @@ import kotlinx.coroutines.launch
 @Composable
 fun Registration(
     viewModel: RegistrationViewModel,
-    callbackManager: CallbackManager,
-    OnGoogleSignIn : () -> Unit,
-    facebookUserProfile : (token : AccessToken) -> Unit
 ) {
     val state by viewModel.uiState.collectAsState()
     Registration(
         viewState = state,
         events = viewModel::handleRegistrationEvent,
-        callbackManager,
-        OnGoogleSignIn,
-        facebookUserProfile
     )
 }
 
@@ -71,10 +65,7 @@ fun Registration(
 @Composable
 private fun Registration(
     viewState: RegistrationState,
-    events: (event: RegistrationEvent) -> Unit,
-    callbackManager: CallbackManager,
-    OnGoogleSignIn : () -> Unit,
-    facebookUserProfile : (token : AccessToken) -> Unit
+    events: (event: RegistrationEvent) -> Unit
 ) {
     val context = LocalContext.current
     val snackBarHostState = remember { SnackbarHostState() }
@@ -169,7 +160,7 @@ private fun Registration(
                     var fullnameField by remember { mutableStateOf(TextFieldValue(viewState.fullname)) }
                     CustomTextField(
                         value = fullnameField,
-                        placeholder = "Full Name",
+                        placeholder = "Full-name",
                         modifier = Modifier.focusRequester(focusRequester),
                         onChange = {
                             events(RegistrationEvent.FullNameChanged(it.text))
@@ -189,7 +180,7 @@ private fun Registration(
                         padding = commonPadding,
                         shape = RoundedCornerShape(10)
                     )
-                    Spacer(modifier = Modifier.padding(8.dp))
+                    /*Spacer(modifier = Modifier.padding(8.dp))
                     var usernameField by remember { mutableStateOf(TextFieldValue(viewState.username)) }
                     CustomTextField(
                         value = usernameField,
@@ -211,7 +202,7 @@ private fun Registration(
                         width = screenWidth,
                         padding = commonPadding,
                         shape = RoundedCornerShape(10)
-                    )
+                    )*/
                     Spacer(modifier = Modifier.padding(8.dp))
                     var isPasswordFieldFocused by remember { mutableStateOf(false)}
                     AnimatedVisibility(visible = isPasswordFieldFocused) {
@@ -318,9 +309,9 @@ private fun Registration(
                                 .width(screenWidth)
                                 .height(buttonHeight)
                                 .padding(horizontal = 12.dp),
-                            /*colors = ButtonDefaults.buttonColors(
-                                disabledBackgroundColor =
-                            ),*/
+                            colors = ButtonDefaults.buttonColors(
+                                disabledBackgroundColor = MaterialTheme.colors.primary.copy(alpha = 0.2f)
+                            ),
                             onClick = {
                                 events(RegistrationEvent.RegistrationClicked)
                             }) {
@@ -335,79 +326,19 @@ private fun Registration(
 
                         Spacer(modifier = Modifier.padding(12.dp))
 
-                        Text(
-                            "------------ OR ---------------",
-                            color = MaterialTheme.colors.onSecondary
-                        )
 
                         Spacer(modifier = Modifier.padding(12.dp))
-
-                        GoogleButton(width = screenWidth) {
-                            OnGoogleSignIn()
-                            //activity.OnGoogleSignIn()
-                        }
 
 
 
                         Spacer(modifier = Modifier.padding(8.dp))
 
 
-                        FacebookButton(width = screenWidth) {
-                            if (fbButton != null) {
-
-                                fbButton!!.performClick()
-                            }
-                        }
-
-                        AndroidView(modifier = Modifier
-                            .width(screenWidth)
-                            .height(0.dp)
-                            .width(0.dp)
-                            .clip(RoundedCornerShape(40))
-                            .padding(horizontal = commonPadding),
-                            factory = { context ->
-
-                                fbButton = LoginButton((context).apply {
-
-                                })
-                                fbButton?.setReadPermissions(listOf("email", "public_profile"))
-                                fbButton?.registerCallback(callbackManager,
-                                    object : FacebookCallback<LoginResult?> {
-                                        override fun onSuccess(loginResult: LoginResult?) {
-                                            // App code
-                                            val accessToken = AccessToken.getCurrentAccessToken()
-                                            val isLoggedIn =
-                                                accessToken != null && !accessToken.isExpired
-
-                                            accessToken?.let { facebookUserProfile(it) }
-                                            //activity.getUserProfile(accessToken)
-                                        }
-
-                                        override fun onCancel() {
-                                            // App code
-                                        }
-
-                                        override fun onError(exception: FacebookException) {
-                                            // App code
-                                        }
-                                    }
-                                )
-
-                                return@AndroidView fbButton!!
-
-                            }
-                        )
-
-
-
-
-
-                        Spacer(modifier = Modifier.padding(12.dp))
-
                         Spacer(modifier = Modifier.padding(12.dp))
 
                         Row(
                             horizontalArrangement = Arrangement.Center,
+                            //modifier = Modifier.align(Alignment.BottomCenter).padding(12.dp)
 
                             ) {
                             Text(

@@ -40,27 +40,18 @@ import com.fov.common_ui.ui.composers.textfields.CustomTextField
 
 @Composable
 fun Login(
-    loginViewModel: LoginViewModel,
-    callbackManager: CallbackManager,
-    OnGoogleSignIn : () -> Unit,
-    facebookUserProfile : (token : AccessToken) -> Unit
+    loginViewModel: LoginViewModel
 ){
     val state by loginViewModel.uiState.collectAsState()
     login(
         state,
         loginViewModel::handleRegistrationEvent,
-        callbackManager,
-        OnGoogleSignIn,
-        facebookUserProfile
     )
 }
 @Composable
 private fun login(
     state : LoginState,
     events: (event: LoginEvent) -> Unit,
-    callbackManager: CallbackManager,
-    OnGoogleSignIn : () -> Unit,
-    facebookUserProfile : (token : AccessToken) -> Unit
 ){
     if (state.isLoading) {
         Box(
@@ -76,7 +67,7 @@ private fun login(
         }
     }
     else{
-        var fbButton: LoginButton? = null
+
         Surface(
             color = MaterialTheme.colors.surface,
             modifier = Modifier
@@ -88,7 +79,7 @@ private fun login(
                 val screenWidth = maxWidth
                 val screenHeight = maxHeight
                 val scrollState = rememberScrollState(0)
-                Box(Modifier.fillMaxSize()) {
+                //Box(Modifier.fillMaxSize()) {
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center,
@@ -166,12 +157,14 @@ private fun login(
                                 shape = MaterialTheme.shapes.medium,
                                 enabled = state.isLoginContentValid,
                                 colors = ButtonDefaults.buttonColors(
-                                    disabledBackgroundColor = MaterialTheme.colors.primary.copy(alpha = 0.5f)
+                                    disabledBackgroundColor = MaterialTheme.colors.primary.copy(
+                                        alpha = 0.2f
+                                    )
                                 ),
                                 modifier = Modifier
                                     .width(screenWidth)
-                                    .height(buttonHeight)
-                                    .padding(horizontal = 12.dp),
+                                    .height(buttonHeight),
+                                //.padding(horizontal = 12.dp),
 
                                 onClick = {
                                     events(LoginEvent.LoginClicked)
@@ -179,7 +172,7 @@ private fun login(
 
                                 Text(
                                     "Login",
-                                    color = Color.White
+                                    color = MaterialTheme.colors.surface
                                 )
 
 
@@ -200,65 +193,12 @@ private fun login(
                             Spacer(modifier = Modifier.padding(12.dp))
 
 
-                            Text(
-                                "------------ OR ---------------",
-                                color = MaterialTheme.colors.onSecondary
-                            )
-
-                            Spacer(modifier = Modifier.padding(12.dp))
-
-                            GoogleButton(width = screenWidth) {
-                                OnGoogleSignIn()
-                            }
 
 
                             Spacer(modifier = Modifier.padding(8.dp))
 
-                            FacebookButton(width = screenWidth) {
-                                if (fbButton != null) {
-
-                                    fbButton!!.performClick()
-                                }
-                            }
 
 
-                            AndroidView(modifier = Modifier
-                                .width(screenWidth)
-                                .height(0.dp)
-                                .width(0.dp)
-                                .clip(RoundedCornerShape(40))
-                                .padding(horizontal = 12.dp),
-                                factory = { context ->
-
-                                    fbButton = LoginButton((context).apply {
-
-                                    })
-                                    fbButton?.setReadPermissions(listOf("email", "public_profile"))
-                                    fbButton?.registerCallback(callbackManager,
-                                        object : FacebookCallback<LoginResult?> {
-                                            override fun onSuccess(loginResult: LoginResult?) {
-                                                // App code
-                                                val accessToken = AccessToken.getCurrentAccessToken()
-                                                val isLoggedIn =
-                                                    accessToken != null && !accessToken.isExpired
-
-                                                facebookUserProfile(accessToken!!)
-                                            }
-
-                                            override fun onCancel() {
-                                                // App code
-                                            }
-
-                                            override fun onError(exception: FacebookException) {
-                                                // App code
-                                            }
-                                        }
-                                    )
-
-                                    return@AndroidView fbButton!!
-
-                                }
-                            )
 
 
                             Spacer(modifier = Modifier.padding(12.dp))
@@ -267,30 +207,31 @@ private fun login(
 
 
                         }
+
+                        Row(
+                            horizontalArrangement = Arrangement.Center,
+                            //modifier = Modifier.align(Alignment.BottomCenter).padding(12.dp)
+                        ) {
+                            Text(
+                                "Don't have an account?",
+
+                                color = MaterialTheme.colors.onSurface,
+
+                                )
+                            Text(
+                                "Sign Up",
+                                Modifier
+                                    .clickable {
+                                        events(LoginEvent.RegisterClicked)
+                                    }
+                                    .padding(start = 4.dp),
+                                style = TextStyle(),
+                                color = MaterialTheme.colors.primary,
+
+                                )
+                        }
                     }
-                    Row(
-                        horizontalArrangement = Arrangement.Center,
-                        modifier = Modifier.align(Alignment.BottomCenter).padding(12.dp)
-                    ) {
-                        Text(
-                            "Don't have an account?",
-
-                            color = MaterialTheme.colors.onSurface,
-
-                            )
-                        Text(
-                            "Sign Up",
-                            Modifier
-                                .clickable {
-                                    events(LoginEvent.RegisterClicked)
-                                }
-                                .padding(start = 4.dp),
-                            style = TextStyle(),
-                            color = MaterialTheme.colors.primary,
-
-                            )
-                    }
-                }
+                  //}
                 Spacer(modifier = Modifier.padding(commonPadding))
 
 

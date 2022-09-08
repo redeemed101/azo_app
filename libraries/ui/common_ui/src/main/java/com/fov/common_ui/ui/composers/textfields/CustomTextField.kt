@@ -1,5 +1,6 @@
 package com.fov.common_ui.ui.composers.textfields
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.text.KeyboardActions
@@ -19,6 +20,7 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextDirection
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 
 @Composable
 fun CustomTextField(
@@ -51,7 +53,7 @@ fun CustomTextField(
             backgroundColor = Color.White.copy(alpha = 0.15f),
             cursorColor = MaterialTheme.colors.primary,
             focusedIndicatorColor = MaterialTheme.colors.primary,
-            unfocusedIndicatorColor = MaterialTheme.colors.onPrimary,
+            unfocusedIndicatorColor = MaterialTheme.colors.primary.copy(alpha = 0.2f),
             errorLabelColor = Color.Red,
             errorTrailingIconColor = Color.Red,
             errorLeadingIconColor = Color.Red,
@@ -68,6 +70,7 @@ fun CustomTextField(
         placeholder = { Text(placeholder) },
         modifier = modifier
             .width(width)
+            //.border(width = 1.dp,color = MaterialTheme.colors.primary.copy(0.8f))
             .onFocusChanged {
                 if (it.isFocused) {
                     onFocused()

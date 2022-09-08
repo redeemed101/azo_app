@@ -78,6 +78,9 @@ dependencies{
     implementation(Libs.AndroidX.Paging.runtime)
     implementation(Libs.AndroidX.Compose.paging)
 
+    implementation(Libs.Accompanist.pager)
+    implementation(Libs.Accompanist.pager_indicators)
+
     implementation(Libs.Hilt.AndroidX.compose_navigation)
     implementation(Libs.Hilt.android)
     //implementation(Libs.Hilt.AndroidX.viewModel)

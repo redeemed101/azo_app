@@ -105,7 +105,7 @@ class SplashScreenActivity : AppCompatActivity() {
                                }
                            }
 
-                           intent = Intent(this@SplashScreenActivity, MainActivity::class.java)
+                           //intent = Intent(this@SplashScreenActivity, MainActivity::class.java)
 
                            startActivity(intent)
 
