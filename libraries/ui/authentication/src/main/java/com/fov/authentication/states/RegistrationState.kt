@@ -36,7 +36,7 @@ class RegistrationState(
     val socialMediaService : String = "",
     val socialMediaToken : String = "",
     val socialMediaFirstTime : Boolean = false,
-    val followingDone : Boolean = false,
+    val verificationDone : Boolean = false,
     val profileImageUrl : String? = null
 ) {
     companion object {
@@ -74,7 +74,7 @@ class RegistrationState(
         var socialMediaService = state.socialMediaService
         var socialMediaToken = state.socialMediaToken
         var socialMediaFirstTime = state.socialMediaFirstTime
-        var followingDone = state.followingDone
+        var verificationDone = state.verificationDone
         var profileImageUrl = state.profileImageUrl
 
          fun valid() : Boolean{
@@ -124,7 +124,7 @@ class RegistrationState(
                 socialMediaService,
                 socialMediaToken,
                 socialMediaFirstTime,
-                followingDone,
+                verificationDone,
                 profileImageUrl
             )
         }

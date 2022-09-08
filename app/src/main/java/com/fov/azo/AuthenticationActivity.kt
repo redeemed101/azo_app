@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
@@ -21,12 +20,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.fidarrappcompose.utils.helpers.LocalSysUiController
 import com.example.fidarrappcompose.utils.helpers.SystemUiController
-import com.facebook.AccessToken
-import com.facebook.CallbackManager
-import com.facebook.GraphRequest
-import com.facebook.LoginStatusCallback
-import com.facebook.login.LoginManager
-import com.fov.authentication.events.RegistrationEvent
 import com.fov.authentication.ui.login.Login
 import com.fov.authentication.ui.registration.registration.Onboarding
 import com.fov.authentication.ui.registration.registration.Registration
@@ -42,18 +35,9 @@ import com.fov.core.di.Preferences
 import com.fov.navigation.AuthenticationDirections
 import com.fov.navigation.GeneralDirections
 import com.fov.navigation.NavigationManager
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
-import org.json.JSONException
-import java.lang.Exception
 import javax.inject.Inject
 
 
@@ -188,7 +172,7 @@ class AuthenticationActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             val context = applicationContext
             registrationViewModel.uiState.collect{ state ->
-                if(state.followingDone){
+                if(state.verificationDone){
                     val intent = Intent(context, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK;
                     context.startActivity(intent)

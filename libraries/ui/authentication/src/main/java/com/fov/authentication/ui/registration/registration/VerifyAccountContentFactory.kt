@@ -142,14 +142,16 @@ private fun VerifyAccount(
                             .width(screenWidth)
                             .height(70.dp)
                             .padding(horizontal = 12.dp),
-
+                        colors = ButtonDefaults.buttonColors(
+                            disabledBackgroundColor = MaterialTheme.colors.primary.copy(alpha = 0.2f)
+                        ),
                         onClick = {
                             events(RegistrationEvent.VerifyCodeClicked)
                         }) {
 
                         Text(
                             "Verify Account",
-                            color = Color.White
+                            color = MaterialTheme.colors.surface
                         )
 
 

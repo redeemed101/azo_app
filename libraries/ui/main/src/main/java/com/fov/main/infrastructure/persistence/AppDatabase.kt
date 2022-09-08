@@ -10,11 +10,11 @@ import com.fov.domain.database.models.*
 
 @Database(entities = [User::class,RecentUserSearch::class,RecentSongSearch::class,
     RecentActivity::class, DownloadedSong::class, DownloadedAlbum::class],
-    version = 5, exportSchema = true,
+    version = 6, exportSchema = true,
     autoMigrations = [
         AutoMigration (
             from = 5,
-            to = 7,
+            to = 6,
             spec = AppDatabase.MyAutoMigration::class
         )
     ]

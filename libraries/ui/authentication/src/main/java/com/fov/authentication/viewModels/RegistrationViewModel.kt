@@ -87,7 +87,9 @@ class RegistrationViewModel @Inject constructor(
                         //socialLogin()
                     }
                     RegistrationEvent.VerifyCodeClicked -> {
-                        submitVerificationCode()
+                        submitVerificationCode{
+                            this.verificationDone = true
+                        }
                     }
                     is RegistrationEvent.EmailChanged -> {
 
@@ -160,7 +162,7 @@ class RegistrationViewModel @Inject constructor(
 
 
 
-    private fun submitVerificationCode() {
+    private fun submitVerificationCode(doneVerifying : () -> Unit) {
         _uiState.value = uiState.value.build {
             loading = true
             error = null
@@ -180,9 +182,9 @@ class RegistrationViewModel @Inject constructor(
                             error = null
                         }
                         sharedPrefs.setIsVerified(true)
+                        doneVerifying()
 
-                        navigationManager.navigate(AuthenticationDirections.verifyAccount)
-                        //navigationManager.navigate(AuthenticationDirections.newFollow)
+
                     }
                     else{
                         _uiState.value = uiState.value.build {

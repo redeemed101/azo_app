@@ -29,6 +29,11 @@ android {
             }
         }
     }
+    sourceSets {
+        getByName("androidTest"){
+            assets.srcDirs(File(projectDir, "schemas"))
+        }
+    }
 
     buildTypes {
         release {
