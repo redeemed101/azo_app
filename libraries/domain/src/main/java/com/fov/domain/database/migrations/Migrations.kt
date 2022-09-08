@@ -26,9 +26,6 @@ val MIGRATION_4_5 = object : Migration(4,5) {
 
         database.execSQL("ALTER TABLE `DownloadedAlbum` ADD COLUMN imagePath TEXT;")
 
-        database.execSQL("CREATE TABLE IF NOT EXISTS `DownloadedPlaylist` (`dbId` INTEGER, " +
-                "`playlistId` TEXT ,`playlistName` TEXT,`playlistPath` TEXT, `imagePath` TEXT," +
-                " PRIMARY KEY(`dbId`))")
 
         database.execSQL("COMMIT;")
     }

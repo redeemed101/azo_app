@@ -19,7 +19,6 @@ object SignUpMockResponse{
                publicKey = "44322433",
                profilePicPath = "",
                id = "sdfsdfsdf",
-               userName = "lmsasajnr",
                email = "lmsasajnr@d.com",
                profile = ""
             )

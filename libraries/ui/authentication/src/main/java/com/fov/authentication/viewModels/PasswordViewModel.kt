@@ -91,7 +91,6 @@ class PasswordViewModel@Inject constructor(
                             userDao.insertAll(
                                 User(
                                     name = res.user.name,
-                                    userName = res.user.userName,
                                     privateKey =  res.user.privateKey,
                                     publicKey = res.user.publicKey,
                                     id = res.user.id,
