@@ -20,6 +20,14 @@ object HomeDirections {
         })
         override val destination = RouteConstants.HOME
     }
+    val profile = object : NavigationCommand{
+
+        override val arguments = listOf(navArgument(Constants.MAINTAB) {
+            defaultValue = RouteConstants.HOME
+        })
+        override val destination = RouteConstants.PROFILE
+    }
+
     val changePassword = object : NavigationCommand{
 
         override val arguments = listOf(navArgument(Constants.MAINTAB) {

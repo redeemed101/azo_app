@@ -87,10 +87,10 @@ fun mainTopBar(
                      }
 
              )
-             /*Icon(
+             Icon(
                  painterResource(R.drawable.ic_profile),
                  "",
-                 tint = MaterialTheme.colors.onSecondary,
+                 tint = tintColor,
                  modifier = Modifier
                      .padding(20.dp)
                      .height(size * 0.3f)
@@ -99,7 +99,7 @@ fun mainTopBar(
                         profileClicked()
                      }
 
-             )*/
+             )
          }
          
      }

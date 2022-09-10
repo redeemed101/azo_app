@@ -175,7 +175,17 @@ fun BuildTopBar(
                                 //navController.navigate(Screen.Notifications.route.destination)
                             },
                             profileClicked = {
+                                events(
+                                    CommonEvent.ChangeHasDeepScreen(
+                                        true,
+                                        "${commonState.user?.name}"
+                                    )
 
+                                )
+                                events(CommonEvent.ChangeBackPageData(BackPageData()))
+                                events(CommonEvent.ChangeTab(Screen.Home))
+                                userEvents(UsersEvent.GoToProfile)
+                                userEvents(UsersEvent.UserSelected(commonState.user?.id ?: ""))
                             },
                             searchClicked = {
 

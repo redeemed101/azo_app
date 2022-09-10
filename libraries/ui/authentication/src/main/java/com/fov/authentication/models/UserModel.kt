@@ -8,6 +8,7 @@ data class UserModel(
     val name: String,
     val email : String,
     val phoneNumber:String = "",
+    val isSubscribed: Boolean = false,
     val id: String,
     val isEmailConfirmed: Boolean = false,
 ){
@@ -17,6 +18,7 @@ data class UserModel(
                 name = user.name,
                 email = user.email,
                 id = user.id,
+                isSubscribed = user.isSubscribed,
                 phoneNumber = "",
             )
         fun fromUserDTO(user : UserDTO, ) =
@@ -24,6 +26,7 @@ data class UserModel(
                 name = user.fullName,
                 email = user.email,
                 id = user.id,
+                isSubscribed = user.isSubscribed,
                 phoneNumber = user.phoneNumber,
                 isEmailConfirmed = user.emailConfirmed,
 
@@ -34,6 +37,7 @@ data class UserModel(
             id = user.id,
             phoneNumber = user.phoneNumber,
             emailConfirmed = user.isEmailConfirmed,
+            isSubscribed = user.isSubscribed,
             privateKey = "",
             publicKey = ""
         )

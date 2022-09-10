@@ -6,6 +6,7 @@ sealed class UsersEvent {
     data class LoadFlickersToFollow(val search : String = "") : UsersEvent()
     data class FollowUser(val user : String) : UsersEvent()
     data class SaveRecentUserSearch(val user : UserModel) : UsersEvent()
+    object GoToProfile : UsersEvent()
     object ClearRecentUserSearch : UsersEvent()
     data class UserSelected(val userId : String) : UsersEvent()
     data class UnFollowUser(val userId : String) : UsersEvent()

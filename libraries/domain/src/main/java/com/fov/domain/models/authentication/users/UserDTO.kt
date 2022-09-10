@@ -5,6 +5,7 @@ import kotlinx.serialization.Serializable
 data class UserDTO(
     val email: String,
     val emailConfirmed: Boolean,
+    val isSubscribed: Boolean = false,
     val fullName: String,
     val id: String,
     val phoneNumber: String,

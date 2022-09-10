@@ -61,6 +61,7 @@ dependencies{
     implementation(Libs.AndroidX.Lifecycle.lifecycleRuntime)
     implementation(Libs.AndroidX.Compose.activity)
     implementation(Libs.Layout.constraint)
+
     testImplementation(Libs.Testing.junit)
     androidTestImplementation(Libs.Testing.junit_ext)
     androidTestImplementation(Libs.Testing.espresso)

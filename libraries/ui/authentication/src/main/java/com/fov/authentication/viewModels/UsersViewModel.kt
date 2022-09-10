@@ -46,16 +46,17 @@ class UsersViewModel @Inject constructor(
     init{
           viewModelScope.launch {
 
-              /*var user = userDao.getUsers().first()?.first()
+              var user = userDao.getUsers().first()?.first()
               if(user != null) {
                    val cur = getUserGraph(user.id) { cur ->
                        _uiState.value = uiState.value.build {
                            currentUserModel = cur
                            editUserModel = cur
+                           userModel = cur
                        }
                    }
 
-              }*/
+              }
           }
 
            getNumberNotifications()
@@ -96,6 +97,10 @@ class UsersViewModel @Inject constructor(
                         }
                         logoutDone = true
 
+                    }
+                    UsersEvent.GoToProfile -> {
+                        //navigate to profile
+                        navigationManager.navigate(HomeDirections.profile)
                     }
 
 

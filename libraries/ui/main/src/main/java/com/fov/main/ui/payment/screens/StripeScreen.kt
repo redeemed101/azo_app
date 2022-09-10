@@ -53,9 +53,9 @@ private fun stripeScreen(
         val tintColor = MaterialTheme.colors.onSurface
         LaunchedEffect(commonState.hasDeepScreen) {
             events(CommonEvent.ChangeHasDeepScreen(true,"Debit Card"))
-            events(CommonEvent.ChangeShowMoreOptions(true))
-            events(CommonEvent.ChangeTopBarColor(backgroundColor))
-            events(CommonEvent.ChangeTopBarTintColor(tintColor))
+            //events(CommonEvent.ChangeShowMoreOptions(true))
+            //events(CommonEvent.ChangeTopBarColor(backgroundColor))
+            //events(CommonEvent.ChangeTopBarTintColor(tintColor))
             payEvent(PayEvent.LoadStripeClientSecret)
 
 
@@ -63,7 +63,7 @@ private fun stripeScreen(
         DisposableEffect(true){
             onDispose {
                 events(CommonEvent.ChangeHasDeepScreen(false, ""))
-                events(CommonEvent.ChangeTopBarColor(backgroundColor))
+                //events(CommonEvent.ChangeTopBarColor(backgroundColor))
                 events(CommonEvent.ChangeBottomSheetHeader{
                 })
             }

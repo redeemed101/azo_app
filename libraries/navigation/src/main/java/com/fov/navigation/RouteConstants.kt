@@ -7,6 +7,7 @@ class RouteConstants {
         val WEBVIEW = "webview"
         val NEWS = "news"
         val SERMON = "song"
+        val PROFILE = "profile"
         val PLAY_SERMON = "play_sermon"
         val ALBUM = "album"
         val PLAYLIST = "playlist"

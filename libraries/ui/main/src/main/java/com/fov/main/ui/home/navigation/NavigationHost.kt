@@ -29,6 +29,7 @@ import com.fov.main.ui.news.screens.NewsHome
 import com.fov.main.ui.payment.screens.ActivationCodeScreen
 import com.fov.main.ui.payment.screens.PaymentOptionsScreen
 import com.fov.main.ui.payment.screens.StripeScreen
+import com.fov.main.ui.profile.screens.UserProfileScreen
 import com.fov.main.ui.sermons.library.screen.LibraryHomeScreen
 import com.fov.main.ui.sermons.video.screens.VideoHomeScreen
 import com.fov.navigation.*
@@ -80,6 +81,23 @@ fun NavigationHost(
                     paymentViewModel = paymentViewModel )*/
 
             }
+
+
+            composable(
+                HomeDirections.profile.destination,
+                arguments = HomeDirections.profile.arguments
+            ) {
+
+                UserProfileScreen(
+                    usersViewModel,
+                    commonViewModel,
+                    musicViewModel,
+                    storedMusicViewModel,
+                    paymentViewModel
+                )
+            }
+
+
 
 
             composable(

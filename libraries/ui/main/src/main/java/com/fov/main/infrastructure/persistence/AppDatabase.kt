@@ -10,12 +10,12 @@ import com.fov.domain.database.models.*
 
 @Database(entities = [User::class,RecentUserSearch::class,RecentSongSearch::class,
     RecentActivity::class, DownloadedSong::class, DownloadedAlbum::class],
-    version = 6, exportSchema = true,
+    version = 7, exportSchema = true,
     autoMigrations = [
         AutoMigration (
-            from = 5,
-            to = 6,
-            spec = AppDatabase.MyAutoMigration::class
+            from = 6,
+            to = 7,
+            //spec = AppDatabase.MyAutoMigration::class
         )
     ]
 )
@@ -26,6 +26,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun recentActivityDao() : RecentActivityDao
     abstract  fun downloadedSongsDao() : DownloadedSongsDao
     abstract  fun downloadedAlbumsDao() : DownloadedAlbumsDao
+
 
     @DeleteColumn(tableName =  "User", columnName =  "userName")
     class MyAutoMigration : AutoMigrationSpec {

@@ -51,15 +51,13 @@ private fun  paymentOptionsScreen(
         val backgroundColor = MaterialTheme.colors.surface
         val tintColor = MaterialTheme.colors.onSurface
         LaunchedEffect(commonState.hasDeepScreen) {
-
+            //events(CommonEvent.ChangeHasDeepScreen(true, "Payment Options"))
             payEvents(PayEvent.LoadStripeClientSecret)
-
 
         }
         DisposableEffect(true){
             onDispose {
-                events(CommonEvent.ChangeHasDeepScreen(false, ""))
-                events(CommonEvent.ChangeTopBarColor(backgroundColor))
+
                 events(CommonEvent.ChangeBottomSheetHeader{
                 })
             }

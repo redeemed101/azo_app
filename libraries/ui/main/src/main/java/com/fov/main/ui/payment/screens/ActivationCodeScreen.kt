@@ -53,8 +53,8 @@ private fun activationCodeScreen(
         val headerTintColor = MaterialTheme.colors.surface
         LaunchedEffect(commonState.hasDeepScreen) {
             events(CommonEvent.ChangeHasDeepScreen(true,"Activation Code"))
-            events(CommonEvent.ChangeTopBarColor(headerBackgroundColor))
-            events(CommonEvent.ChangeTopBarTintColor(headerTintColor))
+           // events(CommonEvent.ChangeTopBarColor(headerBackgroundColor))
+            //events(CommonEvent.ChangeTopBarTintColor(headerTintColor))
             payEvent(PayEvent.LoadStripeClientSecret)
 
 

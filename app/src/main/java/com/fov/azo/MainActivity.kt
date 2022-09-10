@@ -26,6 +26,7 @@ import com.example.fidarrappcompose.utils.helpers.SystemUiController
 import com.facebook.CallbackManager
 import com.fov.authentication.viewModels.RegistrationViewModel
 import com.fov.authentication.viewModels.UsersViewModel
+import com.fov.common_ui.events.CommonEvent
 import com.fov.common_ui.theme.AzoTheme
 import com.fov.common_ui.ui.composers.general.LoadingBox
 import com.fov.common_ui.viewModels.CommonViewModel
@@ -155,6 +156,20 @@ class MainActivity : ComponentActivity() {
                     }
 
                 }
+
+                    commonViewModel.users.observe(this) { users ->
+                        users?.let {
+                            if (users.count() > 0) {
+                                val user = users.first()
+                                val name = user.name
+
+                                commonViewModel.handleCommonEvent(CommonEvent.LoadUser(user))
+                                commonViewModel.handleCommonEvent(CommonEvent.ChangeUserId(user.id))
+                                (application as AzoApplication).user = user
+
+                            }
+                        }
+                    }
                    val context = LocalContext.current
                    val videoPlay = { videoId : String ->
                        var intent = Intent(context, YouTubePlayerActivity::class.java)
