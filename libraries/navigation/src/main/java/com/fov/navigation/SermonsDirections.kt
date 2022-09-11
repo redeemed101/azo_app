@@ -45,7 +45,7 @@ object SermonsDirections {
     val song = object : NavigationCommand{
 
         override val arguments = listOf(navArgument(Constants.MAINTAB) {
-            defaultValue = RouteConstants.SERMON
+            defaultValue = RouteConstants.SERMONS
         })
         override val destination = RouteConstants.SERMON
     }

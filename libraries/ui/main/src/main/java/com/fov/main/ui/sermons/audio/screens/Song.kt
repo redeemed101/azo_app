@@ -42,6 +42,7 @@ import com.fov.sermons.events.MusicEvent
 import com.fov.sermons.events.StoredMusicEvent
 import com.fov.sermons.models.Song
 import com.fov.sermons.states.MusicState
+import com.fov.sermons.states.StoredMusicState
 import com.fov.sermons.ui.music.MusicItem
 import com.fov.sermons.viewModels.SermonViewModel
 import com.fov.sermons.viewModels.StoredSermonViewModel
@@ -59,16 +60,20 @@ fun SongScreen(
 
     val commonState by commonViewModel.uiState.collectAsState()
     val musicState by musicViewModel.uiState.collectAsState()
-    val isDownloaded by storedMusicViewModel.isSongDownloadedAsync(musicState.selectedSong!!.songId).collectAsState(
-        initial = false
-    )
+    val storedMusicState by storedMusicViewModel.uiState.collectAsState()
+    val isDownloaded by storedMusicViewModel.isSongDownloadedAsync(musicState.selectedSong!!.songId)
+        .collectAsState(initial = false)
+    val songPath by storedMusicViewModel.getSongPath(musicState.selectedSong!!.songId)
+        .collectAsState(initial = "")
     Song(
         commonState = commonState,
         events = commonViewModel::handleCommonEvent,
         musicState = musicState,
         musicEvents = musicViewModel::handleMusicEvent,
+        storedMusicState = storedMusicState,
         storedMusicEvents = storedMusicViewModel::handleMusicEvent,
-        isDownloaded = isDownloaded
+        isDownloaded = isDownloaded,
+        songPath
     )
 
 
@@ -81,8 +86,10 @@ private fun Song(
     events: (event: CommonEvent) -> Unit,
     musicState: MusicState,
     musicEvents: (event: MusicEvent) -> Unit,
+    storedMusicState: StoredMusicState,
     storedMusicEvents: (event: StoredMusicEvent) -> Unit,
-    isDownloaded : Boolean
+    isDownloaded : Boolean,
+    songPath : String
 ) {
     MusicGeneralScreen(
         commonState = commonState,
@@ -194,10 +201,20 @@ private fun Song(
                         .fillMaxWidth()
                         .padding(commonPadding)
                 ) {
+                    var downloadIcon = R.drawable.ic_arrow_down_circle
+                    var downloadText = "Download"
+                    if(isDownloaded) {
+                        downloadIcon = R.drawable.ic_downloaded
+                        downloadText = "Un-download"
+                    }
+                    CircularProgressIndicator(
+                        progress = (storedMusicState.songDownloadProgress + 0.5).toFloat(),
+                        modifier = Modifier.size(24.dp)
+                    )
                     IconView(
-                         R.drawable.ic_arrow_down_circle,
-                        "Download",
-                        tint   = if(isDownloaded) MaterialTheme.colors.primary else MaterialTheme.colors.onSurface
+                         downloadIcon,
+                        downloadText,
+                        tint   =  MaterialTheme.colors.onSurface
                     ) {
                         if(!isDownloaded) {
                             com.fov.sermons.utils.helpers.Utilities.downloadSong(
@@ -215,6 +232,9 @@ private fun Song(
                                         )
                                     )
                                 },
+                                progress = { p ->
+                                    storedMusicEvents(StoredMusicEvent.UpdateSongDownloadProgress(p))
+                                }
                             ) { songPath, imagePath ->
                                 storedMusicEvents(
                                     StoredMusicEvent.SaveDownloadedSong(
@@ -232,7 +252,7 @@ private fun Song(
                         }
                         else{
                             com.fov.sermons.utils.helpers.Utilities.unDownloadSong(
-                                "",
+                                songPath,
                             ){
                                 storedMusicEvents(StoredMusicEvent.DeleteDownloadedSong(song.songId))
                             }

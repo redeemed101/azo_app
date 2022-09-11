@@ -156,7 +156,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                 }
-
+                //var dir =  com.fov.common_ui.utils.helpers.Utilities.getDataDirectory(applicationContext).absolutePath
                     commonViewModel.users.observe(this) { users ->
                         users?.let {
                             if (users.count() > 0) {

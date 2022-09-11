@@ -52,13 +52,16 @@ fun AlbumScreen(
     val isDownloaded by storedSermonViewModel.isAlbumDownloadedAsync(sermonsState.selectedAlbum!!.albumId).collectAsState(
         initial = false
     )
+    val albumPath by storedSermonViewModel.getAlbumPath(sermonsState.selectedAlbum!!.albumId)
+        .collectAsState(initial = "")
     AlbumView(
         commonState = commonState,
         events = commonViewModel::handleCommonEvent,
         musicState = sermonsState,
         musicEvents = sermonsViewModel::handleMusicEvent,
         storedMusicEvents = storedSermonViewModel::handleMusicEvent,
-        isDownloaded = isDownloaded
+        isDownloaded = isDownloaded,
+        albumPath
 
     )
 }
@@ -71,7 +74,8 @@ private fun AlbumView(
     musicState: MusicState,
     musicEvents: (event: MusicEvent) -> Unit,
     storedMusicEvents: (event: StoredMusicEvent) -> Unit,
-    isDownloaded :  Boolean
+    isDownloaded :  Boolean,
+    albumPath : String
 ){
     MusicGeneralScreen(
         commonState = commonState,
@@ -170,10 +174,17 @@ private fun AlbumView(
                         .fillMaxWidth()
                         .padding(commonPadding)
                 ) {
+                    var downloadIcon = com.fov.sermons.R.drawable.ic_arrow_down_circle
+                    var downloadText = "Download"
+                    var downloadTint = MaterialTheme.colors.onSurface
+                    if(isDownloaded) {
+                        downloadIcon = com.fov.sermons.R.drawable.ic_downloaded
+                        downloadText = "Un-download"
+                    }
                     IconView(
-                        if(isDownloaded) com.fov.common_ui.R.drawable.ic_downloaded  else com.fov.sermons.R.drawable.ic_arrow_down_circle,
-                        "Download",
-                        tint   = if(isDownloaded) MaterialTheme.colors.primary else MaterialTheme.colors.onSurface
+                        downloadIcon,
+                        downloadText,
+                        tint   =  downloadTint
                     ) {
                         if(!isDownloaded){
                             com.fov.sermons.utils.helpers.Utilities.downloadAlbum(
@@ -220,7 +231,7 @@ private fun AlbumView(
                         }
                         else{
                             com.fov.sermons.utils.helpers.Utilities.unDownloadAlbum(
-                                "",
+                                albumPath,
                             ){
                                 storedMusicEvents(StoredMusicEvent.DeleteDownloadedAlbum(albumId = album.albumId))
                             }

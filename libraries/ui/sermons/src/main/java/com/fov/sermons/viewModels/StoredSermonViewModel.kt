@@ -27,15 +27,21 @@ class StoredSermonViewModel  @Inject constructor(
 
     }
 
+    fun getSongPath(id: String) : Flow<String> = storedMusicInteractor.getSongPath(id)
+    fun getAlbumPath(id: String) : Flow<String> = storedMusicInteractor.getAlbumPath(id)
+
     fun isSongDownloadedAsync(id : String) : Flow<Boolean> {
 
-        return storedMusicInteractor.isSongThere(id)//CompletableDeferred(true)
+        return storedMusicInteractor.isSongThere(id)
 
     }
 
     fun handleMusicEvent(event: StoredMusicEvent) {
         _uiState.value = uiState.value.build {
             when (event) {
+                is StoredMusicEvent.UpdateSongDownloadProgress ->{
+                    songDownloadProgress = event.progress
+                }
                 StoredMusicEvent.LoadDownloadedSongs -> {
 
                         downloadedSongs = storedMusicInteractor.getDownloadedSongs()

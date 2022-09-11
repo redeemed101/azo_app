@@ -50,6 +50,10 @@ class StoredMusicInteractor constructor(
     fun isAlbumThere(id :  String) =
         storedSermonRepository.isAlbumThere(id)
 
+    fun getAlbumPath(id: String) = storedSermonRepository.getAlbumPath(id)
+
+    fun getSongPath(id: String) = storedSermonRepository.getSongPath(id)
+
 
    fun isSongThere(id :  String) =
         storedSermonRepository.isSongThere(id)

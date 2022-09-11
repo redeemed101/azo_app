@@ -34,6 +34,10 @@ class StoredSermonRepositoryImpl constructor(
     override fun isAlbumThere(id: String): Flow<Boolean> =
         downloadedAlbumsDao.doesAlbumExist(id)
 
+    override fun  getSongPath(id: String) = downloadedSongsDao.getSongPath(id)
+
+    override fun  getAlbumPath(id: String) = downloadedAlbumsDao.getAlbumPath(id)
+
     override fun isSongThere(id: String): Flow<Boolean> =  downloadedSongsDao.doesSongExist(id)
 
     override suspend fun deleteAllDownloadedAlbums() : Int=  downloadedAlbumsDao.deleteAll()

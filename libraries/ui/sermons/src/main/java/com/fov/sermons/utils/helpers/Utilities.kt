@@ -39,7 +39,7 @@ class Utilities {
 
            val albumPath = "${
                com.fov.common_ui.utils.helpers.Utilities
-                   .getCacheDirectory(
+                   .getDataDirectory(
                        context
                    ).absolutePath}/${album.albumName}"
             val albumDir = File(albumPath)
@@ -105,7 +105,9 @@ class Utilities {
                          song: Song,
                          albumPath : String? = null,
                          changeDownloadData: (downloadUrl : String, details : String, destinationFilePath : String) -> Unit,
-                         saveSong : (songPath : String, imagePath : String) -> Unit) {
+                         progress: (progress: Int) -> Unit = {},
+                         saveSong : (songPath : String, imagePath : String) -> Unit,
+                        ) {
 
             val downloadUrl = song.path
             val imageUrl = song.artwork
@@ -143,11 +145,15 @@ class Utilities {
                     }
 
                 } else {
-                    //showWorkInProgress()
+                    val progress = workInfo.progress
+                    val value = progress.getInt("progress", 0)
+                    progress(value)
                 }
             }
 
 
         }
+
+
     }
 }

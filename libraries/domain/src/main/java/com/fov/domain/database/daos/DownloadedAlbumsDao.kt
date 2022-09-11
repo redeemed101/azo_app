@@ -32,4 +32,7 @@ interface DownloadedAlbumsDao {
     @Query("SELECT EXISTS(SELECT * FROM DownloadedAlbum WHERE albumId= :id)")
     fun doesAlbumExist(id : String) : Flow<Boolean>
 
+    @Query("SELECT albumPath FROM DownloadedAlbum WHERE albumId= :id")
+    fun getAlbumPath(id : String) : Flow<String>
+
 }

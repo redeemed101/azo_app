@@ -1,6 +1,7 @@
 package com.fov.domain.repositories.music
 
 import androidx.paging.PagingData
+import com.fov.domain.R
 import com.fov.domain.database.models.DownloadedAlbum
 import com.fov.domain.database.models.DownloadedSong
 import kotlinx.coroutines.flow.Flow
@@ -10,17 +11,17 @@ object Data {
     val SONG =  DownloadedSong(
         dbId = 1234,
         songName = "Wisdom and Creativity 1",
-        songPath = "/data/data/com.fov.azo/files/i will rise - ROCK rec.mp3",
+        songPath = "/data/data/com.fov.azo/files/rise.mp3",
         songId = "1234",
         artistName = "Apostle Ziba",
-        imagePath = "/data/data/com.fov.azo/files/fov_logo-bg.png="
+        imagePath = "/data/data/com.fov.azo/files/fov_logo-bg.png"
     )
     val SONGS =
         List(5){
             DownloadedSong(
                 dbId = 1234,
                 songName = "Wisdom and Creativity $it",
-                songPath = "/data/data/com.fov.azo/files/i will rise - ROCK rec.mp3",
+                songPath = "/data/data/com.fov.azo/files/rise.mp3",
                 songId = "1234",
                 artistName = "Apostle Ziba",
                 imagePath = "/data/data/com.fov.azo/files/apostle.jpg"
@@ -52,7 +53,15 @@ class StoredSermonRepositoryMockImpl : StoredSermonRepository{
     }
 
     override  fun isSongThere(id: String): Flow<Boolean> {
-        return flowOf(true)
+        return flowOf(false)
+    }
+
+    override fun getSongPath(id: String): Flow<String> {
+        return flowOf("/data/data/com.fov.azo/files/rise.mp3")
+    }
+
+    override fun getAlbumPath(id: String): Flow<String> {
+        return flowOf("/data/data/com.fov.azo/files")
     }
 
     override suspend fun deleteAllDownloadedAlbums(): Int {

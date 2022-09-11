@@ -17,6 +17,17 @@ object Utilities {
             //alpha = Random.nextInt(256)
         )
     }
+    fun getDataDirectory(context: Context) : File{
+        val appContext = context.applicationContext
+        val dataDir = context.dataDir.let{
+            File(it,appContext.resources.getString(R.string.app_name)).apply {
+                mkdirs()
+            }
+        }
+        return if(dataDir != null && dataDir.exists())
+            dataDir else appContext.cacheDir
+
+    }
     fun getCacheDirectory(context: Context) : File{
         val appContext = context.applicationContext
         val cacheDir = context.externalCacheDir.let{

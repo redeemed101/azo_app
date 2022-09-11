@@ -9,7 +9,9 @@ interface StoredSermonRepository {
     fun getDownloadedSongs(): Flow<PagingData<DownloadedSong>>
     fun getDownloadedAlbums(): Flow<PagingData<DownloadedAlbum>>
     fun isAlbumThere(id :  String) : Flow<Boolean>
-     fun isSongThere(id :  String) : Flow<Boolean>
+    fun isSongThere(id :  String) : Flow<Boolean>
+    fun getSongPath(id: String) : Flow<String>
+    fun getAlbumPath(id: String) : Flow<String>
     suspend fun deleteAllDownloadedAlbums() : Int
     suspend fun deleteAllDownloadedSongs() : Int
     suspend fun deleteDownloadedAlbum(albumId : String) : Int
