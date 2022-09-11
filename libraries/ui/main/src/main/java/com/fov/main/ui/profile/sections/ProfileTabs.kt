@@ -7,7 +7,9 @@ import androidx.compose.material.*
 import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.fov.authentication.events.UsersEvent
 import com.fov.authentication.states.UsersState
 import com.fov.common_ui.events.CommonEvent
@@ -53,11 +55,18 @@ fun profileTabs(
                 onClick = { selectedTabState = Tabs.Music }
             )
             {
-                Text(
-                    "Saved Sermons",
-                    color = MaterialTheme.colors.onSurface,
+                Column {
 
+                    Text(
+                        "Saved Sermons",
+                        style = MaterialTheme.typography.h5.copy(
+                            MaterialTheme.colors.onSurface,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 12.sp
+
+                        )
                     )
+                }
             }
 
             /*Tab(

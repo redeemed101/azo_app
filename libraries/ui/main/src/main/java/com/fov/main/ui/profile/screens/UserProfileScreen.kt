@@ -122,7 +122,8 @@ private fun ProfileScreen(
                 ) {
 
                     Column(
-                        modifier = Modifier.fillMaxWidth()
+                        modifier = Modifier
+                            .fillMaxWidth()
                             .padding(commonPadding),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
@@ -142,6 +143,8 @@ private fun ProfileScreen(
                                 fontWeight = FontWeight.Bold,
                             ),
                         )
+                        Spacer(modifier = Modifier.height(commonPadding))
+                        if(!userState.userModel!!.isSubscribed)
                         Button(
                             shape = MaterialTheme.shapes.medium,
                             enabled = !payState.isPaymentValid,
