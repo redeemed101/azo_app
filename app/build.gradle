@@ -83,6 +83,7 @@ dependencies {
     implementation Libs.Hilt.android
     implementation Libs.AndroidX.Compose.navigation
     implementation Libs.Hilt.AndroidX.compose_navigation
+    implementation Libs.Hilt.AndroidX.worker
 
     implementation Libs.Layout.constraint
     implementation project(path: ':libraries:ui:payment')

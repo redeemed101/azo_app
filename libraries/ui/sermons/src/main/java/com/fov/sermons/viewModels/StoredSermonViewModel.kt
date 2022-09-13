@@ -40,7 +40,14 @@ class StoredSermonViewModel  @Inject constructor(
         _uiState.value = uiState.value.build {
             when (event) {
                 is StoredMusicEvent.UpdateSongDownloadProgress ->{
-                    songDownloadProgress = event.progress
+                    var v = songDownloadProgress.getOrDefault(event.songId,null)
+                    if(v != null){
+                        songDownloadProgress[event.songId] = event.progress
+                    }
+                    else{
+                        songDownloadProgress[event.songId] = event.progress
+                    }
+
                 }
                 StoredMusicEvent.LoadDownloadedSongs -> {
 

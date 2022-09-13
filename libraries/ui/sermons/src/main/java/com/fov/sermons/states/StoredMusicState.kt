@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.flowOf
 
 class StoredMusicState (
     val isLoading: Boolean = false,
-    val songDownloadProgress : Int = 0,
+    val songDownloadProgress :  MutableMap<String, Int> = mutableMapOf(),
     val downloadedSongs : Flow<PagingData<DownloadedSong>> = flowOf(PagingData.from(emptyList())),
     val downloadedAlbums : Flow<PagingData<DownloadedAlbum>> = flowOf(PagingData.from(emptyList())),
 ){

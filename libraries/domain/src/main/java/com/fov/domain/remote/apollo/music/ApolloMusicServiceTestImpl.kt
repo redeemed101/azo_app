@@ -35,7 +35,7 @@ class ApolloMusicServiceTestImpl constructor(
                 GetGenreSongsPaginatedQuery.SongsPaginated(
                     "1234",
                     "Sermon",
-                    "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+                    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                     emptyList(),
                     "https://picsum.photos/id/$num/200",
 
@@ -54,13 +54,13 @@ class ApolloMusicServiceTestImpl constructor(
                     "Series $num",
                     "$num",
                     "https://picsum.photos/id/$num/200",
-                    "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+                    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                     emptyList(),
                     List(10) { num ->
                         GetGenreAlbumsPaginatedQuery.Song(
                             "$num",
                             "Record",
-                            "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+                            "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                             "https://picsum.photos/id/$num/200",
 
                         emptyList(),
@@ -88,7 +88,7 @@ class ApolloMusicServiceTestImpl constructor(
               GetGenreQuery.Song(
                   "1234",
                   "Sermon $num",
-                  "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+                  "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                   "https://picsum.photos/id/$num/200",
                   emptyList(),
                   emptyList(),
@@ -118,7 +118,7 @@ class ApolloMusicServiceTestImpl constructor(
                 GetUserLikedSongsQuery.LikedSong(
                     "1234",
                     "Sermon $num",
-                    "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+                    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                     "https://picsum.photos/id/$num/200",
 
                     emptyList(),
@@ -146,7 +146,7 @@ class ApolloMusicServiceTestImpl constructor(
                 GetUserLikedSongsPaginatedQuery.LikedSongsPaginated(
                     "1234",
                     "Sermon $num",
-                    "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+                    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                     "https://picsum.photos/id/$num/200",
                     emptyList(),
                     emptyList(),
@@ -176,7 +176,7 @@ class ApolloMusicServiceTestImpl constructor(
                         GetAlbumsPaginatedQuery.Song(
                    "Song",
                             "12345",
-                            "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+                            "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                             "https://picsum.photos/id/$it/200",
                             List(100){
                                 GetAlbumsPaginatedQuery.Like1(
@@ -213,7 +213,7 @@ class ApolloMusicServiceTestImpl constructor(
                     "21",
                     "https://picsum.photos/id/$it/200",
                     "Series $it",
-                    "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+                    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                     List(100){
                         GetUserLikedAlbumsPaginatedQuery.Like(
                             "L1",
@@ -224,7 +224,7 @@ class ApolloMusicServiceTestImpl constructor(
                             "Song",
                             "12345",
                             "This$it",
-                            "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+                            "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
 
                             List(100){
                                 GetUserLikedAlbumsPaginatedQuery.Like1(
@@ -266,7 +266,7 @@ class ApolloMusicServiceTestImpl constructor(
         return GetAlbumQuery.Data(
             GetAlbumQuery.Album(
                 "1234",
-                "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+                "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                 "Category 1",
                 "kkkk",
                 emptyList(),

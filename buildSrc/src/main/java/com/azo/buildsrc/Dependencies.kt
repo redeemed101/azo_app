@@ -217,6 +217,7 @@ object Libs {
         object AndroidX {
             private const val version = "1.0.0"
             const val compose_navigation = "androidx.hilt:hilt-navigation-compose:$version"
+            const val worker = "androidx.hilt:hilt-work:$version"
             const val compiler = "androidx.hilt:hilt-compiler:$version"
             const val viewModel = "androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03"
         }

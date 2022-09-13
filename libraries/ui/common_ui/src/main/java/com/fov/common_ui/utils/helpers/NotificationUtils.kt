@@ -2,6 +2,7 @@ package com.fov.common_ui.utils.helpers
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.os.Build
 import androidx.core.app.NotificationCompat
@@ -14,6 +15,11 @@ private val FLAGS = 0
 fun NotificationManager.cancelNotifications() {
     cancelAll()
 }
+data class NotificationAction(
+    val icon : Int,
+    val title: String,
+    val intent: PendingIntent
+)
 fun NotificationManager.updateDownloadProgress(
     title:String,
     messageBody: String,
@@ -32,13 +38,15 @@ fun NotificationManager.sendDownloadNotification(title:String,
                                                  progressMax:Int = 100,
                                                  progressCurrent:Int = 0,
                                                  applicationContext: Context,
-                                                 notificationId : Int) : NotificationCompat.Builder{
+                                                 notificationId : Int,
+                                                 actions : List<NotificationAction> = emptyList()
+) : NotificationCompat.Builder{
 
-    val builder = NotificationCompat.Builder(applicationContext,
+    val builder = NotificationCompat.Builder(
+        applicationContext,
         applicationContext.getString(R.string.fov_notification_channel_id)).apply {
         setContentTitle(title)
         setSilent(true)
-
         setContentText(messageBody)
         setSmallIcon(R.drawable.avatar)
         priority = NotificationCompat.PRIORITY_LOW
@@ -47,6 +55,10 @@ fun NotificationManager.sendDownloadNotification(title:String,
     apply {
         // Issue the initial notification with zero progress
         builder.setProgress(progressMax,progressCurrent, false)
+        actions.forEach {
+            builder.addAction(it.icon,it.title,it.intent)
+        }
+
         notify(notificationId, builder.build())
 
     }

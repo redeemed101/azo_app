@@ -44,6 +44,7 @@ import com.fov.sermons.models.Song
 import com.fov.sermons.states.MusicState
 import com.fov.sermons.states.StoredMusicState
 import com.fov.sermons.ui.music.MusicItem
+import com.fov.sermons.utils.helpers.Utilities
 import com.fov.sermons.viewModels.SermonViewModel
 import com.fov.sermons.viewModels.StoredSermonViewModel
 import com.google.android.exoplayer2.ExoPlayer
@@ -207,54 +208,63 @@ private fun Song(
                         downloadIcon = R.drawable.ic_downloaded
                         downloadText = "Un-download"
                     }
-                    CircularProgressIndicator(
-                        progress = (storedMusicState.songDownloadProgress + 0.5).toFloat(),
-                        modifier = Modifier.size(24.dp)
-                    )
-                    IconView(
-                         downloadIcon,
-                        downloadText,
-                        tint   =  MaterialTheme.colors.onSurface
-                    ) {
-                        if(!isDownloaded) {
-                            com.fov.sermons.utils.helpers.Utilities.downloadSong(
-                                context = context,
-                                lifecycleOwner = lifecycleOwner,
-                                song = song,
-                                changeDownloadData = { downloadUrl, details, destinationFilePath ->
-                                    events(
-                                        CommonEvent.ChangeDownloadData(
-                                            DownloadData(
-                                                downloadUrl = downloadUrl,
-                                                details = details,
-                                                destinationFilePath = destinationFilePath
+                    Row {
+                        if(storedMusicState.songDownloadProgress.getOrDefault(song.songId,null) != null) {
+                            CircularProgressIndicator(
+                                progress = (storedMusicState.songDownloadProgress[song.songId])!!.toFloat(),
+                                modifier = Modifier.size(24.dp)
+                            )
+                        }
+                        else
+                        IconView(
+                            downloadIcon,
+                            downloadText,
+                            tint = MaterialTheme.colors.onSurface
+                        ) {
+                            if (!isDownloaded) {
+                                Utilities.downloadSong(
+                                    context = context,
+                                    lifecycleOwner = lifecycleOwner,
+                                    song = song,
+                                    changeDownloadData = { downloadUrl, details, destinationFilePath ->
+                                        events(
+                                            CommonEvent.ChangeDownloadData(
+                                                DownloadData(
+                                                    downloadUrl = downloadUrl,
+                                                    details = details,
+                                                    destinationFilePath = destinationFilePath
+                                                )
+                                            )
+                                        )
+                                    },
+                                    progress = { p ->
+                                        if(p != null)
+                                            storedMusicEvents(
+                                                StoredMusicEvent.UpdateSongDownloadProgress(
+                                                    p, song.songId
+                                                )
+                                            )
+                                    }
+                                ) { songPath, imagePath ->
+                                    storedMusicEvents(
+                                        StoredMusicEvent.SaveDownloadedSong(
+                                            DownloadedSong(
+                                                songName = song.songName,
+                                                songPath = songPath,
+                                                songId = song.songId,
+                                                artistName = song.artistName,
+                                                imagePath = imagePath
+
                                             )
                                         )
                                     )
-                                },
-                                progress = { p ->
-                                    storedMusicEvents(StoredMusicEvent.UpdateSongDownloadProgress(p))
                                 }
-                            ) { songPath, imagePath ->
-                                storedMusicEvents(
-                                    StoredMusicEvent.SaveDownloadedSong(
-                                        DownloadedSong(
-                                            songName = song.songName,
-                                            songPath = songPath,
-                                            songId = song.songId,
-                                            artistName = song.artistName,
-                                            imagePath = imagePath
-
-                                        )
-                                    )
-                                )
-                            }
-                        }
-                        else{
-                            com.fov.sermons.utils.helpers.Utilities.unDownloadSong(
-                                songPath,
-                            ){
-                                storedMusicEvents(StoredMusicEvent.DeleteDownloadedSong(song.songId))
+                            } else {
+                                Utilities.unDownloadSong(
+                                    songPath,
+                                ) {
+                                    storedMusicEvents(StoredMusicEvent.DeleteDownloadedSong(song.songId))
+                                }
                             }
                         }
                     }

@@ -4,6 +4,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -78,7 +79,7 @@ dependencies {
     implementation(Libs.Hilt.AndroidX.compose_navigation)
     implementation(Libs.Hilt.AndroidX.compose_navigation)
     implementation(Libs.Hilt.android)
-    //implementation(Libs.Hilt.AndroidX.viewModel)
+    implementation(Libs.Hilt.AndroidX.worker)
     compileOnly(Libs.AssistedInjection.dagger)
     kapt(Libs.Hilt.compiler)
     kapt(Libs.Hilt.AndroidX.compiler)

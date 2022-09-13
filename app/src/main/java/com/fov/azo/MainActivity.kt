@@ -79,6 +79,8 @@ class MainActivity : ComponentActivity() {
     var callbackManager: CallbackManager? = null
 
     private lateinit var paymentLauncher: PaymentLauncher
+
+
     
     
     val payByStripe : (card : CardInputWidget,publishableKey: String,accountId : String, clientSecret : String) -> Unit =

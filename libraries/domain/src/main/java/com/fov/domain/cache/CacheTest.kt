@@ -21,7 +21,7 @@ class CacheTest constructor(
                   songLength = "2:40",
                   artwork = "https://picsum.photos/200",
                   description = "This is a good song",
-                  previewPath = "https://www.learningcontainer.com/wp-content/uploads/2020/02/Kalimba.mp3",
+                  previewPath = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                   path = "c",
                   likes = 0,
                   streams = 0

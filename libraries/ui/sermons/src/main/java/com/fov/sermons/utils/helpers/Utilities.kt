@@ -1,6 +1,7 @@
 package com.fov.sermons.utils.helpers
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LifecycleOwner
 import com.fov.common_ui.utils.helpers.FileUtilities
 import com.fov.sermons.R
@@ -105,7 +106,7 @@ class Utilities {
                          song: Song,
                          albumPath : String? = null,
                          changeDownloadData: (downloadUrl : String, details : String, destinationFilePath : String) -> Unit,
-                         progress: (progress: Int) -> Unit = {},
+                         progress: (progress: Int?) -> Unit = {},
                          saveSong : (songPath : String, imagePath : String) -> Unit,
                         ) {
 
@@ -138,6 +139,7 @@ class Utilities {
                         val arrPaths = dataMap["FILEPATH"] as Array<String>
                         //save to downloadedSongsDatabase
                         saveSong(arrPaths[0],arrPaths[1])
+                        progress(null)
 
                     }
                     else{
@@ -146,7 +148,8 @@ class Utilities {
 
                 } else {
                     val progress = workInfo.progress
-                    val value = progress.getInt("progress", 0)
+                    val value = progress.getInt("progress", 1)
+                    Log.d("PROGRESS", value.toString())
                     progress(value)
                 }
             }
