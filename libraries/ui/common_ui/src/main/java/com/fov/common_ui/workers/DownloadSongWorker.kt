@@ -103,7 +103,7 @@ class DownloadSongWorker @AssistedInject constructor(
             while (input.read(data).also { count = it } != -1 && !cancelDownload) {
 
 
-                Log.d("_count_progress", "$count $fileLength ${((count.toDouble()/fileLength)*100).absoluteValue}")
+                Log.d("_count_progress", "$count $fileLength ${((total.toDouble()/fileLength)*100).absoluteValue}")
 
                 total += count
                 var p = (total.toDouble() / fileLength) * 100
@@ -139,8 +139,8 @@ class DownloadSongWorker @AssistedInject constructor(
             Result.failure(workDataOf("" to ""))
         }
         catch (throwable: Throwable) {
-            Log.e("Download_failure", "Error downloading file")
-
+            Log.e("Download_failure", "Error downloading file ${throwable .message}")
+            throwable.printStackTrace()
             builder.setContentTitle("Download Failed")
                 .setContentText("Failed to download $details ${throwable.message}")
                 .setSmallIcon(R.drawable.avatar)

@@ -124,6 +124,9 @@ dependencies {
     implementation(Libs.Networking.Ktor.kotlinx_json)
     implementation(Libs.Networking.Ktor.logging)
 
+    implementation(Libs.AndroidX.Core.worker_runtime)
+    implementation (Libs.AndroidX.Core.worker_runtime_ktx)
+
 
     implementation(Libs.Facebook.facebook_login)
     implementation(Libs.Facebook.facebook_sdk)

@@ -53,6 +53,7 @@ class FileUtilities(
         fun downloadSongFile(
                              url : String,
                              imageUrl : String,
+                             encryptionKey: String = "",
                              destinationFile :  String,
                              fileDetails : String,
                              applicationContext: Context
@@ -61,12 +62,13 @@ class FileUtilities(
 
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
-                .setRequiresStorageNotLow(true)
+                //.setRequiresStorageNotLow(true)
                 .build()
             val inputData = Data.Builder()
                 .putString(Constants.DOWNLOAD_URL,url)
                 .putString(Constants.DOWNLOAD_IMAGE_URL,imageUrl)
                 .putString(Constants.DOWNLOAD_DETAILS,fileDetails)
+                .putString(Constants.DOWNLOAD_FILE_ENCRYPTION_KEY,encryptionKey)
                 .putString(Constants.DOWNLOAD_DESTINATION_FILE,destinationFile)
                 .build()
             val task = OneTimeWorkRequest

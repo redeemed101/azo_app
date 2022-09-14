@@ -3,6 +3,8 @@ package com.fov.sermons.utils.helpers
 import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.work.WorkInfo
 import com.fov.common_ui.utils.helpers.FileUtilities
 import com.fov.sermons.R
 import com.fov.sermons.models.Album
@@ -36,7 +38,7 @@ class Utilities {
                           changeDownloadData: (downloadUrl : String, details : String, destinationFilePath : String) -> Unit,
                           saveSong : (song: Song, songPath : String, imagePath : String) -> Unit,
                           saveAlbum : (albumPath : String, imagePath : String) -> Unit
-        ){
+        ) : List<LiveData<WorkInfo>>{
 
            val albumPath = "${
                com.fov.common_ui.utils.helpers.Utilities
@@ -44,23 +46,21 @@ class Utilities {
                        context
                    ).absolutePath}/${album.albumName}"
             val albumDir = File(albumPath)
-
+            var results = mutableListOf<LiveData<WorkInfo>>()
             album.songs.forEach { song ->
-                    downloadSong(
+                    val res = downloadSong(
                         context = context,
-                        lifecycleOwner =lifecycleOwner,
                         song = song,
                         albumPath = albumDir.absolutePath,
                         changeDownloadData = changeDownloadData,
-                        saveSong = { songPath, imagePath ->
-                            saveSong(song,songPath, imagePath)
-                        }
+
                     )
+                results.add(res)
             }
             val albumImage = FileUtilities.downloadNetworkImage(album.artwork,albumDir.absolutePath,album.albumName)
             //save album
             saveAlbum(albumDir.absolutePath,albumImage)
-
+            return results
         }
         fun unDownloadSong(songPath: String,
                            onDelete : () -> Unit) : Boolean{
@@ -102,13 +102,12 @@ class Utilities {
             return success
         }
         fun downloadSong(context : Context,
-                         lifecycleOwner: LifecycleOwner,
                          song: Song,
+                         encryptionKey: String = "",
                          albumPath : String? = null,
                          changeDownloadData: (downloadUrl : String, details : String, destinationFilePath : String) -> Unit,
-                         progress: (progress: Int?) -> Unit = {},
-                         saveSong : (songPath : String, imagePath : String) -> Unit,
-                        ) {
+
+                        ) : LiveData<WorkInfo> {
 
             val downloadUrl = song.path
             val imageUrl = song.artwork
@@ -124,35 +123,14 @@ class Utilities {
             val destinationFilePath =  "$basePath/${song.songName}${FileUtilities.getFileExtension(song.path)}"
             changeDownloadData(downloadUrl, details, destinationFilePath)
 
-            FileUtilities.downloadSongFile(
+            return FileUtilities.downloadSongFile(
                 url = downloadUrl,
                 imageUrl = imageUrl,
+                encryptionKey = encryptionKey,
                 destinationFile = destinationFilePath,
                 fileDetails = details,
                 applicationContext = context
-            ).observe(lifecycleOwner){ workInfo ->
-
-                if (workInfo.state.isFinished) {
-                    val data = workInfo.outputData
-                    val dataMap = data.keyValueMap
-                    if(dataMap.containsKey("FILEPATH")){
-                        val arrPaths = dataMap["FILEPATH"] as Array<String>
-                        //save to downloadedSongsDatabase
-                        saveSong(arrPaths[0],arrPaths[1])
-                        progress(null)
-
-                    }
-                    else{
-                        //show error
-                    }
-
-                } else {
-                    val progress = workInfo.progress
-                    val value = progress.getInt("progress", 1)
-                    Log.d("PROGRESS", value.toString())
-                    progress(value)
-                }
-            }
+            )
 
 
         }

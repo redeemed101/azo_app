@@ -279,6 +279,7 @@ class RegistrationViewModel @Inject constructor(
 
                 //secret key
                 val secretKey = keyGeneration.generateSecretKey()
+
                 if(secretKey != null)
                   keyGeneration.saveSecretKey(secretKey,viewModelScope)
 

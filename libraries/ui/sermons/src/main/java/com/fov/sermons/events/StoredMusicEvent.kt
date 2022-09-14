@@ -6,7 +6,7 @@ import com.fov.domain.database.models.DownloadedSong
 sealed class StoredMusicEvent {
     object LoadDownloadedSongs : StoredMusicEvent()
     object LoadDownloadedAlbums : StoredMusicEvent()
-    data class UpdateSongDownloadProgress(val progress: Int, val songId: String) : StoredMusicEvent()
+    data class UpdateSongDownloadProgress(val progress: Float?, val songId: String) : StoredMusicEvent()
     data class SaveDownloadedSong(val song : DownloadedSong) : StoredMusicEvent()
     data class DeleteDownloadedSong(val songId : String) : StoredMusicEvent()
     data class SaveDownloadedAlbum(val album : DownloadedAlbum) : StoredMusicEvent()

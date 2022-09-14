@@ -1,6 +1,7 @@
 package com.fov.main.ui.sermons.audio.screens
 
 
+import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
@@ -25,6 +26,8 @@ import coil.compose.rememberAsyncImagePainter
 import com.fov.sermons.R
 import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
+import com.fov.authentication.states.UsersState
+import com.fov.authentication.viewModels.UsersViewModel
 import com.fov.common_ui.events.CommonEvent
 import com.fov.common_ui.extensions.itemsCustomized
 import com.fov.common_ui.models.DownloadData
@@ -34,6 +37,7 @@ import com.fov.common_ui.theme.bottomTabHeight
 import com.fov.common_ui.theme.commonPadding
 import com.fov.common_ui.ui.composers.sections.Section
 import com.fov.common_ui.viewModels.CommonViewModel
+import com.fov.core.utils.ConnectionManager
 import com.fov.main.ui.sermons.audio.general.SongListItem
 import com.fov.domain.database.models.DownloadedSong
 import com.fov.main.ui.sermons.audio.general.MusicGeneralScreen
@@ -56,7 +60,7 @@ import kotlin.text.Typography.section
 fun SongScreen(
     musicViewModel : SermonViewModel,
     commonViewModel: CommonViewModel,
-    storedMusicViewModel: StoredSermonViewModel
+    storedMusicViewModel: StoredSermonViewModel,
 ){
 
     val commonState by commonViewModel.uiState.collectAsState()
@@ -212,7 +216,8 @@ private fun Song(
                         if(storedMusicState.songDownloadProgress.getOrDefault(song.songId,null) != null) {
                             CircularProgressIndicator(
                                 progress = (storedMusicState.songDownloadProgress[song.songId])!!.toFloat(),
-                                modifier = Modifier.size(24.dp)
+                                modifier = Modifier.size(24.dp),
+                                color = MaterialTheme.colors.onSurface
                             )
                         }
                         else
@@ -222,9 +227,11 @@ private fun Song(
                             tint = MaterialTheme.colors.onSurface
                         ) {
                             if (!isDownloaded) {
+                                val isInternet = ConnectionManager.isInternetAvailable(context)
+                                if(isInternet)
                                 Utilities.downloadSong(
                                     context = context,
-                                    lifecycleOwner = lifecycleOwner,
+                                    encryptionKey = commonState.user!!.privateKey,
                                     song = song,
                                     changeDownloadData = { downloadUrl, details, destinationFilePath ->
                                         events(
@@ -236,29 +243,52 @@ private fun Song(
                                                 )
                                             )
                                         )
-                                    },
-                                    progress = { p ->
-                                        if(p != null)
+                                    }
+                                ).observe(lifecycleOwner){ workInfo ->
+
+                                    if (workInfo.state.isFinished) {
+                                        val data = workInfo.outputData
+                                        val dataMap = data.keyValueMap
+                                        if(dataMap.containsKey("FILEPATH")){
+                                            val arrPaths = dataMap["FILEPATH"] as Array<String>
+                                            //save to downloadedSongsDatabase
                                             storedMusicEvents(
-                                                StoredMusicEvent.UpdateSongDownloadProgress(
-                                                    p, song.songId
+                                                StoredMusicEvent.SaveDownloadedSong(
+                                                    DownloadedSong(
+                                                        songName = song.songName,
+                                                        songPath = arrPaths[0],
+                                                        songId = song.songId,
+                                                        artistName = song.artistName,
+                                                        imagePath = arrPaths[1]
+
+                                                    )
                                                 )
                                             )
-                                    }
-                                ) { songPath, imagePath ->
-                                    storedMusicEvents(
-                                        StoredMusicEvent.SaveDownloadedSong(
-                                            DownloadedSong(
-                                                songName = song.songName,
-                                                songPath = songPath,
-                                                songId = song.songId,
-                                                artistName = song.artistName,
-                                                imagePath = imagePath
+                                            storedMusicEvents(
+                                                StoredMusicEvent.UpdateSongDownloadProgress(
+                                                    null, song.songId
+                                                )
+                                            )
+                                            Log.d("PROGRESS", "DONE")
 
+                                        }
+                                        else{
+                                            //show error
+                                        }
+
+                                    } else {
+                                        val progress = workInfo.progress
+                                        val value = progress.getInt("progress", 1)
+                                        Log.d("PROGRESS", (value/100.00).toFloat().toString())
+                                        Log.d("PROGRESS_TEST", (2/100.00).toFloat().toString())
+                                        storedMusicEvents(
+                                            StoredMusicEvent.UpdateSongDownloadProgress(
+                                                (value/100.00).toFloat(), song.songId
                                             )
                                         )
-                                    )
+                                    }
                                 }
+
                             } else {
                                 Utilities.unDownloadSong(
                                     songPath,

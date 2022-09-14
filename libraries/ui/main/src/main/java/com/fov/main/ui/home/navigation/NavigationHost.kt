@@ -198,7 +198,7 @@ fun NavigationHost(
             ) {
                 SongScreen(
                     musicViewModel = musicViewModel, commonViewModel = commonViewModel,
-                    storedMusicViewModel = storedMusicViewModel,
+                    storedMusicViewModel = storedMusicViewModel
                 )
             }
 

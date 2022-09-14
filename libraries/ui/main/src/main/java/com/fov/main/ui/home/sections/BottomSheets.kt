@@ -1,6 +1,7 @@
 package com.fov.main.ui.home.sections
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.material.BottomSheetScaffoldState
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.lifecycle.LifecycleOwner
@@ -186,7 +187,6 @@ fun songBottomSheet(
                     if(!isDownloaded) {
                         Utilities.downloadSong(
                             context,
-                            lifecycleOwner,
                             song,
                             "",
                             changeDownloadData = { downloadUrl, details, destinationFilePath ->
@@ -199,20 +199,50 @@ fun songBottomSheet(
                                         )
                                     )
                                 )
-                            }) { songPath, imagePath ->
-                            storedMusicEvents(
-                                StoredMusicEvent.SaveDownloadedSong(
-                                    DownloadedSong(
-                                        songName = song.songName,
-                                        songPath = songPath,
-                                        songId = song.songId,
-                                        artistName = song.artistName,
-                                        imagePath = imagePath
+                            }).observe(lifecycleOwner) { workInfo ->
+                            if (workInfo.state.isFinished) {
+                                val data = workInfo.outputData
+                                val dataMap = data.keyValueMap
+                                if(dataMap.containsKey("FILEPATH")){
+                                    val arrPaths = dataMap["FILEPATH"] as Array<String>
+                                    //save to downloadedSongsDatabase
+                                    storedMusicEvents(
+                                        StoredMusicEvent.SaveDownloadedSong(
+                                            DownloadedSong(
+                                                songName = song.songName,
+                                                songPath = arrPaths[0],
+                                                songId = song.songId,
+                                                artistName = song.artistName,
+                                                imagePath = arrPaths[1]
 
+                                            )
+                                        )
+                                    )
+                                    storedMusicEvents(
+                                        StoredMusicEvent.UpdateSongDownloadProgress(
+                                            null, song.songId
+                                        )
+                                    )
+                                    Log.d("PROGRESS", "DONE")
+
+                                }
+                                else{
+                                    //show error
+                                }
+
+                            } else {
+                                val progress = workInfo.progress
+                                val value = progress.getInt("progress", 1)
+                                Log.d("PROGRESS", (value/100.00).toFloat().toString())
+                                Log.d("PROGRESS_TEST", (2/100.00).toFloat().toString())
+                                storedMusicEvents(
+                                    StoredMusicEvent.UpdateSongDownloadProgress(
+                                        (value/100.00).toFloat(), song.songId
                                     )
                                 )
-                            )
-                        }
+                            }
+
+                            }
                     }
                     else{
                         Utilities.unDownloadSong(
