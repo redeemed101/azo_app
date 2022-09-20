@@ -11,5 +11,6 @@ sealed class StoredMusicEvent {
     data class DeleteDownloadedSong(val songId : String) : StoredMusicEvent()
     data class SaveDownloadedAlbum(val album : DownloadedAlbum) : StoredMusicEvent()
     data class DeleteDownloadedAlbum(val albumId : String) : StoredMusicEvent()
-    data class DeleteDownloadedPlaylist(val playlistId : String) : StoredMusicEvent()
+    data class DecryptSong(val song: DownloadedSong, val secretKey : String) : StoredMusicEvent()
+
 }

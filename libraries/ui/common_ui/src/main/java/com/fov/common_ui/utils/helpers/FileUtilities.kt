@@ -2,6 +2,8 @@ package com.fov.common_ui.utils.helpers
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.system.Os
+import android.system.StructStat
 import androidx.lifecycle.LiveData
 import androidx.palette.graphics.Palette
 import androidx.work.*
@@ -12,6 +14,7 @@ import java.io.File
 import java.io.FileOutputStream
 import java.net.URL
 
+
 class FileUtilities(
 
 ) {
@@ -19,6 +22,15 @@ class FileUtilities(
     companion object {
         fun getFileExtension(path : String) : String{
             return path.substring(path.lastIndexOf("."));
+        }
+        fun getLastAccessTime(path : String) : Long {
+            try {
+                val stat: StructStat = Os.stat(path)
+                return stat.st_atime
+
+            } catch (e: Exception) {
+               return 0L
+            }
         }
         fun createPaletteAsync(bitmap: Bitmap,callback : (Palette?) -> Unit) {
             Palette.from(bitmap).generate { palette ->
@@ -58,8 +70,9 @@ class FileUtilities(
                              fileDetails : String,
                              applicationContext: Context
         ) : LiveData<WorkInfo> {
-            val workManager = WorkManager.getInstance(applicationContext)
 
+            val workManager = WorkManager.getInstance(applicationContext)
+            workManager.cancelAllWork()
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 //.setRequiresStorageNotLow(true)

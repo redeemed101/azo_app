@@ -215,7 +215,7 @@ private fun Registration(
                             ),
                             modifier = Modifier
                                 .align(alignment = Alignment.Start)
-                                .padding(start = 10.dp)
+                                .padding(start = commonPadding)
 
                         )
                     }

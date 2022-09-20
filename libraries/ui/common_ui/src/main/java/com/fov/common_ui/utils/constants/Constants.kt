@@ -8,6 +8,9 @@ class Constants {
         val NUM_PAGE = 5
 
         val DOWNLOAD_URL: String = "download_url"
+        val FILE_EXTENSION: String = "file_extension"
+        val DIRECTORY : String = "directory"
+        val HOW_OLD_DAYS = "days"
         val DOWNLOAD_IMAGE_URL: String = "download_image_url"
         val DOWNLOAD_DESTINATION_FILE: String = "download_destination_file"
         val DOWNLOAD_DETAILS: String = "download_details"

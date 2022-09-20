@@ -11,13 +11,13 @@ import com.fov.domain.database.models.*
 @Database(entities = [User::class,RecentUserSearch::class,RecentSongSearch::class,
     RecentActivity::class, DownloadedSong::class, DownloadedAlbum::class],
     version = 7, exportSchema = true,
-    autoMigrations = [
+    /*autoMigrations = [
         AutoMigration (
             from = 6,
             to = 7,
-            //spec = AppDatabase.MyAutoMigration::class
+            spec = AppDatabase.MyAutoMigration::class
         )
-    ]
+    ]*/
 )
 abstract class AppDatabase : RoomDatabase() {
 

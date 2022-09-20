@@ -88,7 +88,7 @@ class RegistrationViewModel @Inject constructor(
                     }
                     RegistrationEvent.VerifyCodeClicked -> {
                         submitVerificationCode{
-                            this.verificationDone = true
+                            verificationDone = true
                         }
                     }
                     is RegistrationEvent.EmailChanged -> {
@@ -182,6 +182,10 @@ class RegistrationViewModel @Inject constructor(
                             error = null
                         }
                         sharedPrefs.setIsVerified(true)
+                        navigationManager.commands = MutableStateFlow(HomeDirections.Default)
+                        _uiState.value = uiState.value.build {
+                            verificationDone = true
+                        }
                         doneVerifying()
 
 

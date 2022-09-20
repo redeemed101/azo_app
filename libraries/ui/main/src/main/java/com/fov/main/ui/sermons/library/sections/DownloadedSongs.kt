@@ -60,6 +60,7 @@ fun DownloadedSongsTab(
                     },
                     rowClick = {
                         //musicEvents(MusicEvent.SaveRecentSearch(song!!))
+
                         musicEvents(MusicEvent.SongSelected(song!!))
                         //musicEvents(MusicEvent.ChangeShowingSong(true))
                         }

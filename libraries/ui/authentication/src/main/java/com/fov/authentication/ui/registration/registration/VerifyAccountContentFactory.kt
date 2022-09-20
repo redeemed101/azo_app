@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.text.style.TextAlign
@@ -130,7 +131,8 @@ private fun VerifyAccount(
                         padding = commonPadding,
                         shape = RoundedCornerShape(10),
                         keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Email
+                            keyboardType = KeyboardType.NumberPassword,
+                            imeAction = ImeAction.Next
                         )
                     )
 

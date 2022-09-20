@@ -172,7 +172,7 @@ class AuthenticationActivity : AppCompatActivity() {
         CoroutineScope(Dispatchers.Main).launch {
             val context = applicationContext
             registrationViewModel.uiState.collect{ state ->
-                if(state.verificationDone){
+               if(state.verificationDone){
                     val intent = Intent(context, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK;
                     context.startActivity(intent)
