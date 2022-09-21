@@ -32,7 +32,7 @@ object SongsMockResponse {
                     name = "Sermon $it",
                     id = "1234",
                     path = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-                    artworkPath = "/data/data/com.fov.azo/files/apostle3.jpg",
+                    artworkPath = "https://picsum.photos/200",
                     previewPath = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                     description = "",
                     songGenres = emptyList(),

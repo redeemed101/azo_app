@@ -137,6 +137,7 @@ class CommonViewModel @Inject constructor(
 
 
                  }
+
                  sharedPreferences.accessToken?.let { token ->
                      token.collectLatest { it ->
                          if(it != null && it != "") {
@@ -155,6 +156,14 @@ class CommonViewModel @Inject constructor(
                              }
                          }
                      }
+               }
+               sharedPreferences.encryptionKey.let { key ->
+                   key.collectLatest { k ->
+                       _uiState.value = uiState.value.build {
+
+                       }
+                   }
+
                }
            }
         _uiState.value = uiState.value.build {

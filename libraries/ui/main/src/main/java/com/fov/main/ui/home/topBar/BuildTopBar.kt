@@ -127,6 +127,7 @@ fun BuildTopBar(
                             bottomSheetShowMoreContent = {
                                 songBottomSheet(
                                     song = song,
+                                    commonState,
                                     events = events,
                                     storedMusicEvents = storedMusicEvents,
                                     scope = scope,

@@ -1,5 +1,6 @@
 package com.fov.authentication.viewModels
 
+import android.util.Base64
 import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.Pager
@@ -263,9 +264,16 @@ class RegistrationViewModel @Inject constructor(
     private suspend fun processRegistrationResult(result : SignupResult?){
         if (result != null) {
             if(result.success) {
+                //secret key
+                val secretKey = keyGeneration.generateSecretKey()
+                var secretKeyString : String? = null
+                if(secretKey != null) {
+                    keyGeneration.saveSecretKey(secretKey, viewModelScope)
+                    secretKeyString = KeyGeneration.keyToString(secretKey)
+                }
                 var usr =  User(
                     name = result.user.name,
-                    privateKey =  result.user.privateKey,
+                    privateKey =  secretKeyString ?: result.user.privateKey,
                     publicKey = result.user.publicKey,
                     id = result.user.id,
                     profile = result.user.profile,
@@ -281,11 +289,7 @@ class RegistrationViewModel @Inject constructor(
                 sharedPrefs.setRefreshToken(result.refreshToken)
                 sharedPrefs.setIsVerified(false)
 
-                //secret key
-                val secretKey = keyGeneration.generateSecretKey()
 
-                if(secretKey != null)
-                  keyGeneration.saveSecretKey(secretKey,viewModelScope)
 
 
                 navigationManager.navigate(AuthenticationDirections.verifyAccount)

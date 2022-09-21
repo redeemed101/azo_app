@@ -8,6 +8,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.fov.authentication.events.UsersEvent
 import com.fov.common_ui.events.CommonEvent
 import com.fov.common_ui.models.DownloadData
+import com.fov.common_ui.states.CommonState
 import com.fov.common_ui.utils.BottomSheetOption
 import com.fov.domain.database.models.DownloadedAlbum
 import com.fov.domain.database.models.DownloadedSong
@@ -167,6 +168,7 @@ fun albumBottomSheet(
 @ExperimentalMaterialApi
 fun songBottomSheet(
     song : Song,
+    commonState: CommonState,
     events : (CommonEvent) -> Unit,
     musicEvents : (MusicEvent) -> Unit,
     storedMusicEvents : (StoredMusicEvent) -> Unit,
@@ -185,64 +187,10 @@ fun songBottomSheet(
                      R.drawable.ic_arrow_down_circle ,
                     if(isDownloaded) "Downloaded" else "Download") {
                     if(!isDownloaded) {
-                        Utilities.downloadSong(
-                            context,
+                        storedMusicEvents(StoredMusicEvent.DownloadSong(
                             song,
-                            "",
-                            changeDownloadData = { downloadUrl, details, destinationFilePath ->
-                                events(
-                                    CommonEvent.ChangeDownloadData(
-                                        DownloadData(
-                                            downloadUrl = downloadUrl,
-                                            details = details,
-                                            destinationFilePath = destinationFilePath
-                                        )
-                                    )
-                                )
-                            }).observe(lifecycleOwner) { workInfo ->
-                            if (workInfo.state.isFinished) {
-                                val data = workInfo.outputData
-                                val dataMap = data.keyValueMap
-                                if(dataMap.containsKey("FILEPATH")){
-                                    val arrPaths = dataMap["FILEPATH"] as Array<String>
-                                    //save to downloadedSongsDatabase
-                                    storedMusicEvents(
-                                        StoredMusicEvent.SaveDownloadedSong(
-                                            DownloadedSong(
-                                                songName = song.songName,
-                                                songPath = arrPaths[0],
-                                                songId = song.songId,
-                                                artistName = song.artistName,
-                                                imagePath = arrPaths[1]
-
-                                            )
-                                        )
-                                    )
-                                    storedMusicEvents(
-                                        StoredMusicEvent.UpdateSongDownloadProgress(
-                                            null, song.songId
-                                        )
-                                    )
-                                    Log.d("PROGRESS", "DONE")
-
-                                }
-                                else{
-                                    //show error
-                                }
-
-                            } else {
-                                val progress = workInfo.progress
-                                val value = progress.getInt("progress", 1)
-                                Log.d("PROGRESS", (value/100.00).toFloat().toString())
-                                Log.d("PROGRESS_TEST", (2/100.00).toFloat().toString())
-                                storedMusicEvents(
-                                    StoredMusicEvent.UpdateSongDownloadProgress(
-                                        (value/100.00).toFloat(), song.songId
-                                    )
-                                )
-                            }
-
-                            }
+                            commonState.user!!.privateKey
+                        ))
                     }
                     else{
                         Utilities.unDownloadSong(

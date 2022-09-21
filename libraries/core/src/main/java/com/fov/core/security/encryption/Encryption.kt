@@ -1,5 +1,6 @@
 package com.fov.core.security.encryption
 
+import android.util.Log
 import javax.crypto.Cipher
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
@@ -19,9 +20,10 @@ class Encryption constructor(){
     }
     @Throws(Exception::class)
     fun encrypt(keyString: String, fileData: ByteArray): ByteArray {
+        Log.d("encrypt_key", keyString)
         val key = KeyGeneration.decodeKeyFromString(keyString)
         if(key != null)
-        return encrypt(key,fileData)
+          return encrypt(key,fileData)
         else
             throw Exception("failed to retrieve key")
     }

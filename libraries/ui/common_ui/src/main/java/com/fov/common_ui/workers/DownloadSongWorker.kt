@@ -54,6 +54,8 @@ class DownloadSongWorker @AssistedInject constructor(
         val destinationFilePath = inputData.getString(Constants.DOWNLOAD_DESTINATION_FILE)
         val secretKey = inputData.getString(Constants.DOWNLOAD_FILE_ENCRYPTION_KEY)
         val details = inputData.getString(Constants.DOWNLOAD_DETAILS)
+        Log.d("DOWNLOADING", "in worker")
+        Log.d("DOWNLOADING_KEY", "${secretKey}")
       return try {
         //NOTIFICATION_ID = Random(System.nanoTime()).nextInt(100)
 
@@ -101,10 +103,6 @@ class DownloadSongWorker @AssistedInject constructor(
             setProgress(firstUpdate,notificationManager,builder)
 
             while (input.read(data).also { count = it } != -1 && !cancelDownload) {
-
-
-                Log.d("_count_progress", "$count $fileLength ${((total.toDouble()/fileLength)*100).absoluteValue}")
-
                 total += count
                 var p = (total.toDouble() / fileLength) * 100
                 setProgress(workDataOf(PROGRESS to p.toInt()), notificationManager, builder)
@@ -115,6 +113,7 @@ class DownloadSongWorker @AssistedInject constructor(
             output.flush()
             output.close()
             input.close()
+            Log.d("END_DOWNLOAD","${cancelDownload}")
             if(!cancelDownload) {
                 finish(notificationManager, builder)
             }
@@ -158,7 +157,7 @@ class DownloadSongWorker @AssistedInject constructor(
 
     private fun finish(notificationManager: NotificationManager,
                        builder: NotificationCompat.Builder) {
-
+        Log.d("END_DOWNLOAD","FINITO")
         builder.setContentTitle("Download complete")
             .setContentText("The File was successfully  downloaded")
             .setSmallIcon(R.drawable.avatar)

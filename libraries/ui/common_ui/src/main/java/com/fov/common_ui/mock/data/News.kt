@@ -8,7 +8,7 @@ val NEWS = List(20){
            "/data/data/com.fov.azo/files/apostle2.jpg",
             listOf(
                    "/data/data/com.fov.azo/files/apostle.jpg",
-                   "/data/data/com.fov.azo/files/apostle3.jpg"
+                   "https://picsum.photos/200"
             ),
            "Heaven Is Here Zambia is coming soon",
            "https://www.google.com"

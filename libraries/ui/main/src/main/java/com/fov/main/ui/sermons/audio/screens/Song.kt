@@ -23,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.asFlow
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberAsyncImagePainter
@@ -71,6 +72,7 @@ fun SongScreen(
     val storedMusicState by storedMusicViewModel.uiState.collectAsState()
     val isDownloaded by storedMusicViewModel.isSongDownloadedAsync(musicState.selectedSong!!.songId)
         .collectAsState(initial = false)
+    val downloadingState by storedMusicViewModel.downloadStateInfo.observeAsState( initial = listOf())
     val songPath by storedMusicViewModel.getSongPath(musicState.selectedSong!!.songId)
         .collectAsState(initial = "")
     Song(
@@ -81,7 +83,8 @@ fun SongScreen(
         storedMusicState = storedMusicState,
         storedMusicEvents = storedMusicViewModel::handleMusicEvent,
         isDownloaded = isDownloaded,
-        songPath
+        songPath,
+        downloadingState
     )
 
 
@@ -97,7 +100,8 @@ private fun Song(
     storedMusicState: StoredMusicState,
     storedMusicEvents: (event: StoredMusicEvent) -> Unit,
     isDownloaded : Boolean,
-    songPath : String
+    songPath : String,
+    downloadingState: List<Pair<String, Float?>>?
 ) {
     MusicGeneralScreen(
         commonState = commonState,
@@ -149,7 +153,6 @@ private fun Song(
         BoxWithConstraints {
             val screenWidth = maxWidth
             val screenHeight = maxHeight
-            val context = LocalContext.current
             val lifecycleOwner = LocalLifecycleOwner.current
             val song = musicState.selectedSong!!
 
@@ -216,9 +219,12 @@ private fun Song(
                         downloadText = "Un-download"
                     }
                     Row {
-                        if(storedMusicState.songDownloadProgress.getOrDefault(song.songId,null) != null) {
+                        var songProgressData = downloadingState!!.firstOrNull { p -> p.first == song.songId }
+                        Log.d("IN_DOWNLOAD","${songProgressData?.second}")
+                        if( songProgressData != null) {
+                            if(songProgressData.second != null)
                             CircularProgressIndicator(
-                                progress = (storedMusicState.songDownloadProgress[song.songId])!!.toFloat(),
+                                progress = songProgressData.second!!,
                                 modifier = Modifier.size(24.dp),
                                 color = MaterialTheme.colors.onSurface
                             )
@@ -232,18 +238,11 @@ private fun Song(
                             if (!isDownloaded) {
                                 val isInternet = ConnectionManager.isInternetAvailable(context)
                                 if(isInternet){
-                                    downloadSong(
-                                        context = context,
-                                        privateKey = commonState.user!!.privateKey,
-                                        song = song,
-                                        events = events,
-                                        storedMusicEvents = storedMusicEvents
-                                    )
+                                    storedMusicEvents(StoredMusicEvent.DownloadSong(
+                                        song,
+                                        commonState.user!!.privateKey
+                                    ))
                                 }
-
-
-
-
                             } else {
                                 Utilities.unDownloadSong(
                                     songPath,
@@ -478,14 +477,15 @@ fun IconView(
     }
     Divider(thickness = 1.dp, modifier = Modifier.padding(vertical = 10.dp))
 }
-@Composable
+
 fun downloadSong(context : Context,
+                 lifecycleOwner: LifecycleOwner,
                  privateKey: String,
                  song: Song,
                  events: (event: CommonEvent) -> Unit,
                  storedMusicEvents : (event : StoredMusicEvent) -> Unit
 ){
-    var workInfo = Utilities.downloadSong(
+    Utilities.downloadSong(
         context = context,
         encryptionKey = privateKey,
         song = song,
@@ -502,47 +502,48 @@ fun downloadSong(context : Context,
                 )
             )
         }
-    ).observeAsState()
-    if (workInfo.value!!.state.isFinished) {
-                val data = workInfo.value!!.outputData
-                val dataMap = data.keyValueMap
-                if(dataMap.containsKey("FILEPATH")){
-                    val arrPaths = dataMap["FILEPATH"] as Array<String>
-                    //save to downloadedSongsDatabase
-                    storedMusicEvents(
-                        StoredMusicEvent.SaveDownloadedSong(
-                            DownloadedSong(
-                                songName = song.songName,
-                                songPath = arrPaths[0],
-                                songId = song.songId,
-                                artistName = song.artistName,
-                                imagePath = arrPaths[1]
-
-                            )
-                        )
-                    )
-                    storedMusicEvents(
-                        StoredMusicEvent.UpdateSongDownloadProgress(
-                            null, song.songId
-                        )
-                    )
-                    Log.d("PROGRESS", "DONE")
-
-                }
-                else{
-                    //show error
-                }
-
-            } else {
-                val progress = workInfo.value!!.progress
-                val value = progress.getInt("progress", 1)
-                Log.d("PROGRESS", (value/100.00).toFloat().toString())
-                Log.d("PROGRESS_TEST", (2/100.00).toFloat().toString())
+    ).observe(lifecycleOwner) { workInfo ->
+        if (workInfo.state.isFinished) {
+            val data = workInfo.outputData
+            val dataMap = data.keyValueMap
+            if (dataMap.containsKey("FILEPATH")) {
+                val arrPaths = dataMap["FILEPATH"] as Array<String>
+                //save to downloadedSongsDatabase
                 storedMusicEvents(
-                    StoredMusicEvent.UpdateSongDownloadProgress(
-                        (value/100.00).toFloat(), song.songId
+                    StoredMusicEvent.SaveDownloadedSong(
+                        DownloadedSong(
+                            songName = song.songName,
+                            songPath = arrPaths[0],
+                            songId = song.songId,
+                            artistName = song.artistName,
+                            imagePath = arrPaths[1]
+
+                        )
                     )
                 )
+                storedMusicEvents(
+                    StoredMusicEvent.UpdateSongDownloadProgress(
+                        null, song.songId
+                    )
+                )
+                Log.d("PROGRESS", "DONE")
+
+            } else {
+                //show error
             }
+
+        } else {
+            val progress = workInfo.progress
+            val value = progress.getInt("progress", 1)
+            Log.d("PROGRESS", (value / 100.00).toFloat().toString())
+            Log.d("PROGRESS_TEST", (2 / 100.00).toFloat().toString())
+            storedMusicEvents(
+                StoredMusicEvent.UpdateSongDownloadProgress(
+                    (value / 100.00).toFloat(), song.songId
+                )
+            )
+        }
+    }
+
 
 }
