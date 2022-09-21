@@ -7,12 +7,15 @@ import androidx.camera.core.CameraXConfig
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.hilt.work.HiltWorkerFactory
-import androidx.work.Configuration
+import androidx.work.*
+import com.fov.common_ui.utils.constants.Constants
+import com.fov.common_ui.workers.DeleteOldFilesWorker
 import com.fov.core.di.Preferences
 import com.fov.domain.BuildConfig
 import com.fov.domain.database.models.User
 import com.stripe.android.PaymentConfiguration
 import dagger.hilt.android.HiltAndroidApp
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @HiltAndroidApp
@@ -38,6 +41,28 @@ class AzoApplication: Application(),  CameraXConfig.Provider, Configuration.Prov
     }
     override fun onCreate() {
         super.onCreate()
+        var basePath = "${
+            com.fov.common_ui.utils.helpers.Utilities
+                .getCacheDirectory(
+                    applicationContext
+                ).absolutePath}"
+        val constraints = Constraints.Builder()
+            .setRequiresCharging(true)
+            .build()
+        val inputData = Data.Builder()
+            .putString(Constants.HOW_OLD_DAYS,"2")
+            .putString(Constants.DIRECTORY,basePath)
+            .putString(Constants.FILE_EXTENSION,"mp3")
+            .build()
+        val myWork = PeriodicWorkRequest.Builder(DeleteOldFilesWorker::class.java,
+            1, TimeUnit.DAYS)
+            .setConstraints(constraints)
+            .setInputData(inputData)
+            .build()
+        WorkManager.getInstance(this).enqueueUniquePeriodicWork(
+            "DeleteOldFilesWorker",
+        ExistingPeriodicWorkPolicy.KEEP,
+        myWork)
         PaymentConfiguration.init(
             applicationContext,
             publishableKey = BuildConfig.STRIPE_KEY,

@@ -84,6 +84,8 @@ dependencies {
     implementation Libs.AndroidX.Compose.navigation
     implementation Libs.Hilt.AndroidX.compose_navigation
     implementation Libs.Hilt.AndroidX.worker
+    implementation Libs.AndroidX.Core.worker_runtime
+    implementation Libs.AndroidX.Core.worker_runtime_ktx
 
     implementation Libs.Layout.constraint
     implementation project(path: ':libraries:ui:payment')

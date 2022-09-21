@@ -125,6 +125,7 @@ class Utilities {
 
             return FileUtilities.downloadSongFile(
                 url = downloadUrl,
+                id = song.songId,
                 imageUrl = imageUrl,
                 encryptionKey = encryptionKey,
                 destinationFile = destinationFilePath,

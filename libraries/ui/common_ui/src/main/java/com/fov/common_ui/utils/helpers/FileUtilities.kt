@@ -64,6 +64,7 @@ class FileUtilities(
         }
         fun downloadSongFile(
                              url : String,
+                             id : String,
                              imageUrl : String,
                              encryptionKey: String = "",
                              destinationFile :  String,
@@ -72,7 +73,7 @@ class FileUtilities(
         ) : LiveData<WorkInfo> {
 
             val workManager = WorkManager.getInstance(applicationContext)
-            workManager.cancelAllWork()
+            //workManager.cancelAllWork()
             val constraints = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 //.setRequiresStorageNotLow(true)
@@ -88,7 +89,7 @@ class FileUtilities(
                 .Builder(DownloadSongWorker::class.java)
                 .setInputData(inputData)
                 .setConstraints(constraints).build()
-            workManager.enqueue(task)
+            workManager.enqueueUniqueWork(id,ExistingWorkPolicy.KEEP,task)
 
             return workManager.getWorkInfoByIdLiveData(task.id)
         }

@@ -15,7 +15,7 @@ data class Song(
     val artistName: String = "Apostle Ziba",
     val description : String = "",
     val previewPath : String = "",
-    val path : String = "",
+    var path : String = "",
     val likes : Int = 0,
     val userLikes : List<String> = emptyList(),
     val streams : Int = 0

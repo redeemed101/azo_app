@@ -1,6 +1,8 @@
 package com.fov.sermons.viewModels
 
+import android.app.Application
 import android.util.Log
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -10,6 +12,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.fov.common_ui.utils.constants.AlbumRequestType
 import com.fov.common_ui.utils.constants.Constants
 import com.fov.common_ui.utils.constants.SongRequestType
+import com.fov.common_ui.utils.helpers.FileUtilities
+import com.fov.core.security.fileEncryption.FileEncryption
 import com.fov.domain.database.models.ActivityType
 import com.fov.domain.database.models.RecentActivity
 import com.fov.domain.interactors.music.MusicInteractor
@@ -38,8 +42,16 @@ import javax.inject.Inject
 class SermonViewModel @Inject constructor(
     private val musicInteractor: MusicInteractor,
     private val videoInteractor : VideoInteractor,
-    private val navigationManager: NavigationManager
-) : ViewModel(){
+    private val navigationManager: NavigationManager,
+    private val fileEncryption : FileEncryption,
+    application: Application
+)  : AndroidViewModel(application) {
+    private val context = getApplication<Application>().applicationContext
+    var basePath = "${
+        com.fov.common_ui.utils.helpers.Utilities
+            .getCacheDirectory(
+                context
+            ).absolutePath}"
     private val _uiState = MutableStateFlow(MusicState())
     val uiState: StateFlow<MusicState> = _uiState
 
@@ -214,20 +226,33 @@ class SermonViewModel @Inject constructor(
                     val song = event.song
                     selectedSong = song
                     //add to recent activity
-                    recentActivityHelper.saveRecentActivity(
-                        RecentActivity(
-                            id = song.songId,
-                            title = song.songName,
-                            subTitle = song.artistName,
-                            type = ActivityType.SONG.type,
-                            image = song.artwork
-                        ),
-                        viewModelScope
-                    ){
+                    if(event.downloaded){
+                        val destinationFilePath = "$basePath/${event.song.songName}" +
+                                "${FileUtilities.getFileExtension(event.song.path)}"
+                        val file = fileEncryption.decryptEncryptedFile(
+                            event.song.path,
+                            destinationFilePath,
+                            event.secretKey
+                        )
+                        selectedSong!!.path = file.absolutePath
+                    }
+                    else {
+                        recentActivityHelper.saveRecentActivity(
+                            RecentActivity(
+                                id = song.songId,
+                                title = song.songName,
+                                subTitle = song.artistName,
+                                type = ActivityType.SONG.type,
+                                image = song.artwork
+                            ),
+                            viewModelScope
+                        ) {
 
+                        }
                     }
                     //navigate
                     navigationManager.navigate(SermonsDirections.song)
+
                 }
                 MusicEvent.GoToGenre -> {
                     //navigate to genre

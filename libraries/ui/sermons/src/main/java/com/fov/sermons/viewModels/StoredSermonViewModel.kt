@@ -64,7 +64,7 @@ class StoredSermonViewModel  @Inject constructor(
                 is StoredMusicEvent.DecryptSong -> {
                     val destinationFilePath = "$basePath/${event.song.songName}" +
                             "${FileUtilities.getFileExtension(event.song.songPath)}"
-                    fileEncryption.decryptEncryptedFile(
+                    val file = fileEncryption.decryptEncryptedFile(
                         event.song.songPath,
                         destinationFilePath,
                         event.secretKey

@@ -49,6 +49,7 @@ fun DownloadedSongsTab(
         if(items != null){
             LazyColumn {
                 itemsCustomized(items!!) { dSong,idx ->
+
                     val song = Song.ModelMapper.fromDownloadedSong(dSong!!)
                     SongListItem(song =song!!,
                         showArtwork = true,

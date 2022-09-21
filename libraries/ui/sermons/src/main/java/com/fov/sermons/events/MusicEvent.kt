@@ -31,7 +31,7 @@ sealed class MusicEvent {
     data class SearchSongTextChanged(val search : String) : MusicEvent()
     data class SearchSong(val search : String) : MusicEvent()
     data class SaveRecentSearch(val song:Song) : MusicEvent()
-    data class SongSelected(val song : Song, val downloaded : Boolean = false) : MusicEvent()
+    data class SongSelected(val song : Song, val downloaded : Boolean = false, val secretKey : String = "") : MusicEvent()
     data class ChangeSongSelected(val song : Song) : MusicEvent()
     data class AlbumSelected(val album : Album) : MusicEvent()
     data class GenreSelected(val genre : Genre) : MusicEvent()

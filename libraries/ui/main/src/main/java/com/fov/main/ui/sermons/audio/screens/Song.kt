@@ -1,6 +1,7 @@
 package com.fov.main.ui.sermons.audio.screens
 
 
+import android.content.Context
 import android.util.Log
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -10,6 +11,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -21,6 +23,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.asFlow
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberAsyncImagePainter
 import com.fov.sermons.R
@@ -228,66 +231,18 @@ private fun Song(
                         ) {
                             if (!isDownloaded) {
                                 val isInternet = ConnectionManager.isInternetAvailable(context)
-                                if(isInternet)
-                                Utilities.downloadSong(
-                                    context = context,
-                                    encryptionKey = commonState.user!!.privateKey,
-                                    song = song,
-                                    changeDownloadData = { downloadUrl, details, destinationFilePath ->
-                                        events(
-                                            CommonEvent.ChangeDownloadData(
-                                                DownloadData(
-                                                    downloadUrl = downloadUrl,
-                                                    details = details,
-                                                    destinationFilePath = destinationFilePath
-                                                )
-                                            )
-                                        )
-                                    }
-                                ).observe(lifecycleOwner){ workInfo ->
-
-                                    if (workInfo.state.isFinished) {
-                                        val data = workInfo.outputData
-                                        val dataMap = data.keyValueMap
-                                        if(dataMap.containsKey("FILEPATH")){
-                                            val arrPaths = dataMap["FILEPATH"] as Array<String>
-                                            //save to downloadedSongsDatabase
-                                            storedMusicEvents(
-                                                StoredMusicEvent.SaveDownloadedSong(
-                                                    DownloadedSong(
-                                                        songName = song.songName,
-                                                        songPath = arrPaths[0],
-                                                        songId = song.songId,
-                                                        artistName = song.artistName,
-                                                        imagePath = arrPaths[1]
-
-                                                    )
-                                                )
-                                            )
-                                            storedMusicEvents(
-                                                StoredMusicEvent.UpdateSongDownloadProgress(
-                                                    null, song.songId
-                                                )
-                                            )
-                                            Log.d("PROGRESS", "DONE")
-
-                                        }
-                                        else{
-                                            //show error
-                                        }
-
-                                    } else {
-                                        val progress = workInfo.progress
-                                        val value = progress.getInt("progress", 1)
-                                        Log.d("PROGRESS", (value/100.00).toFloat().toString())
-                                        Log.d("PROGRESS_TEST", (2/100.00).toFloat().toString())
-                                        storedMusicEvents(
-                                            StoredMusicEvent.UpdateSongDownloadProgress(
-                                                (value/100.00).toFloat(), song.songId
-                                            )
-                                        )
-                                    }
+                                if(isInternet){
+                                    downloadSong(
+                                        context = context,
+                                        privateKey = commonState.user!!.privateKey,
+                                        song = song,
+                                        events = events,
+                                        storedMusicEvents = storedMusicEvents
+                                    )
                                 }
+
+
+
 
                             } else {
                                 Utilities.unDownloadSong(
@@ -522,4 +477,72 @@ fun IconView(
         }
     }
     Divider(thickness = 1.dp, modifier = Modifier.padding(vertical = 10.dp))
+}
+@Composable
+fun downloadSong(context : Context,
+                 privateKey: String,
+                 song: Song,
+                 events: (event: CommonEvent) -> Unit,
+                 storedMusicEvents : (event : StoredMusicEvent) -> Unit
+){
+    var workInfo = Utilities.downloadSong(
+        context = context,
+        encryptionKey = privateKey,
+        song = song,
+        changeDownloadData = { downloadUrl,
+                               details,
+                               destinationFilePath ->
+            events(
+                CommonEvent.ChangeDownloadData(
+                    DownloadData(
+                        downloadUrl = downloadUrl,
+                        details = details,
+                        destinationFilePath = destinationFilePath
+                    )
+                )
+            )
+        }
+    ).observeAsState()
+    if (workInfo.value!!.state.isFinished) {
+                val data = workInfo.value!!.outputData
+                val dataMap = data.keyValueMap
+                if(dataMap.containsKey("FILEPATH")){
+                    val arrPaths = dataMap["FILEPATH"] as Array<String>
+                    //save to downloadedSongsDatabase
+                    storedMusicEvents(
+                        StoredMusicEvent.SaveDownloadedSong(
+                            DownloadedSong(
+                                songName = song.songName,
+                                songPath = arrPaths[0],
+                                songId = song.songId,
+                                artistName = song.artistName,
+                                imagePath = arrPaths[1]
+
+                            )
+                        )
+                    )
+                    storedMusicEvents(
+                        StoredMusicEvent.UpdateSongDownloadProgress(
+                            null, song.songId
+                        )
+                    )
+                    Log.d("PROGRESS", "DONE")
+
+                }
+                else{
+                    //show error
+                }
+
+            } else {
+                val progress = workInfo.value!!.progress
+                val value = progress.getInt("progress", 1)
+                Log.d("PROGRESS", (value/100.00).toFloat().toString())
+                Log.d("PROGRESS_TEST", (2/100.00).toFloat().toString())
+                storedMusicEvents(
+                    StoredMusicEvent.UpdateSongDownloadProgress(
+                        (value/100.00).toFloat(), song.songId
+                    )
+                )
+            }
+
 }

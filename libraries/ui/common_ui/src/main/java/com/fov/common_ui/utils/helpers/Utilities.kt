@@ -25,7 +25,7 @@ object Utilities {
             }
         }
         return if(dataDir != null && dataDir.exists())
-            dataDir else appContext.cacheDir
+            dataDir else appContext.dataDir
 
     }
     fun getCacheDirectory(context: Context) : File{
