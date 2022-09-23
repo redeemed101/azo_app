@@ -30,6 +30,7 @@ import coil.compose.rememberAsyncImagePainter
 import com.fov.sermons.R
 import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
+import com.example.common_ui.utils.helpers.ShimmerAnimation
 import com.fov.authentication.states.UsersState
 import com.fov.authentication.viewModels.UsersViewModel
 import com.fov.common_ui.events.CommonEvent
@@ -220,34 +221,43 @@ private fun Song(
                     }
                     Row {
                         var songProgressData = downloadingState!!.firstOrNull { p -> p.first == song.songId }
-                        Log.d("IN_DOWNLOAD","${songProgressData?.second}")
+
                         if( songProgressData != null) {
                             if(songProgressData.second != null)
-                            CircularProgressIndicator(
-                                progress = songProgressData.second!!,
-                                modifier = Modifier.size(24.dp),
-                                color = MaterialTheme.colors.onSurface
-                            )
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    CircularProgressIndicator(
+                                        progress = songProgressData.second!!,
+                                        modifier = Modifier.size(24.dp).border(width = 2.dp,color = Color.Gray),
+                                        color = MaterialTheme.colors.onSurface
+                                    )
+                                    Text(text = "Download",color = MaterialTheme.colors.onSurface)
+                                }
+                            //ShimmerAnimation(size = 24.dp, isCircle = true)
                         }
                         else
-                        IconView(
-                            downloadIcon,
-                            downloadText,
-                            tint = MaterialTheme.colors.onSurface
-                        ) {
-                            if (!isDownloaded) {
-                                val isInternet = ConnectionManager.isInternetAvailable(context)
-                                if(isInternet){
-                                    storedMusicEvents(StoredMusicEvent.DownloadSong(
-                                        song,
-                                        commonState.user!!.privateKey
-                                    ))
-                                }
-                            } else {
-                                Utilities.unDownloadSong(
-                                    songPath,
-                                ) {
-                                    storedMusicEvents(StoredMusicEvent.DeleteDownloadedSong(song.songId))
+                            //ShimmerAnimation(size = 24.dp, isCircle = true)
+                        {
+                            IconView(
+                                downloadIcon,
+                                downloadText,
+                                tint = MaterialTheme.colors.onSurface
+                            ) {
+                                if (!isDownloaded) {
+                                    val isInternet = ConnectionManager.isInternetAvailable(context)
+                                    if(isInternet){
+                                        storedMusicEvents(StoredMusicEvent.DownloadSong(
+                                            song,
+                                            commonState.user!!.privateKey
+                                        ))
+                                    }
+                                } else {
+                                    Utilities.unDownloadSong(
+                                        songPath,
+                                    ) {
+                                        storedMusicEvents(StoredMusicEvent.DeleteDownloadedSong(song.songId))
+                                    }
                                 }
                             }
                         }

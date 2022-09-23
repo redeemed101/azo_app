@@ -108,7 +108,7 @@ class Utilities {
                          changeDownloadData: (downloadUrl : String, details : String, destinationFilePath : String) -> Unit,
 
                         ) : LiveData<WorkInfo> {
-            Log.d("DOWNLOADING", encryptionKey)
+
             val downloadUrl = song.path
             val imageUrl = song.artwork
             val details = song.songName

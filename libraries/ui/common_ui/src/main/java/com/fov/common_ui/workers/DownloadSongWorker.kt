@@ -115,6 +115,7 @@ class DownloadSongWorker @AssistedInject constructor(
             input.close()
             Log.d("END_DOWNLOAD","${cancelDownload}")
             if(!cancelDownload) {
+                Log.d("END_DOWNLOAD","notification")
                 finish(notificationManager, builder)
             }
 
@@ -130,7 +131,7 @@ class DownloadSongWorker @AssistedInject constructor(
             file.delete()
             if(encryptedFile != null) {
                 val imagePath = FileUtilities.downloadNetworkImage(imageUrl!!,basePath,details!!)
-
+                Log.d("END_DOWNLOAD","image : ${imagePath}")
                 val outputData = workDataOf("FILEPATH" to arrayOf(encryptedFile!!.absolutePath,imagePath))
 
                 Result.success(outputData)
@@ -201,3 +202,4 @@ class DownloadSongWorker @AssistedInject constructor(
         super.onStopped()
     }
 }
+

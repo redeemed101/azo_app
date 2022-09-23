@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.system.Os
 import android.system.StructStat
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.palette.graphics.Palette
 import androidx.work.*
@@ -39,12 +40,13 @@ class FileUtilities(
             }
         }
         fun downloadNetworkImage(url : String, destinationPath : String, imageName : String) : String{
+            Log.i("IMAGE_DOWNLOAD", "within")
             var file = File(destinationPath,"$imageName.jpg")
 
             var url = URL(url)
             var connection = url.openConnection()
             connection.connect()
-
+            Log.i("IMAGE_DOWNLOAD", "after connect")
             var fileLength = connection.contentLength
 
             var input = BufferedInputStream(url.openStream())

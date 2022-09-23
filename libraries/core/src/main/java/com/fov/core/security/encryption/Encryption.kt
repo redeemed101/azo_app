@@ -20,7 +20,7 @@ class Encryption constructor(){
     }
     @Throws(Exception::class)
     fun encrypt(keyString: String, fileData: ByteArray): ByteArray {
-        Log.d("encrypt_key", keyString)
+
         val key = KeyGeneration.decodeKeyFromString(keyString)
         if(key != null)
           return encrypt(key,fileData)
