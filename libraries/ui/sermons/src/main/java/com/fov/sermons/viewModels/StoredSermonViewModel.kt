@@ -222,6 +222,7 @@ class StoredSermonViewModel  @Inject constructor(
                                     )*/
                                     //save to downloadedSongsDatabase
                                     viewModelScope.launch {
+
                                         Log.d("SAVING", "Saving data coroutine")
                                         val result = storedMusicInteractor.saveDownloadedSong(
                                             DownloadedSong(

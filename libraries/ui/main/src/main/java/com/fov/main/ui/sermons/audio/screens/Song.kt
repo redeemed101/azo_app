@@ -229,7 +229,7 @@ private fun Song(
                                 ) {
                                     CircularProgressIndicator(
                                         progress = songProgressData.second!!,
-                                        modifier = Modifier.size(24.dp).border(width = 2.dp,color = Color.Gray),
+                                        modifier = Modifier.size(24.dp).border(width = 2.dp,color = Color.Gray.copy(alpha = 0.2f), shape = RoundedCornerShape(50)),
                                         color = MaterialTheme.colors.onSurface
                                     )
                                     Text(text = "Download",color = MaterialTheme.colors.onSurface)

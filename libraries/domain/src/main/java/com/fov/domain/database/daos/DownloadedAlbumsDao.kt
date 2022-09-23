@@ -23,7 +23,7 @@ interface DownloadedAlbumsDao {
     @Delete
     suspend fun delete(album : DownloadedAlbum) : Int
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg albums: DownloadedAlbum) : List<Long>
 
     @Update

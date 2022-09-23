@@ -1,5 +1,6 @@
 package com.fov.domain.repositories.music
 
+import android.util.Log
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
@@ -49,16 +50,12 @@ class StoredSermonRepositoryImpl constructor(
     override suspend fun deleteDownloadedSong(songId: String) : Int =  downloadedSongsDao.deleteSong(songId)
 
     override suspend fun saveDownloadedAlbum(album: DownloadedAlbum) : List<Long> {
-        return if(album.dbId == null)
-            downloadedAlbumsDao.insertAll(album)
-        else
-            listOf(downloadedAlbumsDao.update(album).toLong())
+
+            return downloadedAlbumsDao.insertAll(album)
+
     }
 
     override suspend fun saveDownloadedSong(song: DownloadedSong) : List<Long> {
-        return if(song.dbId == null)
-            downloadedSongsDao.insertAll(song)
-        else
-            listOf(downloadedSongsDao.update(song).toLong())
+        return downloadedSongsDao.insertAll(song)
     }
 }

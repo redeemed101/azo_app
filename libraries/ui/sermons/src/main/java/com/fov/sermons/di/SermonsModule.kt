@@ -37,7 +37,7 @@ object SermonsModule {
     fun providesStoredSermonRepository(
         downloadedSongsDao: DownloadedSongsDao,
         downloadedAlbumsDao: DownloadedAlbumsDao
-    ) : StoredSermonRepository = StoredSermonRepositoryMockImpl()
+    ) : StoredSermonRepository = StoredSermonRepositoryImpl(downloadedSongsDao,downloadedAlbumsDao)
 
 
     @Provides

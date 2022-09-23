@@ -72,7 +72,7 @@ fun SongListItem(
                 }
             }
             if(showArtwork){
-                if(isDownloadedSong){
+                if(isDownloadedSong && song.artwork.contains(".jpg")){
                     val bitmap =
                         BitmapFactory.decodeFile(song.artwork)
 

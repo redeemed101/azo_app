@@ -24,11 +24,11 @@ interface DownloadedSongsDao {
     @Query("DELETE FROM DownloadedSong WHERE songId=:id")
     suspend fun deleteSong(id : String) : Int
 
-    @Insert
-    fun insertAll(vararg songs: DownloadedSong) : List<Long>
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertAll(vararg song: DownloadedSong) : List<Long>
 
     @Update
-    fun update(vararg song: DownloadedSong) : Int
+    suspend fun update(vararg song: DownloadedSong) : Int
 
     @Query("SELECT EXISTS(SELECT * FROM DownloadedSong WHERE songId= :id)")
     fun doesSongExist(id : String) : Flow<Boolean>
