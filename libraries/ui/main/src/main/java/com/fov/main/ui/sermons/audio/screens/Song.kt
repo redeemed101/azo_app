@@ -222,7 +222,7 @@ private fun Song(
                     Row {
                         var songProgressData = downloadingState!!.firstOrNull { p -> p.first == song.songId }
 
-                        if( songProgressData != null) {
+                        if( songProgressData != null && !isDownloaded) {
                             if(songProgressData.second != null)
                                 Column(
                                     horizontalAlignment = Alignment.CenterHorizontally

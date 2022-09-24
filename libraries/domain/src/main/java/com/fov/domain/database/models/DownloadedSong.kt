@@ -9,8 +9,8 @@ import kotlinx.serialization.Serializable
 @Immutable
 @Serializable
 data class DownloadedSong(
-    @PrimaryKey(autoGenerate = true) val dbId: Long = Long.MIN_VALUE,
-
+    @PrimaryKey(autoGenerate = true)
+    val dbId: Long = 0,
     val songName : String,
     val songPath : String,
     val songId : String,

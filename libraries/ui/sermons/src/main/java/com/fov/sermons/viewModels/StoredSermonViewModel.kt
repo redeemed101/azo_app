@@ -215,13 +215,27 @@ class StoredSermonViewModel  @Inject constructor(
                                 File(destinationPath).delete()
                                 if (encryptedFile != null) {
                                     Log.i("SAVING", "in not null")
-                                    /*val imagePath = FileUtilities.downloadNetworkImage(
-                                        song.artwork,
-                                        basePath,
-                                        song.songName
-                                    )*/
+
                                     //save to downloadedSongsDatabase
                                     viewModelScope.launch {
+                                        var imagePath : String = "$basePath/${song.songName}.jpg"
+                                         DownloadTask(
+                                             context,
+                                             song.artwork,
+                                             imagePath,
+                                             object: DownloadListener{
+                                                 override fun onDownloadComplete(download: Boolean) {
+
+                                                 }
+                                                 override fun downloadProgress(status: Double) {
+
+                                                 }
+                                                 override fun errorOccurred(throwable: Throwable) {
+
+                                                 }
+
+                                             }
+                                         )
 
                                         Log.d("SAVING", "Saving data coroutine")
                                         val result = storedMusicInteractor.saveDownloadedSong(
@@ -230,29 +244,30 @@ class StoredSermonViewModel  @Inject constructor(
                                                 songPath = encryptedFile.absolutePath,
                                                 songId = song.songId,
                                                 artistName = song.artistName,
-                                                imagePath = "https://picsum.photos/200"
+                                                imagePath = imagePath ?: "https://picsum.photos/200"
                                             )
                                         )
                                         Log.d("SAVING", "${result.size}")
+                                        Log.d("DOWNLOAD_DONE", "remove from state")
+                                        val new = _downloadStateInfo.value!!.filter { p -> p.first != song.songId }
+                                            .toMutableList()
+                                        _downloadStateInfo.postValue(new)
                                     }
                                 }
 
-                                val new = _downloadStateInfo.value!!.filter { p -> p.first != song.songId }
-                                    .toMutableList()
-                                _downloadStateInfo.postValue(new)
                             } else {
                                 Log.i("COMPLETED", "failed")
                                 //also set song downloaded
-                                val new = _downloadStateInfo.value!!.filter { p -> p.first != song.songId }
+                               /* val new = _downloadStateInfo.value!!.filter { p -> p.first != song.songId }
                                     .toMutableList()
                                 new.add(Pair(song.songId, null))
+                                _downloadStateInfo.postValue(new)*/
+                                val new = _downloadStateInfo.value!!.filter { p -> p.first != song.songId }
+                                    .toMutableList()
                                 _downloadStateInfo.postValue(new)
 
                             }
-                            //remove from queue
-                            songsDownloadQueue.value!!.removeAll {
-                                it.songId == song.songId
-                            }
+
 
                         }
 
@@ -266,12 +281,9 @@ class StoredSermonViewModel  @Inject constructor(
                         }
 
                         override fun errorOccurred(throwable: Throwable) {
-                            songsDownloadQueue.value!!.removeAll {
-                                it.songId == song.songId
-                            }
+
                             val new = _downloadStateInfo.value!!.filter { p -> p.first != song.songId }
                                 .toMutableList()
-                            new.add(Pair(song.songId, null))
                             _downloadStateInfo.postValue(new)
                         }
 
@@ -279,10 +291,7 @@ class StoredSermonViewModel  @Inject constructor(
                 ).downloadFile()
         }
         finally {
-            val new = _downloadStateInfo.value!!.filter { p -> p.first != song.songId }
-                .toMutableList()
-            new.add(Pair(song.songId, null))
-            _downloadStateInfo.postValue(new)
+
             songsDownloadQueue.value!!.removeAll {
                 it.songId == song.songId
             }

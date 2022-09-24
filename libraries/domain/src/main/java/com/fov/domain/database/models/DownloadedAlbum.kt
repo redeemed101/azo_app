@@ -9,7 +9,8 @@ import kotlinx.serialization.Serializable
 @Immutable
 @Serializable
 data class DownloadedAlbum(
-    @PrimaryKey(autoGenerate = true) val dbId: Long = Long.MIN_VALUE,
+    @PrimaryKey(autoGenerate = true)
+    val dbId: Long = 0,
     val albumName : String,
     val albumPath : String,
     val albumId : String,
