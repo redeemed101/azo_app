@@ -6,13 +6,9 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.util.Log
-import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.content.getSystemService
+import androidx.compose.compiler.plugins.kotlin.lower.forEachWith
 import androidx.lifecycle.*
-import androidx.work.ListenableWorker
 import androidx.work.WorkInfo
-import androidx.work.workDataOf
 import com.fov.common_ui.utils.helpers.FileUtilities
 import com.fov.common_ui.workers.DownloadListener
 import com.fov.common_ui.workers.DownloadTask
@@ -21,23 +17,17 @@ import com.fov.core.security.fileEncryption.FileEncryption
 import com.fov.domain.database.models.DownloadedSong
 import com.fov.domain.interactors.music.StoredMusicInteractor
 import com.fov.sermons.events.StoredMusicEvent
+import com.fov.sermons.models.Album
 import com.fov.sermons.models.Song
 import com.fov.sermons.states.StoredMusicState
 import com.fov.sermons.utils.helpers.Utilities
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Dispatchers.Main
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import okhttp3.Dispatcher
 import java.io.File
-import java.util.*
-import java.util.concurrent.CompletableFuture.runAsync
 import javax.inject.Inject
 
 @HiltViewModel
@@ -60,11 +50,15 @@ class StoredSermonViewModel  @Inject constructor(
     }
     private val context = getApplication<Application>().applicationContext
     private var privateKey: String = ""
-    var basePath = "${
-        com.fov.common_ui.utils.helpers.Utilities
+    var baseCachePath = com.fov.common_ui.utils.helpers.Utilities
             .getCacheDirectory(
                 context
-            ).absolutePath}"
+            ).absolutePath
+
+    var baseDataPath = com.fov.common_ui.utils.helpers.Utilities
+        .getDataDirectory(
+            context
+        ).absolutePath
 
     private val _uiState = MutableStateFlow(StoredMusicState())
     val uiState: StateFlow<StoredMusicState> = _uiState
@@ -80,11 +74,31 @@ class StoredSermonViewModel  @Inject constructor(
     val downloadStateInfo :LiveData<List<Pair<String, Float?>>> = Transformations.map(_downloadStateInfo
     ) {
         it.toMutableList()
-     } /*Transformations.switchMap(
-        songsDownloadQueue,
-        ::downloadSong
-    )*/
+     }
 
+    private val _successfulDownloads =  MutableLiveData<MutableList<Pair<String, Boolean>>>(
+        mutableListOf())
+
+    private fun startAlbumDownload(album: Album,privateKey : String){
+        val albumPath = "${
+            com.fov.common_ui.utils.helpers.Utilities
+                .getDataDirectory(
+                    context
+                ).absolutePath}/${album.albumName}"
+        val albumDir = File(albumPath)
+       for(song in album.songs){
+            if(songsDownloadQueue.value!!.firstOrNull{ p -> p.songId == song.songId } != null){
+                  continue
+            }
+            this.privateKey = privateKey
+            if(songsDownloadQueue.value!!.isEmpty())
+                songsDownloadQueue.value = mutableListOf(song)
+            else{
+                songsDownloadQueue.value!!.add(songsDownloadQueue.value!!.size,song)
+            }
+            beginDownloadSong(song, albumDir.absolutePath)
+        }
+    }
     private fun startDownload(song: Song, privateKey : String){
         if(songsDownloadQueue.value!!.firstOrNull{ p -> p.songId == song.songId } != null){
             return
@@ -95,7 +109,7 @@ class StoredSermonViewModel  @Inject constructor(
         else{
             songsDownloadQueue.value!!.add(songsDownloadQueue.value!!.size,song)
         }
-        Log.d("DOWNLOADING", "${songsDownloadQueue.value!!.size}")
+
     }
 
     private fun downloadSong(songs : List<Song>) : LiveData<List<Pair<String, Float?>>>  {
@@ -193,32 +207,35 @@ class StoredSermonViewModel  @Inject constructor(
         }
 
     }
-    private fun beginDownloadSong(song : Song) {
-        val destinationPath = "$basePath/${song.songName}${FileUtilities.getFileExtension(song.path)}"
+    private fun beginDownloadSong(song : Song, albumPath : String? = null) {
+        val tempDestinationPath = "$baseCachePath/${song.songName}${FileUtilities.getFileExtension(song.path)}"
         _downloadStateInfo.value!!.add(Pair(song.songId, null))
         val job = viewModelScope.launch {
             try{
                 DownloadTask(
                     context,
                     song.path,
-                    destinationPath,
+                    tempDestinationPath,
                     object : DownloadListener {
                         override fun onDownloadComplete(download: Boolean) {
                             Log.i("COMPLETED", "Saving data coroutine")
                             if (download) {
                                 Log.i("COMPLETED", "Successful")
-                                val path = "$basePath/${song.songName}${
-                                    FileUtilities.getFileExtension(destinationPath)
+                                if(albumPath != null){
+                                    baseDataPath = "$albumPath"
+                                }
+                                val encryptionDestinationpath = "$baseDataPath/${song.songName}${
+                                    FileUtilities.getFileExtension(tempDestinationPath)
                                 }";
                                 val encryptedFile =
-                                    fileEncryption.encryptFile(destinationPath, path, privateKey)
-                                File(destinationPath).delete()
+                                    fileEncryption.encryptFile(tempDestinationPath, encryptionDestinationpath, privateKey)
+                                File(tempDestinationPath).delete()
                                 if (encryptedFile != null) {
                                     Log.i("SAVING", "in not null")
 
                                     //save to downloadedSongsDatabase
                                     viewModelScope.launch {
-                                        var imagePath : String = "$basePath/${song.songName}.jpg"
+                                        var imagePath : String = "$baseCachePath/${song.songName}.jpg"
                                          DownloadTask(
                                              context,
                                              song.artwork,
@@ -249,6 +266,11 @@ class StoredSermonViewModel  @Inject constructor(
                                         )
                                         Log.d("SAVING", "${result.size}")
                                         Log.d("DOWNLOAD_DONE", "remove from state")
+                                         _successfulDownloads.value!!.add(
+                                            Pair(song.songId,true)
+                                        )
+                                        _successfulDownloads.postValue(_successfulDownloads.value)
+
                                         val new = _downloadStateInfo.value!!.filter { p -> p.first != song.songId }
                                             .toMutableList()
                                         _downloadStateInfo.postValue(new)
@@ -303,7 +325,7 @@ class StoredSermonViewModel  @Inject constructor(
     private fun beginDownload(song : Song)  = run {
         val url = song.path
         var fileName = song.songName
-        fileName = "${basePath}/${fileName}.mp3"
+        fileName = "${baseCachePath}/${fileName}.mp3"
         Log.d("DOWNLOADING", fileName)
         val file: File = File(fileName)
         val request: DownloadManager.Request = DownloadManager.Request(Uri.parse(url))
@@ -398,11 +420,8 @@ class StoredSermonViewModel  @Inject constructor(
     fun getSongPath(id: String) : Flow<String> = storedMusicInteractor.getSongPath(id)
     fun getAlbumPath(id: String) : Flow<String> = storedMusicInteractor.getAlbumPath(id)
 
-    fun isSongDownloadedAsync(id : String) : Flow<Boolean> {
+    fun isSongDownloadedAsync(id : String) : Flow<Boolean> =  storedMusicInteractor.isSongThere(id)
 
-        return storedMusicInteractor.isSongThere(id)
-
-    }
 
     fun handleMusicEvent(event: StoredMusicEvent) {
         _uiState.value = uiState.value.build {
@@ -418,7 +437,7 @@ class StoredSermonViewModel  @Inject constructor(
 
                 }
                 is StoredMusicEvent.DecryptSong -> {
-                    val destinationFilePath = "$basePath/${event.song.songName}" +
+                    val destinationFilePath = "$baseCachePath/${event.song.songName}" +
                             "${FileUtilities.getFileExtension(event.song.songPath)}"
                     val file = fileEncryption.decryptEncryptedFile(
                         event.song.songPath,

@@ -71,6 +71,7 @@ class DownloadTask(
             Log.d("END_DOWNLOAD", "${cancelDownload}")
             if (!cancelDownload) {
                 Log.d("END_DOWNLOAD", "notification")
+
                 finish()
             }
 
