@@ -6,22 +6,18 @@ import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.util.Log
-import androidx.compose.compiler.plugins.kotlin.lower.forEachWith
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.*
-import androidx.work.WorkInfo
 import com.fov.common_ui.utils.helpers.FileUtilities
-import com.fov.common_ui.workers.DownloadListener
-import com.fov.common_ui.workers.DownloadTask
+import com.fov.common_ui.workers.*
 import com.fov.core.di.Preferences
 import com.fov.core.security.fileEncryption.FileEncryption
+import com.fov.domain.database.models.DownloadedAlbum
 import com.fov.domain.database.models.DownloadedSong
 import com.fov.domain.interactors.music.StoredMusicInteractor
 import com.fov.sermons.events.StoredMusicEvent
 import com.fov.sermons.models.Album
 import com.fov.sermons.models.Song
 import com.fov.sermons.states.StoredMusicState
-import com.fov.sermons.utils.helpers.Utilities
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -77,67 +73,176 @@ class StoredSermonViewModel  @Inject constructor(
         it.toMutableList()
      }
 
+    private val _albumDownloadStateInfo = MutableLiveData<MutableList<Pair<String, Float?>>>(
+        mutableListOf()
+    )
+    val albumDownloadStateInfo : LiveData<List<Pair<String, Float?>>> = Transformations.map(_albumDownloadStateInfo
+    ) {
+        it.toMutableList()
+    }
+
     private val _successfulDownloads =  MutableLiveData<MutableList<Pair<String, Boolean>>>(
         mutableListOf())
 
-    private fun startAlbumDownload(album: Album,privateKey : String){
-        val albumPath = "${
+    private fun downloadAlbum(album: Album,privateKey : String){
+        _albumDownloadStateInfo.value!!.add(Pair(album.albumId, null))
+        val albumPermanentPath = "${
             com.fov.common_ui.utils.helpers.Utilities
                 .getDataDirectory(
                     context
                 ).absolutePath}/${album.albumName}"
-        val albumDir = File(albumPath)
-
-       for(song in album.songs){
-            if(songsDownloadQueue.value!!.firstOrNull{ p -> p.songId == song.songId } != null){
-                  continue
-            }
-            this.privateKey = privateKey
-            if(songsDownloadQueue.value!!.isEmpty())
-                songsDownloadQueue.value = mutableListOf(song)
-            else{
-                songsDownloadQueue.value!!.add(songsDownloadQueue.value!!.size,song)
-            }
-            beginDownloadSong(song)
+        val albumTempPath = "${
+            com.fov.common_ui.utils.helpers.Utilities
+                .getCacheDirectory(
+                    context
+                ).absolutePath}/${album.albumName}"
+        val albumDir = File(albumPermanentPath)
+        val albumTempDir = File(albumTempPath)
+        val multipleDownloads : MutableList<MultipleDownload> = mutableListOf()
+        album.songs.forEach { song ->
+            multipleDownloads.add(
+                MultipleDownload(
+                url = song.path,
+                destinationPath = "$albumTempPath/${song.songName}${FileUtilities.getFileExtension(song.path)}"
+                )
+            )
         }
-    }
-    private fun downloadAlbumSong(song : Song, temporaryAlbumPath: String ){
-        val job = viewModelScope.launch {
-            try{
-                DownloadTask(
-                    context,
-                    song.path,
-                    "$temporaryAlbumPath/${song.songName}.${FileUtilities.getFileExtension(song.path)}",
-                    object : DownloadListener {
-                        override fun onDownloadComplete(download: Boolean) {
-                            if (download) {
+        var downloadedSongPaths : MutableList<String> = mutableListOf()
+        var encryptedSongPaths : MutableList<String> = mutableListOf()
+        val downloadedSongs : MutableList<Song> = mutableListOf()
+        viewModelScope.launch {
+            MultipleDownloadsTask(
+              downloadPaths = multipleDownloads,
+              listener = object : MultipleDownloadsListener{
+                  override fun onDownloadComplete(download: Boolean) {
+                      if(download){
+                          //encrypt
+                          for(i in downloadedSongPaths.indices){
+                              val encryptionDestinationPath = "$albumPermanentPath/${downloadedSongs[i].songName}${
+                                  FileUtilities.getFileExtension(downloadedSongPaths[i])
+                              }";
+                              val encryptedFile =
+                                  fileEncryption.encryptFile(downloadedSongPaths[i], encryptionDestinationPath, privateKey)
+                              File(downloadedSongPaths[i]).delete()
+                              if (encryptedFile != null) {
+                                  encryptedSongPaths.add(encryptionDestinationPath)
+                              }
+                              else{
+                                   //delete the encrypted so far
+                                  albumDir.deleteRecursively()
+                                  //delete all
+                                  albumTempDir.deleteRecursively()
+
+                                  break
+
+                              }
+                          }
 
 
-                            } else {
+                          viewModelScope.launch {
+                              //save album file
+                              var imagePath  = "$albumPermanentPath/${album.albumName}.jpg"
+                              DownloadTask(
+                                  context,
+                                  album.artwork,
+                                  imagePath,
+                                  object: DownloadListener{
+                                      override fun onDownloadComplete(download: Boolean) {
+                                          //use default image
+                                          if (!download)
+                                             imagePath = "https://picsum.photos/200"
+                                      }
+                                      override fun downloadProgress(status: Double) {
+
+                                      }
+                                      override fun errorOccurred(throwable: Throwable) {
+                                          //use default image
+                                          imagePath = "https://picsum.photos/200"
+                                      }
+
+                                  }
+                              )
+                              //save DownloadedAlbum
+                              val result = storedMusicInteractor.saveDownloadedAlbum(
+                                  DownloadedAlbum(
+                                      albumName = album.albumName,
+                                      albumPath = albumPermanentPath,
+                                      albumId = album.albumId,
+                                      artistName = album.artistName,
+                                      imagePath = imagePath
+                                  )
+                              )
+                              if(result.isEmpty()){
+                                  //not saved...what to do
+                              }
+                              else {
+                                  //save each DownloadSong including downloading image (use album image)
+                                  for(i in encryptedSongPaths.indices) {
+                                      val result = storedMusicInteractor.saveDownloadedSong(
+                                          DownloadedSong(
+                                              songName = downloadedSongs[i].songName,
+                                              songPath = encryptedSongPaths[i],
+                                              parentAlbumId = result.first(),
+                                              songId = downloadedSongs[i].songId,
+                                              artistName = album.artistName,
+                                              imagePath = imagePath
+                                          )
+                                      )
+                                  }
+                              }
 
 
-                            }
+                          }
 
+                      }
+                      else{
+                          //delete all downloaded
+                          albumTempDir.deleteRecursively()
+                      }
+                      val new = _albumDownloadStateInfo.value!!.filter { p -> p.first != album.albumId }
+                          .toMutableList()
+                      _albumDownloadStateInfo.postValue(new)
+                  }
 
-                        }
+                  override fun onOneDownloadComplete(downloadedPath: String) {
+                      downloadedSongPaths.add(downloadedPath)
+                      val m = multipleDownloads.find { m -> m.destinationPath == downloadedPath }
+                      if (m != null){
+                          val s = album.songs.find{ s -> s.path == m.url}
+                          if (s != null) {
+                              downloadedSongs.add(s)
+                          }
+                      }
 
-                        override fun downloadProgress(status: Double) {
+                  }
 
-                        }
+                  override fun downloadProgress(status: Double) {
+                      //progress for a song
 
-                        override fun errorOccurred(throwable: Throwable) {
+                  }
 
-                        }
+                  override fun downloadTotalProgress(status: Double) {
+                      //progress number of finished over total to download
+                      val new = _albumDownloadStateInfo.value!!.filter { p -> p.first != album.albumId }
+                          .toMutableList()
+                      new.add(Pair(album.albumId, status.toFloat()))
+                      _albumDownloadStateInfo.postValue(new)
+                  }
 
-                    }
-                ).downloadFile()
-            }
-            finally {
+                  override fun errorOccurred(throwable: Throwable) {
+                      //delete all downloaded
+                      albumTempDir.deleteRecursively()
+                      val new = _albumDownloadStateInfo.value!!.filter { p -> p.first != album.albumId }
+                          .toMutableList()
+                      _albumDownloadStateInfo.postValue(new)
+                  }
 
-
-            }
+              }
+            ).downloadFile()
         }
+
     }
+
     private fun startDownload(song: Song, privateKey : String){
         if(songsDownloadQueue.value!!.firstOrNull{ p -> p.songId == song.songId } != null){
             return
@@ -151,101 +256,6 @@ class StoredSermonViewModel  @Inject constructor(
 
     }
 
-    private fun downloadSong(songs : List<Song>) : LiveData<List<Pair<String, Float?>>>  {
-        if(songs.isEmpty()){
-            return liveData {
-                emit(_downloadStateInfo.value!!)
-            }
-        }
-
-        return Transformations.map(Utilities.downloadSong(
-            context = context,
-            encryptionKey = privateKey,
-            song = songs.last(),
-            changeDownloadData = { downloadUrl,
-                                   details,
-                                   destinationFilePath ->
-
-            }
-        )) { workInfo ->
-            Log.d("DOWNLOADING", "going to start worker")
-            when {
-                workInfo.state == WorkInfo.State.RUNNING -> {
-                    Log.d("DOWNLOADING_PROGRESS","${workInfo.progress.getInt("progress",1)}")
-
-                        val progress = workInfo.progress
-                        val value = progress.getInt("progress", 1)
-                        _downloadStateInfo.value!!.add(
-                            Pair(
-                                songs.last().songId,
-                                (value / 100.00).toFloat()
-                            )
-                        )
-                        _downloadStateInfo.value!!
-
-
-                }
-                workInfo.state == WorkInfo.State.CANCELLED ->{
-                    _downloadStateInfo.value!!.add(Pair(songs.last().songId, null))
-                    songsDownloadQueue.value!!.removeAll {
-                        it.songId == songs.last().songId
-                    }
-                    _downloadStateInfo.value!!
-                }
-                workInfo.state == WorkInfo.State.BLOCKED->{
-                    _downloadStateInfo.value!!.add(Pair(songs.last().songId, null))
-                    _downloadStateInfo.value!!
-                }
-                workInfo.state == WorkInfo.State.FAILED->{
-                    _downloadStateInfo.value!!.add(Pair(songs.last().songId, null))
-                    songsDownloadQueue.value!!.removeAll {
-                        it.songId == songs.last().songId
-                    }
-                    _downloadStateInfo.value!!
-                }
-                workInfo.state == WorkInfo.State.SUCCEEDED -> {
-                       Log.i("DOWNLOAD_SUCEEDED", "Saving data coroutine")
-                        val data = workInfo.outputData
-                        val dataMap = data.keyValueMap
-                        if (dataMap.containsKey("FILEPATH")) {
-                            val arrPaths = dataMap["FILEPATH"] as Array<String>
-                            //save to downloadedSongsDatabase
-                            viewModelScope.launch {
-                                Log.i("SAVING", "Saving data coroutine")
-                                storedMusicInteractor.saveDownloadedSong(
-                                    DownloadedSong(
-                                        songName = songs.last().songName,
-                                        songPath = arrPaths[0],
-                                        songId = songs.last().songId,
-                                        artistName = songs.last().artistName,
-                                        imagePath = arrPaths[1]
-
-                                    )
-                                )
-                            }
-                            _downloadStateInfo.value!!.add(Pair(songs.last().songId, null))
-
-
-                        } else {
-                            //show error
-                            _downloadStateInfo.value!!.add(Pair(songs.last().songId, null))
-
-                        }
-                        //remove from queue
-                        songsDownloadQueue.value!!.removeAll {
-                            it.songId == songs.last().songId
-                        }
-                        _downloadStateInfo.value!!
-
-                }
-                else -> {
-                    _downloadStateInfo.value!!
-                }
-
-            }
-        }
-
-    }
     private fun beginDownloadSong(song : Song) {
         val tempDestinationPath = "$baseCachePath/${song.songName}${FileUtilities.getFileExtension(song.path)}"
         _downloadStateInfo.value!!.add(Pair(song.songId, null))
@@ -257,9 +267,8 @@ class StoredSermonViewModel  @Inject constructor(
                     tempDestinationPath,
                     object : DownloadListener {
                         override fun onDownloadComplete(download: Boolean) {
-                            Log.i("COMPLETED", "Saving data coroutine")
+
                             if (download) {
-                                Log.i("COMPLETED", "Successful")
                                 val encryptionDestinationpath = "$baseDataPath/${song.songName}${
                                     FileUtilities.getFileExtension(tempDestinationPath)
                                 }";
@@ -271,7 +280,7 @@ class StoredSermonViewModel  @Inject constructor(
 
                                     //save to downloadedSongsDatabase
                                     viewModelScope.launch {
-                                        var imagePath : String = "$baseCachePath/${song.songName}.jpg"
+                                        var imagePath : String = "$baseDataPath/${song.songName}.jpg"
                                          DownloadTask(
                                              context,
                                              song.artwork,
@@ -315,11 +324,7 @@ class StoredSermonViewModel  @Inject constructor(
 
                             } else {
                                 Log.i("COMPLETED", "failed")
-                                //also set song downloaded
-                               /* val new = _downloadStateInfo.value!!.filter { p -> p.first != song.songId }
-                                    .toMutableList()
-                                new.add(Pair(song.songId, null))
-                                _downloadStateInfo.postValue(new)*/
+
                                 val new = _downloadStateInfo.value!!.filter { p -> p.first != song.songId }
                                     .toMutableList()
                                 _downloadStateInfo.postValue(new)
@@ -505,7 +510,7 @@ class StoredSermonViewModel  @Inject constructor(
                         storedMusicInteractor.deleteDownloadedSong(event.songId)
                     }
                 }
-                is StoredMusicEvent.SaveDownloadedAlbum -> {
+                is StoredMusicEvent.DownloadAlbum -> {
                     viewModelScope.launch {
                         storedMusicInteractor.saveDownloadedAlbum(event.album)
                     }

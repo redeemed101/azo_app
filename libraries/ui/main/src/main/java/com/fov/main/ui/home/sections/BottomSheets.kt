@@ -104,47 +104,7 @@ fun albumBottomSheet(
                 R.drawable.ic_arrow_down_circle ,
                 if(isDownloaded) "Downloaded" else "Download") {
                 if(!isDownloaded) {
-                        Utilities.downloadAlbum(
-                            context = context,
-                            lifecycleOwner = lifecycleOwner,
-                            album = album,
-                            changeDownloadData = { downloadUrl, details, destinationFilePath ->
-                                events(
-                                    CommonEvent.ChangeDownloadData(
-                                        DownloadData(
-                                            downloadUrl = downloadUrl,
-                                            details = details,
-                                            destinationFilePath = destinationFilePath
-                                        )
-                                    )
-                                )
-                            },
-                            saveSong = { song, songPath, imagePath ->
-                                storedMusicEvents(
-                                    StoredMusicEvent.SaveDownloadedSong(
-                                        DownloadedSong(
-                                            songName = song.songName,
-                                            songPath = songPath,
-                                            songId = song.songId,
-                                            artistName = song.artistName,
-                                            imagePath = imagePath
 
-                                        )
-                                    )
-                                )
-                            }
-                        ){ albumPath, imagePath ->
-                            storedMusicEvents(StoredMusicEvent.SaveDownloadedAlbum(
-                                album = DownloadedAlbum(
-                                    albumName = album.albumName,
-                                    albumPath = albumPath,
-                                    albumId = album.albumId,
-                                    artistName = album.artistName,
-                                    imagePath = imagePath,
-                                )
-                            )
-                            )
-                        }
                 }
                 else{
                     Utilities.unDownloadAlbum(

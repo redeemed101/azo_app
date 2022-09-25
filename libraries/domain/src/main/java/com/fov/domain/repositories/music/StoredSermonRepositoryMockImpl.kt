@@ -29,7 +29,7 @@ object Data {
         }
     val ALBUMS = List(5){
         DownloadedAlbum(
-            dbId = 1234,
+            dbAlbumId = 1234,
             albumId = "1234",
             albumPath = "/data/data/com.fov.azo/files/Excellence",
             albumName = "Excellence and Wisdom",

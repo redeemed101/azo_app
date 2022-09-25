@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
@@ -18,23 +19,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.fov.common_ui.R
 import com.fov.common_ui.events.CommonEvent
-import com.fov.common_ui.models.DownloadData
 import com.fov.common_ui.states.CommonState
 import com.fov.common_ui.theme.bottomTabHeight
 import com.fov.common_ui.theme.commonPadding
 import com.fov.common_ui.viewModels.CommonViewModel
 import com.fov.main.ui.sermons.audio.general.SongListItem
-import com.fov.domain.database.models.DownloadedAlbum
-import com.fov.domain.database.models.DownloadedSong
 import com.fov.main.ui.sermons.audio.general.MusicGeneralScreen
 import com.fov.sermons.events.MusicEvent
 import com.fov.sermons.events.StoredMusicEvent
 import com.fov.sermons.models.Album
 import com.fov.sermons.states.MusicState
+import com.fov.sermons.utils.helpers.Utilities
 import com.fov.sermons.viewModels.SermonViewModel
 import com.fov.sermons.viewModels.StoredSermonViewModel
 
@@ -54,6 +52,7 @@ fun AlbumScreen(
     )
     val albumPath by storedSermonViewModel.getAlbumPath(sermonsState.selectedAlbum!!.albumId)
         .collectAsState(initial = "")
+    val downloadState by storedSermonViewModel.albumDownloadStateInfo.observeAsState(initial = listOf())
     AlbumView(
         commonState = commonState,
         events = commonViewModel::handleCommonEvent,
@@ -61,7 +60,8 @@ fun AlbumScreen(
         musicEvents = sermonsViewModel::handleMusicEvent,
         storedMusicEvents = storedSermonViewModel::handleMusicEvent,
         isDownloaded = isDownloaded,
-        albumPath
+        albumPath,
+        downloadState
 
     )
 }
@@ -75,7 +75,8 @@ private fun AlbumView(
     musicEvents: (event: MusicEvent) -> Unit,
     storedMusicEvents: (event: StoredMusicEvent) -> Unit,
     isDownloaded :  Boolean,
-    albumPath : String
+    albumPath : String,
+    downloadingState: List<Pair<String, Float?>>?
 ){
     MusicGeneralScreen(
         commonState = commonState,
@@ -181,59 +182,47 @@ private fun AlbumView(
                         downloadIcon = com.fov.sermons.R.drawable.ic_downloaded
                         downloadText = "Un-download"
                     }
-                    IconView(
-                        downloadIcon,
-                        downloadText,
-                        tint   =  downloadTint
-                    ) {
-                        if(!isDownloaded){
-                            com.fov.sermons.utils.helpers.Utilities.downloadAlbum(
-                                context = context,
-                                lifecycleOwner = lifecycleOwner,
-                                album = album,
-                                changeDownloadData = { downloadUrl, details, destinationFilePath ->
-                                    events(
-                                        CommonEvent.ChangeDownloadData(
-                                            DownloadData(
-                                                downloadUrl = downloadUrl,
-                                                details = details,
-                                                destinationFilePath = destinationFilePath
-                                            )
-                                        )
-                                    )
-                                },
-                                saveSong = { song, songPath, imagePath ->
-                                    storedMusicEvents(
-                                        StoredMusicEvent.SaveDownloadedSong(
-                                            DownloadedSong(
-                                                songName = song.songName,
-                                                songPath = songPath,
-                                                songId = song.songId,
-                                                artistName = song.artistName,
-                                                imagePath = imagePath
+                    Row {
+                        var albumProgressData = downloadingState!!.firstOrNull { p -> p.first == album.albumId }
 
-                                            )
+                        if( albumProgressData != null && !isDownloaded) {
+                            if(albumProgressData.second != null)
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    CircularProgressIndicator(
+                                        progress = albumProgressData.second!!,
+                                        modifier = Modifier.size(24.dp).border(width = 2.dp,color = Color.Gray.copy(alpha = 0.2f), shape = RoundedCornerShape(50)),
+                                        color = MaterialTheme.colors.onSurface
+                                    )
+                                    Text(text = "Download",color = MaterialTheme.colors.onSurface)
+                                }
+                            //ShimmerAnimation(size = 24.dp, isCircle = true)
+                        }
+                        else {
+                            IconView(
+                                downloadIcon,
+                                downloadText,
+                                tint = downloadTint
+                            ) {
+                                if (!isDownloaded) {
+                                    storedMusicEvents(
+                                        StoredMusicEvent.DownloadAlbum(
+                                            album,
+                                            commonState.user!!.privateKey
                                         )
                                     )
+                                } else {
+                                    Utilities.unDownloadAlbum(
+                                        albumPath,
+                                    ) {
+                                        storedMusicEvents(
+                                            StoredMusicEvent.DeleteDownloadedAlbum(
+                                                albumId = album.albumId
+                                            )
+                                        )
+                                    }
                                 }
-                            ){ albumPath, imagePath ->
-                                storedMusicEvents(StoredMusicEvent.SaveDownloadedAlbum(
-                                    album = DownloadedAlbum(
-                                        albumName = album.albumName,
-                                        albumPath = albumPath,
-                                        albumId = album.albumId,
-                                        artistName = album.artistName,
-                                        imagePath = imagePath,
-                                    )
-                                  )
-                                )
-                            }
-                        }
-                        else{
-                            com.fov.sermons.utils.helpers.Utilities.unDownloadAlbum(
-                                albumPath,
-                            ){
-                                storedMusicEvents(StoredMusicEvent.DeleteDownloadedAlbum(albumId = album.albumId))
                             }
                         }
                     }
