@@ -9,10 +9,10 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface DownloadedAlbumsDao {
 
-    @Query("SELECT * FROM DownloadedAlbum ORDER BY dbId DESC")
+    @Query("SELECT * FROM DownloadedAlbum ORDER BY dbAlbumId DESC")
     fun getDownloadedAlbums():  List<DownloadedAlbum>
 
-    @Query("SELECT * FROM DownloadedAlbum ORDER BY dbId DESC")
+    @Query("SELECT * FROM DownloadedAlbum ORDER BY dbAlbumId DESC")
     fun getDownloadedAlbumsPaginated(): DataSource.Factory<Int, DownloadedAlbum>
 
     @Transaction
