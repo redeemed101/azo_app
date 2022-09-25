@@ -2,6 +2,7 @@ package com.fov.domain.database.daos
 
 import androidx.paging.DataSource
 import androidx.room.*
+import com.fov.domain.database.models.AlbumWithSongs
 import com.fov.domain.database.models.DownloadedAlbum
 import kotlinx.coroutines.flow.Flow
 
@@ -13,6 +14,14 @@ interface DownloadedAlbumsDao {
 
     @Query("SELECT * FROM DownloadedAlbum ORDER BY dbId DESC")
     fun getDownloadedAlbumsPaginated(): DataSource.Factory<Int, DownloadedAlbum>
+
+    @Transaction
+    @Query("SELECT * FROM DownloadedAlbum")
+    fun getAlbumsWithSongs(): List<AlbumWithSongs>
+
+    @Transaction
+    @Query("SELECT * FROM DownloadedAlbum WHERE albumId= :id")
+    fun getAlbumSongs(id : String): List<AlbumWithSongs>
 
     @Query("DELETE FROM DownloadedAlbum")
     suspend fun deleteAll() : Int

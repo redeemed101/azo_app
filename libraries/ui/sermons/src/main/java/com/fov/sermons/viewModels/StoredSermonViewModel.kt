@@ -7,6 +7,7 @@ import android.database.Cursor
 import android.net.Uri
 import android.util.Log
 import androidx.compose.compiler.plugins.kotlin.lower.forEachWith
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.lifecycle.*
 import androidx.work.WorkInfo
 import com.fov.common_ui.utils.helpers.FileUtilities
@@ -86,6 +87,7 @@ class StoredSermonViewModel  @Inject constructor(
                     context
                 ).absolutePath}/${album.albumName}"
         val albumDir = File(albumPath)
+
        for(song in album.songs){
             if(songsDownloadQueue.value!!.firstOrNull{ p -> p.songId == song.songId } != null){
                   continue
@@ -96,7 +98,44 @@ class StoredSermonViewModel  @Inject constructor(
             else{
                 songsDownloadQueue.value!!.add(songsDownloadQueue.value!!.size,song)
             }
-            beginDownloadSong(song, albumDir.absolutePath)
+            beginDownloadSong(song)
+        }
+    }
+    private fun downloadAlbumSong(song : Song, temporaryAlbumPath: String ){
+        val job = viewModelScope.launch {
+            try{
+                DownloadTask(
+                    context,
+                    song.path,
+                    "$temporaryAlbumPath/${song.songName}.${FileUtilities.getFileExtension(song.path)}",
+                    object : DownloadListener {
+                        override fun onDownloadComplete(download: Boolean) {
+                            if (download) {
+
+
+                            } else {
+
+
+                            }
+
+
+                        }
+
+                        override fun downloadProgress(status: Double) {
+
+                        }
+
+                        override fun errorOccurred(throwable: Throwable) {
+
+                        }
+
+                    }
+                ).downloadFile()
+            }
+            finally {
+
+
+            }
         }
     }
     private fun startDownload(song: Song, privateKey : String){
@@ -207,7 +246,7 @@ class StoredSermonViewModel  @Inject constructor(
         }
 
     }
-    private fun beginDownloadSong(song : Song, albumPath : String? = null) {
+    private fun beginDownloadSong(song : Song) {
         val tempDestinationPath = "$baseCachePath/${song.songName}${FileUtilities.getFileExtension(song.path)}"
         _downloadStateInfo.value!!.add(Pair(song.songId, null))
         val job = viewModelScope.launch {
@@ -221,9 +260,6 @@ class StoredSermonViewModel  @Inject constructor(
                             Log.i("COMPLETED", "Saving data coroutine")
                             if (download) {
                                 Log.i("COMPLETED", "Successful")
-                                if(albumPath != null){
-                                    baseDataPath = "$albumPath"
-                                }
                                 val encryptionDestinationpath = "$baseDataPath/${song.songName}${
                                     FileUtilities.getFileExtension(tempDestinationPath)
                                 }";
