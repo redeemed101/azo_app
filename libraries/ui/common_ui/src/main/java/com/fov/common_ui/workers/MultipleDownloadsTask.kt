@@ -54,11 +54,11 @@ class MultipleDownloadsTask(
                         val p = totalDownloaded.toFloat()/total.toFloat()
                         setTotalProgress(p.toDouble())
                         Log.d("ALBUM_DOWNLOAD_", "$p")
-
+                        listener.onOneDownloadComplete(multipleDownload.destinationPath)
                         if(totalDownloaded == total){
                             listener.onDownloadComplete(true)
                         }
-                        listener.onOneDownloadComplete(multipleDownload.destinationPath)
+
                     }
                 }
 
