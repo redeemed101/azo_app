@@ -2,7 +2,7 @@
   "formatVersion": 1,
   "database": {
     "version": 7,
-    "identityHash": "b719a6e606db3fcd5c7ed37a58401b96",
+    "identityHash": "d482293b71a349f866b8858fb777e88b",
     "entities": [
       {
         "tableName": "User",
@@ -279,11 +279,17 @@
       },
       {
         "tableName": "DownloadedSong",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dbId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `songName` TEXT NOT NULL, `songPath` TEXT NOT NULL, `songId` TEXT NOT NULL, `artistName` TEXT NOT NULL, `imagePath` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dbId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `parentAlbumId` INTEGER NOT NULL, `songName` TEXT NOT NULL, `songPath` TEXT NOT NULL, `songId` TEXT NOT NULL, `artistName` TEXT NOT NULL, `imagePath` TEXT NOT NULL)",
         "fields": [
           {
             "fieldPath": "dbId",
             "columnName": "dbId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "parentAlbumId",
+            "columnName": "parentAlbumId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -329,11 +335,11 @@
       },
       {
         "tableName": "DownloadedAlbum",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dbId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `albumName` TEXT NOT NULL, `albumPath` TEXT NOT NULL, `albumId` TEXT NOT NULL, `artistName` TEXT NOT NULL, `imagePath` TEXT NOT NULL)",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`dbAlbumId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `albumName` TEXT NOT NULL, `albumPath` TEXT NOT NULL, `albumId` TEXT NOT NULL, `artistName` TEXT NOT NULL, `imagePath` TEXT NOT NULL)",
         "fields": [
           {
-            "fieldPath": "dbId",
-            "columnName": "dbId",
+            "fieldPath": "dbAlbumId",
+            "columnName": "dbAlbumId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -370,7 +376,7 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "dbId"
+            "dbAlbumId"
           ],
           "autoGenerate": true
         },
@@ -381,7 +387,7 @@
     "views": [],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'b719a6e606db3fcd5c7ed37a58401b96')"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, 'd482293b71a349f866b8858fb777e88b')"
     ]
   }
 }

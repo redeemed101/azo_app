@@ -17,6 +17,7 @@ class MultipleDownloadsTask(
         return try {
             withContext(Dispatchers.IO){
                 val total = downloadPaths.size
+                Log.d("ALBUM_DOWNLOAD", "$total")
                 var totalDownloaded = 0
                 for (multipleDownload in downloadPaths) {
                     var progress = 0.00
@@ -34,12 +35,12 @@ class MultipleDownloadsTask(
                     var input = BufferedInputStream(url.openStream())
                     var output = FileOutputStream(multipleDownload.destinationPath)
                     val data = ByteArray(1024)
-                    var total = 0
+                    var totalBytes = 0
 
 
                     while (input.read(data).also { count = it } != -1 && !cancelDownload) {
-                        total += count
-                        progress = (total.toDouble() / fileLength) //* 100
+                        totalBytes += count
+                        progress = (totalBytes.toDouble() / fileLength) //* 100
                         setProgress(progress)
                         output.write(data, 0, count)
                     }
@@ -48,8 +49,12 @@ class MultipleDownloadsTask(
                     output.close()
                     input.close()
                     if (!cancelDownload) {
-                        totalDownloaded += totalDownloaded
-                        setTotalProgress((totalDownloaded/total).toDouble())
+                        totalDownloaded++
+                        Log.d("ALBUM_DOWNLOAD__", "$totalDownloaded of $total")
+                        val p = totalDownloaded.toFloat()/total.toFloat()
+                        setTotalProgress(p.toDouble())
+                        Log.d("ALBUM_DOWNLOAD_", "$p")
+
                         if(totalDownloaded == total){
                             listener.onDownloadComplete(true)
                         }
@@ -75,7 +80,7 @@ class MultipleDownloadsTask(
 
     }
     private fun setTotalProgress(progress: Double){
-
+        listener.downloadTotalProgress(progress)
     }
     private fun finish(){
         listener.onDownloadComplete(true)

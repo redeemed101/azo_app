@@ -86,6 +86,8 @@ class StoredSermonViewModel  @Inject constructor(
 
     private fun downloadAlbum(album: Album,privateKey : String){
         _albumDownloadStateInfo.value!!.add(Pair(album.albumId, null))
+        _albumDownloadStateInfo.value = _albumDownloadStateInfo.value
+        Log.d("ALBUM_DOWNLOAD", "Within")
         val albumPermanentPath = "${
             com.fov.common_ui.utils.helpers.Utilities
                 .getDataDirectory(

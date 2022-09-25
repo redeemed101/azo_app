@@ -1,5 +1,6 @@
 package com.fov.main.ui.sermons.audio.screens
 
+import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -20,6 +21,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
+import com.example.common_ui.utils.helpers.ShimmerAnimation
 import com.fov.common_ui.R
 import com.fov.common_ui.events.CommonEvent
 import com.fov.common_ui.states.CommonState
@@ -197,7 +199,8 @@ private fun AlbumView(
                                     )
                                     Text(text = "Download",color = MaterialTheme.colors.onSurface)
                                 }
-                            //ShimmerAnimation(size = 24.dp, isCircle = true)
+                            else
+                             ShimmerAnimation(size = 24.dp, isCircle = true)
                         }
                         else {
                             IconView(
