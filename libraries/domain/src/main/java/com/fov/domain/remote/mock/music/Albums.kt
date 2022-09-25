@@ -11,7 +11,7 @@ object AlbumsMockResponse {
                 albums = List(20) {
                     Album(
                         name = "Series $it",
-                        id = "1234",
+                        id = "1234$it",
                         path = "",
                         artworkPath = "https://picsum.photos/200",
                         description = "This is an Album",

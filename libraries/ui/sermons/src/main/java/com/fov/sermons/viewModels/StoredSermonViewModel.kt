@@ -53,7 +53,7 @@ class StoredSermonViewModel  @Inject constructor(
             ).absolutePath
 
     var baseDataPath = com.fov.common_ui.utils.helpers.Utilities
-        .getDataDirectory(
+        .getOutputDirectory(
             context
         ).absolutePath
 
@@ -87,17 +87,10 @@ class StoredSermonViewModel  @Inject constructor(
     private fun downloadAlbum(album: Album,privateKey : String){
         _albumDownloadStateInfo.value!!.add(Pair(album.albumId, null))
         _albumDownloadStateInfo.value = _albumDownloadStateInfo.value
-        Log.d("ALBUM_DOWNLOAD", "Within")
-        val albumPermanentPath = "${
-            com.fov.common_ui.utils.helpers.Utilities
-                .getDataDirectory(
-                    context
-                ).absolutePath}/${album.albumName}"
-        val albumTempPath = "${
-            com.fov.common_ui.utils.helpers.Utilities
-                .getCacheDirectory(
-                    context
-                ).absolutePath}/${album.albumName}"
+
+        val albumPermanentPath = "${baseDataPath}/${album.albumName}"
+        Log.d("ALBUM_DOWNLOAD", "Within $albumPermanentPath")
+        val albumTempPath = "${baseCachePath}/${album.albumName}"
         val albumDir = File(albumPermanentPath)
         val albumTempDir = File(albumTempPath)
         val multipleDownloads : MutableList<MultipleDownload> = mutableListOf()
@@ -207,6 +200,7 @@ class StoredSermonViewModel  @Inject constructor(
                   }
 
                   override fun onOneDownloadComplete(downloadedPath: String) {
+                      Log.d("DOWNLOAD_PATH", downloadedPath)
                       downloadedSongPaths.add(downloadedPath)
                       val m = multipleDownloads.find { m -> m.destinationPath == downloadedPath }
                       if (m != null){

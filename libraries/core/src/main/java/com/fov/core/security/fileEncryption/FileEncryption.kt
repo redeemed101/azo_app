@@ -21,11 +21,13 @@ class FileEncryption constructor(
                 file = fileProcessor.saveFile(encodedData, filePath)
             }
             else{
+                //val cFile = File(destinationFilePath)
                 file = fileProcessor.saveFile(encodedData, destinationFilePath)
             }
 
         } catch (e: Exception) {
             Log.d("FileEncryptionError", e.message!!)
+            e.printStackTrace()
         }
         return file
     }

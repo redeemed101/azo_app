@@ -30,7 +30,7 @@ object Data {
     val ALBUMS = List(5){
         DownloadedAlbum(
             dbAlbumId = 1234,
-            albumId = "1234",
+            albumId = "1234$it",
             albumPath = "/data/data/com.fov.azo/files/Excellence",
             albumName = "Excellence and Wisdom",
             artistName = "Apostle Ziba",
