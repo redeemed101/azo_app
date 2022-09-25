@@ -91,7 +91,9 @@ class StoredSermonViewModel  @Inject constructor(
         val albumPermanentPath = "${baseDataPath}/${album.albumName}"
         Log.d("ALBUM_DOWNLOAD", "Within $albumPermanentPath")
         val albumTempPath = "${baseCachePath}/${album.albumName}"
-        val albumDir = File(albumPermanentPath)
+        val albumDir = File(albumPermanentPath).apply {
+            mkdirs()
+        }
         val albumTempDir = File(albumTempPath)
         val multipleDownloads : MutableList<MultipleDownload> = mutableListOf()
         album.songs.forEach { song ->
