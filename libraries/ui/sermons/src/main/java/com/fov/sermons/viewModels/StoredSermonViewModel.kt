@@ -511,9 +511,7 @@ class StoredSermonViewModel  @Inject constructor(
                     }
                 }
                 is StoredMusicEvent.DownloadAlbum -> {
-                    viewModelScope.launch {
-                        storedMusicInteractor.saveDownloadedAlbum(event.album)
-                    }
+                    downloadAlbum(event.album, event.privateKey)
                 }
                 is StoredMusicEvent.DeleteDownloadedAlbum -> {
                     viewModelScope.launch {
