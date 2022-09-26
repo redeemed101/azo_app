@@ -86,6 +86,7 @@ fun ownerUserBottomSheet(
 @OptIn(ExperimentalMaterialApi::class)
 fun albumBottomSheet(
     album : Album,
+    commonState: CommonState,
     events : (CommonEvent) -> Unit,
     musicEvents : (MusicEvent) -> Unit,
     storedMusicEvents : (StoredMusicEvent) -> Unit,
@@ -104,7 +105,12 @@ fun albumBottomSheet(
                 R.drawable.ic_arrow_down_circle ,
                 if(isDownloaded) "Downloaded" else "Download") {
                 if(!isDownloaded) {
-
+                    storedMusicEvents(
+                        StoredMusicEvent.DownloadAlbum(
+                            album,
+                            commonState.user!!.privateKey
+                        )
+                    )
                 }
                 else{
                     Utilities.unDownloadAlbum(

@@ -162,7 +162,7 @@ class StoredSermonViewModel  @Inject constructor(
                                       }
 
                                   }
-                              )
+                              ).downloadFile()
                               //save DownloadedAlbum
                               val result = storedMusicInteractor.saveDownloadedAlbum(
                                   DownloadedAlbum(
@@ -191,6 +191,9 @@ class StoredSermonViewModel  @Inject constructor(
                                       )
                                   }
                               }
+                              val new = _albumDownloadStateInfo.value!!.filter { p -> p.first != album.albumId }
+                                  .toMutableList()
+                              _albumDownloadStateInfo.postValue(new)
 
 
                           }
@@ -199,10 +202,11 @@ class StoredSermonViewModel  @Inject constructor(
                       else{
                           //delete all downloaded
                           albumTempDir.deleteRecursively()
+                          val new = _albumDownloadStateInfo.value!!.filter { p -> p.first != album.albumId }
+                              .toMutableList()
+                          _albumDownloadStateInfo.postValue(new)
                       }
-                      val new = _albumDownloadStateInfo.value!!.filter { p -> p.first != album.albumId }
-                          .toMutableList()
-                      _albumDownloadStateInfo.postValue(new)
+
                   }
 
                   override fun onOneDownloadComplete(downloadedPath: String) {
@@ -272,11 +276,11 @@ class StoredSermonViewModel  @Inject constructor(
                         override fun onDownloadComplete(download: Boolean) {
 
                             if (download) {
-                                val encryptionDestinationpath = "$baseDataPath/${song.songName}${
+                                val encryptionDestinationPath = "$baseDataPath/${song.songName}${
                                     FileUtilities.getFileExtension(tempDestinationPath)
                                 }";
                                 val encryptedFile =
-                                    fileEncryption.encryptFile(tempDestinationPath, encryptionDestinationpath, privateKey)
+                                    fileEncryption.encryptFile(tempDestinationPath, encryptionDestinationPath, privateKey)
                                 File(tempDestinationPath).delete()
                                 if (encryptedFile != null) {
                                     Log.i("SAVING", "in not null")
@@ -301,6 +305,7 @@ class StoredSermonViewModel  @Inject constructor(
 
                                              }
                                          )
+                                             .downloadFile()
 
                                         Log.d("SAVING", "Saving data coroutine")
                                         val result = storedMusicInteractor.saveDownloadedSong(
