@@ -1,6 +1,7 @@
 package com.fov.common_ui.workers
 
 import android.content.Context
+import android.util.Log
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.fov.common_ui.utils.constants.Constants
@@ -28,12 +29,27 @@ class DeleteOldFilesWorker constructor(
             // Do something
             directory.walk().forEach {
                 if(it.isDirectory) {
-                    val f = it.listFiles { file ->
+                    val files = it.listFiles { file ->
                         file.name.contains(fileExtension!!) && file.length() > 0
+                    }
+                    Log.d("DELETE_OLD","${files.size}")
+                    files.forEach {  f ->
+                            Log.d("DELETE_OLD__","${f.name}")
+                            if(f.endsWith(fileExtension!!) && Files.exists(Paths.get(f.absolutePath)) && f.length() > 0){
+
+                                val lastAccessTime = FileUtilities.getLastAccessTime(f.absolutePath)
+                                val last = Date(lastAccessTime)
+                                val curr = Date()
+                                if(Duration.between(curr.toInstant(),last.toInstant()).toDays() > howOld!!){
+                                    Files.delete(Paths.get(f.absolutePath))
+                                }
+
+                            }
                     }
 
                 }
                 else{
+                    Log.d("DELETE_OLD","${it.name}")
                     if(it.endsWith(fileExtension!!) && Files.exists(Paths.get(it.absolutePath)) && it.length() > 0){
 
                         val lastAccessTime = FileUtilities.getLastAccessTime(it.absolutePath)

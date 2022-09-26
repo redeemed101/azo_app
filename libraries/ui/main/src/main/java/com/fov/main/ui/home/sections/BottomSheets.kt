@@ -95,7 +95,9 @@ fun albumBottomSheet(
     context: Context,
     lifecycleOwner: LifecycleOwner,
     isDownloaded : Boolean,
-    isLiked : Boolean){
+    isLiked : Boolean,
+    albumPath : String
+){
 
     bottomSheetAction(
         scope = scope,
@@ -114,7 +116,7 @@ fun albumBottomSheet(
                 }
                 else{
                     Utilities.unDownloadAlbum(
-                        "",
+                        albumPath,
                     ){
                         storedMusicEvents(StoredMusicEvent.DeleteDownloadedAlbum(albumId = album.albumId))
                     }
@@ -143,7 +145,9 @@ fun songBottomSheet(
     context: Context,
     lifecycleOwner: LifecycleOwner,
     isDownloaded : Boolean,
-    isLiked : Boolean){
+    isLiked : Boolean,
+    songPath : String
+){
 
     bottomSheetAction(
             scope = scope,
@@ -160,7 +164,7 @@ fun songBottomSheet(
                     }
                     else{
                         Utilities.unDownloadSong(
-                            "",
+                            songPath,
                         ){
                             storedMusicEvents(StoredMusicEvent.DeleteDownloadedSong(song.songId))
                         }

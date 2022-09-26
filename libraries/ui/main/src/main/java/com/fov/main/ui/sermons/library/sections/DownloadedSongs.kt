@@ -55,14 +55,14 @@ fun DownloadedSongsTab(
                         showArtwork = true,
                         isDownloadedSong = true,
                         onDownloadedIconClicked = {
-                          com.fov.sermons.utils.helpers.Utilities.unDownloadSong(""){
+                          com.fov.sermons.utils.helpers.Utilities.unDownloadSong(dSong.songPath){
                               storedMusicEvents(StoredMusicEvent.DeleteDownloadedSong(song.songId))
                           }
                     },
                     rowClick = {
                         //musicEvents(MusicEvent.SaveRecentSearch(song!!))
 
-                        musicEvents(MusicEvent.SongSelected(song!!))
+                        musicEvents(MusicEvent.SongSelected(song!!,true, commonState.user!!.privateKey))
                         //musicEvents(MusicEvent.ChangeShowingSong(true))
                         }
                     ) {

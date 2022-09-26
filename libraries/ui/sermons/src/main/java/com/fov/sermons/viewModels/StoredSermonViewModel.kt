@@ -385,101 +385,6 @@ class StoredSermonViewModel  @Inject constructor(
        }
 
     }
-    private fun beginDownload(song : Song)  = run {
-        val url = song.path
-        var fileName = song.songName
-        fileName = "${baseCachePath}/${fileName}.mp3"
-        Log.d("DOWNLOADING", fileName)
-        val file: File = File(fileName)
-        val request: DownloadManager.Request = DownloadManager.Request(Uri.parse(url))
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE) // Visibility of the download Notification
-            .setDestinationUri(Uri.fromFile(file)) // Uri of the destination file
-            .setTitle(fileName) // Title of the Download Notification
-            .setDescription("Downloading") // Description of the Download Notification
-            .setRequiresCharging(false) // Set if charging is required to begin the download
-            .setAllowedOverMetered(true) // Set if download is allowed on Mobile network
-            .setAllowedOverRoaming(true) // Set if download is allowed on roaming network
-        val downloadManager: DownloadManager =
-            getApplication<Application>().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        val downloadID = downloadManager.enqueue(request) // enqueue puts the download request in the queue.
-
-        // using query method
-        var finishDownload = false
-        var progress: Float
-        while (!finishDownload) {
-            val cursor: Cursor = downloadManager.query(DownloadManager.Query().setFilterById(downloadID))
-            if (cursor.moveToFirst()) {
-                val index = cursor.getColumnIndex(DownloadManager.COLUMN_STATUS)
-                Log.d("DOWNLOADING", "${index}")
-                val status: Int = cursor.getInt(index)
-                when (status) {
-                    DownloadManager.STATUS_FAILED -> {
-                        finishDownload = true
-                        _downloadStateInfo.value!!.add(Pair(song.songId, null))
-                        songsDownloadQueue.value!!.removeAll {
-                            it.songId == song.songId
-                        }
-                        liveData {
-                            emit(_downloadStateInfo.value!!.toList())
-                        }
-                    }
-                    DownloadManager.STATUS_PAUSED -> {}
-                    DownloadManager.STATUS_PENDING -> {}
-                    DownloadManager.STATUS_RUNNING -> {
-                        val t = cursor.getColumnIndex(DownloadManager.COLUMN_TOTAL_SIZE_BYTES)
-                        val total: Long = cursor.getLong(t)
-                        if (total >= 0) {
-                            val tx = cursor.getColumnIndex(DownloadManager.COLUMN_BYTES_DOWNLOADED_SO_FAR)
-                            val downloaded: Long =  cursor.getLong(tx)
-                            progress = (downloaded * 100L / total).toFloat()
-                            _downloadStateInfo.value!!.add(Pair(song.songId, progress))
-                            liveData {
-                                emit(_downloadStateInfo.value!!.toList())
-                            }
-                        }
-                    }
-                    DownloadManager.STATUS_SUCCESSFUL -> {
-                        progress = 100f
-                        _downloadStateInfo.value!!.add(Pair(song.songId, progress))
-                        /*val basePath = "${com.fov.common_ui.utils.helpers.Utilities
-                            .getDataDirectory(
-                                context
-                            ).absolutePath}"
-                        //save to downloadedSongsDatabase
-                        viewModelScope.launch {
-                            storedMusicInteractor.saveDownloadedSong(
-                                DownloadedSong(
-                                    songName = song.songName,
-                                    songPath = arrPaths[0],
-                                    songId = song.songId,
-                                    artistName = song.artistName,
-                                    imagePath = arrPaths[1]
-
-                                )
-                            )
-                        }*/
-                        file.delete()
-                        songsDownloadQueue.value!!.removeAll {
-                            it.songId == song.songId
-                        }
-                        liveData {
-                            emit(_downloadStateInfo.value!!.toList())
-                        }
-                        finishDownload = true
-
-                    }
-                }
-            }
-            cursor.close()
-        }
-        _downloadStateInfo.value!!.add(Pair(song.songId, null))
-        liveData {
-            emit(_downloadStateInfo.value!!.toList())
-        }
-    }
-
-
-
     fun getSongPath(id: String) : Flow<String> = storedMusicInteractor.getSongPath(id)
     fun getAlbumPath(id: String) : Flow<String> = storedMusicInteractor.getAlbumPath(id)
 
@@ -502,11 +407,13 @@ class StoredSermonViewModel  @Inject constructor(
                 is StoredMusicEvent.DecryptSong -> {
                     val destinationFilePath = "$baseCachePath/${event.song.songName}" +
                             "${FileUtilities.getFileExtension(event.song.songPath)}"
-                    val file = fileEncryption.decryptEncryptedFile(
-                        event.song.songPath,
-                        destinationFilePath,
-                        event.secretKey
-                    )
+                    if(!File(destinationFilePath).exists()) {
+                        val file = fileEncryption.decryptEncryptedFile(
+                            event.song.songPath,
+                            destinationFilePath,
+                            event.secretKey
+                        )
+                    }
                 }
                 StoredMusicEvent.LoadDownloadedSongs -> {
 

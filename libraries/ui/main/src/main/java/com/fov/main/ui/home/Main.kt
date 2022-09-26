@@ -104,10 +104,19 @@ fun MainHome(
         storedMusicViewModel.isSongDownloadedAsync(it)
         .collectAsState( initial = false ).value
     } ?: false
+    val songPath  = musicState.selectedSong?.songId?.let {
+        storedMusicViewModel.getSongPath(it)
+            .collectAsState( initial = "" ).value
+    } ?: ""
     val isAlbumDownloaded  = musicState.selectedAlbum?.albumId?.let {
         storedMusicViewModel.isAlbumDownloadedAsync(it)
             .collectAsState( initial = false ).value
     } ?: false
+
+    val albumPath  = musicState.selectedAlbum?.albumId?.let {
+        storedMusicViewModel.getAlbumPath(it)
+            .collectAsState( initial = "" ).value
+    } ?: ""
 
     val backgroundColor = MaterialTheme.colors.onSurface
     val tintColor = MaterialTheme.colors.surface
@@ -165,7 +174,10 @@ fun MainHome(
                     musicState = musicState,
                     musicEvents = musicEvents,
                     storedMusicEvents = storedMusicEvents,
-                    isSongDownloaded = isSongDownloaded
+                    isSongDownloaded = isSongDownloaded,
+                    isAlbumDownloaded = isAlbumDownloaded,
+                    songPath = songPath,
+                    albumPath = albumPath
                 ),
                 bottomBar = BuildBottomBar(
                     backgroundColor = backgroundColor,

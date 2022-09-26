@@ -48,6 +48,9 @@ fun BuildTopBar(
     musicEvents :  (MusicEvent) -> Unit,
     storedMusicEvents : (StoredMusicEvent) -> Unit,
     isSongDownloaded:Boolean,
+    isAlbumDownloaded:Boolean,
+    songPath : String,
+    albumPath: String
 
     ) : @Composable () -> Unit {
 
@@ -116,9 +119,10 @@ fun BuildTopBar(
                                     bottomSheetScaffoldState = bottomSheetScaffoldState,
                                     context = context,
                                     lifecycleOwner = lifecycleOwner,
-                                    isDownloaded = isSongDownloaded,
+                                    isDownloaded = isAlbumDownloaded,
                                     isLiked = isLiked,
-                                    musicEvents = musicEvents
+                                    musicEvents = musicEvents,
+                                    albumPath = albumPath
                                 )
                             }
                         }
@@ -137,7 +141,8 @@ fun BuildTopBar(
                                     lifecycleOwner = lifecycleOwner,
                                     isDownloaded = isSongDownloaded,
                                     isLiked = isLiked,
-                                    musicEvents = musicEvents
+                                    musicEvents = musicEvents,
+                                    songPath = songPath
                                 )
                             }
                         }

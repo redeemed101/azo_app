@@ -47,7 +47,7 @@ class AzoApplication: Application(),  CameraXConfig.Provider, Configuration.Prov
                     applicationContext
                 ).absolutePath}"
         val constraints = Constraints.Builder()
-            .setRequiresCharging(true)
+            //.setRequiresCharging(true)
             .build()
         val inputData = Data.Builder()
             .putString(Constants.HOW_OLD_DAYS,"2")
@@ -55,13 +55,13 @@ class AzoApplication: Application(),  CameraXConfig.Provider, Configuration.Prov
             .putString(Constants.FILE_EXTENSION,"mp3")
             .build()
         val myWork = PeriodicWorkRequest.Builder(DeleteOldFilesWorker::class.java,
-            1, TimeUnit.DAYS)
+            15, TimeUnit.MINUTES)
             .setConstraints(constraints)
             .setInputData(inputData)
             .build()
         WorkManager.getInstance(this).enqueueUniquePeriodicWork(
             "DeleteOldFilesWorker",
-        ExistingPeriodicWorkPolicy.KEEP,
+        ExistingPeriodicWorkPolicy.REPLACE,
         myWork)
         PaymentConfiguration.init(
             applicationContext,

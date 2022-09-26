@@ -235,6 +235,8 @@ class SermonViewModel @Inject constructor(
                             event.secretKey
                         )
                         selectedSong!!.path = file.absolutePath
+                        Log.d("SONG_PATH", file.absolutePath)
+
                     }
                     else {
                         recentActivityHelper.saveRecentActivity(
