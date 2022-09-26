@@ -99,8 +99,9 @@ class StoredSermonViewModel  @Inject constructor(
         album.songs.forEach { song ->
             multipleDownloads.add(
                 MultipleDownload(
-                url = song.path,
-                destinationPath = "$albumTempPath/${song.songName}${FileUtilities.getFileExtension(song.path)}"
+                    identifier= song.songId,
+                    url = song.path,
+                    destinationPath = "$albumTempPath/${song.songName}${FileUtilities.getFileExtension(song.path)}"
                 )
             )
         }
@@ -121,6 +122,9 @@ class StoredSermonViewModel  @Inject constructor(
                               Log.d("ENCRYPTION_PATH", "${downloadedSongPaths[i]} -> $encryptionDestinationPath")
                               val encryptedFile =    fileEncryption.encryptFile(downloadedSongPaths[i], encryptionDestinationPath, privateKey)
                               File(downloadedSongPaths[i]).delete()
+                              if(i == downloadedSongPaths.size - 1){
+                                  albumTempDir.deleteRecursively()
+                              }
                               if (encryptedFile != null) {
                                   encryptedSongPaths.add(encryptionDestinationPath)
                               }
@@ -207,7 +211,7 @@ class StoredSermonViewModel  @Inject constructor(
                       val m = multipleDownloads.find { m -> m.destinationPath == downloadedPath }
                       if (m != null){
                           Log.d("DOWNLOAD_PATH__", m.url)
-                          val s = album.songs.find{ s -> s.path == m.url}
+                          val s = album.songs.find{ s -> s.songId == m.identifier}
                           if (s != null) {
                               downloadedSongs.add(s)
                           }

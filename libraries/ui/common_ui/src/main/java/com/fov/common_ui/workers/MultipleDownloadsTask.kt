@@ -95,6 +95,7 @@ interface MultipleDownloadsListener {
     fun errorOccurred(throwable: Throwable)
 }
 data class MultipleDownload(
+    val identifier: String,
     val url : String,
     val destinationPath: String
 )

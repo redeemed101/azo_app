@@ -233,7 +233,7 @@ private fun AlbumView(
                     var likedBackground  = MaterialTheme.colors.onSurface
                     if(isDownloaded || isLiked) {
                         likedIcon = com.fov.common_ui.R.drawable.ic_heart_filled
-                        likedBackground = MaterialTheme.colors.primary
+                        likedBackground = MaterialTheme.colors.onSurface
                     }
                     IconView(
                         likedIcon,
