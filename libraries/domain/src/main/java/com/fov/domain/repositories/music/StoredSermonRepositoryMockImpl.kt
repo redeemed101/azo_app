@@ -6,6 +6,7 @@ import com.fov.domain.database.models.DownloadedAlbum
 import com.fov.domain.database.models.DownloadedSong
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
+import java.io.File
 
 object Data {
     val SONG =  DownloadedSong(
@@ -86,5 +87,15 @@ class StoredSermonRepositoryMockImpl : StoredSermonRepository{
 
     override suspend fun saveDownloadedSong(song: DownloadedSong): List<Long> {
         return listOf(1,2,2)
+    }
+
+    override suspend fun downloadFile(
+        file: File,
+        path: String,
+        progress: (progress: Float) -> Unit,
+        callback: suspend (boolean: Boolean) -> Unit,
+        error : (throwable : Throwable) -> Unit
+    ) {
+        TODO("Not yet implemented")
     }
 }

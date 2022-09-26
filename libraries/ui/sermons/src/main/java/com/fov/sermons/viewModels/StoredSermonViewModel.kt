@@ -163,6 +163,20 @@ class StoredSermonViewModel  @Inject constructor(
 
                                   }
                               ).downloadFile()
+                              /*storedMusicInteractor.downloadFile(
+                                  File(imagePath),
+                                  album.artwork,
+                                  { progress ->
+
+                                  },
+                                  { done ->
+                                      if(!done)
+                                          imagePath = "https://picsum.photos/200"
+                                  },
+                                  {
+                                      imagePath = "https://picsum.photos/200"
+                                  }
+                              )*/
                               //save DownloadedAlbum
                               val result = storedMusicInteractor.saveDownloadedAlbum(
                                   DownloadedAlbum(

@@ -18,6 +18,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import io.ktor.client.*
 
 @Module
 @InstallIn(ViewModelComponent::class)
@@ -36,8 +37,9 @@ object SermonsModule {
     @Provides
     fun providesStoredSermonRepository(
         downloadedSongsDao: DownloadedSongsDao,
-        downloadedAlbumsDao: DownloadedAlbumsDao
-    ) : StoredSermonRepository = StoredSermonRepositoryImpl(downloadedSongsDao,downloadedAlbumsDao)
+        downloadedAlbumsDao: DownloadedAlbumsDao,
+        client: HttpClient
+    ) : StoredSermonRepository = StoredSermonRepositoryImpl(downloadedSongsDao,downloadedAlbumsDao,client)
 
 
     @Provides

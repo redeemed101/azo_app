@@ -13,6 +13,7 @@ import com.fov.domain.repositories.music.StoredSermonRepository
 import com.fov.domain.utils.constants.QueryConstants
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.io.File
 
 class StoredMusicInteractor constructor(
     private val storedSermonRepository: StoredSermonRepository
@@ -45,6 +46,12 @@ class StoredMusicInteractor constructor(
     suspend fun deleteAllDownloadedAlbums() = withContext(Dispatchers.IO) {
         storedSermonRepository.deleteAllDownloadedAlbums()
     }
+
+    suspend fun downloadFile(destinationFile: File, url: String,
+                             progress: (progress : Float) -> Unit,
+                             callback: suspend (boolean: Boolean) -> Unit,
+                             error : (throwable : Throwable) -> Unit) =
+        storedSermonRepository.downloadFile(destinationFile, url,progress,callback, error)
 
 
     fun isAlbumThere(id :  String) =

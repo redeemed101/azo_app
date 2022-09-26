@@ -4,6 +4,7 @@ import androidx.paging.PagingData
 import com.fov.domain.database.models.DownloadedAlbum
 import com.fov.domain.database.models.DownloadedSong
 import kotlinx.coroutines.flow.Flow
+import java.io.File
 
 interface StoredSermonRepository {
     fun getDownloadedSongs(): Flow<PagingData<DownloadedSong>>
@@ -18,4 +19,8 @@ interface StoredSermonRepository {
     suspend fun deleteDownloadedSong(songId : String) : Int
     suspend fun saveDownloadedAlbum(album : DownloadedAlbum) : List<Long>
     suspend fun saveDownloadedSong(song : DownloadedSong) : List<Long>
+    suspend fun downloadFile(file: File, path: String,
+                             progress: (progress : Float) -> Unit,
+                             callback: suspend (boolean: Boolean) -> Unit,
+                             error : (throwable : Throwable) -> Unit)
 }
