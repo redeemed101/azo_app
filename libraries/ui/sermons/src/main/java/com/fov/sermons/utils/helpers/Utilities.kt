@@ -75,19 +75,7 @@ class Utilities {
             }
             return success
         }
-        fun unDownloadPlaylist(playlistPath: String,
-                            onDelete: () -> Unit) : Boolean{
-            var success  = false
-            val file = File(playlistPath)
-            if(file.exists()) {
-                val deleted = file.deleteRecursively()
-                if(deleted){
-                    onDelete()
-                }
-                success = deleted
-            }
-            return success
-        }
+
         fun unDownloadAlbum(albumPath: String,
                            onDelete: () -> Unit) : Boolean{
             var success  = false

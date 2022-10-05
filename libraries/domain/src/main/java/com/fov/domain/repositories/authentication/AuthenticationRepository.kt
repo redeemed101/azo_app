@@ -16,7 +16,6 @@ interface AuthenticationRepository {
         email : String,
         password : String,
         phoneNumber : String,
-        countryId: Int
     ): SignupResult?
 
 

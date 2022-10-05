@@ -7,6 +7,7 @@ import com.fov.sermons.models.Song
 
 sealed class StoredMusicEvent {
     object LoadDownloadedSongs : StoredMusicEvent()
+    object ClearError: StoredMusicEvent()
     object LoadDownloadedAlbums : StoredMusicEvent()
     data class UpdateSongDownloadProgress(val progress: Float?, val songId: String) : StoredMusicEvent()
     data class SaveDownloadedSong(val song : DownloadedSong) : StoredMusicEvent()

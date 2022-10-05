@@ -19,14 +19,12 @@ class AuthenticationDataRepository constructor(
         email: String,
         password: String,
         phoneNumber: String,
-        countryId: Int
     ) = authenticationRemote.signUp(
         userName,
         fullName,
         email,
         password,
         phoneNumber,
-        countryId
     )
 
     override suspend fun socialSignIn(

@@ -1,10 +1,6 @@
 package com.fov.sermons.viewModels
 
 import android.app.Application
-import android.app.DownloadManager
-import android.content.Context
-import android.database.Cursor
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.*
 import com.fov.common_ui.utils.helpers.FileUtilities
@@ -19,10 +15,7 @@ import com.fov.sermons.models.Album
 import com.fov.sermons.models.Song
 import com.fov.sermons.states.StoredMusicState
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.inject.Inject
@@ -253,6 +246,9 @@ class StoredSermonViewModel  @Inject constructor(
                   override fun errorOccurred(throwable: Throwable) {
                       //delete all downloaded
                       albumTempDir.deleteRecursively()
+                      _uiState.value.build {
+                          error = throwable.message
+                      }
                       val new = _albumDownloadStateInfo.value!!.filter { p -> p.first != album.albumId }
                           .toMutableList()
                       _albumDownloadStateInfo.postValue(new)
@@ -367,6 +363,9 @@ class StoredSermonViewModel  @Inject constructor(
 
                         override fun errorOccurred(throwable: Throwable) {
 
+                            _uiState.value.build {
+                                error = throwable.message
+                            }
                             val new = _downloadStateInfo.value!!.filter { p -> p.first != song.songId }
                                 .toMutableList()
                             _downloadStateInfo.postValue(new)
@@ -428,6 +427,8 @@ class StoredSermonViewModel  @Inject constructor(
                 is StoredMusicEvent.DownloadSong -> {
                     startDownload(event.song,event.privateKey)
                     beginDownloadSong(event.song)
+
+
                 }
                 is StoredMusicEvent.SaveDownloadedSong -> {
                     viewModelScope.launch {
@@ -436,6 +437,18 @@ class StoredSermonViewModel  @Inject constructor(
                 }
                 is StoredMusicEvent.DeleteDownloadedSong -> {
                     viewModelScope.launch {
+                        val s = storedMusicInteractor.getSong(event.songId).first()
+                        if(s != null){
+                            val imageFile = File(s.imagePath)
+                            if(imageFile.exists()) {
+                               imageFile.delete()
+
+                            }
+                            val songFile = File(s.songPath)
+                            if (songFile.exists()){
+                                songFile.delete()
+                            }
+                        }
                         storedMusicInteractor.deleteDownloadedSong(event.songId)
                     }
                 }
@@ -446,6 +459,9 @@ class StoredSermonViewModel  @Inject constructor(
                     viewModelScope.launch {
                         storedMusicInteractor.deleteDownloadedAlbum(event.albumId)
                     }
+                }
+                StoredMusicEvent.ClearError -> {
+                    error = null
                 }
 
 

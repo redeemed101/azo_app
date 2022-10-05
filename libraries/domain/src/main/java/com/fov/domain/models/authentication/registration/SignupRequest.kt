@@ -9,5 +9,4 @@ data class SignupRequest(
     val password: String,
     val phoneNumber: String,
     val profilePicPath : String? = null,
-    val countryId: Int
 )

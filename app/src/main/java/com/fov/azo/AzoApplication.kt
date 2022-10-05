@@ -55,7 +55,7 @@ class AzoApplication: Application(),  CameraXConfig.Provider, Configuration.Prov
             .putString(Constants.FILE_EXTENSION,"mp3")
             .build()
         val myWork = PeriodicWorkRequest.Builder(DeleteOldFilesWorker::class.java,
-            15, TimeUnit.MINUTES)
+            1, TimeUnit.DAYS)
             .setConstraints(constraints)
             .setInputData(inputData)
             .build()

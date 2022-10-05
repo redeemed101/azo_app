@@ -33,6 +33,9 @@ interface DownloadedSongsDao {
     @Query("SELECT EXISTS(SELECT * FROM DownloadedSong WHERE songId= :id)")
     fun doesSongExist(id : String) : Flow<Boolean>
 
+    @Query("SELECT * FROM DownloadedSong WHERE songId= :id")
+    fun getSong(id : String) : Flow<DownloadedSong>
+
     @Query("SELECT songPath FROM DownloadedSong WHERE songId= :id")
     fun getSongPath(id : String) : Flow<String>
 

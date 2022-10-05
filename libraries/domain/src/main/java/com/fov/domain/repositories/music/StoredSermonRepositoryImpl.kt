@@ -77,6 +77,7 @@ class StoredSermonRepositoryImpl constructor(
     override fun  getSongPath(id: String) = downloadedSongsDao.getSongPath(id)
 
     override fun  getAlbumPath(id: String) = downloadedAlbumsDao.getAlbumPath(id)
+    override fun getSong(id: String): Flow<DownloadedSong> = downloadedSongsDao.getSong(id)
 
     override fun isSongThere(id: String): Flow<Boolean> =  downloadedSongsDao.doesSongExist(id)
 

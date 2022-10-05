@@ -25,6 +25,8 @@ class StoredMusicInteractor constructor(
      fun getDownloadedAlbums() =
         storedSermonRepository.getDownloadedAlbums()
 
+    fun getSong(id: String) = storedSermonRepository.getSong(id)
+
 
     suspend fun saveDownloadedSong(song : DownloadedSong) =  withContext(Dispatchers.IO) {
           storedSermonRepository.saveDownloadedSong(song)

@@ -33,14 +33,12 @@ class Authenticate  constructor(
          email: String,
          password: String,
          phoneNumber: String,
-         countryId: Int
      ) = authenticationRepository.signUp(
          userName,
          fullName,
          email,
          password,
          phoneNumber,
-         countryId
      )
 
       suspend fun signIn(

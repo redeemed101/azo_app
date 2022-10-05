@@ -11,6 +11,7 @@ class StoredMusicState (
     val songDownloadProgress :  MutableMap<String, Float?> = mutableMapOf(),
     val downloadedSongs : Flow<PagingData<DownloadedSong>> = flowOf(PagingData.from(emptyList())),
     val downloadedAlbums : Flow<PagingData<DownloadedAlbum>> = flowOf(PagingData.from(emptyList())),
+    val error: String? = null
 ){
      companion object {
          fun initialise(): StoredMusicState = StoredMusicState()
@@ -21,13 +22,15 @@ class StoredMusicState (
          var downloadedSongs = state.downloadedSongs
          var downloadedAlbums  = state.downloadedAlbums
          var songDownloadProgress = state.songDownloadProgress
+         var error = state.error
          fun build(): StoredMusicState {
 
              return StoredMusicState(
                  loading,
                  songDownloadProgress,
                  downloadedSongs,
-                 downloadedAlbums
+                 downloadedAlbums,
+                 error
              )
          }
      }

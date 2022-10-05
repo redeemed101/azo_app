@@ -17,7 +17,6 @@ interface AuthenticationRemote {
         email : String,
         password : String,
         phoneNumber : String,
-        countryId: Int
     ): SignupResult?
 
     suspend fun socialSignIn(

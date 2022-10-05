@@ -13,6 +13,7 @@ interface StoredSermonRepository {
     fun isSongThere(id :  String) : Flow<Boolean>
     fun getSongPath(id: String) : Flow<String>
     fun getAlbumPath(id: String) : Flow<String>
+    fun getSong(id: String) : Flow<DownloadedSong>
     suspend fun deleteAllDownloadedAlbums() : Int
     suspend fun deleteAllDownloadedSongs() : Int
     suspend fun deleteDownloadedAlbum(albumId : String) : Int

@@ -21,7 +21,6 @@ class AuthenticationRemoteKtorStore constructor(
         email: String,
         password: String,
         phoneNumber: String,
-        countryId: Int
     ): SignupResult? {
         return authenticationService.signUp(
             SignupRequest(
@@ -30,7 +29,6 @@ class AuthenticationRemoteKtorStore constructor(
                 email= email,
                 password = password,
                 phoneNumber = phoneNumber,
-                countryId = countryId
             )
         )
     }

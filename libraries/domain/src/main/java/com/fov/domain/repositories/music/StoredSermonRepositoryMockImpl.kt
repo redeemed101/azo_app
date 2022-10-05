@@ -65,6 +65,10 @@ class StoredSermonRepositoryMockImpl : StoredSermonRepository{
         return flowOf("/data/data/com.fov.azo/files")
     }
 
+    override fun getSong(id: String): Flow<DownloadedSong> {
+        TODO("Not yet implemented")
+    }
+
     override suspend fun deleteAllDownloadedAlbums(): Int {
         return 1
     }

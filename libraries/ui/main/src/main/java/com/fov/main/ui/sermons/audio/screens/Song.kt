@@ -3,6 +3,7 @@ package com.fov.main.ui.sermons.audio.screens
 
 import android.content.Context
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.DrawableRes
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.*
@@ -254,11 +255,9 @@ private fun Song(
                                         ))
                                     }
                                 } else {
-                                    Utilities.unDownloadSong(
-                                        songPath,
-                                    ) {
-                                        storedMusicEvents(StoredMusicEvent.DeleteDownloadedSong(song.songId))
-                                    }
+
+                                    storedMusicEvents(StoredMusicEvent.DeleteDownloadedSong(song.songId))
+
                                 }
                             }
                         }
@@ -402,10 +401,13 @@ private fun Song(
                 Spacer(modifier = Modifier.height(commonPadding))
                 Spacer(modifier = Modifier.height(bottomTabHeight))
 
+
+
             }
 
 
         }
+
     }
 }
 @Composable

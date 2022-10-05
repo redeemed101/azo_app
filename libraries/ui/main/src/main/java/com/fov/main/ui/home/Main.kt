@@ -99,6 +99,7 @@ fun MainHome(
     val events = commonViewModel::handleCommonEvent
     val userEvents = usersViewModel::handleUsersEvent
     val musicEvents = musicViewModel::handleMusicEvent
+    val storedMusicState by storedMusicViewModel.uiState.collectAsState()
     val storedMusicEvents = storedMusicViewModel::handleMusicEvent
     val isSongDownloaded  = musicState.selectedSong?.songId?.let {
         storedMusicViewModel.isSongDownloadedAsync(it)
@@ -202,19 +203,21 @@ fun MainHome(
                      paymentViewModel,
                      playVideo
                  )
-
+                SnackbarHost(
+                    hostState = snackBarHostState,
+                    modifier = Modifier
+                        .background(color = MaterialTheme.colors.surface)
+                )
 
 
             }
 
-              SnackbarHost(
-                  hostState = snackBarHostState,
-                  modifier = Modifier
-                      .background(color = MaterialTheme.colors.secondary)
-              )
+
 
               setUpToast(commonState.toast,context)
               setUpSnackBar(commonState.errorMessage,snackBarHostState,scope)
+              setUpSnackBar(storedMusicState.error,snackBarHostState,scope)
+
 
               setUpBottomSheet(bottomSheetScaffoldState = bottomSheetScaffoldState, scope = scope)
 

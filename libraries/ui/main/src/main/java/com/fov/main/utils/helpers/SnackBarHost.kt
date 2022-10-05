@@ -1,6 +1,7 @@
 package com.fov.main.utils.helpers
 
 import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.material.BottomSheetScaffoldState
 import androidx.compose.material.ExperimentalMaterialApi
@@ -13,6 +14,7 @@ import kotlinx.coroutines.launch
 
 fun setUpSnackBar(message : String?, state : SnackbarHostState, scope : CoroutineScope){
     if (!message.isNullOrEmpty()) {
+        Log.d("SNACKBAR", message)
         scope.launch {
             var result = state.showSnackbar(
                 message = message!!

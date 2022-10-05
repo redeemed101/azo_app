@@ -321,7 +321,6 @@ class RegistrationViewModel @Inject constructor(
                     email = _uiState.value.email,
                     password = _uiState.value.password,
                     phoneNumber = _uiState.value.phoneNumber,
-                    countryId = _uiState.value.countryId
                 )
                 processRegistrationResult(result)
                 _uiState.value = uiState.value.build {
