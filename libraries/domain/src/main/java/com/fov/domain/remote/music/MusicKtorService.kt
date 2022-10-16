@@ -12,7 +12,7 @@ import io.ktor.http.*
 class MusicKtorService constructor(private val client: HttpClient)  {
 
 
-    suspend fun getToSongs(page: Int): SongsResult? =  client.request("music/Song/topSongs?page=${page}") {
+    suspend fun getTopSongs(page: Int): SongsResult? =  client.request("music/Song/topSongs?page=${page}") {
         method = HttpMethod.Get
         headers {
             append("Content-Type", "application/json")
