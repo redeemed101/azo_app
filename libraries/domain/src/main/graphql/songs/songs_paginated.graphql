@@ -1,0 +1,18 @@
+query getSongsPaginated($page:  Int, $size :  Int){
+
+    songsPaginated(page:$page,size:$size){
+        id
+        name
+        path
+        likes{
+            userId
+        }
+        genres{
+            id
+            name
+        }
+        artworkPath
+
+    }
+
+}

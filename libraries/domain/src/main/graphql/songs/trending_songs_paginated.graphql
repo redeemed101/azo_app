@@ -1,0 +1,18 @@
+query getTrendingSongsPaginated($page:  Int, $size :  Int){
+
+    trendingSongsPaginated(page:$page,size:$size){
+        id
+        name
+        path
+        likes{
+            userId
+        }
+        genres{
+            id
+            name
+        }
+        artworkPath
+
+    }
+
+}

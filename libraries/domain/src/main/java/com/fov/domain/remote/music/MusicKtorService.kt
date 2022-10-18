@@ -12,21 +12,21 @@ import io.ktor.http.*
 class MusicKtorService constructor(private val client: HttpClient)  {
 
 
-    suspend fun getTopSongs(page: Int): SongsResult? =  client.request("music/Song/topSongs?page=${page}") {
+    suspend fun getTopSongs(page: Int): SongsResult? =  client.request("Sermon/trending?page=${page}") {
         method = HttpMethod.Get
         headers {
             append("Content-Type", "application/json")
         }
     }.body()
 
-    suspend fun getTopAlbums(page: Int): AlbumsResult?  =  client.request("music/Album/topAlbums?page=${page}&size=${QueryConstants.NUM_ROWS}") {
+    suspend fun getTopAlbums(page: Int): AlbumsResult?  =  client.request("Series/trending?page=${page}&size=${QueryConstants.NUM_ROWS}") {
         method = HttpMethod.Get
         headers {
             append("Content-Type", "application/json")
         }
     }.body()
 
-    suspend fun getForYouSongs(page: Int): SongsResult? =  client.request("music/Song/forYou?page=${page}&size=${QueryConstants.NUM_ROWS}") {
+    suspend fun getForYouSongs(page: Int): SongsResult? =  client.request("Sermon/latest?page=${page}&size=${QueryConstants.NUM_ROWS}") {
         method = HttpMethod.Get
         headers {
             append("Content-Type", "application/json")
@@ -44,7 +44,7 @@ class MusicKtorService constructor(private val client: HttpClient)  {
 
 
 
-    suspend fun getSong(id: String): Song?  = client.request("music/Song/byId/${id}"){
+    suspend fun getSong(id: String): Song?  = client.request("Sermon/sermon/${id}"){
         method = HttpMethod.Get
         headers {
             append("Content-Type", "application/json")

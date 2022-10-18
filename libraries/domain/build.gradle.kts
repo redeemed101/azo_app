@@ -120,5 +120,9 @@ apollo {
         sourceFolder.set("music")
         packageName.set("com.fov.domain.music")
     }
+    service("songs") {
+        sourceFolder.set("songs")
+        packageName.set("com.fov.domain.songs")
+    }
 
 }

@@ -14,18 +14,18 @@ import com.fov.domain.remote.apollo.music.ApolloMusicService
 class ApolloMusicServiceImpl constructor(
     private val apolloSetup : ApolloSetup
 ) : ApolloMusicService {
-    private var apolloClient: ApolloClient = apolloSetup.setUpApolloClient("music/artistql")
+    private var apolloClient: ApolloClient = apolloSetup.setUpApolloClient("api/genreql")
     //private val  baseUrl = BuildConfig.fovMusicApiUrl
 
     override suspend fun  getGenres(): GetGenresQuery.Data? {
-        apolloClient  = apolloSetup.setUpApolloClient("music/genreql")
+        apolloClient  = apolloSetup.setUpApolloClient("api/genreql")
         val res =  apolloClient.query(
             GetGenresQuery()
         ).execute()
         return res.data
     }
     override suspend fun  getGenreSongsPaginated(id:String, page:Int, size:Int): GetGenreSongsPaginatedQuery.Data? {
-        apolloClient  = apolloSetup.setUpApolloClient("music/genreql")
+        apolloClient  = apolloSetup.setUpApolloClient("api/genreql")
         val res =  apolloClient.query(
             GetGenreSongsPaginatedQuery(Optional.presentIfNotNull(id),
                 Optional.presentIfNotNull(page),
@@ -34,7 +34,7 @@ class ApolloMusicServiceImpl constructor(
         return res.data
     }
     override suspend fun  getGenreAlbumsPaginated(id:String, page:Int, size:Int): GetGenreAlbumsPaginatedQuery.Data? {
-        apolloClient  = apolloSetup.setUpApolloClient("music/genreql")
+        apolloClient  = apolloSetup.setUpApolloClient("api/genreql")
         val res =  apolloClient.query(
             GetGenreAlbumsPaginatedQuery( Optional.presentIfNotNull(id),
                 Optional.presentIfNotNull(page),
@@ -47,14 +47,14 @@ class ApolloMusicServiceImpl constructor(
 
 
     override suspend fun getGenre(id:String): GetGenreQuery.Data? {
-        apolloClient  = apolloSetup.setUpApolloClient("music/genreql")
+        apolloClient  = apolloSetup.setUpApolloClient("api/genreql")
         val res =  apolloClient.query(
             GetGenreQuery( Optional.presentIfNotNull(id))
         ).execute()
         return res.data
     }
     override suspend fun getUserLikedSongs(id:String): GetUserLikedSongsQuery.Data? {
-        apolloClient  = apolloSetup.setUpApolloClient("music/userql")
+        apolloClient  = apolloSetup.setUpApolloClient("api/userql")
         val res = apolloClient.query(
             GetUserLikedSongsQuery( Optional.presentIfNotNull(id))
 
@@ -67,7 +67,7 @@ class ApolloMusicServiceImpl constructor(
         page: Int,
         size: Int
     ): GetUserLikedSongsPaginatedQuery.Data? {
-        apolloClient  = apolloSetup.setUpApolloClient("music/userql")
+        apolloClient  = apolloSetup.setUpApolloClient("api/userql")
         val res = apolloClient.query(
             GetUserLikedSongsPaginatedQuery( Optional.presentIfNotNull(id))
 
@@ -78,7 +78,7 @@ class ApolloMusicServiceImpl constructor(
 
 
     override suspend fun  getAlbumsPaginated(page:Int, size:Int): GetAlbumsPaginatedQuery.Data? {
-        apolloClient  = apolloSetup.setUpApolloClient("music/albumql")
+        apolloClient  = apolloSetup.setUpApolloClient("api/albumql")
         val res = apolloClient.query(
             GetAlbumsPaginatedQuery( Optional.presentIfNotNull(page),
                 Optional.presentIfNotNull(size))
@@ -92,7 +92,7 @@ class ApolloMusicServiceImpl constructor(
         page: Int,
         size: Int
     ): GetUserLikedAlbumsPaginatedQuery.Data? {
-        apolloClient  = apolloSetup.setUpApolloClient("music/userql")
+        apolloClient  = apolloSetup.setUpApolloClient("api/userql")
         val res = apolloClient.query(
             GetUserLikedAlbumsPaginatedQuery( Optional.presentIfNotNull(id))
         ).execute()
@@ -100,7 +100,7 @@ class ApolloMusicServiceImpl constructor(
     }
 
     override suspend fun getAlbum(id:String): GetAlbumQuery.Data? {
-        apolloClient  = apolloSetup.setUpApolloClient("music/albumql")
+        apolloClient  = apolloSetup.setUpApolloClient("api/albumql")
         val res = apolloClient.query(
             GetAlbumQuery( Optional.presentIfNotNull(id))
 

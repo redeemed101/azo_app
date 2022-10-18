@@ -42,69 +42,69 @@ class KtorMockClient {
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(PaymentStripeCredentialsMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
-                        "/users/User/signup" -> {
+                        "/User/signup" -> {
 
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(SignUpMockResponse(), HttpStatusCode.OK, responseHeaders)
 
                         }
-                        "/users/User/socialSignin" -> {
+                        "/User/socialSignin" -> {
 
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(LoginMockResponse(), HttpStatusCode.OK, responseHeaders)
 
                         }
-                        "/users/User/logout" -> {
+                        "/User/logout" -> {
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(LogoutMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
-                        "/users/User/reset" -> {
+                        "/User/reset" -> {
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(LoginMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
-                        "/users/User/signin" -> {
+                        "/User/signin" -> {
 
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(LoginMockResponse(), HttpStatusCode.OK, responseHeaders)
 
                         }
-                        "/users/User/forgotPassword" -> {
+                        "/User/forgotPassword" -> {
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(GeneralMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
 
 
-                        "/music/Album/topAlbums" ->{
+                        "/Series/trending" ->{
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             val page = request.url.parameters["page"]
                             respond(AlbumsMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
-                        "music/Video/getVideos" -> {
+                        "Video" -> {
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             val page = request.url.parameters["page"]
                             respond(VideosMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
-                        "/music/Song/topSongs" ->{
+                        "/Sermon/trending" ->{
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             val page = request.url.parameters["page"]
                             respond(SongsMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
-                        "/music/Song/byId/1234" ->{
+                        "/Sermon/sermon/1234" ->{
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
 
                             respond(SongMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
-                        "/music/Song/forYou" ->{
+                        "/Sermon/latest" ->{
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             val page = request.url.parameters["page"]
@@ -116,27 +116,27 @@ class KtorMockClient {
 
                             respond(GeneralMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
-                        "/users/User/verifyUserCode" ->{
+                        "/User/verifyUserCode" ->{
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(GeneralMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
-                        "/users/User/passwordchange" ->{
+                        "/User/passwordchange" ->{
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(GeneralMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
-                        "/users/User/resendUserCode" ->{
+                        "/User/resendUserCode" ->{
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(GeneralMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
-                        "/users/User/deleteAccount" ->{
+                        "/User/deleteAccount" ->{
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(GeneralMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
-                        "/users/User/disableAccount" ->{
+                        "/User/disableAccount" ->{
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(GeneralMockResponse(), HttpStatusCode.OK, responseHeaders)
@@ -148,7 +148,7 @@ class KtorMockClient {
                             respond(SongsMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
 
-                        "/users/User/notifications/sdfsdfsdf" ->{
+                        "/User/notifications/sdfsdfsdf" ->{
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(UserNotificationsMockResponse(), HttpStatusCode.OK, responseHeaders)
@@ -158,7 +158,7 @@ class KtorMockClient {
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(UserNumNotificationsMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
-                        "/users/User/notifications/unread/sdfsdfsdf" ->{
+                        "/User/notifications/unread/sdfsdfsdf" ->{
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(UserNotificationsMockResponse(), HttpStatusCode.OK, responseHeaders)
