@@ -5,6 +5,7 @@ import com.fov.domain.database.models.DownloadedSong
 import com.fov.domain.database.models.RecentSongSearch
 import com.fov.domain.genres.GetGenreSongsPaginatedQuery
 import com.fov.domain.music.GetUserLikedSongsPaginatedQuery
+import com.fov.domain.songs.GetTrendingSongsPaginatedQuery
 
 data class Song(
     val songId : String,
@@ -60,6 +61,22 @@ data class Song(
             artistName = song.artistName
         )
         fun fromGenreGraph(song :  GetGenreSongsPaginatedQuery.SongsPaginated) =
+            Song(
+                songName = song.name,
+                songId = song.id,
+                genres = listOf(),
+                songLength = "",
+                artistName = "Apostle Ziba",
+                artwork = song.artworkPath,
+                previewPath = song.path,
+                path = song.path,
+                likes = 0,
+                userLikes = song.likes?.map { like ->
+                    like?.userId ?: ""
+                } ?: emptyList(),
+                streams = 0
+            )
+        fun fromTopSongsGraph(song :  GetTrendingSongsPaginatedQuery.TrendingSongsPaginated) =
             Song(
                 songName = song.name,
                 songId = song.id,

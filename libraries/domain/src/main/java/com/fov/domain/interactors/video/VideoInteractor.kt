@@ -16,10 +16,11 @@ class VideoInteractor constructor(
             videoRepository.getVideos(page)
     }
     suspend fun getShorts(page: Int) : ShortsResult? =  withContext(Dispatchers.IO) {
-        ShortsResult(
+        /*ShortsResult(
             shorts = SHORTS
 
-        )
+        )*/
+        videoRepository.getShorts(page)
     }
 
 }

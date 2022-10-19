@@ -10,6 +10,8 @@ import com.fov.domain.albums.GetAlbumsPaginatedQuery
 import com.fov.domain.genres.*
 import com.fov.domain.remote.apollo.ApolloSetup
 import com.fov.domain.remote.apollo.music.ApolloMusicService
+import com.fov.domain.songs.GetSongsPaginatedQuery
+import com.fov.domain.songs.GetTrendingSongsPaginatedQuery
 
 class ApolloMusicServiceImpl constructor(
     private val apolloSetup : ApolloSetup
@@ -62,6 +64,34 @@ class ApolloMusicServiceImpl constructor(
         return res.data
     }
 
+    override suspend fun getSongsPaginated(page: Int, size: Int
+    ): GetSongsPaginatedQuery.Data? {
+        apolloClient  = apolloSetup.setUpApolloClient("api/sermonql")
+        val res = apolloClient.query(
+            GetSongsPaginatedQuery(
+                Optional.presentIfNotNull(page),
+                Optional.presentIfNotNull(size)
+            )
+
+        ).execute()
+        return res.data
+    }
+
+    override suspend fun getTrendingSongsPaginated(
+        page: Int,
+        size: Int
+    ): GetTrendingSongsPaginatedQuery.Data? {
+        apolloClient  = apolloSetup.setUpApolloClient("api/sermonql")
+        val res = apolloClient.query(
+            GetTrendingSongsPaginatedQuery(
+                Optional.presentIfNotNull(page),
+                Optional.presentIfNotNull(size)
+            )
+
+        ).execute()
+        return res.data
+    }
+
     override suspend fun getUserLikedSongsPaginated(
         id: String,
         page: Int,
@@ -69,7 +99,9 @@ class ApolloMusicServiceImpl constructor(
     ): GetUserLikedSongsPaginatedQuery.Data? {
         apolloClient  = apolloSetup.setUpApolloClient("api/userql")
         val res = apolloClient.query(
-            GetUserLikedSongsPaginatedQuery( Optional.presentIfNotNull(id))
+            GetUserLikedSongsPaginatedQuery( Optional.presentIfNotNull(id) ,
+                Optional.presentIfNotNull(page),
+                Optional.presentIfNotNull(size))
 
         ).execute()
         return res.data
@@ -80,7 +112,8 @@ class ApolloMusicServiceImpl constructor(
     override suspend fun  getAlbumsPaginated(page:Int, size:Int): GetAlbumsPaginatedQuery.Data? {
         apolloClient  = apolloSetup.setUpApolloClient("api/albumql")
         val res = apolloClient.query(
-            GetAlbumsPaginatedQuery( Optional.presentIfNotNull(page),
+            GetAlbumsPaginatedQuery(
+                Optional.presentIfNotNull(page),
                 Optional.presentIfNotNull(size))
 
         ).execute()
@@ -94,7 +127,9 @@ class ApolloMusicServiceImpl constructor(
     ): GetUserLikedAlbumsPaginatedQuery.Data? {
         apolloClient  = apolloSetup.setUpApolloClient("api/userql")
         val res = apolloClient.query(
-            GetUserLikedAlbumsPaginatedQuery( Optional.presentIfNotNull(id))
+            GetUserLikedAlbumsPaginatedQuery( Optional.presentIfNotNull(id),
+                Optional.presentIfNotNull(page),
+                Optional.presentIfNotNull(size))
         ).execute()
         return res.data
     }

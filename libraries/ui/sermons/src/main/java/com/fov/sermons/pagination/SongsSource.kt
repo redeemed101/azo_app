@@ -42,7 +42,9 @@ class SongsSource constructor(
                     } else {
                         LoadResult.Error(Exception(""))
                     }
-                } else {
+                }
+
+                else {
                     LoadResult.Error(Exception(""))
                 }
             }

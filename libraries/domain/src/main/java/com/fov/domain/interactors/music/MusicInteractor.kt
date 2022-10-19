@@ -58,6 +58,13 @@ class MusicInteractor constructor(
         musicGraphQLService.getGenreSongsPaginated(id,page, QueryConstants.NUM_ROWS)
     }
 
+    suspend fun getSongsGraph(page:Int) = withContext(Dispatchers.IO) {
+        musicGraphQLService.getSongsPaginated(page, QueryConstants.NUM_ROWS)
+    }
+    suspend fun getTrendingSongsGraph(page:Int) = withContext(Dispatchers.IO) {
+        musicGraphQLService.getTrendingSongsPaginated(page, QueryConstants.NUM_ROWS)
+    }
+
     suspend fun  getGenreGraph(id : String) =  withContext(Dispatchers.IO) {
         musicGraphQLService.getGenre(id)
 

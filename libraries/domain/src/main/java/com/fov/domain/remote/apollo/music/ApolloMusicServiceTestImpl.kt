@@ -7,6 +7,8 @@ import com.fov.domain.albums.GetAlbumsPaginatedQuery
 import com.fov.domain.genres.*
 import com.fov.domain.remote.apollo.ApolloSetup
 import com.fov.domain.remote.apollo.music.ApolloMusicService
+import com.fov.domain.songs.GetSongsPaginatedQuery
+import com.fov.domain.songs.GetTrendingSongsPaginatedQuery
 
 class ApolloMusicServiceTestImpl constructor(
     private val apolloSetup : ApolloSetup
@@ -134,6 +136,41 @@ class ApolloMusicServiceTestImpl constructor(
             }
         )
 
+    }
+
+    override suspend fun getSongsPaginated(
+        page: Int,
+        size: Int): GetSongsPaginatedQuery.Data? {
+        return GetSongsPaginatedQuery.Data(
+            List(20){ num ->
+                GetSongsPaginatedQuery.SongsPaginated(
+                    "1234",
+                    "Sermon $num",
+                    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                    emptyList(),
+                    emptyList(),
+                    "https://picsum.photos/id/$num/200"
+                )
+            }
+        )
+    }
+
+    override suspend fun getTrendingSongsPaginated(
+        page: Int,
+        size: Int
+    ): GetTrendingSongsPaginatedQuery.Data? {
+        return GetTrendingSongsPaginatedQuery.Data(
+            List(20){ num ->
+                GetTrendingSongsPaginatedQuery.TrendingSongsPaginated(
+                    "1234",
+                    "Sermon $num",
+                    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                    emptyList(),
+                    emptyList(),
+                    "https://picsum.photos/id/$num/200"
+                )
+            }
+        )
     }
 
     override suspend fun getUserLikedSongsPaginated(
