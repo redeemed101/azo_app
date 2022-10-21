@@ -34,9 +34,15 @@ import androidx.core.net.toFile
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.fov.common_ui.mock.data.NEWS
 import com.fov.common_ui.models.NewsModel
 import com.fov.common_ui.pagination.FilesSource
+import com.fov.common_ui.pagination.NewsSource
+import com.fov.common_ui.utils.constants.AlbumRequestType
+import com.fov.common_ui.utils.constants.Constants
+import com.fov.domain.interactors.news.NewsInteractor
+import com.fov.domain.interactors.video.VideoInteractor
 import com.fov.domain.utils.constants.QueryConstants
 import kotlinx.coroutines.flow.*
 
@@ -44,10 +50,18 @@ import kotlinx.coroutines.flow.*
 @HiltViewModel
 class CommonViewModel @Inject constructor(
     application: Application,
+    private val newsInteractor: NewsInteractor,
     private val navigationManager: NavigationManager,
     private val sharedPreferences: Preferences,
     private val userDao: UserDao
 ) :  AndroidViewModel(application) {
+
+    val newsPager = Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
+        NewsSource(
+            newsInteractor = newsInteractor
+        )
+    }.flow.cachedIn(viewModelScope)
+
 
     private val _uiState = MutableStateFlow(CommonState())
     val uiState: StateFlow<CommonState> = _uiState
@@ -317,6 +331,11 @@ class CommonViewModel @Inject constructor(
         }
     }
     private fun getNews(): Flow<PagingData<NewsModel>> {
+        val res = Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
+            NewsSource(
+                newsInteractor = newsInteractor
+            )
+        }.flow
        return flowOf(PagingData.from(NEWS))
 
     }

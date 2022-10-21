@@ -10,7 +10,7 @@ import io.ktor.http.*
 
 class NewsKtorService constructor(private val client: HttpClient)  {
 
-    suspend fun getNews(page: Int): NewsResult? =  client.request("News?page=${page}&size=${QueryConstants.NUM_ROWS}") {
+    suspend fun getNews(page: Int): NewsResult? =  client.request("News/latest?page=${page}&size=${QueryConstants.NUM_ROWS}") {
         method = HttpMethod.Get
         headers {
             append("Content-Type", "application/json")

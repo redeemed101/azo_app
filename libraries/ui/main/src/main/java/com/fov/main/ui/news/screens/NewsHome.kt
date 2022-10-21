@@ -6,7 +6,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.material.Card
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -16,25 +15,25 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.fov.common_ui.R
 import com.fov.common_ui.events.CommonEvent
 import com.fov.common_ui.extensions.itemsCustomized
+import com.fov.common_ui.models.NewsModel
 import com.fov.common_ui.states.CommonState
 import com.fov.common_ui.viewModels.CommonViewModel
 import com.fov.main.ui.news.general.NewsGeneralScreen
 import com.fov.sermons.events.MusicEvent
 import com.fov.sermons.states.MusicState
 import com.fov.sermons.viewModels.SermonViewModel
-import com.fov.sermons.viewModels.StoredSermonViewModel
 
 @Composable
 fun NewsHome(
@@ -43,20 +42,23 @@ fun NewsHome(
 ){
     val commonState by commonViewModel.uiState.collectAsState()
     val musicState by sermonViewModel.uiState.collectAsState()
+    val newsPager = commonViewModel.newsPager.collectAsLazyPagingItems()
     newsHome(
         commonState = commonState,
         events = commonViewModel::handleCommonEvent,
         musicState = musicState,
-        musicEvents = sermonViewModel::handleMusicEvent
+        musicEvents = sermonViewModel::handleMusicEvent,
+        pagedNews = newsPager
     )
 }
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun newsHome(
-    commonState : CommonState,
+    commonState: CommonState,
     events: (event: CommonEvent) -> Unit,
     musicState: MusicState,
     musicEvents: (event: MusicEvent) -> Unit,
+    pagedNews: LazyPagingItems<NewsModel>,
 ){
     NewsGeneralScreen(commonState = commonState,
         events = events,
@@ -64,10 +66,10 @@ private fun newsHome(
         musicEvents = musicEvents) {
 
         LaunchedEffect(commonState.currentTab) {
-            events(CommonEvent.LoadNews)
+           // events(CommonEvent.LoadNews)
         }
 
-            val pagedNews = commonState.news.collectAsLazyPagingItems()
+
             Column (
                           modifier = Modifier
                               .fillMaxWidth()

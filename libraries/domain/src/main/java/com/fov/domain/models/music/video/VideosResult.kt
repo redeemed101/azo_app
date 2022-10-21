@@ -1,10 +1,11 @@
 package com.fov.domain.models.music.video
 
 import androidx.annotation.Keep
+import com.google.gson.annotations.SerializedName
 import kotlinx.serialization.Serializable
 
-@Keep
+
 @Serializable
 data class VideosResult(
-    val videos : List<Video> = emptyList()
+    @SerializedName("videos" ) val videos : List<Video> = emptyList()
 )

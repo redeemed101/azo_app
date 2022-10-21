@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.fov.common_ui.utils.constants.AlbumRequestType
 import com.fov.common_ui.utils.constants.Constants
@@ -46,6 +47,11 @@ class SermonViewModel @Inject constructor(
     private val fileEncryption : FileEncryption,
     application: Application
 )  : AndroidViewModel(application) {
+    val videoPager = Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
+        VideoSource(
+            videoInteractor = videoInteractor,
+        )
+    }.flow.cachedIn(viewModelScope)
     private val context = getApplication<Application>().applicationContext
     var basePath = "${
         com.fov.common_ui.utils.helpers.Utilities
@@ -101,7 +107,7 @@ class SermonViewModel @Inject constructor(
                 }
                 MusicEvent.LoadVideos -> {
 
-                        videos = getVideos()
+                        //videos = getVideos()
 
                 }
                 MusicEvent.LoadHome -> {
@@ -373,7 +379,7 @@ class SermonViewModel @Inject constructor(
 
             return videosResult
 
-         //return flowOf(PagingData.from(VIDEOS))
+         return flowOf(PagingData.from(VIDEOS))
 
     }
     private fun getForYou(){

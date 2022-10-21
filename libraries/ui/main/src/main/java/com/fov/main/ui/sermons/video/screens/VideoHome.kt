@@ -23,14 +23,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.zIndex
-import androidx.paging.PagingData
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.fov.common_ui.R
 import com.fov.common_ui.events.CommonEvent
 import com.fov.common_ui.extensions.itemsCustom
-import com.fov.common_ui.extensions.itemsCustomized
 import com.fov.common_ui.states.CommonState
 import com.fov.common_ui.theme.bottomTabHeight
 import com.fov.common_ui.theme.commonPadding
@@ -39,10 +38,9 @@ import com.fov.common_ui.viewModels.CommonViewModel
 import com.fov.main.ui.sermons.video.general.VideoGeneralScreen
 import com.fov.navigation.BackPageData
 import com.fov.sermons.events.MusicEvent
-import com.fov.sermons.mock.data.videos.VIDEOS
+import com.fov.sermons.models.Video
 import com.fov.sermons.states.MusicState
 import com.fov.sermons.viewModels.SermonViewModel
-import kotlinx.coroutines.flow.flowOf
 
 @Composable
 fun VideoHomeScreen(
@@ -52,22 +50,25 @@ fun VideoHomeScreen(
 ){
     val commonState by commonViewModel.uiState.collectAsState()
     val musicState by musicViewModel.uiState.collectAsState()
+    val videoPager = musicViewModel.videoPager.collectAsLazyPagingItems()
     videos(commonState = commonState,
         events = commonViewModel::handleCommonEvent,
         musicState = musicState,
         musicEvents = musicViewModel::handleMusicEvent,
-        playVideo
+        playVideo = playVideo,
+        videos = videoPager
     )
 
 }
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 private fun videos(
-    commonState : CommonState,
+    commonState: CommonState,
     events: (event: CommonEvent) -> Unit,
     musicState: MusicState,
     musicEvents: (event: MusicEvent) -> Unit,
-    playVideo : (id : String) -> Unit
+    playVideo: (id: String) -> Unit,
+    videos : LazyPagingItems<Video>,
 ){
    VideoGeneralScreen(
         commonState = commonState,
@@ -75,12 +76,12 @@ private fun videos(
         musicState = musicState,
         musicEvents = musicEvents,
         swipeToRefreshAction = {
-            musicEvents(MusicEvent.LoadVideos)
+            //musicEvents(MusicEvent.LoadVideos)
         }
     ) {
 
        LaunchedEffect(commonState.currentTab) {
-           musicEvents(MusicEvent.LoadVideos)
+           //musicEvents(MusicEvent.LoadVideos)
            events(CommonEvent.ChangeBackPageData(BackPageData()))
 
        }
@@ -90,7 +91,7 @@ private fun videos(
 
 
        }
-       val videos = musicState.videos.collectAsLazyPagingItems()
+       //val videos = musicState.videos.collectAsLazyPagingItems()
        LazyVerticalGrid(
            columns = GridCells.Fixed(3),
            modifier = Modifier
@@ -146,7 +147,7 @@ private fun videos(
                            .zIndex(1f)
                            .size(40.dp)
                            .clickable {
-                       }
+                           }
                    )
 
                }

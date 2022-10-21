@@ -1,5 +1,6 @@
 package com.fov.domain.remote.mock
 
+import android.util.Log
 import com.fov.domain.remote.mock.authentication.login.LoginMockResponse
 import com.fov.domain.remote.mock.authentication.login.LogoutMockResponse
 import com.fov.domain.remote.mock.authentication.registration.GeneralMockResponse
@@ -9,8 +10,10 @@ import com.fov.domain.remote.mock.authentication.users.UserNumNotificationsMockR
 import com.fov.domain.remote.mock.music.AlbumsMockResponse
 import com.fov.domain.remote.mock.music.SongMockResponse
 import com.fov.domain.remote.mock.music.SongsMockResponse
+import com.fov.domain.remote.mock.news.NewsMockResponse
 import com.fov.domain.remote.mock.payment.PaymentStripeCredentialsMockResponse
 import com.fov.domain.remote.mock.payment.PaymentStripeCustomerIdResponse
+import com.fov.domain.remote.mock.shorts.ShortMockResponse
 import com.fov.domain.remote.mock.video.VideosMockResponse
 import io.ktor.client.*
 import io.ktor.client.engine.mock.*
@@ -32,6 +35,17 @@ class KtorMockClient {
                 }*/
                 addHandler { request ->
                     when (request.url.encodedPath) {
+                        "/Shorts" -> {
+                            val responseHeaders = headersOf("Content-Type"
+                                    to listOf(ContentType.Application.Json.toString()))
+
+                            respond(ShortMockResponse(),HttpStatusCode.OK, responseHeaders)
+                        }
+                        "/News/latest" ->{
+                            val responseHeaders = headersOf("Content-Type"
+                                    to listOf(ContentType.Application.Json.toString()))
+                            respond(NewsMockResponse(),HttpStatusCode.OK, responseHeaders)
+                        }
                         "/payment/Stripe/getClientSecret" -> {
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
@@ -86,7 +100,7 @@ class KtorMockClient {
                             val page = request.url.parameters["page"]
                             respond(AlbumsMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
-                        "Video" -> {
+                        "/Video" -> {
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             val page = request.url.parameters["page"]

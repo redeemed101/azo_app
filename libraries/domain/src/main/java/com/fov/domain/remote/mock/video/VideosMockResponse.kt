@@ -1,5 +1,6 @@
 package com.fov.domain.remote.mock.video
 
+import android.util.Log
 import com.fov.domain.models.music.video.Video
 import com.fov.domain.models.music.video.VideosResult
 import com.google.gson.Gson
@@ -12,12 +13,13 @@ object VideosMockResponse {
                     videoId = "HzeK7g8cD0Y",
                     genres = emptyList(),
                     videoName = "Video number $it",
-                    artwork = "/data/data/com.fov.azo/files/apostle.jpg",
+                    artwork = "https://picsum.photos/200",
                     description = "",
                     artistName = "Apostle Ziba"
                 )
             }
         )
+        Log.d("json","${Gson().toJson(obj)}")
         return Gson().toJson(obj)
     }
 }
