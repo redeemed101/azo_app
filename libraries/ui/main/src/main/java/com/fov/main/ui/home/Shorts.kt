@@ -82,7 +82,7 @@ private fun shorts(
                         events(ShortEvent.ShortSelected(short!!))
                         var intent = Intent(context, ShortsActivity::class.java)
                         intent.putExtra("shortType",short!!.type)
-                        intent.putExtra("shortPath",short!!.path)
+                        intent.putExtra("shortPath",short!!.content)
                         context.startActivity(intent)
                         events(ShortEvent.ToggleShowShort(true))
 

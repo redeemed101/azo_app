@@ -20,7 +20,7 @@ fun ShortItem(short: Short, onClick : () -> Unit){
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         ShortCircle(
-            "https://picsum.photos/200",
+            short,
             100.dp,
             10.dp,
             true
@@ -32,10 +32,9 @@ fun ShortItem(short: Short, onClick : () -> Unit){
             modifier = Modifier.padding(top = 4.dp),
             textAlign = TextAlign.Center,
             style = MaterialTheme.typography.h5.copy(
-                MaterialTheme.colors.onSurface,
+                MaterialTheme.colors.surface,
                 fontWeight = FontWeight.Bold,
-                fontSize = 14.sp
-
+                fontSize = 12.sp
             ),
         )
     }

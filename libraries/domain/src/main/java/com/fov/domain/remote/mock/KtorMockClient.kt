@@ -10,6 +10,7 @@ import com.fov.domain.remote.mock.authentication.users.UserNumNotificationsMockR
 import com.fov.domain.remote.mock.music.AlbumsMockResponse
 import com.fov.domain.remote.mock.music.SongMockResponse
 import com.fov.domain.remote.mock.music.SongsMockResponse
+import com.fov.domain.remote.mock.news.ImagePagerMockResponse
 import com.fov.domain.remote.mock.news.NewsMockResponse
 import com.fov.domain.remote.mock.payment.PaymentStripeCredentialsMockResponse
 import com.fov.domain.remote.mock.payment.PaymentStripeCustomerIdResponse
@@ -99,6 +100,11 @@ class KtorMockClient {
                                     to listOf(ContentType.Application.Json.toString()))
                             val page = request.url.parameters["page"]
                             respond(AlbumsMockResponse(), HttpStatusCode.OK, responseHeaders)
+                        }
+                        "/Home/imagePager" ->{
+                            val responseHeaders = headersOf("Content-Type"
+                                    to listOf(ContentType.Application.Json.toString()))
+                            respond(ImagePagerMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
                         "/Video" -> {
                             val responseHeaders = headersOf("Content-Type"

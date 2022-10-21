@@ -19,7 +19,7 @@ object VideosMockResponse {
                 )
             }
         )
-        Log.d("json","${Gson().toJson(obj)}")
+
         return Gson().toJson(obj)
     }
 }

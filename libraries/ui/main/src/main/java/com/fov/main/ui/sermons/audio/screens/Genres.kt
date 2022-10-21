@@ -154,7 +154,7 @@ private fun GridItem(
         Text(item.name,
             textAlign = TextAlign.Start,
             style = MaterialTheme.typography.caption.copy(
-                MaterialTheme.colors.onSurface,
+                MaterialTheme.colors.surface,
                 fontWeight = FontWeight.Bold
             ),
             modifier = Modifier

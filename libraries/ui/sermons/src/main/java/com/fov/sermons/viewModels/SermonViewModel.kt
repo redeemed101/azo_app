@@ -18,10 +18,12 @@ import com.fov.core.security.fileEncryption.FileEncryption
 import com.fov.domain.database.models.ActivityType
 import com.fov.domain.database.models.RecentActivity
 import com.fov.domain.interactors.music.MusicInteractor
+import com.fov.domain.interactors.news.NewsInteractor
 import com.fov.domain.interactors.video.VideoInteractor
 import com.fov.navigation.NavigationManager
 import com.fov.navigation.SermonsDirections
 import com.fov.sermons.events.MusicEvent
+import com.fov.sermons.mock.data.songs.PAGER_IMAGES
 import com.fov.sermons.mock.data.videos.VIDEOS
 import com.fov.sermons.models.*
 import com.fov.sermons.pagination.AlbumsSource
@@ -42,6 +44,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SermonViewModel @Inject constructor(
     private val musicInteractor: MusicInteractor,
+    private val newsInteractor: NewsInteractor,
     private val videoInteractor : VideoInteractor,
     private val navigationManager: NavigationManager,
     private val fileEncryption : FileEncryption,
@@ -117,6 +120,8 @@ class SermonViewModel @Inject constructor(
                     newAlbums = musicAlbumHelper.getNewAlbums(viewModelScope){
                         error = it.message
                     }
+                    getImagePagers()
+                    //musicPagerImages = PAGER_IMAGES
 
 
 
@@ -340,7 +345,14 @@ class SermonViewModel @Inject constructor(
 
 
 
-
+    private fun getImagePagers(){
+        viewModelScope.launch {
+             val result = newsInteractor.getImagePagers(1)
+            _uiState.value = uiState.value.build {
+                musicPagerImages = result?.images?.map { it.path } ?: emptyList()
+            }
+        }
+    }
     private fun getTopSongs(){
         _uiState.value = uiState.value.build {
             loading = true

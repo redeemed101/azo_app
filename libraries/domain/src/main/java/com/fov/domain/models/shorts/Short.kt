@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Short(
     val name: String,
-    val path : String,
+    val content : String,
     val id: String,
     val type : String,
 )

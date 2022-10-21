@@ -30,6 +30,7 @@ import androidx.compose.material.Icon
 import androidx.compose.runtime.LaunchedEffect
 import com.fov.common_ui.states.CommonState
 import com.fov.main.ui.sermons.audio.general.MusicGeneralScreen
+import com.fov.navigation.BackPageData
 import com.fov.sermons.R
 import com.fov.sermons.events.MusicEvent
 import com.fov.sermons.mock.data.songs.PAGER_IMAGES
@@ -93,7 +94,7 @@ private fun MusicHome(
                             .height(screenHeight * 0.3f)
                     ) {
                         MusicHomePager(
-                           PAGER_IMAGES
+                           musicState.musicPagerImages
                         )
 
 
@@ -179,20 +180,26 @@ private fun getListOfGridItems(
     events : (event : CommonEvent) -> Unit
 ) : List<MusicHomeGridItem>{
     val list = mutableListOf<MusicHomeGridItem>()
-    if(musicState.genres.isNotEmpty())
-        musicState.genres.forEach { genre ->
-            list.add(MusicHomeGridItem(
-                genre.name,
-                R.drawable.ic_genre_music
+
+    list.add(MusicHomeGridItem(
+                "Genres",
+                com.fov.common_ui.R.drawable.ic_music
             ){
 
-                events(CommonEvent.ChangeHasDeepScreen(true, genre.name))
-                //events(CommonEvent.ChangeBackPageData(BackPageData(true,"Genres")))
-                musicEvents(MusicEvent.GenreSelected(genre))
-                musicEvents(MusicEvent.GoToGenre)
+                events(CommonEvent.ChangeHasDeepScreen(true, "Genres"))
+                events(CommonEvent.ChangeBackPageData(BackPageData(false,"Sermons")))
+                //musicEvents(MusicEvent.GenreSelected(genre))
+                musicEvents(MusicEvent.GoToGenres)
 
             })
-        }
+        /*list.add(MusicHomeGridItem(
+            "Videos",
+            com.fov.common_ui.R.drawable.ic_watch_video
+        ){
+
+            musicEvents(MusicEvent.)
+
+        })*/
     return list
 
 }

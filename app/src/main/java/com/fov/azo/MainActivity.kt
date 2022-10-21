@@ -2,12 +2,17 @@ package com.fov.azo
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.net.ConnectivityManager
+import android.net.Network
+import android.net.NetworkCapabilities
+import android.net.NetworkRequest
 import android.os.Build
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
+import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Box
@@ -108,6 +113,38 @@ class MainActivity : ComponentActivity() {
         }
     }
 
+    //Network
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    val networkCallback: ConnectivityManager.NetworkCallback = object : ConnectivityManager.NetworkCallback() {
+        override fun onAvailable(network: Network) {
+            showToast("Online")
+
+        }
+        override fun onLost(network: Network) {
+            showToast("Connection Lost")
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun listenForInternetConnectivity() {
+        val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            connectivityManager.registerDefaultNetworkCallback(networkCallback)
+        } else {
+            val request = NetworkRequest.Builder()
+                .addCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET).build()
+            connectivityManager.registerNetworkCallback(request, networkCallback)
+        }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+    private fun unregisterListenerForInternetConnectivity() {
+        val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
+        connectivityManager.unregisterNetworkCallback(networkCallback)
+    }
+
+
+    //end of network
 
 
     @OptIn(ExperimentalFoundationApi::class, InternalCoroutinesApi::class,
@@ -115,6 +152,10 @@ class MainActivity : ComponentActivity() {
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            listenForInternetConnectivity()
+        }
 
         paymentLauncher = PaymentLauncher.Companion.create(
             this,
@@ -200,6 +241,15 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            unregisterListenerForInternetConnectivity()
+        }
+    }
+
     private fun showAlert(title: String, message: String? = null) {
         runOnUiThread {
             val builder = AlertDialog.Builder(this)

@@ -10,4 +10,7 @@ class NewsInteractor constructor(
     suspend fun getNews(page: Int) = withContext(Dispatchers.IO) {
         newsRepository.getNews(page)
     }
+    suspend fun getImagePagers(page:Int) = withContext(Dispatchers.IO){
+        newsRepository.getImagePager(page)
+    }
 }

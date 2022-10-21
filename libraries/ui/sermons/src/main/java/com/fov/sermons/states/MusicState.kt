@@ -39,6 +39,7 @@ class MusicState(
     val mediaPlayBack : MediaPlayback? = null,
     val player : ExoPlayer? = null,
     val videos :  Flow<PagingData<Video>>  = flowOf(PagingData.from(emptyList())),
+    val musicPagerImages : List<String> = emptyList()
 
 ) {
     companion object {
@@ -75,6 +76,7 @@ class MusicState(
         var mediaPlayBack = state.mediaPlayBack
         var player = state.player
         var videos = state.videos
+        var musicPagerImages = state.musicPagerImages
 
 
         fun build(): MusicState {
@@ -107,7 +109,8 @@ class MusicState(
                 isPlayerMinimized,
                 mediaPlayBack,
                 player,
-                videos
+                videos,
+                musicPagerImages
 
             )
         }
