@@ -41,7 +41,6 @@ import com.fov.sermons.events.MusicEvent
 import com.fov.sermons.models.Song
 import com.fov.sermons.states.MusicState
 import com.fov.sermons.ui.music.MiniMusicPlayer
-import com.fov.sermons.ui.music.MusicPlayer
 import com.fov.sermons.viewModels.SermonViewModel
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlin.math.abs

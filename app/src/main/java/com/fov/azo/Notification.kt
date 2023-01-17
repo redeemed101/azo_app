@@ -37,7 +37,7 @@ object Notification {
             applicationContext.getString(R.string.fov_notification_channel_id)
         )
 
-            .setSmallIcon(R.drawable.ic_message_circle)
+            .setSmallIcon(R.drawable.fov_logo)
             .setContentTitle(title)
             .setContentText(messageBody)
             .setContentIntent(contentPendingIntent)

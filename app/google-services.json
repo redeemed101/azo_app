@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1043734299673",
+    "project_id": "azo-app-3fdda",
+    "storage_bucket": "azo-app-3fdda.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1043734299673:android:15e29bdfb6adfdf4ec9688",
+        "android_client_info": {
+          "package_name": "com.fov.azo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1043734299673-epshpfdjvp3i8p4s3rtaog97npjatk4q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBe6fojKzVtGLdDyhsvyn4Lb3X-VM25G8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1043734299673-epshpfdjvp3i8p4s3rtaog97npjatk4q.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

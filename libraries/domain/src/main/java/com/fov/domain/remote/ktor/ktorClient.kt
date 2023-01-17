@@ -77,8 +77,8 @@ class KtorClient {
                         request.url.host == "0.0.0.0"
                     }
                     credentials {
-                        BasicAuthCredentials(username = "fov@enyo2021",
-                            password = "fov@Namande@1190")
+                        BasicAuthCredentials(username = "",
+                            password = "")
                     }
                 }
             }

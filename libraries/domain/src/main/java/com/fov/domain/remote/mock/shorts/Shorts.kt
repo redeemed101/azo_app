@@ -11,6 +11,12 @@ object ShortMockResponse{
             shorts = listOf(
                 com.fov.domain.models.shorts.Short(
                     name = "Image",
+                    content = "Intercession for Breakout @5:30PM - Tent of His Meeting",
+                    id = "123222",
+                    type = ShortType.TEXT.type
+                ),
+                com.fov.domain.models.shorts.Short(
+                    name = "Image",
                     content = "BREAKOUT IN 5 DAYS",
                     id = "123222",
                     type = ShortType.TEXT.type
