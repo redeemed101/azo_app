@@ -69,4 +69,5 @@ interface AuthenticationRemote {
     suspend fun getNumberUnreadNotifications(id: String): Int
     suspend fun deleteAccount(delete: DeleteAccountDTO): GeneralResult?
     suspend fun disableAccount(disable: DisableAccountDTO): GeneralResult?
+    suspend fun sendDeviceToken(token: String): GeneralResult?
 }

@@ -8,6 +8,7 @@ import android.net.NetworkCapabilities
 import android.net.NetworkRequest
 import android.os.Build
 import android.os.Bundle
+import android.text.TextUtils
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -50,15 +51,10 @@ import com.fov.shorts.viewModels.ShortViewModel
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.messaging.FirebaseMessaging
 import com.google.firebase.messaging.ktx.messaging
-import com.stripe.android.ApiResultCallback
-import com.stripe.android.PaymentConfiguration
-import com.stripe.android.PaymentIntentResult
-import com.stripe.android.Stripe
 import com.stripe.android.model.ConfirmPaymentIntentParams
-import com.stripe.android.model.StripeIntent
 import com.stripe.android.payments.paymentlauncher.PaymentLauncher
-import com.stripe.android.payments.paymentlauncher.PaymentLauncher.*
 import com.stripe.android.payments.paymentlauncher.PaymentResult
 import com.stripe.android.view.CardInputWidget
 import dagger.hilt.android.AndroidEntryPoint
@@ -155,7 +151,20 @@ class MainActivity : ComponentActivity() {
     )
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        subscribeToFcmTopic("sermons")
+        FirebaseMessaging.getInstance().token.addOnSuccessListener { token ->
+            if (!TextUtils.isEmpty(token)) {
+                Log.d("token", "retrieve token successful : $token")
+            } else {
+                Log.w("token", "token should not be null...")
+            }
+        }.addOnFailureListener { e -> }
+            .addOnCanceledListener {}.addOnCompleteListener { task ->
+                Log.v(
+                    "token",
+                    "This is the token : " + task.getResult()
+                )
+            }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             listenForInternetConnectivity()
         }
@@ -253,7 +262,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 
-    private fun SubscribeToFcmTopic(topic:String){
+    private fun subscribeToFcmTopic(topic:String){
         Firebase.messaging.subscribeToTopic(topic)
             .addOnCompleteListener { task ->
                 var msg = "Subscribed"

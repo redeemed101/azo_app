@@ -1,5 +1,6 @@
 package com.fov.authentication.viewModels
 
+import android.util.Log
 import androidx.lifecycle.*
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -116,7 +117,12 @@ class UsersViewModel @Inject constructor(
     }
 
 
-
+    fun saveDeviceToken(token : String){
+        viewModelScope.launch {
+            Log.d("SavingToken", token)
+            authenticate.sendDeviceToken(token)
+        }
+    }
     fun getUserGraph(userId : String,callback:(UserModel) -> Unit) {
 
         viewModelScope.launch {

@@ -161,6 +161,11 @@ class KtorMockClient {
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(GeneralMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
+                        "/user/saveToken" ->{
+                            val responseHeaders = headersOf("Content-Type"
+                                    to listOf(ContentType.Application.Json.toString()))
+                            respond(GeneralMockResponse(), HttpStatusCode.OK, responseHeaders)
+                        }
 
                         "/music/Song/search" -> {
                             val responseHeaders = headersOf("Content-Type"

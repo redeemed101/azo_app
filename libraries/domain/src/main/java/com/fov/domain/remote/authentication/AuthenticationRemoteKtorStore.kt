@@ -148,4 +148,5 @@ class AuthenticationRemoteKtorStore constructor(
 
     override suspend fun deleteAccount(delete: DeleteAccountDTO) = authenticationService.deleteAccount(delete)
     override suspend fun disableAccount(disable: DisableAccountDTO) = authenticationService.disableAccount(disable)
+    override suspend fun sendDeviceToken(token: String): GeneralResult? = authenticationService.sendDeviceToken(token)
 }

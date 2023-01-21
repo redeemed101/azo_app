@@ -27,6 +27,7 @@ class Authenticate  constructor(
               }
           }
       }
+      suspend fun sendDeviceToken(token : String) = authenticationRepository.sendDeviceToken(token)
       suspend fun signUp(
          userName: String,
          fullName: String,

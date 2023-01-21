@@ -3,13 +3,16 @@ package com.fov.azo
 import android.app.NotificationManager
 import android.util.Log
 import androidx.core.content.ContextCompat
+import com.fov.authentication.viewModels.UsersViewModel
 import com.fov.azo.Notification.sendNotification
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import java.lang.Exception
 
 
-class FcmService : FirebaseMessagingService() {
+class FcmService  constructor(
+    private val usersViewModel: UsersViewModel
+    ) : FirebaseMessagingService() {
     companion object {
         private const val TAG = "FcmService"
     }
@@ -52,6 +55,7 @@ class FcmService : FirebaseMessagingService() {
         notificationManager.sendNotification(messageBody,title, applicationContext)
     }
     private fun sendRegistrationToServer(token: String){
-
+          Log.d("token",token)
+          usersViewModel.saveDeviceToken(token)
     }
 }

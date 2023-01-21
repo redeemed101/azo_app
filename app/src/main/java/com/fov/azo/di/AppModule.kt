@@ -2,6 +2,8 @@ package com.fov.azo.di
 
 
 import android.app.Application
+import com.fov.authentication.viewModels.UsersViewModel
+import com.fov.azo.FcmService
 import com.fov.core.di.Preferences
 import com.fov.core.files.FileProcessor
 import com.fov.core.security.encryption.Encryption
@@ -27,6 +29,10 @@ class AppModule {
     @Singleton
     @Provides
     fun providesNavigationManager() = NavigationManager()
+
+    @Singleton
+    @Provides
+    fun providesFCMService(usersViewModel: UsersViewModel) = FcmService(usersViewModel)
 
     //@Singleton
     @Provides

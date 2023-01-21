@@ -2,6 +2,7 @@ package com.fov.domain.repositories.authentication
 
 import com.fov.domain.cache.Cache
 import com.fov.domain.database.models.RecentUserSearch
+import com.fov.domain.models.authentication.GeneralResult
 import com.fov.domain.models.authentication.login.SigninResult
 import com.fov.domain.models.authentication.users.DeleteAccountDTO
 import com.fov.domain.models.authentication.users.DisableAccountDTO
@@ -96,5 +97,6 @@ class AuthenticationDataRepository constructor(
     override suspend fun getNumberUnreadNotifications(id: String) = authenticationRemote.getNumberUnreadNotifications(id)
     override suspend fun deleteAccount(delete: DeleteAccountDTO) = authenticationRemote.deleteAccount(delete)
     override suspend fun disableAccount(disable: DisableAccountDTO) =  authenticationRemote.disableAccount(disable)
+    override suspend fun sendDeviceToken(token: String): GeneralResult? = authenticationRemote.sendDeviceToken(token)
 
 }

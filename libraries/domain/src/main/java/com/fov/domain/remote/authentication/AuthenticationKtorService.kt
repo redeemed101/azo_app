@@ -152,4 +152,13 @@ class AuthenticationKtorService constructor(private val client: HttpClient) {
             }
             setBody(disable)
         }.body()
+
+    suspend fun sendDeviceToken(token: String): GeneralResult? =
+        client.request("User/saveToken") {
+        method = HttpMethod.Post
+        headers {
+            append("Content-Type", "application/json")
+        }
+        setBody(token)
+    }.body()
 }
