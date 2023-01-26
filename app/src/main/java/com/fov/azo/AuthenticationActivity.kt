@@ -5,6 +5,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.activity.compose.setContent
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -20,6 +21,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.fidarrappcompose.utils.helpers.LocalSysUiController
 import com.example.fidarrappcompose.utils.helpers.SystemUiController
+import com.fov.authentication.events.RegistrationEvent
 import com.fov.authentication.ui.login.Login
 import com.fov.authentication.ui.registration.registration.Onboarding
 import com.fov.authentication.ui.registration.registration.Registration
@@ -35,6 +37,12 @@ import com.fov.core.di.Preferences
 import com.fov.navigation.AuthenticationDirections
 import com.fov.navigation.GeneralDirections
 import com.fov.navigation.NavigationManager
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.android.gms.tasks.Task
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.collectLatest
@@ -46,6 +54,8 @@ class AuthenticationActivity : AppCompatActivity() {
 
     private val registrationViewModel: RegistrationViewModel by viewModels()
     private val loginViewModel : LoginViewModel by viewModels()
+    private var account: GoogleSignInAccount? = null
+    private var mGoogleSignInClient: GoogleSignInClient? = null
 
     @Inject
     lateinit var navigationManager : NavigationManager
@@ -70,6 +80,10 @@ class AuthenticationActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
 
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestEmail()
+            .build()
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
 
         setContent {
@@ -151,7 +165,10 @@ class AuthenticationActivity : AppCompatActivity() {
                             composable(AuthenticationDirections.login.destination) {
                                 EnterAnimation {
                                     Login(
-                                        loginViewModel = loginViewModel
+                                        loginViewModel = loginViewModel,
+                                        OnGoogleSignIn = {
+                                            onGoogleSignIn()
+                                        },
                                     )
                                 }
                             }
@@ -159,7 +176,10 @@ class AuthenticationActivity : AppCompatActivity() {
                                 EnterAnimation{
 
                                     Registration(
-                                        viewModel = registrationViewModel
+                                        viewModel = registrationViewModel,
+                                        OnGoogleSignIn = {
+                                            onGoogleSignIn()
+                                        }
                                     )
                                 }
                             }
@@ -210,10 +230,53 @@ class AuthenticationActivity : AppCompatActivity() {
 
     override fun onStart() {
 
-
+        account = GoogleSignIn.getLastSignedInAccount(this)
         super.onStart()
+        if(account != null) {
+            handleGoogleLogin(account!!)
+        }
+    }
 
-        var  events = registrationViewModel::handleRegistrationEvent
+    private fun handleGoogleLogin( account: GoogleSignInAccount){
+
+            var  events = registrationViewModel::handleRegistrationEvent
+            account!!.email?.let {
+                events(RegistrationEvent.EmailChanged(it))
+            }
+            account!!.displayName?.let {
+                events(RegistrationEvent.FullNameChanged("${it}"))
+            }
+            events(RegistrationEvent.UsernameChanged(""))
+            events(RegistrationEvent.SocialMediaServiceChanged("GOOGLE"))
+            account!!.idToken?.let {
+                events(RegistrationEvent.SocialMediaTokenChanged(it))
+            }
+            events(RegistrationEvent.SocialMediaIsFirstTimeChanged(true))
+            events(RegistrationEvent.SocialRegisterClicked)
+
+    }
+    private val getGoogleLoginResult =
+        registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()) {
+
+            if(it.resultCode != RESULT_CANCELED){
+                 val data = it.data
+                 val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+                 account = task.getResult(ApiException::class.java)
+                if(account != null) {
+                    handleGoogleLogin(account!!)
+                }
+
+            }
+        }
+
+    fun onGoogleSignIn() {
+        mGoogleSignInClient?.signInIntent?.let {
+            val signInIntent: Intent = it
+
+             getGoogleLoginResult.launch(signInIntent)
+
+        };
 
     }
 

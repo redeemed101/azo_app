@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.fov.authentication.events.LoginEvent
 import com.fov.authentication.states.LoginState
 import com.fov.core.di.Preferences
+import com.fov.core.exceptions.ServerException
 import com.fov.core.utils.Validation
 import com.fov.domain.database.daos.UserDao
 import com.fov.domain.database.models.User
@@ -72,7 +73,9 @@ class LoginViewModel @Inject constructor(
                         error = "Please fill all fields"
                 }
                 LoginEvent.SocialLoginClicked -> {
-                    //socialLogin()
+                     socialLogin {
+                         this.loginDone = true
+                     }
                 }
                 is LoginEvent.PasswordChanged -> {
                     this.userPassword = event.password
@@ -99,7 +102,48 @@ class LoginViewModel @Inject constructor(
             }
         }
     }
-    private fun login(doneLoggingOut : () -> Unit){
+    private fun socialLogin(doneLoggingIn : () -> Unit){
+        _uiState.value = uiState.value.build {
+            loading = true
+            error = null
+        }
+        viewModelScope.launch {
+            try {
+                val res = authenticate.socialSignIn(
+                    fullName = _uiState.value.fullname,
+                    username = _uiState.value.username,
+                    emailAddress = _uiState.value.emailAddress,
+                    service = _uiState.value.socialMediaService,
+                    token = _uiState.value.socialMediaToken,
+                    isFirstTime = _uiState.value.socialMediaFirstTime,
+                    profileImageUrl = null
+                )
+                processResponse(res,_uiState.value.socialMediaFirstTime)
+                if (res != null) {
+                    if(res.success){
+                        doneLoggingIn()
+                        _uiState.value = uiState.value.build {
+                            loginDone = true
+                        }
+                    }
+                }
+            }
+            catch(ex : ServerException){
+                _uiState.value = uiState.value.build {
+                    loading = false
+                    error = ex.message
+                }
+            }
+            catch (ex : Exception){
+
+                _uiState.value = uiState.value.build {
+                    loading = false
+                    error = ex.message
+                }
+            }
+        }
+    }
+    private fun login(doneLoggingIn : () -> Unit){
         _uiState.value = uiState.value.build {
             loading = true
             error = null
@@ -114,7 +158,7 @@ class LoginViewModel @Inject constructor(
                 processResponse(res,_uiState.value.isRestore)
                 if (res != null) {
                     if(res.success){
-                        doneLoggingOut()
+                        doneLoggingIn()
                         _uiState.value = uiState.value.build {
                             loginDone = true
                         }

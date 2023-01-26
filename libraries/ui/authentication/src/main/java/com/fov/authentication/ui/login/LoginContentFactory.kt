@@ -40,18 +40,21 @@ import com.fov.common_ui.ui.composers.textfields.CustomTextField
 
 @Composable
 fun Login(
-    loginViewModel: LoginViewModel
+    loginViewModel: LoginViewModel,
+    OnGoogleSignIn : () -> Unit,
 ){
     val state by loginViewModel.uiState.collectAsState()
     login(
         state,
         loginViewModel::handleRegistrationEvent,
+        OnGoogleSignIn,
     )
 }
 @Composable
 private fun login(
     state : LoginState,
     events: (event: LoginEvent) -> Unit,
+    OnGoogleSignIn : () -> Unit,
 ){
     if (state.isLoading) {
         Box(
@@ -193,7 +196,16 @@ private fun login(
                             Spacer(modifier = Modifier.padding(12.dp))
 
 
+                            Text(
+                                "------------ OR ---------------",
+                                color = MaterialTheme.colors.onSecondary
+                            )
 
+                            Spacer(modifier = Modifier.padding(12.dp))
+
+                            GoogleButton(width = screenWidth) {
+                                OnGoogleSignIn()
+                            }
 
                             Spacer(modifier = Modifier.padding(8.dp))
 

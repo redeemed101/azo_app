@@ -85,7 +85,7 @@ class RegistrationViewModel @Inject constructor(
                         )
                     }
                     RegistrationEvent.SocialRegisterClicked -> {
-                        //socialLogin()
+                        socialLogin()
                     }
                     RegistrationEvent.VerifyCodeClicked -> {
                         submitVerificationCode{
@@ -326,6 +326,83 @@ class RegistrationViewModel @Inject constructor(
                 _uiState.value = uiState.value.build {
                     loading = false
                     error = null
+                }
+            }
+            catch(ex : ServerException){
+                _uiState.value = uiState.value.build {
+                    loading = false
+                    error = ex.message
+                }
+            }
+            catch (ex : Exception){
+
+                _uiState.value = uiState.value.build {
+                    loading = false
+                    error = ex.message
+                }
+            }
+        }
+    }
+
+    private fun socialLogin(){
+        _uiState.value = uiState.value.build {
+            loading = true
+            error = null
+
+        }
+        viewModelScope.launch {
+            try {
+                val loggedBefore = sharedPrefs.socialLogin.first();
+                _uiState.value = uiState.value.build {
+                    socialMediaFirstTime = loggedBefore
+                }
+                val res = authenticate.socialSignIn(
+                    fullName = _uiState.value.fullname,
+                    username = _uiState.value.username,
+                    emailAddress = _uiState.value.email,
+                    service = _uiState.value.socialMediaService,
+                    token = _uiState.value.socialMediaToken,
+                    profileImageUrl = _uiState.value.profileImageUrl,
+                    isFirstTime = _uiState.value.socialMediaFirstTime
+                )
+                if(res != null){
+                    if(res.success){
+                        if(_uiState.value.socialMediaFirstTime){
+                            userDao.insertAll(
+                                User(
+                                    name = res.user.name,
+                                    privateKey =  res.user.privateKey,
+                                    publicKey = res.user.publicKey,
+                                    id = res.user.id,
+                                    profile = res.user.profile,
+                                    email = res.user.email,
+
+
+                                    )
+                            )
+                            //secret key
+                            val secretKey = keyGeneration.generateSecretKey()
+                            if(secretKey != null)
+                                keyGeneration.saveSecretKey(secretKey,viewModelScope)
+
+                        }
+                        sharedPrefs.setSocialLogin(true)
+                        sharedPrefs.setAuthToken(res.token)
+                        navigationManager.navigate(HomeDirections.home)
+                    }
+                    else{
+                        _uiState.value = uiState.value.build {
+                            loading = false
+                            error = "Wrong credentials. Please try again"
+                        }
+                        sharedPrefs.setAuthToken("")
+                    }
+                }
+                else {
+                    _uiState.value = uiState.value.build {
+                        loading = false
+                        error = "Error login. Try again"
+                    }
                 }
             }
             catch(ex : ServerException){

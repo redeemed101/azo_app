@@ -52,11 +52,13 @@ import kotlinx.coroutines.launch
 @Composable
 fun Registration(
     viewModel: RegistrationViewModel,
+    OnGoogleSignIn : () -> Unit,
 ) {
     val state by viewModel.uiState.collectAsState()
     Registration(
         viewState = state,
         events = viewModel::handleRegistrationEvent,
+        OnGoogleSignIn
     )
 }
 
@@ -65,7 +67,8 @@ fun Registration(
 @Composable
 private fun Registration(
     viewState: RegistrationState,
-    events: (event: RegistrationEvent) -> Unit
+    events: (event: RegistrationEvent) -> Unit,
+    OnGoogleSignIn : () -> Unit,
 ) {
     val context = LocalContext.current
     val snackBarHostState = remember { SnackbarHostState() }
@@ -328,6 +331,20 @@ private fun Registration(
 
 
                         Spacer(modifier = Modifier.padding(12.dp))
+
+                        Spacer(modifier = Modifier.padding(12.dp))
+
+                        Text(
+                            "------------ OR ---------------",
+                            color = MaterialTheme.colors.onSecondary
+                        )
+
+                        Spacer(modifier = Modifier.padding(12.dp))
+
+                        GoogleButton(width = screenWidth) {
+                            OnGoogleSignIn()
+                            //activity.OnGoogleSignIn()
+                        }
 
 
 
