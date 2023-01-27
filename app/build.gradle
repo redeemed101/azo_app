@@ -75,6 +75,9 @@ dependencies {
     implementation Libs.Networking.Ktor.kotlinx_json
     implementation Libs.Serialization.gson
 
+    implementation Libs.Glide.glide
+    annotationProcessor Libs.Glide.processor
+
     implementation Libs.Stripe.stripe
 
     implementation Libs.AndroidX.Paging.runtime

@@ -30,9 +30,9 @@ class AppModule {
     @Provides
     fun providesNavigationManager() = NavigationManager()
 
-    @Singleton
-    @Provides
-    fun providesFCMService(usersViewModel: UsersViewModel) = FcmService(usersViewModel)
+    //@Singleton
+    //@Provides
+    //fun providesFCMService() = FcmService()
 
     //@Singleton
     @Provides

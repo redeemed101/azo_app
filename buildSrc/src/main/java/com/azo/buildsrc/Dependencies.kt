@@ -5,6 +5,10 @@ object Libs {
     const val material = "com.google.android.material:material:1.6.1"
     const val coil = "io.coil-kt:coil-compose:2.1.0"
     const val prettyTime = "org.ocpsoft.prettytime:prettytime:4.0.4.Final"
+    object Glide{
+        const val glide = "com.github.bumptech.glide:glide:4.14.2"
+        const val processor = "com.github.bumptech.glide:compiler:4.14.2"
+    }
     object Stripe{
         const val stripe = "com.stripe:stripe-android:20.11.0"
     }

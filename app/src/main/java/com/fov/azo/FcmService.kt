@@ -5,17 +5,27 @@ import android.util.Log
 import androidx.core.content.ContextCompat
 import com.fov.authentication.viewModels.UsersViewModel
 import com.fov.azo.Notification.sendNotification
+import com.fov.azo.Notification.sendNotificationWithImageUrl
+import com.fov.common_ui.utils.helpers.UrlPathHelper
+import com.fov.domain.interactors.authentication.Authenticate
+import com.fov.domain.repositories.authentication.AuthenticationRepository
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import java.lang.Exception
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.GlobalScope
+import javax.inject.Inject
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 
-
-class FcmService  constructor(
-    private val usersViewModel: UsersViewModel
-    ) : FirebaseMessagingService() {
+@AndroidEntryPoint
+class FcmService : FirebaseMessagingService() {
     companion object {
         private const val TAG = "FcmService"
     }
+    @Inject
+    lateinit var usersViewModel: Authenticate
 
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
@@ -29,7 +39,17 @@ class FcmService  constructor(
         remoteMessage.notification?.let {
             it.title
             Log.d(TAG, "Message Notification Body: ${it.body}")
-            sendNotification(it.body!!,it.title!!)
+            if(it.imageUrl != null){
+                Log.d(TAG, " ${it.imageUrl.toString()}")
+                val imgUrl = it.imageUrl.toString()
+                Log.d(TAG, " The Url is ${imgUrl}")
+                if (imgUrl != null) {
+                    sendNotificationWithImage(it.body!!, it.title!!,imgUrl )
+                }
+            }
+            else {
+                sendNotification(it.body!!, it.title!!)
+            }
         }
     }
 
@@ -54,8 +74,14 @@ class FcmService  constructor(
         val notificationManager = ContextCompat.getSystemService(applicationContext, NotificationManager::class.java) as NotificationManager
         notificationManager.sendNotification(messageBody,title, applicationContext)
     }
+    private fun sendNotificationWithImage(messageBody: String,title: String, imageUrl: String){
+        val notificationManager = ContextCompat.getSystemService(applicationContext, NotificationManager::class.java) as NotificationManager
+        notificationManager.sendNotificationWithImageUrl(messageBody,title, imageUrl, applicationContext)
+    }
     private fun sendRegistrationToServer(token: String){
           Log.d("token",token)
-          usersViewModel.saveDeviceToken(token)
+        GlobalScope.launch  {
+            usersViewModel.sendDeviceToken(token)
+        }
     }
 }
