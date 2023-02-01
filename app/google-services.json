@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "622299769626-mlu8pl254srd64llbreqothgcmacca2f.apps.googleusercontent.com",
+          "client_id": "622299769626-sl6r9krl04c9snr0r70aueng1b89h3lm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.fov.azo",
+            "certificate_hash": "93979fd620f4a8942f520d80189eef98ca467ad2"
+          }
+        },
+        {
+          "client_id": "622299769626-5u83ulhbffou6154ms3urco1mf9ia914.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,7 +35,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "622299769626-mlu8pl254srd64llbreqothgcmacca2f.apps.googleusercontent.com",
+              "client_id": "622299769626-5u83ulhbffou6154ms3urco1mf9ia914.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

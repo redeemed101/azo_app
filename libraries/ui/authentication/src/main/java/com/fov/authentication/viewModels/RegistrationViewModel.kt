@@ -85,6 +85,7 @@ class RegistrationViewModel @Inject constructor(
                         )
                     }
                     RegistrationEvent.SocialRegisterClicked -> {
+                        Log.d("Login", "Login clicked")
                         socialLogin()
                     }
                     RegistrationEvent.VerifyCodeClicked -> {
@@ -351,6 +352,7 @@ class RegistrationViewModel @Inject constructor(
 
         }
         viewModelScope.launch {
+            Log.d("Login", "Within social login method")
             try {
                 val loggedBefore = sharedPrefs.socialLogin.first();
                 _uiState.value = uiState.value.build {
@@ -366,6 +368,7 @@ class RegistrationViewModel @Inject constructor(
                     isFirstTime = _uiState.value.socialMediaFirstTime
                 )
                 if(res != null){
+                    Log.d("Login", "we got results")
                     if(res.success){
                         if(_uiState.value.socialMediaFirstTime){
                             userDao.insertAll(
@@ -388,7 +391,12 @@ class RegistrationViewModel @Inject constructor(
                         }
                         sharedPrefs.setSocialLogin(true)
                         sharedPrefs.setAuthToken(res.token)
-                        navigationManager.navigate(HomeDirections.home)
+                        sharedPrefs.setIsVerified(true)
+                        navigationManager.commands = MutableStateFlow(HomeDirections.Default)
+                        _uiState.value = uiState.value.build {
+                            verificationDone = true
+                        }
+                        //navigationManager.navigate(HomeDirections.home)
                     }
                     else{
                         _uiState.value = uiState.value.build {

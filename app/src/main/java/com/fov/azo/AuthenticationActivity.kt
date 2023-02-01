@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -81,6 +82,7 @@ class AuthenticationActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            //.requestIdToken(getString(R.string.server_client_id))
             .requestEmail()
             .build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
@@ -251,19 +253,23 @@ class AuthenticationActivity : AppCompatActivity() {
             account!!.idToken?.let {
                 events(RegistrationEvent.SocialMediaTokenChanged(it))
             }
+            Log.d("Login", "we are in handle Login")
             events(RegistrationEvent.SocialMediaIsFirstTimeChanged(true))
             events(RegistrationEvent.SocialRegisterClicked)
 
     }
+
     private val getGoogleLoginResult =
         registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()) {
-
+            Log.d("Login", "within register for results ${it.data?.data} ${it.resultCode}")
             if(it.resultCode != RESULT_CANCELED){
                  val data = it.data
+                Log.d("Login", "data ${it.data.toString()}")
                  val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
                  account = task.getResult(ApiException::class.java)
                 if(account != null) {
+                    Log.d("Login", "Account ${account!!.email}")
                     handleGoogleLogin(account!!)
                 }
 
@@ -273,7 +279,7 @@ class AuthenticationActivity : AppCompatActivity() {
     fun onGoogleSignIn() {
         mGoogleSignInClient?.signInIntent?.let {
             val signInIntent: Intent = it
-
+            Log.d("Login","${it.data}")
              getGoogleLoginResult.launch(signInIntent)
 
         };
