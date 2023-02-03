@@ -41,7 +41,7 @@ class ApolloSetup {
             .addInterceptor(MockInterceptor())
 
 
-        return ApolloClient.builder()
+        return ApolloClient.Builder()
             .serverUrl("https://graphqlzero.almansi.me/api")
             .okHttpClient(okHttp.build())
             .build();

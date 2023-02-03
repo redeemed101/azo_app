@@ -11,10 +11,13 @@ import com.fov.domain.remote.AuthInterceptor
 import com.fov.domain.remote.RequestInterceptor
 import com.fov.domain.remote.apollo.ApolloSetup
 import com.fov.domain.remote.apollo.music.ApolloMusicService
+import com.fov.domain.remote.apollo.music.ApolloMusicServiceImpl
 import com.fov.domain.remote.apollo.music.ApolloMusicServiceTestImpl
 import com.fov.domain.remote.apollo.users.ApolloUsersService
+import com.fov.domain.remote.apollo.users.ApolloUsersServiceImpl
 import com.fov.domain.remote.apollo.users.ApolloUsersServiceTestImpl
 import com.fov.domain.remote.authentication.AuthenticationKtorService
+import com.fov.domain.remote.ktor.KtorClient
 import com.fov.domain.remote.mock.KtorMockClient
 import com.fov.domain.remote.music.MusicKtorService
 import com.fov.domain.remote.news.NewsKtorService
@@ -87,19 +90,33 @@ object NetworkModule {
     @Provides
     @Singleton
     fun providesApolloUsersService(apolloSetup: ApolloSetup)  : ApolloUsersService {
-        return ApolloUsersServiceTestImpl(apolloSetup)
+        return if(BuildConfig.BUILD_TYPE.lowercase() == "debug") {
+            ApolloUsersServiceTestImpl(apolloSetup)
+        } else{
+            ApolloUsersServiceImpl(apolloSetup)
+        }
     }
     @Provides
     @Singleton
     fun providesApolloMusicService(apolloSetup: ApolloSetup)  : ApolloMusicService {
-        return ApolloMusicServiceTestImpl(apolloSetup)//ApolloMusicServiceImpl(apolloSetup)
+        return if(BuildConfig.BUILD_TYPE.lowercase() == "debug") {
+            ApolloMusicServiceTestImpl(apolloSetup)
+        } else {
+            ApolloMusicServiceImpl(apolloSetup)
+        }
     }
 
 
     @Provides
     @Singleton
     fun providesKtorClient() : HttpClient {
-        return KtorMockClient.ktorHttpClient
+
+        return if( BuildConfig.BUILD_TYPE.lowercase() == "debug") {
+            KtorMockClient.ktorHttpClient
+        } else{
+            KtorClient.ktorHttpClient
+        }
+
     }
 
     @Provides
