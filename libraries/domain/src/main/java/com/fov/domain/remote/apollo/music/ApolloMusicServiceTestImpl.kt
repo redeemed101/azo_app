@@ -7,6 +7,7 @@ import com.fov.domain.albums.GetAlbumsPaginatedQuery
 import com.fov.domain.genres.*
 import com.fov.domain.remote.apollo.ApolloSetup
 import com.fov.domain.remote.apollo.music.ApolloMusicService
+import com.fov.domain.songs.GetSongsByYearPaginatedQuery
 import com.fov.domain.songs.GetSongsPaginatedQuery
 import com.fov.domain.songs.GetTrendingSongsPaginatedQuery
 
@@ -162,6 +163,25 @@ class ApolloMusicServiceTestImpl constructor(
         return GetTrendingSongsPaginatedQuery.Data(
             List(20){ num ->
                 GetTrendingSongsPaginatedQuery.TrendingSongsPaginated(
+                    "1234",
+                    "Sermon $num",
+                    "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+                    emptyList(),
+                    emptyList(),
+                    "https://picsum.photos/id/$num/200"
+                )
+            }
+        )
+    }
+
+    override suspend fun getSongsByYearPaginated(
+        year: Int,
+        page: Int,
+        size: Int
+    ): GetSongsByYearPaginatedQuery.Data? {
+        return GetSongsByYearPaginatedQuery.Data(
+            List(20){ num ->
+                GetSongsByYearPaginatedQuery.SongsByYearPaginated(
                     "1234",
                     "Sermon $num",
                     "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",

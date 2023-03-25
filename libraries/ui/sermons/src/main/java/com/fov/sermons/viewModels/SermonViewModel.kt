@@ -14,6 +14,7 @@ import com.fov.common_ui.utils.constants.AlbumRequestType
 import com.fov.common_ui.utils.constants.Constants
 import com.fov.common_ui.utils.constants.SongRequestType
 import com.fov.common_ui.utils.helpers.FileUtilities
+import com.fov.common_ui.utils.helpers.Utilities
 import com.fov.core.security.fileEncryption.FileEncryption
 import com.fov.domain.database.models.ActivityType
 import com.fov.domain.database.models.RecentActivity
@@ -39,6 +40,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -339,6 +341,30 @@ class SermonViewModel @Inject constructor(
                 MusicEvent.LoadLikedAlbums -> {
 
                 }
+                MusicEvent.GoToYears ->{
+                    navigationManager.navigate(SermonsDirections.years)
+                }
+                MusicEvent.GoToYear -> {
+
+                    navigationManager.navigate(SermonsDirections.year)
+                }
+                MusicEvent.LoadYears -> {
+                    val c: Calendar = GregorianCalendar()
+                    val upperBound = c.get(Calendar.YEAR)
+                    years = Utilities.yearsRange(2010, upperBound)
+                }
+                is MusicEvent.YearSelected ->{
+                     loading = true
+                     selectedYear = event.year
+                    Log.d("LoadByYear", "Selected")
+                     yearSongs = musicSongHelper.getSongsByYear(event.year,viewModelScope){
+                         error = it.message
+                     }
+                    loading = false
+                }
+                else -> {
+
+                }
             }
         }
     }
@@ -353,6 +379,7 @@ class SermonViewModel @Inject constructor(
             }
         }
     }
+
     private fun getTopSongs(){
         _uiState.value = uiState.value.build {
             loading = true

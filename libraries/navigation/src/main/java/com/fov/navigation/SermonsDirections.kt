@@ -33,6 +33,23 @@ object SermonsDirections {
         })
         override val destination = RouteConstants.GENRE
     }
+
+    val years = object : NavigationCommand{
+
+        override val arguments = listOf(navArgument(Constants.MAINTAB) {
+            defaultValue = RouteConstants.YEARS
+        })
+        override val destination = RouteConstants.YEARS
+    }
+    val year = object : NavigationCommand{
+
+        override val arguments = listOf(navArgument(Constants.MAINTAB) {
+            defaultValue = RouteConstants.YEAR
+        })
+        override val destination = RouteConstants.YEAR
+    }
+
+
     val downloaded_tab = object : NavigationCommand{
 
         override val arguments = listOf(navArgument(Constants.MAINTAB) {

@@ -1,5 +1,6 @@
 package com.fov.sermons.pagination
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.fov.common_ui.utils.constants.SongRequestType
@@ -12,7 +13,8 @@ class SongsSource constructor(
     private val songRequestType: SongRequestType,
     private  val search : String? = null,
     private val genreId: String? = null,
-    private val userId  :  String? = null
+    private val userId  :  String? = null,
+    private val year: Int? = null
 ) : PagingSource<Int, Song>()  {
     override fun getRefreshKey(state: PagingState<Int, Song>): Int? {
         return state.anchorPosition?.let {
@@ -23,7 +25,7 @@ class SongsSource constructor(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Song> {
         return try {
-
+            Log.d("LoadByYear", "year ${year}")
             val nextPage = params.key ?: 1
             var songResult: SongsResult? = null
             if (genreId != null) {
@@ -102,7 +104,27 @@ class SongsSource constructor(
                                 prevKey = if (nextPage == 1) null else nextPage - 1,
                                 nextKey = nextPage.plus(1)
                             )
-                        } else {
+                        }
+                        else if (songRequestType == SongRequestType.YEAR_SONGS && year != null) {
+                            Log.d("LoadByYear", "${SongRequestType.YEAR_SONGS}")
+                            val result = musicInteractor.getSongsByYearGraph(year,nextPage)
+                            val songs = result?.songsByYearPaginated?.map { s ->
+                                Song.ModelMapper.fromYearGraph(s!!)
+
+                            }
+                            if (songs != null) {
+                                Log.d("LoadByYear", "Within")
+                                LoadResult.Page(
+                                    data = songs!!,
+                                    prevKey = if (nextPage == 1) null else nextPage - 1,
+                                    nextKey = nextPage.plus(1)
+                                )
+                            } else {
+                                Log.d("LoadByYearError", "Error")
+                                LoadResult.Error(Exception(""))
+                            }
+                        }
+                        else {
                             when (songRequestType) {
                                 SongRequestType.TOP_SONGS -> {
                                     songResult = musicInteractor.getTopSongs(nextPage)
@@ -136,6 +158,7 @@ class SongsSource constructor(
 
         }
         catch (e: Exception) {
+            Log.d("LoadByYearError", "${e.message}")
             LoadResult.Error(e)
         }
     }

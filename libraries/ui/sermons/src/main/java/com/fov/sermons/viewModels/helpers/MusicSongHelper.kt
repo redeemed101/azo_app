@@ -126,6 +126,27 @@ class MusicSongHelper constructor(
         return flowOf(PagingData.from(emptyList()))
     }
 
+    fun getSongsByYear(year:Int,scope : CoroutineScope, error : (Exception) -> Unit): Flow<PagingData<Song>> {
+
+        try {
+
+            return Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
+                SongsSource(
+                    musicInteractor = musicInteractor,
+                    songRequestType = SongRequestType.YEAR_SONGS,
+                    year = year
+                )
+            }.flow
+                .cachedIn(scope)
+
+
+        }
+        catch(ex : Exception) {
+            error(ex)
+        }
+        return flowOf(PagingData.from(emptyList()))
+    }
+
      fun getNewSongs(scope : CoroutineScope, error : (Exception) -> Unit): Flow<PagingData<Song>> {
 
         try {

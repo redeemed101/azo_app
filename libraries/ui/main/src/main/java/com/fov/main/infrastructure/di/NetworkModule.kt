@@ -112,7 +112,8 @@ object NetworkModule {
     fun providesKtorClient() : HttpClient {
 
         return if( BuildConfig.BUILD_TYPE.lowercase() == "debug") {
-            KtorMockClient.ktorHttpClient
+            //KtorMockClient.ktorHttpClient
+            KtorClient.ktorHttpClient
         } else{
             KtorClient.ktorHttpClient
         }

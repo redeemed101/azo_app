@@ -47,6 +47,11 @@ class KtorMockClient {
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(NewsMockResponse(),HttpStatusCode.OK, responseHeaders)
                         }
+                        "/News/byYear" ->{
+                            val responseHeaders = headersOf("Content-Type"
+                                    to listOf(ContentType.Application.Json.toString()))
+                            respond(NewsMockResponse(),HttpStatusCode.OK, responseHeaders)
+                        }
                         "/payment/Stripe/getClientSecret" -> {
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))

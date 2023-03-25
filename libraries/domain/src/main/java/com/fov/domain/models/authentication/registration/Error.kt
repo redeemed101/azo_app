@@ -7,6 +7,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Error (
 
-    @SerializedName("code") val code : String,
-    @SerializedName("description") val description : String
+    @SerializedName("status_code") val StatusCode : String,
+    @SerializedName("message") val Message : String
 )
+
+

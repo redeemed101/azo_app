@@ -17,6 +17,16 @@ object Utilities {
             //alpha = Random.nextInt(256)
         )
     }
+    fun yearsRange(lowerBound:Int,upperBound:Int): List<Int>{
+        var l = mutableListOf<Int>()
+        var currYear = upperBound
+        while (currYear >= lowerBound){
+
+            l.add(currYear)
+            currYear -= 1
+        }
+        return l
+    }
     fun getDataDirectory(context: Context) : File{
         val appContext = context.applicationContext
         val dataDir = context.dataDir.let{

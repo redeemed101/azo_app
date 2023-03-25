@@ -25,6 +25,8 @@ class RouteConstants {
         val RESETPASSWORD = "reset_password"
         val CHANGEPASSWORD = "change_password"
         val GENRES = "genres"
+        val YEARS = "years"
+        val YEAR = "year"
         val GENRE = "genre"
         val DOWNLOADED = "downloaded_sermons"
     }

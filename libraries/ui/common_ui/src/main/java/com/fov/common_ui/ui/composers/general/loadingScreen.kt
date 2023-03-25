@@ -11,11 +11,23 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 
 @Composable
-fun LoadingBox(){
+fun LoadingBox( ){
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(color = MaterialTheme.colors.background),
+        contentAlignment = Alignment.Center
+    ) {
+        CircularProgressIndicator(
+            modifier = Modifier.testTag("TAG_PROGRESS"),
+            color = MaterialTheme.colors.onBackground
+        )
+    }
+}
+@Composable
+fun LoadingBoxWithParameters(modifier: Modifier){
+    Box(
+        modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
         CircularProgressIndicator(

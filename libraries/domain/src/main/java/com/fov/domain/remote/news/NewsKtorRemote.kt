@@ -8,5 +8,6 @@ class NewsKtorRemote constructor(
 ) : NewsRemote
 {
     override suspend fun getNews(page: Int) = newsKtorService.getNews(page)
+    override suspend fun getNewsByYear(year:Int,page: Int) = newsKtorService.getNewsByYear(year,page)
     override suspend fun getImagePagers(page: Int) = newsKtorService.getImagePagers(page)
 }

@@ -92,7 +92,7 @@ private fun OnBoardingUI(
                 activeColor = MaterialTheme.colors.onSurface
             )
 
-            AnimatedVisibility(visible = pagerState.currentPage == 2 ) {
+            AnimatedVisibility(visible = pagerState.currentPage == (pages.size - 1) ) {
                 OutlinedButton(shape = RoundedCornerShape(20.dp) ,
                     modifier = Modifier
                         .fillMaxWidth()

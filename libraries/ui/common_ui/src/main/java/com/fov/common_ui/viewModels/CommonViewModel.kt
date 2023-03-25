@@ -41,9 +41,11 @@ import com.fov.common_ui.pagination.FilesSource
 import com.fov.common_ui.pagination.NewsSource
 import com.fov.common_ui.utils.constants.AlbumRequestType
 import com.fov.common_ui.utils.constants.Constants
+import com.fov.common_ui.utils.constants.SongRequestType
 import com.fov.domain.interactors.news.NewsInteractor
 import com.fov.domain.interactors.video.VideoInteractor
 import com.fov.domain.utils.constants.QueryConstants
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.*
 
 
@@ -56,7 +58,7 @@ class CommonViewModel @Inject constructor(
     private val userDao: UserDao
 ) :  AndroidViewModel(application) {
 
-    val newsPager = Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
+    var newsPager = Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
         NewsSource(
             newsInteractor = newsInteractor
         )
@@ -79,7 +81,26 @@ class CommonViewModel @Inject constructor(
     }
 
 
+    fun getNewsByYear(year : Int): Flow<PagingData<NewsModel>> {
 
+        try {
+
+            return Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
+                NewsSource(
+                    newsInteractor = newsInteractor,
+                    "BY_YEAR",
+                    year
+                )
+            }.flow
+                .cachedIn(viewModelScope)
+
+
+        }
+        catch(ex : Exception) {
+            error(ex)
+        }
+        return flowOf(PagingData.from(emptyList()))
+    }
     private fun replaceImageCapture() {
         _uiState.value.build {
             imageCapture = newImageCapture()
@@ -222,6 +243,9 @@ class CommonViewModel @Inject constructor(
                 }
                 CommonEvent.NewPhoto -> {
                     replaceImageCapture()
+                }
+                is CommonEvent.GetNewsYear ->{
+                    newsPager =  getNewsByYear(event.year)
                 }
                 CommonEvent.TakePhoto -> {
 

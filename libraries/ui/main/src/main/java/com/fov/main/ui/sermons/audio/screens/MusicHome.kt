@@ -192,14 +192,17 @@ private fun getListOfGridItems(
                 musicEvents(MusicEvent.GoToGenres)
 
             })
-        /*list.add(MusicHomeGridItem(
-            "Videos",
-            com.fov.common_ui.R.drawable.ic_watch_video
-        ){
+    list.add(MusicHomeGridItem(
+        "By Year",
+        com.fov.common_ui.R.drawable.ic_music
+    ){
 
-            musicEvents(MusicEvent.)
+        events(CommonEvent.ChangeHasDeepScreen(true, "Years"))
+        events(CommonEvent.ChangeBackPageData(BackPageData(false,"Sermons")))
+        musicEvents(MusicEvent.GoToYears)
 
-        })*/
+    })
+
     return list
 
 }

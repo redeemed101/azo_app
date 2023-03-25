@@ -193,6 +193,34 @@ fun NavigationHost(
             }
 
             composable(
+                SermonsDirections.years.destination,
+                arguments = SermonsDirections.years.arguments
+            ) {
+
+
+                YearsScreen(
+                    musicViewModel = musicViewModel,
+                    commonViewModel = commonViewModel
+                )
+
+
+            }
+
+            composable(
+                SermonsDirections.year.destination,
+                arguments = SermonsDirections.year.arguments
+            ) {
+
+
+                ByYearScreen(
+                    musicViewModel = musicViewModel,
+                    commonViewModel = commonViewModel,
+                )
+
+
+            }
+
+            composable(
                 SermonsDirections.song.destination,
                 arguments = SermonsDirections.song.arguments
             ) {

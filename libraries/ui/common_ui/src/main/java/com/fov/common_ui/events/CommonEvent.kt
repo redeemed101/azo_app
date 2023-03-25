@@ -53,4 +53,5 @@ sealed class CommonEvent {
     data class ChangeDownloadData(val data : DownloadData) : CommonEvent()
     data class ChangeShowAddPlaylist(val show : Boolean) : CommonEvent()
     data class ChangeUserId(val userId: String) : CommonEvent()
+    data class GetNewsYear(val year: Int) : CommonEvent()
 }

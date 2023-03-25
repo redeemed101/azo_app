@@ -5,6 +5,7 @@ import com.fov.domain.music.*
 import com.fov.domain.albums.GetAlbumQuery
 import com.fov.domain.albums.GetAlbumsPaginatedQuery
 import com.fov.domain.genres.*
+import com.fov.domain.songs.GetSongsByYearPaginatedQuery
 import com.fov.domain.songs.GetSongsPaginatedQuery
 import com.fov.domain.songs.GetTrendingSongsPaginatedQuery
 
@@ -17,6 +18,7 @@ interface ApolloMusicService {
     suspend fun getUserLikedSongs(id:String): GetUserLikedSongsQuery.Data?
     suspend fun getSongsPaginated(page:Int,size:Int) : GetSongsPaginatedQuery.Data?
     suspend fun getTrendingSongsPaginated(page:Int,size:Int) : GetTrendingSongsPaginatedQuery.Data?
+    suspend fun getSongsByYearPaginated(year:Int,page:Int,size:Int) : GetSongsByYearPaginatedQuery.Data?
     suspend fun getUserLikedSongsPaginated(id:String,page: Int,size: Int): GetUserLikedSongsPaginatedQuery.Data?
     suspend fun getAlbumsPaginated(page:Int,size:Int): GetAlbumsPaginatedQuery.Data?
     suspend fun getUserLikedAlbumsPaginated(id:String,page: Int,size: Int): GetUserLikedAlbumsPaginatedQuery.Data?

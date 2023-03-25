@@ -4,9 +4,12 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.fov.common_ui.models.NewsModel
 import com.fov.domain.interactors.news.NewsInteractor
+import com.fov.domain.models.news.NewsResult
 
 class NewsSource constructor(
-    private val newsInteractor: NewsInteractor
+    private val newsInteractor: NewsInteractor,
+    private val queryType: String = "NORMAL",
+    private val year:Int? = null
 ) : PagingSource<Int, NewsModel>() {
     override fun getRefreshKey(state: PagingState<Int, NewsModel>): Int? {
         return state.anchorPosition?.let {
@@ -18,7 +21,16 @@ class NewsSource constructor(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, NewsModel> {
         return try {
             val nextPage = params.key ?: 1
-            val result = newsInteractor.getNews(nextPage)
+            var result : NewsResult?
+            if(queryType == "BY_YEAR") {
+                if (year != null)
+                    result = newsInteractor.getNewsByYear(year,nextPage)
+                else
+                    result = newsInteractor.getNews(nextPage)
+            }
+            else{
+                result = newsInteractor.getNews(nextPage)
+            }
             val news = result?.news?.map {
                 NewsModel(
                     title = it.title,

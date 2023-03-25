@@ -1,15 +1,16 @@
 package com.fov.main
 
-import android.content.Intent
 import android.media.MediaPlayer
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.method.ScrollingMovementMethod
 import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.widget.ImageView
+import android.widget.ScrollView
 import android.widget.TextView
 import android.widget.VideoView
 import androidx.activity.viewModels
@@ -34,8 +35,8 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
+
 
 @AndroidEntryPoint
 class ShortsActivity : AppCompatActivity(), ShortsCallback {
@@ -96,12 +97,15 @@ class ShortsActivity : AppCompatActivity(), ShortsCallback {
 
                 }
                 ShortType.TEXT.type -> {
+                    val scroller = ScrollView(this)
                     val textView = TextView(this)
+                    //textView.movementMethod = ScrollingMovementMethod()
                     textView.text = shortPath
                     textView.textSize = 20f.toPixel(this).toFloat()
                     textView.gravity = Gravity.CENTER
                     textView.setTextColor(Color.White.toArgb())
-                    listOfViews.add(ShortsView(textView, 5))
+                    scroller.addView(textView)
+                    listOfViews.add(ShortsView(scroller, 5))
                 }
             }
 

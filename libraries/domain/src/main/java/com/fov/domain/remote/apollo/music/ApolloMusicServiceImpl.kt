@@ -10,6 +10,7 @@ import com.fov.domain.albums.GetAlbumsPaginatedQuery
 import com.fov.domain.genres.*
 import com.fov.domain.remote.apollo.ApolloSetup
 import com.fov.domain.remote.apollo.music.ApolloMusicService
+import com.fov.domain.songs.GetSongsByYearPaginatedQuery
 import com.fov.domain.songs.GetSongsPaginatedQuery
 import com.fov.domain.songs.GetTrendingSongsPaginatedQuery
 
@@ -84,6 +85,23 @@ class ApolloMusicServiceImpl constructor(
         apolloClient  = apolloSetup.setUpApolloClient("api/sermonql")
         val res = apolloClient.query(
             GetTrendingSongsPaginatedQuery(
+                Optional.presentIfNotNull(page),
+                Optional.presentIfNotNull(size)
+            )
+
+        ).execute()
+        return res.data
+    }
+
+    override suspend fun getSongsByYearPaginated(
+        year: Int,
+        page: Int,
+        size: Int
+    ): GetSongsByYearPaginatedQuery.Data? {
+        apolloClient  = apolloSetup.setUpApolloClient("api/sermonql")
+        val res = apolloClient.query(
+            GetSongsByYearPaginatedQuery(
+                Optional.presentIfNotNull(year),
                 Optional.presentIfNotNull(page),
                 Optional.presentIfNotNull(size)
             )

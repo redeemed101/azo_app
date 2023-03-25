@@ -23,7 +23,7 @@ enum class UsersRequestType {
 }
 
 enum class SongRequestType {
-    TOP_SONGS, ALL_SONGS,GENRE_SONGS, FOR_YOU,RECENT_SEARCH, RECENT, LIKED_SONGS
+    TOP_SONGS, ALL_SONGS,GENRE_SONGS, FOR_YOU,RECENT_SEARCH, RECENT, LIKED_SONGS, YEAR_SONGS
 }
 
 enum class AlbumRequestType {

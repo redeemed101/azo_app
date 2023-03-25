@@ -317,12 +317,15 @@ class RegistrationViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 val result = authenticate.signUp(
-                    userName = _uiState.value.username,
+                    userName = _uiState.value.email,//_uiState.value.username,
                     fullName = _uiState.value.fullname,
                     email = _uiState.value.email,
                     password = _uiState.value.password,
                     phoneNumber = _uiState.value.phoneNumber,
                 )
+                if (result != null) {
+                    Log.e("registration", result.token)
+                }
                 processRegistrationResult(result)
                 _uiState.value = uiState.value.build {
                     loading = false
@@ -330,13 +333,14 @@ class RegistrationViewModel @Inject constructor(
                 }
             }
             catch(ex : ServerException){
+                ex.message?.let { Log.e("registration", it) }
                 _uiState.value = uiState.value.build {
                     loading = false
                     error = ex.message
                 }
             }
             catch (ex : Exception){
-
+                ex.message?.let { Log.e("registration", it) }
                 _uiState.value = uiState.value.build {
                     loading = false
                     error = ex.message

@@ -18,6 +18,13 @@ class NewsKtorService constructor(private val client: HttpClient)  {
         }
     }.body()
 
+    suspend fun getNewsByYear(year:Int,page: Int): NewsResult? =  client.request("News/byYear?year=${year}&page=${page}&size=${QueryConstants.NUM_ROWS}") {
+        method = HttpMethod.Get
+        headers {
+            append("Content-Type", "application/json")
+        }
+    }.body()
+
     suspend fun getImagePagers(page: Int): ImagePagerResult? =  client.request("Home/imagePager?page=${page}&size=${QueryConstants.NUM_ROWS}") {
         method = HttpMethod.Get
         headers {

@@ -138,7 +138,9 @@ private fun login(
                                 keyboardType = KeyboardType.Password,
                                 imeAction = ImeAction.Done,
                             ),
-                            visualTransformation = if (passwordVisibility) VisualTransformation.None else PasswordVisualTransformation(),
+                            visualTransformation = if (passwordVisibility)
+                                                        VisualTransformation.None
+                                               else PasswordVisualTransformation(),
                             trailingIcon = {
                                 Icon(
                                     painterResource(R.drawable.ic_eye),
