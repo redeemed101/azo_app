@@ -340,7 +340,9 @@ class RegistrationViewModel @Inject constructor(
                 }
             }
             catch (ex : Exception){
-                ex.message?.let { Log.e("registration", it) }
+                ex.message?.let { Log.e("registration2", it) }
+                ex.printStackTrace()
+                Log.e("registration2",ex.stackTraceToString())
                 _uiState.value = uiState.value.build {
                     loading = false
                     error = ex.message

@@ -38,32 +38,47 @@ class KtorClient {
                    protocol = URLProtocol.HTTPS
                 }
             }
+            var responseBody = "";
             expectSuccess = true
             HttpResponseValidator {
+
                 validateResponse { response ->
                     val statusCode = response.status
+                    Log.e("status",statusCode.value.toString())
+                    responseBody = response.bodyAsText()
+                    Log.d("Response"," ${responseBody}")
                     when (statusCode.value) {
-                        in 300..399 -> print(response.bodyAsText())
+                        in 300..399 -> {
+                            Log.e("error ${statusCode.value}"," ${responseBody}")
+                        }
                         in 400..499 -> {
-                            print(response.bodyAsText())
-                            throw ClientRequestException(response,response.bodyAsText())
+                            Log.e("error ${statusCode.value}"," ${responseBody}")
+                            throw ClientRequestException(response," ${responseBody}")
                         }
                         in 500..599 -> {
-                            print(response.bodyAsText())
+
                             val gson = Gson()
-                            val error = gson.fromJson(response.bodyAsText(),com.fov.domain.models.authentication.registration.Error::class.java)
+                            val error = gson.fromJson(responseBody,com.fov.domain.models.authentication.registration.Error::class.java)
+                            Log.e("error ${statusCode.value}"," ${error.Message}")
                             throw ServerException(error.Message)
+                        }
+                        else -> {
+                            Log.e("error else ${statusCode.value}"," ${responseBody}")
                         }
                     }
                 }
                 handleResponseExceptionWithRequest { exception,httpRequest ->
                     val clientException = exception as? ClientRequestException ?: return@handleResponseExceptionWithRequest
-                    val exceptionResponse = clientException.response
+                    val response = clientException.response
+                    val statusCode = response.status
+
+                    Log.e("error2", "${statusCode.value}")
                    val error = when (httpRequest) {
 
-                        is HttpRequest -> ExceptionHandler.getError(exceptionResponse)
-                        else -> throw Exception("Something went wrong ${exceptionResponse.bodyAsText()}") //or do whatever you need
+                        is HttpRequest -> ExceptionHandler.getError(response)
+                        else -> throw Exception("Something went wrong ${responseBody}") //or do whatever you need
                     }
+                    Log.e("error2","${error.errorDescription}")
                     throw ServerException(error.errorDescription)
 
                 }
@@ -106,7 +121,7 @@ class KtorClient {
             install(ResponseObserver) {
                 onResponse { response ->
                     Log.d("HTTP status:", "${response.status.value}")
-                    Log.d("HTTP body:", "${response.bodyAsText()}")
+                   // Log.d("HTTP body:", "${response.bodyAsText()}")
                 }
             }
 
