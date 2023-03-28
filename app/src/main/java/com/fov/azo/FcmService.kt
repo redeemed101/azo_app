@@ -80,13 +80,15 @@ class FcmService : FirebaseMessagingService() {
     }
     private fun sendRegistrationToServer(token: String){
           Log.d("token",token)
-        try {
+
             GlobalScope.launch {
+                try {
                 usersViewModel.sendDeviceToken(token)
+                }
+                catch(ex : Exception){
+                    Log.e("token", ex.message.toString())
+                }
             }
-        }
-        catch(ex : Exception){
-            Log.e("token", ex.message.toString())
-        }
+
     }
 }

@@ -1,14 +1,9 @@
 package com.fov.authentication.viewModels
 
-import android.util.Base64
 import android.util.Log
 import androidx.lifecycle.*
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import com.fov.authentication.events.RegistrationEvent
-import com.fov.common_ui.utils.constants.UsersRequestType
 import com.fov.authentication.states.RegistrationState
-import com.fov.common_ui.utils.constants.Constants
 import com.fov.core.di.Preferences
 import com.fov.core.security.encryption.KeyGeneration
 import com.fov.core.utils.Validation
@@ -43,10 +38,17 @@ class RegistrationViewModel @Inject constructor(
     val toast: StateFlow<String> get() = _toast
 
     val users: LiveData<List<User>> =  userDao.getUsers().asLiveData()
-
+    var localUser: User? = null
     init {
         viewModelScope.launch {
+             localUser = userDao.getUsers().first()?.first()
 
+            if(localUser != null) {
+                     Log.d("UserFound", localUser!!.id)
+                    _uiState.value = uiState.value.build {
+                       user = user
+                    }
+            }
         }
     }
 
@@ -89,8 +91,15 @@ class RegistrationViewModel @Inject constructor(
                         socialLogin()
                     }
                     RegistrationEvent.VerifyCodeClicked -> {
-                        submitVerificationCode{
-                            verificationDone = true
+
+                        loading = true
+                        if(isVerifyCodeContentValid) {
+                            submitVerificationCode {
+                                verificationDone = true
+                            }
+                        }
+                        else{
+                            loading = false
                         }
                     }
                     is RegistrationEvent.EmailChanged -> {
@@ -143,8 +152,10 @@ class RegistrationViewModel @Inject constructor(
                     }
 
                     RegistrationEvent.ResendVerificationCode -> {
-                        if(this.user != null)
+                        if(localUser != null) {
+                            loading = true
                             resendCode()
+                        }
                         else{
                                 error = "No user found"
 
@@ -158,6 +169,8 @@ class RegistrationViewModel @Inject constructor(
                     this.fullname.trim().isNotEmpty() && this.email.trim().isNotEmpty() && Validation.isEmail(this.email)
                     && password.trim().isNotEmpty() && confirmPassword.trim().isNotEmpty()
                     && confirmPassword.trim() == password.trim()
+            this.isVerifyCodeContentValid = this.verificationCode.trim().isNotEmpty() && verificationCode.length >= 4
+
         }
 
     }
@@ -173,7 +186,7 @@ class RegistrationViewModel @Inject constructor(
             try {
 
                   val result =   authenticate.verifyUserCode(
-                        _uiState.value.user?.id ?: "",
+                        localUser?.id ?: "",
                         _uiState.value.verificationCode
                     )
 
@@ -212,6 +225,7 @@ class RegistrationViewModel @Inject constructor(
                 }
             }
             catch (ex : Exception){
+                Log.e("VerificationError", ex.message.toString())
                 _uiState.value = uiState.value.build {
                     loading = false
                     error = ex.message
@@ -228,14 +242,15 @@ class RegistrationViewModel @Inject constructor(
         }
         viewModelScope.launch {
             try {
-                val res = authenticate.resendCode(_uiState.value.user!!.id,true)
+                val res = authenticate.resendCode(localUser!!.id,true)
                 if(res != null) {
 
                     if (res.success) {
 
                         _uiState.value = uiState.value.build {
                             loading = false
-                            this.successMessage = "Code successfully resent"
+                            successMessage = "Code successfully resent"
+                            error = null
                         }
                     }
                     else{
@@ -277,7 +292,7 @@ class RegistrationViewModel @Inject constructor(
                     privateKey =  secretKeyString ?: result.user.privateKey,
                     publicKey = result.user.publicKey,
                     id = result.user.id,
-                    profile = result.user.profile,
+                    profile = "",
                     email = result.user.email
                 )
                 userDao.insertAll(
@@ -289,9 +304,6 @@ class RegistrationViewModel @Inject constructor(
                 sharedPrefs.setAuthToken(result.token)
                 sharedPrefs.setRefreshToken(result.refreshToken)
                 sharedPrefs.setIsVerified(false)
-
-
-
 
                 navigationManager.navigate(AuthenticationDirections.verifyAccount)
             }

@@ -1,6 +1,8 @@
 package com.fov.authentication.ui.registration.registration
 
 import android.annotation.SuppressLint
+import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -26,6 +29,7 @@ import com.fov.common_ui.theme.commonPadding
 import com.fov.authentication.events.RegistrationEvent
 import com.fov.authentication.states.RegistrationState
 import com.fov.authentication.viewModels.RegistrationViewModel
+import com.fov.common_ui.ui.composers.general.LoadingBoxWithParameters
 import kotlinx.coroutines.launch
 
 @Composable
@@ -48,11 +52,7 @@ private fun VerifyAccount(
 ){
     val snackBarHostState = remember { SnackbarHostState() }
     val coroutineScope = rememberCoroutineScope()
-    if (viewState.isLoading) {
-        LoadingBox()
-    }
-    else{
-        Surface(color = MaterialTheme.colors.surface,
+    Surface(color = MaterialTheme.colors.surface,
             modifier = Modifier
                 .fillMaxHeight()
                 .fillMaxWidth()
@@ -77,7 +77,7 @@ private fun VerifyAccount(
                     SnackbarHost(
                         hostState = snackBarHostState,
                         modifier = Modifier
-                            .background(color = MaterialTheme.colors.secondary)
+                            .background(color = MaterialTheme.colors.background)
 
 
                     )
@@ -129,6 +129,7 @@ private fun VerifyAccount(
                         },
                         width = screenWidth,
                         padding = commonPadding,
+                        enabled = !viewState.isLoading,
                         shape = RoundedCornerShape(10),
                         keyboardOptions = KeyboardOptions(
                             keyboardType = KeyboardType.NumberPassword,
@@ -139,7 +140,7 @@ private fun VerifyAccount(
                     Spacer(modifier = Modifier.padding(8.dp))
                     Button(
                         shape = RoundedCornerShape(30),
-                        enabled = viewState.verificationCode.isNotEmpty(),
+                        enabled = viewState.isVerifyCodeContentValid && !viewState.isLoading,
                         modifier = Modifier
                             .width(screenWidth)
                             .height(70.dp)
@@ -171,9 +172,21 @@ private fun VerifyAccount(
 
                         }
                     }
+                    if (!viewState.successMessage.isNullOrEmpty()) {
+                          Log.d("Toast", viewState.successMessage)
+                         Toast.makeText(LocalContext.current,viewState.successMessage,Toast.LENGTH_LONG).show()
+                    }
 
 
 
+                }
+                if (viewState.isLoading) {
+                    LoadingBoxWithParameters(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .align(Alignment.TopCenter)
+                            .background(color = MaterialTheme.colors.background.copy(alpha = 0.5f))
+                    )
                 }
 
                 Row(
@@ -198,10 +211,11 @@ private fun VerifyAccount(
                 }
 
                 Spacer(modifier = Modifier.padding(commonPadding))
+
             }
 
             }
         }
-    }
+
 
 }

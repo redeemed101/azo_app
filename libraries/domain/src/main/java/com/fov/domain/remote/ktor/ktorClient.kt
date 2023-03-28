@@ -39,34 +39,61 @@ class KtorClient {
                 }
             }
             var responseBody = "";
-            expectSuccess = true
+            //expectSuccess = true
+
             HttpResponseValidator {
 
                 validateResponse { response ->
                     val statusCode = response.status
-                    Log.e("status",statusCode.value.toString())
-                    responseBody = response.bodyAsText()
-                    Log.d("Response"," ${responseBody}")
+                    Log.e("status=>",statusCode.value.toString())
+
                     when (statusCode.value) {
                         in 300..399 -> {
-                            Log.e("error ${statusCode.value}"," ${responseBody}")
+                            responseBody = response.bodyAsText()
+                            if(responseBody.isNotEmpty() && responseBody.contains("Message", true)) {
+                                val gson = Gson()
+                                val error = gson.fromJson(
+                                    responseBody,
+                                    com.fov.domain.models.authentication.registration.Error::class.java
+                                )
+                                Log.e("error ${statusCode.value}", " ${error.Message}")
+                                throw ServerException(error.Message)
+                            }
+                            throw Exception("Something went wrong")
                         }
                         in 400..499 -> {
-                            Log.e("error ${statusCode.value}"," ${responseBody}")
-                            throw ClientRequestException(response," ${responseBody}")
+                            responseBody = response.bodyAsText()
+                            if(responseBody.isNotEmpty() && responseBody.contains("Message", true)) {
+                                val gson = Gson()
+                                val error = gson.fromJson(
+                                    responseBody,
+                                    com.fov.domain.models.authentication.registration.Error::class.java
+                                )
+                                Log.e("error ${statusCode.value}", " ${error.Message}")
+                                throw ServerException(error.Message)
+                            }
+                            throw Exception("Something went wrong")
                         }
                         in 500..599 -> {
+                            if(responseBody.isNotEmpty() && responseBody.contains("Message", true)) {
+                                responseBody = response.bodyAsText()
+                                val gson = Gson()
+                                val error = gson.fromJson(
+                                    responseBody,
+                                    com.fov.domain.models.authentication.registration.Error::class.java
+                                )
+                                Log.e("error ${statusCode.value}", " ${error.Message}")
+                                throw ServerException(error.Message)
+                            }
+                        }
 
-                            val gson = Gson()
-                            val error = gson.fromJson(responseBody,com.fov.domain.models.authentication.registration.Error::class.java)
-                            Log.e("error ${statusCode.value}"," ${error.Message}")
-                            throw ServerException(error.Message)
-                        }
-                        else -> {
-                            Log.e("error else ${statusCode.value}"," ${responseBody}")
-                        }
+                    }
+                    if (statusCode.value >= 600) {
+                        responseBody = response.bodyAsText()
+                        throw ServerException(responseBody)
                     }
                 }
+
                 handleResponseExceptionWithRequest { exception,httpRequest ->
                     val clientException = exception as? ClientRequestException ?: return@handleResponseExceptionWithRequest
                     val response = clientException.response

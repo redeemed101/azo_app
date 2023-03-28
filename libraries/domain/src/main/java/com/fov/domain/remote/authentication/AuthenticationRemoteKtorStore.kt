@@ -116,17 +116,14 @@ class AuthenticationRemoteKtorStore constructor(
     }
 
     override suspend fun verifyUserCode(userId: String, code: String): GeneralResult? {
-        try {
+
             return authenticationService.verifyUserCode(
                 VerifyCodeRequest(
                     userId = userId,
                     code = code
                 )
             )
-        }
-        catch(e:Exception){
-            throw Exception(e.toCustomExceptions())
-        }
+
     }
 
     override suspend fun refreshToken(token: String, refreshToken: String): RefreshTokenResult? {

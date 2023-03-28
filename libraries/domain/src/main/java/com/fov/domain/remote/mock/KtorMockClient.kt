@@ -141,7 +141,7 @@ class KtorMockClient {
 
                             respond(GeneralMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
-                        "/User/verifyUserCode" ->{
+                        "/UserCode/verifyUserCode" ->{
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(GeneralMockResponse(), HttpStatusCode.OK, responseHeaders)
@@ -151,7 +151,7 @@ class KtorMockClient {
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(GeneralMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
-                        "/User/resendUserCode" ->{
+                        "/UserCode/resendUserCode" ->{
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(GeneralMockResponse(), HttpStatusCode.OK, responseHeaders)
@@ -166,7 +166,7 @@ class KtorMockClient {
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(GeneralMockResponse(), HttpStatusCode.OK, responseHeaders)
                         }
-                        "/User/saveToken" ->{
+                        "/DeviceToken/saveToken" ->{
                             val responseHeaders = headersOf("Content-Type"
                                     to listOf(ContentType.Application.Json.toString()))
                             respond(GeneralMockResponse(), HttpStatusCode.OK, responseHeaders)

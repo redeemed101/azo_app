@@ -1,7 +1,9 @@
 package com.fov.domain.remote.authentication
 
 
+import android.util.Log
 import com.fov.domain.models.authentication.GeneralResult
+import com.fov.domain.models.authentication.ResendCodeRequest
 import com.fov.domain.models.authentication.login.*
 import com.fov.domain.models.authentication.password.PasswordChangeRequest
 import com.fov.domain.models.authentication.password.ResetPasswordRequest
@@ -10,6 +12,7 @@ import com.fov.domain.models.authentication.users.DeleteAccountDTO
 import com.fov.domain.models.authentication.users.DisableAccountDTO
 import com.fov.domain.models.users.notifications.NotificationsResult
 import com.fov.domain.utils.constants.QueryConstants
+import com.google.gson.Gson
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -40,15 +43,18 @@ class AuthenticationKtorService constructor(private val client: HttpClient) {
 
         }.body()
 
-    suspend fun signUp(signupRequest: SignupRequest): SignupResult =
-        client.request("User/signup") {
+    suspend fun signUp(signupRequest: SignupRequest): SignupResult? {
+        val response = client.request("User/signup") {
             method = HttpMethod.Post
             headers {
                 append("Content-Type", "application/json")
             }
             setBody(signupRequest)
 
-        }.body()
+        }
+        Log.d("Response for signup",response.bodyAsText())
+        return response.body()
+    }
 
     suspend fun resetPassword(request: ResetPasswordRequest): SigninResult =
         client.request("User/reset") {
@@ -59,14 +65,17 @@ class AuthenticationKtorService constructor(private val client: HttpClient) {
             setBody(request)
         }.body()
 
-    suspend fun resendCode(userId: String, reset: Boolean): GeneralResult =
-        client.request("User/resendUserCode?isReset=$reset") {
+    suspend fun resendCode(userId: String, reset: Boolean): GeneralResult {
+        val request = ResendCodeRequest(userId = userId)
+        var response = client.request("UserCode/resendUserCode?isReset=$reset") {
             method = HttpMethod.Post
             headers {
                 append("Content-Type", "application/json")
             }
-            setBody(userId)
-        }.body()
+            setBody(request)
+        }
+            return response.body()
+    }
 
     suspend fun changePassword(request: PasswordChangeRequest): GeneralResult =
         client.request("User/passwordchange") {
@@ -78,7 +87,7 @@ class AuthenticationKtorService constructor(private val client: HttpClient) {
         }.body()
 
     suspend fun verifyUserCode(request: VerifyCodeRequest): GeneralResult =
-        client.request("User/verifyUserCode") {
+        client.request("UserCode/verifyUserCode") {
             method = HttpMethod.Post
             headers {
                 append("Content-Type", "application/json")
@@ -154,7 +163,7 @@ class AuthenticationKtorService constructor(private val client: HttpClient) {
         }.body()
 
     suspend fun sendDeviceToken(token: String): GeneralResult? =
-        client.request("User/saveToken") {
+        client.request("DeviceToken/saveToken") {
         method = HttpMethod.Post
         headers {
             append("Content-Type", "application/json")

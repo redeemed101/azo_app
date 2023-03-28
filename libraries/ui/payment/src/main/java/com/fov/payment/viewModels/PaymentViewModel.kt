@@ -2,6 +2,7 @@ package com.fov.payment.viewModels
 
 
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.fov.navigation.NavigationManager
@@ -27,8 +28,13 @@ class PaymentViewModel @Inject constructor(
     val uiState: StateFlow<PayState> = _uiState
     init{
 
-            getStripeCredentials()
-            loadPaymentMethods()
+            try {
+                getStripeCredentials()
+                loadPaymentMethods()
+            }
+            catch (ex : Exception){
+                Log.e("init", ex.message.toString())
+            }
 
 
     }

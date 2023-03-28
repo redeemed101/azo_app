@@ -160,10 +160,12 @@ class MainActivity : ComponentActivity() {
             }
         }.addOnFailureListener { e -> }
             .addOnCanceledListener {}.addOnCompleteListener { task ->
-                Log.v(
-                    "token",
-                    "This is the token : " + task.getResult()
-                )
+                if(task.isSuccessful) {
+                    Log.v(
+                        "token",
+                        "This is the token : " + task.result
+                    )
+                }
             }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             listenForInternetConnectivity()
