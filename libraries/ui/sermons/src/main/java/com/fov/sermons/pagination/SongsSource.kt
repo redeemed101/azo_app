@@ -79,7 +79,7 @@ class SongsSource constructor(
                             songResult != null -> {
 
                                 LoadResult.Page(
-                                    data = songResult!!.songs.map { song ->
+                                    data = songResult!!.sermons.map { song ->
                                         Song.ModelMapper.from(song)
                                     },
                                     prevKey = if (nextPage == 1) null else nextPage - 1,
@@ -140,7 +140,7 @@ class SongsSource constructor(
                             if (songResult != null) {
 
                                 LoadResult.Page(
-                                    data = songResult!!.songs.map { song ->
+                                    data = songResult!!.sermons.map { song ->
                                         Song.ModelMapper.from(song)
                                     },
                                     prevKey = if (nextPage == 1) null else nextPage - 1,

@@ -8,8 +8,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.common_ui.utils.helpers.ShimmerAnimation
 import com.fov.common_ui.extensions.itemsCustomized
 import com.fov.common_ui.theme.AzoTheme
 import com.fov.common_ui.ui.composers.sections.Section
@@ -44,24 +46,42 @@ fun Albums(
     navigateTabAction: () -> Unit
 ){
     val lazyAlbumItems = albums.collectAsLazyPagingItems()
-    if(lazyAlbumItems.itemCount > 0)
-    Section(title,{}){
-
-        LazyRow(modifier = Modifier
-            .padding(top = 10.dp)
-            .fillMaxWidth()
-            ,
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            itemsCustomized(lazyAlbumItems){ album,_ ->
-                AlbumItem(album = album!!, onDownloadedIconClicked = {}){
-
-                    musicEvents(MusicEvent.AlbumSelected(album!!))
-                    musicEvents(MusicEvent.ChangeShowingAlbum(true))
-                    navigateTabAction()
-                }
+    when(lazyAlbumItems.loadState.refresh){
+        is LoadState.Loading -> {
+            Row(
+                modifier = Modifier
+                    .padding(top = 10.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                ShimmerAnimation(size = 100.dp, isCircle = false)
+                ShimmerAnimation(size = 100.dp, isCircle = false)
             }
         }
+        is LoadState.Error -> {
 
+        }
+        else -> {
+            if(lazyAlbumItems.itemCount > 0)
+                Section(title,{}){
+
+                    LazyRow(modifier = Modifier
+                        .padding(top = 10.dp)
+                        .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        itemsCustomized(lazyAlbumItems){ album,_ ->
+                            AlbumItem(album = album!!, onDownloadedIconClicked = {}){
+
+                                musicEvents(MusicEvent.AlbumSelected(album!!))
+                                musicEvents(MusicEvent.ChangeShowingAlbum(true))
+                                navigateTabAction()
+                            }
+                        }
+                    }
+
+                }
+        }
     }
+
 }

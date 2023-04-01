@@ -5,5 +5,5 @@ import kotlinx.serialization.Serializable
 @Keep
 @Serializable
 data class SongsResult(
-   val songs : List<Song> = emptyList()
+   val sermons : List<Sermon> = emptyList()
 )

@@ -1,5 +1,6 @@
 package com.fov.sermons.pagination
 
+import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.fov.common_ui.utils.constants.AlbumRequestType
@@ -11,7 +12,8 @@ class AlbumsSource constructor(
     private val musicInteractor: MusicInteractor,
     private val albumRequestType: AlbumRequestType,
     private val genreId: String? = null,
-    private val userId:  String? = null
+    private val userId:  String? = null,
+    private val callback : () -> Unit = {}
 ) : PagingSource<Int, Album>() {
     override fun getRefreshKey(state: PagingState<Int, Album>): Int? {
         return state.anchorPosition?.let {
@@ -28,6 +30,7 @@ class AlbumsSource constructor(
                if(albumRequestType == AlbumRequestType.GENRE_ALBUMS) {
 
                         val result = musicInteractor.getGenreAlbumsGraph(genreId, nextPage)
+                        callback()
                         val albums = result?.albumsPaginated?.map { a ->
                             Album.ModelMapper.fromGenreGraph(a!!)
                         }
@@ -49,10 +52,11 @@ class AlbumsSource constructor(
             }
             else if(userId  != null){
                 if(albumRequestType == AlbumRequestType.LIKED_ALBUMS) {
-
                     val result = musicInteractor.getUserLikedAlbumsPaginated(userId, nextPage)
+                    callback()
                     val albums = result?.likedAlbumsPaginated?.map { a ->
                         Album.ModelMapper.fromLikedAlbumsGraph(a!!)
+
                     }
                     if(albums != null) {
                         LoadResult.Page(
@@ -75,9 +79,12 @@ class AlbumsSource constructor(
                 when (albumRequestType) {
                     AlbumRequestType.TOP_ALBUMS -> {
                         albumResult = musicInteractor.getTopAlbums(nextPage)
+                        callback()
+                        Log.e("Series",albumResult.toString())
                     }
                     AlbumRequestType.ALL_ALBUMS ->{
                         musicInteractor.getAlbumsGraph(nextPage)
+                        callback()
                     }
                     else -> {
 
@@ -102,6 +109,7 @@ class AlbumsSource constructor(
 
         }
         catch (e: Exception) {
+            callback()
             LoadResult.Error(e)
         }
     }

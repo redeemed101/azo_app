@@ -43,6 +43,7 @@ class MusicState(
     val years : List<Int> = emptyList(),
     val selectedYear: Int? = null,
     val yearSongs :  Flow<PagingData<Song>>  = flowOf(PagingData.from(emptyList())),
+    val isLoadingTopAlbums : Boolean = false
 
 ) {
     companion object {
@@ -83,6 +84,7 @@ class MusicState(
         var years = state.years
         var selectedYear = state.selectedYear
         var yearSongs = state.yearSongs
+        var isLoadingTopAlbums = state.isLoadingTopAlbums
 
 
         fun build(): MusicState {
@@ -119,7 +121,8 @@ class MusicState(
                 musicPagerImages,
                 years,
                 selectedYear,
-                yearSongs
+                yearSongs,
+                isLoadingTopAlbums
 
             )
         }

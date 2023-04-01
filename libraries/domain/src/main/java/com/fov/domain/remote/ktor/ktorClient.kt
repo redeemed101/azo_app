@@ -35,6 +35,7 @@ class KtorClient {
             defaultRequest {
                 host = "${BuildConfig.FOV_URL}"
                 url {
+
                    protocol = URLProtocol.HTTPS
                 }
             }

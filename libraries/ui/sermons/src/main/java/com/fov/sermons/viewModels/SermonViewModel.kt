@@ -166,7 +166,8 @@ class SermonViewModel @Inject constructor(
                 }
 
                 MusicEvent.LoadTopAlbums -> {
-                    getTopAlbums()
+                    isLoadingTopAlbums = true
+                    //getTopAlbums()
                 }
                 MusicEvent.LoadForYou -> {
                     getForYou()
@@ -373,9 +374,18 @@ class SermonViewModel @Inject constructor(
 
     private fun getImagePagers(){
         viewModelScope.launch {
-             val result = newsInteractor.getImagePagers(1)
-            _uiState.value = uiState.value.build {
-                musicPagerImages = result?.images?.map { it.path } ?: emptyList()
+            try {
+                val result = newsInteractor.getImagePagers(1)
+                _uiState.value = uiState.value.build {
+                    musicPagerImages = result?.images?.map { it.path } ?: emptyList()
+                }
+            }
+            catch (ex : Exception){
+                Log.e("News",ex.message!!)
+                _uiState.value = uiState.value.build {
+
+                    error = ex.message!!
+                }
             }
         }
     }
@@ -455,27 +465,34 @@ class SermonViewModel @Inject constructor(
     private  fun getGenres(callback : () -> Unit) {
 
         viewModelScope.launch{
-            _uiState.value = uiState.value.build {
-                loading = true
-                error = null
-            }
-            val res = musicInteractor.getGenresGraph()
-            var genresResult = res?.genres?.map { g ->
-
-                Genre.ModelMapper.fromGenresGraph(g!!)
-
-            }
-            if(genresResult != null){
+            try {
                 _uiState.value = uiState.value.build {
-                    genres = genresResult
-                    loading = false
+                    loading = true
+                    error = null
                 }
-                callback()
-            }
-            else{
+                val res = musicInteractor.getGenresGraph()
+                var genresResult = res?.genres?.map { g ->
+
+                    Genre.ModelMapper.fromGenresGraph(g!!)
+
+                }
+                if (genresResult != null) {
+                    _uiState.value = uiState.value.build {
+                        genres = genresResult
+                        loading = false
+                    }
+                    callback()
+                } else {
+                    _uiState.value = uiState.value.build {
+                        loading = false
+                        error = "No Genres found"
+                    }
+                }
+            }catch (ex : Exception){
+                Log.e("Genres",ex.message!!)
                 _uiState.value = uiState.value.build {
                     loading = false
-                    error = "No Genres found"
+                    error = ex.message!!
                 }
             }
 
@@ -486,28 +503,36 @@ class SermonViewModel @Inject constructor(
     }
 
     private fun getTopAlbums(){
-        _uiState.value = uiState.value.build {
-            loading = true
-            error = null
-        }
+
         viewModelScope.launch {
             try{
+                _uiState.value = uiState.value.build {
+                    isLoadingTopAlbums = true
+                    error = null
+                }
                 val res = Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
                     AlbumsSource(
                         musicInteractor = musicInteractor,
-                        AlbumRequestType.TOP_ALBUMS
+                        albumRequestType = AlbumRequestType.TOP_ALBUMS,
+                        callback = {
+                            _uiState.value = uiState.value.build {
+
+                                isLoadingTopAlbums = false
+
+                            }
+                        }
                     )
-                }.flow
+                }.flow.cachedIn(viewModelScope)
                 _uiState.value = uiState.value.build {
                     topAlbumsPaged = res
-                    loading = false
+                    //isLoadingTopAlbums = false
                     error = null
                 }
             }
             catch (ex : Exception){
                 Log.e("Albums",ex.message!!)
                 _uiState.value = uiState.value.build {
-                    loading = false
+                    isLoadingTopAlbums = false
                     error = ex.message!!
                 }
             }

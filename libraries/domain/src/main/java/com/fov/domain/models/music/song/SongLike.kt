@@ -8,5 +8,5 @@ import kotlinx.serialization.Serializable
 data class SongLike(
     @SerializedName("id") val id : String,
     @SerializedName("userId") val userId : String,
-    @SerializedName("songId") val songId : String,
+    @SerializedName("sermonId") val sermonId : String,
 )

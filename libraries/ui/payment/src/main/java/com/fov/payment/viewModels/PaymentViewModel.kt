@@ -29,8 +29,8 @@ class PaymentViewModel @Inject constructor(
     init{
 
             try {
-                getStripeCredentials()
-                loadPaymentMethods()
+                //getStripeCredentials()
+                //loadPaymentMethods()
             }
             catch (ex : Exception){
                 Log.e("init", ex.message.toString())

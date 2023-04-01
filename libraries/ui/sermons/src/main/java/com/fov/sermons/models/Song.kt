@@ -1,6 +1,7 @@
 package com.fov.sermons.models
 
 
+import com.fov.domain.BuildConfig
 import com.fov.domain.database.models.DownloadedSong
 import com.fov.domain.database.models.RecentSongSearch
 import com.fov.domain.genres.GetGenreSongsPaginatedQuery
@@ -68,9 +69,9 @@ data class Song(
                 genres = listOf(),
                 songLength = "",
                 artistName = "Apostle Ziba",
-                artwork = song.artworkPath,
-                previewPath = song.path,
-                path = song.path,
+                artwork = "${BuildConfig.FOV_URL}/${song.artworkPath}",
+                previewPath = "${BuildConfig.FOV_URL}/${song.path}",
+                path = "${BuildConfig.FOV_URL}\\${song.path}",
                 likes = 0,
                 userLikes = song.likes?.map { like ->
                     like?.userId ?: ""
@@ -84,9 +85,9 @@ data class Song(
                 genres = listOf(),
                 songLength = "",
                 artistName = "Apostle Ziba",
-                artwork = song.artworkPath,
-                previewPath = song.path,
-                path = song.path,
+                artwork = "${BuildConfig.FOV_URL}/${song.artworkPath}",
+                previewPath = "${BuildConfig.FOV_URL}/${song.path}",
+                path = "${BuildConfig.FOV_URL}\\${song.path}",
                 likes = 0,
                 userLikes = song.likes?.map { like ->
                     like?.userId ?: ""
@@ -100,9 +101,9 @@ data class Song(
                 genres = listOf(),
                 songLength = "",
                 artistName = "Apostle Ziba",
-                artwork = song.artworkPath,
-                previewPath = song.path,
-                path = song.path,
+                artwork = "${BuildConfig.FOV_URL}/${song.artworkPath}",
+                previewPath = "${BuildConfig.FOV_URL}/${song.path}",
+                path = "${BuildConfig.FOV_URL}/${song.path}",
                 likes = 0,
                 userLikes = song.likes?.map { like ->
                     like?.userId ?: ""
@@ -116,9 +117,9 @@ data class Song(
                 songId = song.id,
                 genres = listOf(),
                 songLength = "",
-                artwork = song.artworkPath,
-                previewPath = song.path,
-                path = song.path,
+                artwork = "${BuildConfig.FOV_URL}/${song.artworkPath}",
+                previewPath = "${BuildConfig.FOV_URL}/${song.path}",
+                path = "${BuildConfig.FOV_URL}/${song.path}",
                 likes = 0,
                 userLikes = song.likes?.map { like ->
                     like?.userId ?: ""
@@ -126,7 +127,7 @@ data class Song(
                 streams = 0
             )
         fun toSongDTO(song : Song) =
-            com.fov.domain.models.music.song.Song(
+            com.fov.domain.models.music.song.Sermon(
                 name = song.songName,
                 id = song.songId,
                 path = song.path,
@@ -134,26 +135,26 @@ data class Song(
                 previewPath = song.previewPath,
                 description = song.description,               
                 songGenres = listOf(),
-                songLikes = listOf(),
-                songStreams = listOf()
+                likes = listOf(),
+                streams = listOf()
 
             )
-        fun from(song: com.fov.domain.models.music.song.Song) =
+        fun from(sermon: com.fov.domain.models.music.song.Sermon) =
             Song(
-                songId = song.id,              
-                genres = song.songGenres.takeIf{
+                songId = sermon.id,
+                genres = sermon.songGenres.takeIf{
                     it.isNotEmpty()
                 }?.map{ genre ->
                     genre.name
 
                 },
-                songName = song.name,
-                artwork  = song.artworkPath,
-                description = song.description,
-                previewPath = song.previewPath,
-                path = song.path,
-                likes = song.songLikes.size,
-                streams = song.songStreams.size
+                songName = sermon.name,
+                artwork = "${BuildConfig.FOV_URL}${sermon.artworkPath}",
+                previewPath = "${BuildConfig.FOV_URL}/${sermon.path}",
+                path = "${BuildConfig.FOV_URL}/${sermon.path}",
+                description = sermon.description,
+                likes = sermon.likes.size,
+                streams = sermon.streams.size
             )
     }
 }

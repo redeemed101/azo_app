@@ -74,7 +74,7 @@ class AuthenticationKtorService constructor(private val client: HttpClient) {
             }
             setBody(request)
         }
-            return response.body()
+        return response.body()
     }
 
     suspend fun changePassword(request: PasswordChangeRequest): GeneralResult =

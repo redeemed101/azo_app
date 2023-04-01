@@ -5,8 +5,7 @@ import kotlinx.serialization.Serializable
 
 
 @Serializable
-data class AlbumLike(
+data class SeriesStream(
     @SerializedName("id") val id : String,
-    @SerializedName("userId") val userId : String,
-    @SerializedName("albumId") val songId : String,
+    @SerializedName("seriesId") val seriesId : String,
 )

@@ -1,13 +1,10 @@
 package com.fov.domain.repositories.music
 
-import androidx.paging.PagingSource
 import com.fov.domain.database.models.RecentActivity
 import com.fov.domain.database.models.RecentSongSearch
-import com.fov.domain.database.models.RecentUserSearch
 import com.fov.domain.models.music.album.AlbumsResult
-import com.fov.domain.models.music.song.Song
+import com.fov.domain.models.music.song.Sermon
 import com.fov.domain.models.music.song.SongsResult
-import kotlinx.coroutines.flow.Flow
 
 interface SermonRepository {
 
@@ -19,7 +16,7 @@ interface SermonRepository {
 
     suspend fun getSong(
         id : String
-    ): Song?
+    ): Sermon?
 
     suspend fun getTopAlbums(page: Int): AlbumsResult?
     suspend fun getForYouSongs(page: Int): SongsResult?

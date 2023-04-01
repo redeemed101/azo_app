@@ -1,7 +1,7 @@
 package com.fov.domain.remote.music
 
 import com.fov.domain.models.music.album.AlbumsResult
-import com.fov.domain.models.music.song.Song
+import com.fov.domain.models.music.song.Sermon
 import com.fov.domain.models.music.song.SongsResult
 import com.fov.domain.utils.constants.QueryConstants
 import io.ktor.client.*
@@ -44,7 +44,7 @@ class MusicKtorService constructor(private val client: HttpClient)  {
 
 
 
-    suspend fun getSong(id: String): Song?  = client.request("Sermon/sermon/${id}"){
+    suspend fun getSong(id: String): Sermon?  = client.request("Sermon/sermon/${id}"){
         method = HttpMethod.Get
         headers {
             append("Content-Type", "application/json")

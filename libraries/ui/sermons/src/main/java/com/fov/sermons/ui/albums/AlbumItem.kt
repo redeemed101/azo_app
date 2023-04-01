@@ -25,6 +25,7 @@ import coil.compose.rememberAsyncImagePainter
 import coil.request.ImageRequest
 import com.fov.common_ui.R
 import com.fov.sermons.models.Album
+import com.google.android.exoplayer2.util.Log
 
 @Composable
 fun AlbumItem(
@@ -34,7 +35,7 @@ fun AlbumItem(
     onDownloadedIconClicked : () -> Unit = {},
     onClick : () -> Unit = {}
 ){
-
+    Log.d("AlbumImage",album.artwork)
     Column(
         modifier = Modifier
             .padding(10.dp)

@@ -2,7 +2,7 @@ package com.fov.domain.remote.mock.music
 
 import com.fov.domain.models.music.album.Album
 import com.fov.domain.models.music.album.AlbumsResult
-import com.fov.domain.models.music.song.Song
+import com.fov.domain.models.music.song.Sermon
 import com.google.gson.Gson
 
 object AlbumsMockResponse {
@@ -15,11 +15,12 @@ object AlbumsMockResponse {
                         path = "",
                         artworkPath = "https://picsum.photos/200",
                         description = "This is an Album",
-                        albumGenres = listOf(),
-                        albumLikes = listOf(),
-                        albumStreams = listOf(),
-                        songs = List(10) {
-                            Song(
+                        seriesGenres = listOf(),
+                        likes = listOf(),
+                        streams = listOf(),
+                        isTrending = true,
+                        sermons = List(10) {
+                            Sermon(
                                 name = "sermon $it",
                                 id = "$it",
                                 path = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
@@ -27,8 +28,8 @@ object AlbumsMockResponse {
                                 previewPath = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                                 description = "",
                                 songGenres = listOf(),
-                                songLikes = listOf(),
-                                songStreams = listOf()
+                                likes = listOf(),
+                                streams = listOf()
 
                             )
                         }

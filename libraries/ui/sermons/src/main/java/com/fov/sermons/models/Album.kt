@@ -1,5 +1,6 @@
 package com.fov.sermons.models
 
+import com.fov.domain.BuildConfig
 import com.fov.domain.database.models.DownloadedAlbum
 import com.fov.domain.genres.GetGenreAlbumsPaginatedQuery
 import com.fov.domain.music.GetUserLikedAlbumsPaginatedQuery
@@ -9,10 +10,10 @@ data class Album(
     val albumId : String,
     val artistName : String = "Apostle Ziba",
     val genres: List<String>? = listOf(),
-    val artwork : String,
+    var artwork : String,
     val albumName : String,
     val description:String = "",
-    val path : String = "",
+    var path : String = "",
     val likes : Int = 0,
     val userLikes : List<String> = emptyList(),
     val streams : Int = 0,
@@ -20,6 +21,8 @@ data class Album(
 
 ){
     object ModelMapper {
+
+
         fun fromDownloadedAlbum(album : DownloadedAlbum) = Album(
             albumId = album.albumId,
             genres = listOf(),
@@ -34,13 +37,13 @@ data class Album(
         )
         fun from(album: com.fov.domain.models.music.album.Album) = Album(
             albumId = album.id,
-            genres = album.albumGenres.takeIf{
+            genres = album.seriesGenres.takeIf{
                 it.isNotEmpty()
             }?.map{ genre ->
                 genre.name
 
             },
-            songs = album.songs.map { song ->
+            songs = album.sermons.map { song ->
                  Song(
                      songId = song.id,
                      genres = song.songGenres.map{
@@ -48,30 +51,30 @@ data class Album(
                      },
                      songName = song.name,
                      songLength = "",
-                     artwork = song.artworkPath,
+                     artwork = "${BuildConfig.FOV_URL}/${song.artworkPath}",
                      description = song.description,
-                     previewPath = song.previewPath,
-                     path = song.path,
-                     likes = song.songLikes.size,
-                     streams = song.songStreams.size
+                     previewPath = "${BuildConfig.FOV_URL}/${song.previewPath}",
+                     path = "${BuildConfig.FOV_URL}/${song.path}",
+                     likes = song.likes.size,
+                     streams = song.streams.size
 
                  )
             },
-            artwork = album.artworkPath,
+            artwork = "${BuildConfig.FOV_URL}/${album.artworkPath}",
             albumName = album.name,
             description = album.description,
-            path = album.path,
-            likes = album.albumLikes.size,
-            streams = album.albumStreams.size
+            path = "${BuildConfig.FOV_URL}${album.path}",
+            likes = album.likes.size,
+            streams = album.streams.size
         )
         fun  fromLikedAlbumsGraph(album : GetUserLikedAlbumsPaginatedQuery.LikedAlbumsPaginated) =
             Album(
                 albumId = album.id,
                 genres = listOf(),
-                artwork = album.artworkPath,
+                artwork = "${BuildConfig.FOV_URL}/${album.artworkPath}",
                 albumName = album.name,
                 description = album.name,
-                path = album.path,
+                path = "${BuildConfig.FOV_URL}/${album.path}",
                 userLikes = album.likes?.map { like ->
                     like?.userId ?: ""
                 } ?: emptyList(),
@@ -83,10 +86,10 @@ data class Album(
             Album(
                 albumId = album.id,
                 genres = listOf(),
-                artwork = album.artworkPath,
+                artwork = "${BuildConfig.FOV_URL}/${album.artworkPath}",
                 albumName = album.name,
                 description = album.name,
-                path = album.path,
+                path = "${BuildConfig.FOV_URL}/${album.path}",
                 userLikes = album.likes?.map { like ->
                     like?.userId ?: ""
 

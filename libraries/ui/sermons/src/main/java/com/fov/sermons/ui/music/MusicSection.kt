@@ -9,9 +9,11 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.items
+import com.example.common_ui.utils.helpers.ShimmerAnimation
 import com.fov.common_ui.extensions.itemsCustomized
 import com.fov.common_ui.ui.composers.sections.Section
 import com.fov.common_ui.theme.AzoTheme
@@ -52,27 +54,46 @@ fun MusicSection(title : String,
                 musicEvents(MusicEvent.LoadRecentSearch)
         }
     }
-    if(lazySongItems.itemCount > 0)
-    Section(title,{}){
-
-
-        LazyRow(modifier = Modifier
-            .padding(top = 10.dp)
-            .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ) {
-            itemsCustomized(lazySongItems){ song,_ ->
-                MusicItem(song = song!!){
-                    navigateTabAction()
-                   musicEvents(MusicEvent.SaveRecentSearch(song!!))
-                   musicEvents(MusicEvent.SongSelected(song!!))
-                   musicEvents(MusicEvent.ChangeShowingSong(true))
-
-                }
+    when(lazySongItems.loadState.refresh) {
+        is LoadState.Loading -> {
+            Row(
+                modifier = Modifier
+                    .padding(top = 10.dp)
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                ShimmerAnimation(size = 100.dp, isCircle = false)
+                ShimmerAnimation(size = 100.dp, isCircle = false)
             }
         }
+        is LoadState.Error -> {
 
+        }
+        else -> {
+            if(lazySongItems.itemCount > 0)
+                Section(title,{}){
+
+
+                    LazyRow(modifier = Modifier
+                        .padding(top = 10.dp)
+                        .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        itemsCustomized(lazySongItems){ song,_ ->
+                            MusicItem(song = song!!){
+                                navigateTabAction()
+                                musicEvents(MusicEvent.SaveRecentSearch(song!!))
+                                musicEvents(MusicEvent.SongSelected(song!!))
+                                musicEvents(MusicEvent.ChangeShowingSong(true))
+
+                            }
+                        }
+                    }
+
+                }
+        }
     }
+
     /*else
         ShimmerAnimation(size = 100.dp, isCircle = false)*/
 }

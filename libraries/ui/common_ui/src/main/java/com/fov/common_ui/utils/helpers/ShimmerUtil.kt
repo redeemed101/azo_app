@@ -71,13 +71,13 @@ fun ShimmerItem(
                 .background(brush = brush)
         )
         if(showSmallSpacer)
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(30.dp)
-                .padding(vertical = 8.dp)
-                .background(brush = brush)
-        )
+            Spacer(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(30.dp)
+                    .padding(vertical = 8.dp)
+                    .background(brush = brush)
+            )
     }
 }
 
