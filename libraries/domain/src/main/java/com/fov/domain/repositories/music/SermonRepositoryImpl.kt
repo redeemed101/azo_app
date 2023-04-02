@@ -12,12 +12,12 @@ class SermonRepositoryImpl constructor(
     private val cache: Cache
 ) : SermonRepository {
 
-    override suspend fun getTopSongs(page: Int) = musicRemote.getTopSongs(page)
-    override suspend fun getSong(id: String) = musicRemote.getSong(id)
+    override suspend fun getTopSongs( token: String,page: Int) = musicRemote.getTopSongs(token,page)
+    override suspend fun getSong( token: String,id: String) = musicRemote.getSong(token,id)
 
-    override suspend fun getTopAlbums(nextPage: Int) = musicRemote.getTopAlbums(nextPage)
-    override suspend fun getForYouSongs(page: Int) = musicRemote.getForYouSongs(page)
-    override suspend fun searchSongs(search: String, page: Int) = musicRemote.searchSongs(search,page)
+    override suspend fun getTopAlbums( token: String,nextPage: Int) = musicRemote.getTopAlbums(token,nextPage)
+    override suspend fun getForYouSongs( token: String,page: Int) = musicRemote.getForYouSongs(token,page)
+    override suspend fun searchSongs( token: String,search: String, page: Int) = musicRemote.searchSongs(token,search,page)
     override fun recentSongSearches() = cache.getRecentSongSearch()
 
 

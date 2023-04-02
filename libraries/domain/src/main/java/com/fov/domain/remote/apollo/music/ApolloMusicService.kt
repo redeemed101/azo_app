@@ -11,16 +11,16 @@ import com.fov.domain.songs.GetTrendingSongsPaginatedQuery
 
 interface ApolloMusicService {
 
-    suspend fun  getGenres(): GetGenresQuery.Data?
-    suspend fun  getGenreSongsPaginated(id:String,page:Int,size:Int): GetGenreSongsPaginatedQuery.Data?
-    suspend fun  getGenreAlbumsPaginated(id:String,page:Int,size:Int): GetGenreAlbumsPaginatedQuery.Data?
-    suspend fun getGenre(id:String): GetGenreQuery.Data?
-    suspend fun getUserLikedSongs(id:String): GetUserLikedSongsQuery.Data?
-    suspend fun getSongsPaginated(page:Int,size:Int) : GetSongsPaginatedQuery.Data?
-    suspend fun getTrendingSongsPaginated(page:Int,size:Int) : GetTrendingSongsPaginatedQuery.Data?
-    suspend fun getSongsByYearPaginated(year:Int,page:Int,size:Int) : GetSongsByYearPaginatedQuery.Data?
-    suspend fun getUserLikedSongsPaginated(id:String,page: Int,size: Int): GetUserLikedSongsPaginatedQuery.Data?
-    suspend fun getAlbumsPaginated(page:Int,size:Int): GetAlbumsPaginatedQuery.Data?
-    suspend fun getUserLikedAlbumsPaginated(id:String,page: Int,size: Int): GetUserLikedAlbumsPaginatedQuery.Data?
-    suspend fun getAlbum(id:String): GetAlbumQuery.Data?
+    suspend fun  getGenres(token: String): GetGenresQuery.Data?
+    suspend fun  getGenreSongsPaginated(token: String,id:String,page:Int,size:Int): GetGenreSongsPaginatedQuery.Data?
+    suspend fun  getGenreAlbumsPaginated(token: String,id:String,page:Int,size:Int): GetGenreAlbumsPaginatedQuery.Data?
+    suspend fun getGenre(token: String,id:String): GetGenreQuery.Data?
+    suspend fun getUserLikedSongs(token: String,id:String): GetUserLikedSongsQuery.Data?
+    suspend fun getSongsPaginated(token: String,page:Int,size:Int) : GetSongsPaginatedQuery.Data?
+    suspend fun getTrendingSongsPaginated(token: String,page:Int,size:Int) : GetTrendingSongsPaginatedQuery.Data?
+    suspend fun getSongsByYearPaginated(token: String,year:Int,page:Int,size:Int) : GetSongsByYearPaginatedQuery.Data?
+    suspend fun getUserLikedSongsPaginated(token: String,id:String,page: Int,size: Int): GetUserLikedSongsPaginatedQuery.Data?
+    suspend fun getAlbumsPaginated(token: String,page:Int,size:Int): GetAlbumsPaginatedQuery.Data?
+    suspend fun getUserLikedAlbumsPaginated(token: String,id:String,page: Int,size: Int): GetUserLikedAlbumsPaginatedQuery.Data?
+    suspend fun getAlbum(token: String,id:String): GetAlbumQuery.Data?
 }

@@ -11,46 +11,48 @@ import io.ktor.http.*
 
 class MusicKtorService constructor(private val client: HttpClient)  {
 
-    init {
 
-
-    }
-    suspend fun getTopSongs(page: Int): SermonsResult? =  client.request("Sermon/trending?page=${page}&size=${QueryConstants.NUM_ROWS}") {
+    suspend fun getTopSongs( token: String,page: Int): SermonsResult? =  client.request("Sermon/trending?page=${page}&size=${QueryConstants.NUM_ROWS}") {
         method = HttpMethod.Get
         headers {
             append("Content-Type", "application/json")
+            append("Authorization", "Bearer $token")
         }
     }.body()
 
-    suspend fun getTopAlbums(page: Int): AlbumsResult?  =  client.request("Series/trending?page=${page}&size=${QueryConstants.NUM_ROWS}") {
+    suspend fun getTopAlbums( token: String,page: Int): AlbumsResult?  =  client.request("Series/trending?page=${page}&size=${QueryConstants.NUM_ROWS}") {
         method = HttpMethod.Get
         headers {
             append("Content-Type", "application/json")
+            append("Authorization", "Bearer $token")
         }
     }.body()
 
-    suspend fun getForYouSongs(page: Int): SermonsResult? =  client.request("Sermon/latest?page=${page}&size=${QueryConstants.NUM_ROWS}") {
+    suspend fun getForYouSongs( token: String,page: Int): SermonsResult? =  client.request("Sermon/latest?page=${page}&size=${QueryConstants.NUM_ROWS}") {
         method = HttpMethod.Get
         headers {
             append("Content-Type", "application/json")
-        }
-    }.body()
-
-
-
-    suspend fun searchSongs(search: String, page: Int): SermonsResult? =  client.request("music/Song/search?search=${search}?page=${page}&size=${QueryConstants.NUM_ROWS}") {
-        method = HttpMethod.Get
-        headers {
-            append("Content-Type", "application/json")
+            append("Authorization", "Bearer $token")
         }
     }.body()
 
 
 
-    suspend fun getSong(id: String): Sermon?  = client.request("Sermon/sermon/${id}"){
+    suspend fun searchSongs( token: String,search: String, page: Int): SermonsResult? =  client.request("music/Song/search?search=${search}?page=${page}&size=${QueryConstants.NUM_ROWS}") {
         method = HttpMethod.Get
         headers {
             append("Content-Type", "application/json")
+            append("Authorization", "Bearer $token")
+        }
+    }.body()
+
+
+
+    suspend fun getSong( token: String,id: String): Sermon?  = client.request("Sermon/sermon/${id}"){
+        method = HttpMethod.Get
+        headers {
+            append("Content-Type", "application/json")
+            append("Authorization", "Bearer $token")
         }
     }.body()
 }

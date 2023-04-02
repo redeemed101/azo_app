@@ -11,6 +11,7 @@ import com.fov.sermons.models.Song
 class SongsSource constructor(
     private val musicInteractor: MusicInteractor,
     private val songRequestType: SongRequestType,
+    private val accessToken: String,
     private  val search : String? = null,
     private val genreId: String? = null,
     private val userId  :  String? = null,
@@ -30,7 +31,7 @@ class SongsSource constructor(
             var songResult: SermonsResult? = null
             if (genreId != null) {
                 if (songRequestType == SongRequestType.GENRE_SONGS) {
-                    val result = musicInteractor.getGenreSongsGraph(genreId, nextPage)
+                    val result = musicInteractor.getGenreSongsGraph(accessToken,genreId, nextPage)
                     val songs = result?.songsPaginated?.map { s ->
                         Song.ModelMapper.fromGenreGraph(s!!)
 
@@ -53,7 +54,7 @@ class SongsSource constructor(
 
             else if(userId != null){
                 if (songRequestType == SongRequestType.LIKED_SONGS) {
-                    val result = musicInteractor.getUserLikedSongsPaginated(userId,nextPage)
+                    val result = musicInteractor.getUserLikedSongsPaginated(accessToken,userId,nextPage)
                     val songs = result?.likedSongsPaginated?.map { s ->
                         Song.ModelMapper.fromLikedSongsGraph(s!!)
 
@@ -74,7 +75,7 @@ class SongsSource constructor(
             }
             else{
                     if (search != null) {
-                        songResult = musicInteractor.searchSongs(search, nextPage)
+                        songResult = musicInteractor.searchSongs(accessToken,search, nextPage)
                         when {
                             songResult != null -> {
 
@@ -107,7 +108,7 @@ class SongsSource constructor(
                         }
                         else if (songRequestType == SongRequestType.YEAR_SONGS && year != null) {
                             Log.d("LoadByYear", "${SongRequestType.YEAR_SONGS}")
-                            val result = musicInteractor.getSongsByYearGraph(year,nextPage)
+                            val result = musicInteractor.getSongsByYearGraph(accessToken,year,nextPage)
                             val songs = result?.songsByYearPaginated?.map { s ->
                                 Song.ModelMapper.fromYearGraph(s!!)
 
@@ -127,10 +128,10 @@ class SongsSource constructor(
                         else {
                             when (songRequestType) {
                                 SongRequestType.TOP_SONGS -> {
-                                    songResult = musicInteractor.getTopSongs(nextPage)
+                                    songResult = musicInteractor.getTopSongs(accessToken,nextPage)
                                 }
                                 SongRequestType.FOR_YOU -> {
-                                    songResult = musicInteractor.getForYouSongs(nextPage)
+                                    songResult = musicInteractor.getForYouSongs(accessToken,nextPage)
                                 }
 
                                 else -> {

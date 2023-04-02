@@ -11,6 +11,7 @@ import com.fov.sermons.models.Album
 class AlbumsSource constructor(
     private val musicInteractor: MusicInteractor,
     private val albumRequestType: AlbumRequestType,
+    private val accessToken: String,
     private val genreId: String? = null,
     private val userId:  String? = null,
     private val callback : () -> Unit = {}
@@ -30,7 +31,7 @@ class AlbumsSource constructor(
 
                if(albumRequestType == AlbumRequestType.GENRE_ALBUMS) {
 
-                        val result = musicInteractor.getGenreAlbumsGraph(genreId, nextPage)
+                        val result = musicInteractor.getGenreAlbumsGraph(accessToken,genreId, nextPage)
                         callback()
                         val albums = result?.albumsPaginated?.map { a ->
                             Album.ModelMapper.fromGenreGraph(a!!)
@@ -53,7 +54,7 @@ class AlbumsSource constructor(
             }
             else if(userId  != null){
                 if(albumRequestType == AlbumRequestType.LIKED_ALBUMS) {
-                    val result = musicInteractor.getUserLikedAlbumsPaginated(userId, nextPage)
+                    val result = musicInteractor.getUserLikedAlbumsPaginated(accessToken,userId, nextPage)
                     callback()
                     val albums = result?.likedAlbumsPaginated?.map { a ->
                         Album.ModelMapper.fromLikedAlbumsGraph(a!!)
@@ -79,12 +80,12 @@ class AlbumsSource constructor(
                 var albumResult: AlbumsResult? = null
                 when (albumRequestType) {
                     AlbumRequestType.TOP_ALBUMS -> {
-                        albumResult = musicInteractor.getTopAlbums(nextPage)
+                        albumResult = musicInteractor.getTopAlbums(accessToken,nextPage)
                         callback()
                         Log.e("Series",albumResult.toString())
                     }
                     AlbumRequestType.ALL_ALBUMS ->{
-                        musicInteractor.getAlbumsGraph(nextPage)
+                        musicInteractor.getAlbumsGraph(accessToken,nextPage)
                         callback()
                     }
                     else -> {

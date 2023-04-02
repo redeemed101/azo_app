@@ -16,7 +16,7 @@ class ApolloMusicServiceTestImpl constructor(
 ) : ApolloMusicService {
     private var apolloClient: ApolloClient = apolloSetup.setUpTestApolloClient()
 
-    override suspend fun  getGenres(): GetGenresQuery.Data? {
+    override suspend fun  getGenres(token: String): GetGenresQuery.Data? {
 
         return GetGenresQuery.Data(
             List(5){
@@ -27,7 +27,7 @@ class ApolloMusicServiceTestImpl constructor(
             }
         )
     }
-    override suspend fun  getGenreSongsPaginated(id:String, page:Int, size:Int): GetGenreSongsPaginatedQuery.Data? {
+    override suspend fun  getGenreSongsPaginated(token: String,id:String, page:Int, size:Int): GetGenreSongsPaginatedQuery.Data? {
 
         return GetGenreSongsPaginatedQuery.Data(
             GetGenreSongsPaginatedQuery.Genre(
@@ -46,7 +46,7 @@ class ApolloMusicServiceTestImpl constructor(
             }
         )
     }
-    override suspend fun  getGenreAlbumsPaginated(id:String, page:Int, size:Int): GetGenreAlbumsPaginatedQuery.Data? {
+    override suspend fun  getGenreAlbumsPaginated(token: String,id:String, page:Int, size:Int): GetGenreAlbumsPaginatedQuery.Data? {
         return GetGenreAlbumsPaginatedQuery.Data(
             GetGenreAlbumsPaginatedQuery.Genre(
                 "1234",
@@ -80,7 +80,7 @@ class ApolloMusicServiceTestImpl constructor(
 
 
 
-    override suspend fun getGenre(id:String): GetGenreQuery.Data? {
+    override suspend fun getGenre(token: String,id:String): GetGenreQuery.Data? {
 
       return GetGenreQuery.Data(
           GetGenreQuery.Genre(
@@ -114,7 +114,7 @@ class ApolloMusicServiceTestImpl constructor(
 
       )
     }
-    override suspend fun getUserLikedSongs(id:String): GetUserLikedSongsQuery.Data? {
+    override suspend fun getUserLikedSongs(token: String,id:String): GetUserLikedSongsQuery.Data? {
 
         return GetUserLikedSongsQuery.Data(
             List(20){ num ->
@@ -140,6 +140,7 @@ class ApolloMusicServiceTestImpl constructor(
     }
 
     override suspend fun getSongsPaginated(
+        token: String,
         page: Int,
         size: Int): GetSongsPaginatedQuery.Data? {
         return GetSongsPaginatedQuery.Data(
@@ -157,6 +158,7 @@ class ApolloMusicServiceTestImpl constructor(
     }
 
     override suspend fun getTrendingSongsPaginated(
+        token: String,
         page: Int,
         size: Int
     ): GetTrendingSongsPaginatedQuery.Data? {
@@ -175,6 +177,7 @@ class ApolloMusicServiceTestImpl constructor(
     }
 
     override suspend fun getSongsByYearPaginated(
+        token: String,
         year: Int,
         page: Int,
         size: Int
@@ -194,6 +197,7 @@ class ApolloMusicServiceTestImpl constructor(
     }
 
     override suspend fun getUserLikedSongsPaginated(
+        token: String,
         id: String,
         page: Int,
         size: Int
@@ -220,7 +224,7 @@ class ApolloMusicServiceTestImpl constructor(
     }
 
 
-    override suspend fun  getAlbumsPaginated(page:Int, size:Int): GetAlbumsPaginatedQuery.Data? {
+    override suspend fun  getAlbumsPaginated(token: String,page:Int, size:Int): GetAlbumsPaginatedQuery.Data? {
         return GetAlbumsPaginatedQuery.Data(
             List(20) {
                 GetAlbumsPaginatedQuery.AlbumsPaginated(
@@ -260,6 +264,7 @@ class ApolloMusicServiceTestImpl constructor(
     }
 
     override suspend fun getUserLikedAlbumsPaginated(
+        token: String,
         id: String,
         page: Int,
         size: Int
@@ -317,7 +322,7 @@ class ApolloMusicServiceTestImpl constructor(
         )
     }
 
-    override suspend fun getAlbum(id:String): GetAlbumQuery.Data? {
+    override suspend fun getAlbum(token: String,id:String): GetAlbumQuery.Data? {
 
 
         return GetAlbumQuery.Data(

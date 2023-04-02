@@ -407,7 +407,8 @@ class SermonViewModel @Inject constructor(
                 val res = Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
                     SongsSource(
                         musicInteractor = musicInteractor,
-                        SongRequestType.TOP_SONGS
+                        accessToken = accessToken!!,
+                        songRequestType = SongRequestType.TOP_SONGS
                     )
                 }.flow
                 _uiState.value = uiState.value.build {
@@ -448,7 +449,8 @@ class SermonViewModel @Inject constructor(
                 val res = Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
                     SongsSource(
                         musicInteractor = musicInteractor,
-                        SongRequestType.FOR_YOU
+                        accessToken = accessToken!!,
+                        songRequestType = SongRequestType.FOR_YOU
                     )
                 }.flow
                 _uiState.value = uiState.value.build {
@@ -477,7 +479,7 @@ class SermonViewModel @Inject constructor(
                     loading = true
                     error = null
                 }
-                val res = musicInteractor.getGenresGraph()
+                val res = musicInteractor.getGenresGraph(accessToken!!)
                 var genresResult = res?.genres?.map { g ->
 
                     Genre.ModelMapper.fromGenresGraph(g!!)
@@ -520,6 +522,7 @@ class SermonViewModel @Inject constructor(
                 val res = Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
                     AlbumsSource(
                         musicInteractor = musicInteractor,
+                        accessToken = accessToken!!,
                         albumRequestType = AlbumRequestType.TOP_ALBUMS,
                         callback = {
                             _uiState.value = uiState.value.build {

@@ -18,68 +18,69 @@ class MusicInteractor constructor(
 
 
     suspend fun getTopSongs(
+        token: String,
         page : Int
-    ) = withContext(Dispatchers.IO) { sermonRepository.getTopSongs(page) }
+    ) = withContext(Dispatchers.IO) { sermonRepository.getTopSongs(token,page) }
 
-    suspend fun getTopAlbums(page: Int): AlbumsResult? = withContext(Dispatchers.IO) {
-        sermonRepository.getTopAlbums(page)
+    suspend fun getTopAlbums(token: String,page: Int): AlbumsResult? = withContext(Dispatchers.IO) {
+        sermonRepository.getTopAlbums(token,page)
     }
 
-    suspend fun getForYouSongs(page: Int) : SermonsResult? = withContext(Dispatchers.IO) {
-        sermonRepository.getForYouSongs(page)
-    }
-
-
-    suspend fun getAlbumsGraph(page:Int)  = withContext(Dispatchers.IO){
-        musicGraphQLService.getAlbumsPaginated(page,QueryConstants.NUM_ROWS)
-    }
-    suspend fun getAlbumGraph(id:String) =  withContext(Dispatchers.IO){
-        musicGraphQLService.getAlbum(id)
+    suspend fun getForYouSongs(token: String,page: Int) : SermonsResult? = withContext(Dispatchers.IO) {
+        sermonRepository.getForYouSongs(token,page)
     }
 
 
-
-    suspend fun  getGenresGraph() = withContext(Dispatchers.IO) {
-        musicGraphQLService.getGenres()
+    suspend fun getAlbumsGraph(token: String,page:Int)  = withContext(Dispatchers.IO){
+        musicGraphQLService.getAlbumsPaginated(token,page,QueryConstants.NUM_ROWS)
     }
-
-    suspend fun getGenreAlbumsGraph(id:String,page:Int)= withContext(Dispatchers.IO) {
-        musicGraphQLService.getGenreAlbumsPaginated(id,page, QueryConstants.NUM_ROWS)
+    suspend fun getAlbumGraph(token: String,id:String) =  withContext(Dispatchers.IO){
+        musicGraphQLService.getAlbum(token,id)
     }
 
 
 
-    suspend fun getSong(id: String)= withContext(Dispatchers.IO) {
-        sermonRepository.getSong(id)
+    suspend fun  getGenresGraph(token: String,) = withContext(Dispatchers.IO) {
+        musicGraphQLService.getGenres(token)
+    }
+
+    suspend fun getGenreAlbumsGraph(token: String,id:String,page:Int)= withContext(Dispatchers.IO) {
+        musicGraphQLService.getGenreAlbumsPaginated(token,id,page, QueryConstants.NUM_ROWS)
     }
 
 
-    suspend fun getGenreSongsGraph(id:String,page:Int) = withContext(Dispatchers.IO) {
-        musicGraphQLService.getGenreSongsPaginated(id,page, QueryConstants.NUM_ROWS)
-    }
 
-    suspend fun getSongsGraph(page:Int) = withContext(Dispatchers.IO) {
-        musicGraphQLService.getSongsPaginated(page, QueryConstants.NUM_ROWS)
-    }
-    suspend fun getTrendingSongsGraph(page:Int) = withContext(Dispatchers.IO) {
-        musicGraphQLService.getTrendingSongsPaginated(page, QueryConstants.NUM_ROWS)
-    }
-
-    suspend fun getSongsByYearGraph(year:Int,page:Int) = withContext(Dispatchers.IO) {
-        musicGraphQLService.getSongsByYearPaginated(year,page, QueryConstants.NUM_ROWS)
-    }
-
-    suspend fun  getGenreGraph(id : String) =  withContext(Dispatchers.IO) {
-        musicGraphQLService.getGenre(id)
-
+    suspend fun getSong(token: String,id: String)= withContext(Dispatchers.IO) {
+        sermonRepository.getSong(token,id)
     }
 
 
-    suspend fun getUserLikedAlbumsPaginated(id:String,page: Int)= withContext(Dispatchers.IO) {
-        musicGraphQLService.getUserLikedAlbumsPaginated(id,page,QueryConstants.NUM_ROWS)
+    suspend fun getGenreSongsGraph(token: String,id:String,page:Int) = withContext(Dispatchers.IO) {
+        musicGraphQLService.getGenreSongsPaginated(token,id,page, QueryConstants.NUM_ROWS)
     }
-    suspend fun getUserLikedSongsPaginated(id:String,page: Int)= withContext(Dispatchers.IO) {
-        musicGraphQLService.getUserLikedSongsPaginated(id,page,QueryConstants.NUM_ROWS)
+
+    suspend fun getSongsGraph(token: String,page:Int) = withContext(Dispatchers.IO) {
+        musicGraphQLService.getSongsPaginated(token,page, QueryConstants.NUM_ROWS)
+    }
+    suspend fun getTrendingSongsGraph(token: String,page:Int) = withContext(Dispatchers.IO) {
+        musicGraphQLService.getTrendingSongsPaginated(token,page, QueryConstants.NUM_ROWS)
+    }
+
+    suspend fun getSongsByYearGraph(token: String,year:Int,page:Int) = withContext(Dispatchers.IO) {
+        musicGraphQLService.getSongsByYearPaginated(token,year,page, QueryConstants.NUM_ROWS)
+    }
+
+    suspend fun  getGenreGraph(token: String,id : String) =  withContext(Dispatchers.IO) {
+        musicGraphQLService.getGenre(token,id)
+
+    }
+
+
+    suspend fun getUserLikedAlbumsPaginated(token: String,id:String,page: Int)= withContext(Dispatchers.IO) {
+        musicGraphQLService.getUserLikedAlbumsPaginated(token,id,page,QueryConstants.NUM_ROWS)
+    }
+    suspend fun getUserLikedSongsPaginated(token: String,id:String,page: Int)= withContext(Dispatchers.IO) {
+        musicGraphQLService.getUserLikedSongsPaginated(token,id,page,QueryConstants.NUM_ROWS)
     }
 
     suspend fun likeAlbum(albumId : String) = withContext(Dispatchers.IO) {
@@ -91,8 +92,8 @@ class MusicInteractor constructor(
 
 
 
-    suspend fun searchSongs(search: String, page: Int)= withContext(Dispatchers.IO) {
-        sermonRepository.searchSongs(search,page)
+    suspend fun searchSongs(token: String,search: String, page: Int)= withContext(Dispatchers.IO) {
+        sermonRepository.searchSongs(token,search,page)
     }
 
     suspend fun recentSongSearches()  = withContext(Dispatchers.IO) {

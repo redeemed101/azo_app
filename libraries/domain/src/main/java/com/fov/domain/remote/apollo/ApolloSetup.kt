@@ -27,7 +27,8 @@ class ApolloSetup {
 
 
 
-        var builder = ApolloClient.Builder()
+        var builder = ApolloClient
+                         .Builder()
                          .serverUrl("https://${BuildConfig.FOV_URL}${url}")
                          .okHttpClient(okHttp.build())
             return builder.build();
