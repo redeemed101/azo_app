@@ -15,7 +15,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 
 class MusicAlbumHelper constructor(
-    val musicInteractor: MusicInteractor
+    val musicInteractor: MusicInteractor,
+    val accessToken : String
 ) {
     fun getNewAlbums(scope : CoroutineScope, error : (Exception) -> Unit) : Flow<PagingData<Album>> {
 
@@ -24,7 +25,8 @@ class MusicAlbumHelper constructor(
             return Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
                 AlbumsSource(
                     musicInteractor = musicInteractor,
-                    AlbumRequestType.TOP_ALBUMS,
+                    accessToken = accessToken,
+                    albumRequestType = AlbumRequestType.TOP_ALBUMS,
                 )
             }.flow
                 .cachedIn(scope)
@@ -43,7 +45,8 @@ class MusicAlbumHelper constructor(
             return Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
                 AlbumsSource(
                     musicInteractor = musicInteractor,
-                    AlbumRequestType.GENRE_ALBUMS,
+                    accessToken = accessToken,
+                    albumRequestType = AlbumRequestType.GENRE_ALBUMS,
                     genreId  = id
                 )
             }.flow
@@ -63,8 +66,9 @@ class MusicAlbumHelper constructor(
             return Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
                 AlbumsSource(
                     musicInteractor = musicInteractor,
-                    AlbumRequestType.LIKED_ALBUMS,
-                    id
+                    accessToken = accessToken,
+                    albumRequestType = AlbumRequestType.LIKED_ALBUMS,
+                    userId = id
                 )
             }.flow
                 .cachedIn(scope)

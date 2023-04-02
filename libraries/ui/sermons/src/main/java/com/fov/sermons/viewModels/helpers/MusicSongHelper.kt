@@ -17,12 +17,13 @@ import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 
 class MusicSongHelper constructor(
-    val musicInteractor: MusicInteractor
+    val musicInteractor: MusicInteractor,
+    val accessToken : String
 ) {
 
    suspend fun getSong(songId : String) : Song? {
        val song : Song?
-       val s = musicInteractor.getSong(songId)
+       val s = musicInteractor.getSong(accessToken,songId)
 
        return s?.let { Song.ModelMapper.from(it) }
 
@@ -34,7 +35,8 @@ class MusicSongHelper constructor(
             return Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
                 SongsSource(
                     musicInteractor = musicInteractor,
-                    SongRequestType.TOP_SONGS,
+                    accessToken = accessToken,
+                    songRequestType = SongRequestType.TOP_SONGS,
                 )
             }.flow
                 .cachedIn(scope)
@@ -54,7 +56,8 @@ class MusicSongHelper constructor(
             return Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
                 SongsSource(
                     musicInteractor = musicInteractor,
-                    SongRequestType.RECENT_SEARCH,
+                    accessToken = accessToken,
+                    songRequestType = SongRequestType.RECENT_SEARCH,
                 )
             }.flow
                 .cachedIn(scope)
@@ -92,7 +95,8 @@ class MusicSongHelper constructor(
             return Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
                 SongsSource(
                     musicInteractor = musicInteractor,
-                    SongRequestType.GENRE_SONGS,
+                    accessToken = accessToken,
+                    songRequestType = SongRequestType.GENRE_SONGS,
                     genreId = id
                 )
             }.flow
@@ -112,7 +116,8 @@ class MusicSongHelper constructor(
             return Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
                 SongsSource(
                     musicInteractor = musicInteractor,
-                    SongRequestType.LIKED_SONGS,
+                    accessToken = accessToken,
+                    songRequestType = SongRequestType.LIKED_SONGS,
                     userId = id
                 )
             }.flow
@@ -133,6 +138,7 @@ class MusicSongHelper constructor(
             return Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
                 SongsSource(
                     musicInteractor = musicInteractor,
+                    accessToken = accessToken,
                     songRequestType = SongRequestType.YEAR_SONGS,
                     year = year
                 )
@@ -154,7 +160,8 @@ class MusicSongHelper constructor(
             return Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
                 SongsSource(
                     musicInteractor = musicInteractor,
-                    SongRequestType.TOP_SONGS,
+                    accessToken = accessToken,
+                    songRequestType = SongRequestType.TOP_SONGS,
                 )
             }.flow
                 .cachedIn(scope)

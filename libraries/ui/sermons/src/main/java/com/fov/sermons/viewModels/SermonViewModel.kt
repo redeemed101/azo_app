@@ -65,8 +65,8 @@ class SermonViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(MusicState())
     val uiState: StateFlow<MusicState> = _uiState
 
-    private val musicAlbumHelper  = MusicAlbumHelper(musicInteractor = musicInteractor)
-    private val musicSongHelper = MusicSongHelper(musicInteractor)
+    private var musicAlbumHelper : MusicAlbumHelper? = null
+    private var musicSongHelper : MusicSongHelper? = null
     private val recentActivityHelper = RecentActivityHelper(musicInteractor)
     private var accessToken: String? = null
 
@@ -76,10 +76,18 @@ class SermonViewModel @Inject constructor(
        viewModelScope.launch {
            sharedPreferences.accessToken?.let { token ->
                token.collectLatest { it ->
-                   accessToken = it
+                   if(it != null) {
+                       accessToken = it
+                       musicAlbumHelper = MusicAlbumHelper(
+                           musicInteractor = musicInteractor,
+                           accessToken = accessToken!!
+                       )
+                       musicSongHelper = MusicSongHelper(musicInteractor, accessToken = accessToken!!)
+                   }
                }
            }
        }
+
         getTopAlbums()
         getForYou()
         getTopSongs()
@@ -96,14 +104,14 @@ class SermonViewModel @Inject constructor(
 
             when (event) {
                 MusicEvent.LoadTopSongs ->{
-                    topSongsPaged = musicSongHelper.getTopSongs(viewModelScope){
+                    topSongsPaged = musicSongHelper?.getTopSongs(viewModelScope){
                         error = it.message
                     }
 
                 }
                 is MusicEvent.GetSong ->{
                     viewModelScope.launch {
-                        val song = musicSongHelper.getSong(event.songId)
+                        val song = musicSongHelper?.getSong(event.songId)
                         selectedSong = song
                     }
                 }
@@ -123,12 +131,12 @@ class SermonViewModel @Inject constructor(
 
                 }
                 MusicEvent.LoadHome -> {
-                    newSongs = musicSongHelper.getNewSongs(viewModelScope){
-                       error = it.message
-                    }
-                    newAlbums = musicAlbumHelper.getNewAlbums(viewModelScope){
+                    newSongs = musicSongHelper?.getNewSongs(viewModelScope){
                         error = it.message
-                    }
+                    } ?: flowOf()
+                    newAlbums = musicAlbumHelper?.getNewAlbums(viewModelScope){
+                        error = it.message
+                    } ?: flowOf()
                     getImagePagers()
                     //musicPagerImages = PAGER_IMAGES
 
@@ -159,16 +167,16 @@ class SermonViewModel @Inject constructor(
 
                 is MusicEvent.SearchSong ->{
                     loading = true
-                    recentSongSearch = musicSongHelper.searchSongs(event.search,viewModelScope){
-                       error = it.message
-                    }
+                    recentSongSearch = musicSongHelper?.searchSongs(event.search,viewModelScope){
+                        error = it.message
+                    } ?: flowOf()
                     loading = false
                 }
                 MusicEvent.LoadRecentSearch ->{
                     loading = true
-                    recentSongSearch = musicSongHelper.getRecentSongSearch(viewModelScope){
+                    recentSongSearch = musicSongHelper?.getRecentSongSearch(viewModelScope){
                         error = it.message
-                    }
+                    } ?: flowOf()
                     loading = false
                 }
 
@@ -180,12 +188,12 @@ class SermonViewModel @Inject constructor(
                     getForYou()
                 }
                 MusicEvent.ClearRecentSongSearch -> {
-                    musicSongHelper.deleteRecentSongSearch(viewModelScope){
+                    musicSongHelper?.deleteRecentSongSearch(viewModelScope){
 
                     }
                 }
                 is MusicEvent.SaveRecentSearch -> {
-                    musicSongHelper.saveRecentSongSearch(event.song,viewModelScope){
+                    musicSongHelper?.saveRecentSongSearch(event.song,viewModelScope){
 
                     }
                 }
@@ -282,24 +290,24 @@ class SermonViewModel @Inject constructor(
                     navigationManager.navigate(SermonsDirections.genre)
                 }
                 MusicEvent.LoadLikedMusic -> {
-                    val likedAlbums = musicAlbumHelper.getUserLikedAlbums("userId",viewModelScope){
+                    val likedAlbums = musicAlbumHelper?.getUserLikedAlbums("userId",viewModelScope){
                         error = it.message
-                    }
-                    val  likedSongs = musicSongHelper.getLikedSongs("userId",viewModelScope){
+                    } ?: flowOf()
+                    val  likedSongs = musicSongHelper?.getLikedSongs("userId",viewModelScope){
                         error = it.message
-                    }
+                    } ?: flowOf()
                     likedMusicData = LikedMusicData(
                         likedAlbums = likedAlbums,
                         likedSongs = likedSongs
                     )
                 }
                 MusicEvent.GoToLikedMusic ->{
-                    val likedAlbums = musicAlbumHelper.getUserLikedAlbums("userId",viewModelScope){
-                       error = it.message
-                    }
-                    val  likedSongs = musicSongHelper.getLikedSongs("userId",viewModelScope){
+                    val likedAlbums = musicAlbumHelper?.getUserLikedAlbums("userId",viewModelScope){
                         error = it.message
-                    }
+                    } ?: flowOf()
+                    val  likedSongs = musicSongHelper?.getLikedSongs("userId",viewModelScope){
+                        error = it.message
+                    } ?: flowOf()
                     likedMusicData = LikedMusicData(
                         likedAlbums = likedAlbums,
                         likedSongs = likedSongs
@@ -310,12 +318,12 @@ class SermonViewModel @Inject constructor(
                     loading = true
                     selectedGenre = event.genre
                     //load genre data
-                    val songs = musicSongHelper.getGenreSongs(event.genre.genreId,viewModelScope){
-                       error = it.message
-                    }
-                    val albums = musicAlbumHelper.getGenreAlbums(event.genre.genreId,viewModelScope){
+                    val songs = musicSongHelper?.getGenreSongs(event.genre.genreId,viewModelScope){
                         error = it.message
-                    }
+                    } ?: flowOf()
+                    val albums = musicAlbumHelper?.getGenreAlbums(event.genre.genreId,viewModelScope){
+                        error = it.message
+                    } ?: flowOf()
 
                     genreData = GenreData(
                         genre = event.genre,
@@ -365,9 +373,9 @@ class SermonViewModel @Inject constructor(
                      loading = true
                      selectedYear = event.year
                     Log.d("LoadByYear", "Selected")
-                     yearSongs = musicSongHelper.getSongsByYear(event.year,viewModelScope){
+                     yearSongs = musicSongHelper?.getSongsByYear(event.year,viewModelScope){
                          error = it.message
-                     }
+                     } ?: flowOf()
                     loading = false
                 }
                 else -> {
