@@ -78,7 +78,7 @@ object NetworkModule {
                 chain.proceed(builder.build())
             }
         return ApolloClient.Builder()
-            .serverUrl("{BuildConfig.FOV_URL}users/graphql")
+            .serverUrl("${BuildConfig.FOV_URL}users/graphql")
             .okHttpClient(okHttp.build()) //ApolloClient with okhttp
             .build()
     }

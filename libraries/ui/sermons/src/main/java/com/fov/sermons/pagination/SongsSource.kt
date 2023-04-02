@@ -5,7 +5,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.fov.common_ui.utils.constants.SongRequestType
 import com.fov.domain.interactors.music.MusicInteractor
-import com.fov.domain.models.music.song.SongsResult
+import com.fov.domain.models.music.song.SermonsResult
 import com.fov.sermons.models.Song
 
 class SongsSource constructor(
@@ -27,7 +27,7 @@ class SongsSource constructor(
         return try {
             Log.d("LoadByYear", "year ${year}")
             val nextPage = params.key ?: 1
-            var songResult: SongsResult? = null
+            var songResult: SermonsResult? = null
             if (genreId != null) {
                 if (songRequestType == SongRequestType.GENRE_SONGS) {
                     val result = musicInteractor.getGenreSongsGraph(genreId, nextPage)
@@ -144,7 +144,7 @@ class SongsSource constructor(
                                         Song.ModelMapper.from(song)
                                     },
                                     prevKey = if (nextPage == 1) null else nextPage - 1,
-                                    nextKey = nextPage.plus(1)
+                                    nextKey = if (songResult!!.sermons.isEmpty()) null else nextPage.plus(1)
                                 )
 
 

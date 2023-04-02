@@ -25,6 +25,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         buildConfigField("String", "FOV_URL", getProps("URL"))
+        buildConfigField("String", "URL_PROTOCOL", getProps("URL_PROTOCOL"))
     }
 
     buildTypes {
@@ -37,6 +38,7 @@ android {
         }
         getByName("debug") {
             buildConfigField("String", "FOV_URL", getProps("URL"))
+            buildConfigField("String", "URL_PROTOCOL", getProps("URL_PROTOCOL"))
             buildConfigField("String", "YOUTUBE_KEY", getProps("YOUTUBE_KEY"))
             buildConfigField("String", "STRIPE_ACCOUNT_ID", getProps("STRIPE_ACCOUNT_ID"))
             buildConfigField("String", "STRIPE_KEY", getProps("STRIPE_KEY"))
@@ -52,6 +54,9 @@ android {
 }
 
 dependencies {
+
+    //implementation(project(":libraries:core"))
+
     implementation(Libs.AndroidX.Core.core)
     implementation(Libs.AndroidX.Core.compat)
     implementation(Libs.AndroidX.material)

@@ -3,7 +3,7 @@ package com.fov.domain.interactors.music
 import com.fov.domain.database.models.RecentActivity
 import com.fov.domain.database.models.RecentSongSearch
 import com.fov.domain.models.music.album.AlbumsResult
-import com.fov.domain.models.music.song.SongsResult
+import com.fov.domain.models.music.song.SermonsResult
 import com.fov.domain.remote.apollo.music.ApolloMusicService
 import com.fov.domain.repositories.music.SermonRepository
 import com.fov.domain.utils.constants.QueryConstants
@@ -25,7 +25,7 @@ class MusicInteractor constructor(
         sermonRepository.getTopAlbums(page)
     }
 
-    suspend fun getForYouSongs(page: Int) : SongsResult? = withContext(Dispatchers.IO) {
+    suspend fun getForYouSongs(page: Int) : SermonsResult? = withContext(Dispatchers.IO) {
         sermonRepository.getForYouSongs(page)
     }
 

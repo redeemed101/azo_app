@@ -15,6 +15,7 @@ import com.fov.common_ui.utils.constants.Constants
 import com.fov.common_ui.utils.constants.SongRequestType
 import com.fov.common_ui.utils.helpers.FileUtilities
 import com.fov.common_ui.utils.helpers.Utilities
+import com.fov.core.di.Preferences
 import com.fov.core.security.fileEncryption.FileEncryption
 import com.fov.domain.database.models.ActivityType
 import com.fov.domain.database.models.RecentActivity
@@ -35,10 +36,7 @@ import com.fov.sermons.viewModels.helpers.MusicAlbumHelper
 import com.fov.sermons.viewModels.helpers.MusicSongHelper
 import com.fov.sermons.viewModels.helpers.RecentActivityHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
@@ -50,6 +48,7 @@ class SermonViewModel @Inject constructor(
     private val videoInteractor : VideoInteractor,
     private val navigationManager: NavigationManager,
     private val fileEncryption : FileEncryption,
+    private val sharedPreferences: Preferences,
     application: Application
 )  : AndroidViewModel(application) {
     val videoPager = Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
@@ -69,10 +68,18 @@ class SermonViewModel @Inject constructor(
     private val musicAlbumHelper  = MusicAlbumHelper(musicInteractor = musicInteractor)
     private val musicSongHelper = MusicSongHelper(musicInteractor)
     private val recentActivityHelper = RecentActivityHelper(musicInteractor)
+    private var accessToken: String? = null
+
 
     init {
 
-
+       viewModelScope.launch {
+           sharedPreferences.accessToken?.let { token ->
+               token.collectLatest { it ->
+                   accessToken = it
+               }
+           }
+       }
         getTopAlbums()
         getForYou()
         getTopSongs()
@@ -167,7 +174,7 @@ class SermonViewModel @Inject constructor(
 
                 MusicEvent.LoadTopAlbums -> {
                     isLoadingTopAlbums = true
-                    //getTopAlbums()
+                    getTopAlbums()
                 }
                 MusicEvent.LoadForYou -> {
                     getForYou()

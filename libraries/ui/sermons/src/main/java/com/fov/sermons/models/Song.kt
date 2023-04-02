@@ -69,9 +69,9 @@ data class Song(
                 genres = listOf(),
                 songLength = "",
                 artistName = "Apostle Ziba",
-                artwork = "${BuildConfig.FOV_URL}/${song.artworkPath}",
-                previewPath = "${BuildConfig.FOV_URL}/${song.path}",
-                path = "${BuildConfig.FOV_URL}\\${song.path}",
+                artwork = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${song.artworkPath}",
+                previewPath = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${song.path}",
+                path = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${song.path}",
                 likes = 0,
                 userLikes = song.likes?.map { like ->
                     like?.userId ?: ""
@@ -85,9 +85,9 @@ data class Song(
                 genres = listOf(),
                 songLength = "",
                 artistName = "Apostle Ziba",
-                artwork = "${BuildConfig.FOV_URL}/${song.artworkPath}",
-                previewPath = "${BuildConfig.FOV_URL}/${song.path}",
-                path = "${BuildConfig.FOV_URL}\\${song.path}",
+                artwork = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${song.artworkPath}",
+                previewPath = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${song.path}",
+                path = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${song.path}",
                 likes = 0,
                 userLikes = song.likes?.map { like ->
                     like?.userId ?: ""
@@ -101,9 +101,9 @@ data class Song(
                 genres = listOf(),
                 songLength = "",
                 artistName = "Apostle Ziba",
-                artwork = "${BuildConfig.FOV_URL}/${song.artworkPath}",
-                previewPath = "${BuildConfig.FOV_URL}/${song.path}",
-                path = "${BuildConfig.FOV_URL}/${song.path}",
+                artwork = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${song.artworkPath}",
+                previewPath = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${song.path}",
+                path = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${song.path}",
                 likes = 0,
                 userLikes = song.likes?.map { like ->
                     like?.userId ?: ""
@@ -117,9 +117,9 @@ data class Song(
                 songId = song.id,
                 genres = listOf(),
                 songLength = "",
-                artwork = "${BuildConfig.FOV_URL}/${song.artworkPath}",
-                previewPath = "${BuildConfig.FOV_URL}/${song.path}",
-                path = "${BuildConfig.FOV_URL}/${song.path}",
+                artwork = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${song.artworkPath}",
+                previewPath = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${song.path}",
+                path = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${song.path}",
                 likes = 0,
                 userLikes = song.likes?.map { like ->
                     like?.userId ?: ""
@@ -134,24 +134,28 @@ data class Song(
                 artworkPath = song.artwork,
                 previewPath = song.previewPath,
                 description = song.description,               
-                songGenres = listOf(),
+                genres = listOf(),
                 likes = listOf(),
-                streams = listOf()
+                streams = listOf(),
+                createdAt = "",
+                publishedAt = "",
+                series = null,
+                isTrending = true
 
             )
         fun from(sermon: com.fov.domain.models.music.song.Sermon) =
             Song(
                 songId = sermon.id,
-                genres = sermon.songGenres.takeIf{
+                genres = sermon.genres.takeIf{
                     it.isNotEmpty()
                 }?.map{ genre ->
                     genre.name
 
                 },
                 songName = sermon.name,
-                artwork = "${BuildConfig.FOV_URL}${sermon.artworkPath}",
-                previewPath = "${BuildConfig.FOV_URL}/${sermon.path}",
-                path = "${BuildConfig.FOV_URL}/${sermon.path}",
+                artwork = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${sermon.artworkPath}",
+                previewPath = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${sermon.path}",
+                path = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${sermon.path}",
                 description = sermon.description,
                 likes = sermon.likes.size,
                 streams = sermon.streams.size

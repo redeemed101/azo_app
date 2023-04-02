@@ -37,7 +37,7 @@ fun Context.isDarkThemeOn(): Boolean {
     //Configuration.UI_MODE_NIGHT_MASK == UI_MODE_NIGHT_YES
 }
 
-public fun <T : Any> LazyListScope.itemsCustomized(
+fun <T : Any> LazyListScope.itemsCustomized(
     items: LazyPagingItems<T>,
     itemContent: @Composable LazyItemScope.(value: T?, index: Int) -> Unit
 ) {
@@ -49,7 +49,7 @@ public fun <T : Any> LazyListScope.itemsCustomized(
     }
 }
 
-public fun <T: Any> LazyGridScope.itemsCustom(
+fun <T: Any> LazyGridScope.itemsCustom(
     lazyPagingItems: LazyPagingItems<T>,
     itemContent: @Composable LazyGridItemScope.(value: T?) -> Unit
 ) {

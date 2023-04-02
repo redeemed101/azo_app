@@ -28,8 +28,8 @@ class ApolloSetup {
 
 
         var builder = ApolloClient.Builder()
-             .serverUrl("https://${BuildConfig.FOV_URL}${url}")
-             .okHttpClient(okHttp.build())
+                         .serverUrl("https://${BuildConfig.FOV_URL}${url}")
+                         .okHttpClient(okHttp.build())
             return builder.build();
     }
     fun setUpTestApolloClient(): ApolloClient {

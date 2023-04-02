@@ -2,7 +2,7 @@ package com.fov.domain.remote.mock.music
 
 
 import com.fov.domain.models.music.song.Sermon
-import com.fov.domain.models.music.song.SongsResult
+import com.fov.domain.models.music.song.SermonsResult
 import com.google.gson.Gson
 
 
@@ -15,10 +15,13 @@ object SongMockResponse {
             artworkPath = "https://picsum.photos/200",
             previewPath = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
             description = "",
-
-            songGenres = emptyList(),
+            createdAt = "",
+            publishedAt ="",
+            genres = emptyList(),
             likes = emptyList(),
-            streams = emptyList()
+            streams = emptyList(),
+            series = null,
+            isTrending = true
         )
         return Gson().toJson(obj)
     }
@@ -26,7 +29,7 @@ object SongMockResponse {
 object SongsMockResponse {
     operator fun invoke(): String {
 
-        val obj = SongsResult(
+        val obj = SermonsResult(
             sermons =  List(20) {
                 Sermon(
                     name = "Sermon $it",
@@ -35,9 +38,13 @@ object SongsMockResponse {
                     artworkPath = "https://picsum.photos/200",
                     previewPath = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                     description = "",
-                    songGenres = emptyList(),
+                    genres = emptyList(),
                     likes = emptyList(),
-                    streams = emptyList()
+                    streams = emptyList(),
+                    createdAt = "",
+                    publishedAt = "",
+                    series = null,
+                    isTrending = true
 
                 )
             })

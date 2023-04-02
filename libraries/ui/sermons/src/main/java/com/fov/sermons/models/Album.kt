@@ -46,24 +46,24 @@ data class Album(
             songs = album.sermons.map { song ->
                  Song(
                      songId = song.id,
-                     genres = song.songGenres.map{
+                     genres = song.genres.map{
                                                  it.name
                      },
                      songName = song.name,
                      songLength = "",
-                     artwork = "${BuildConfig.FOV_URL}/${song.artworkPath}",
+                     artwork = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${song.artworkPath}",
                      description = song.description,
-                     previewPath = "${BuildConfig.FOV_URL}/${song.previewPath}",
-                     path = "${BuildConfig.FOV_URL}/${song.path}",
+                     previewPath = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${song.previewPath}",
+                     path = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${song.path}",
                      likes = song.likes.size,
                      streams = song.streams.size
 
                  )
             },
-            artwork = "${BuildConfig.FOV_URL}/${album.artworkPath}",
+            artwork = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${album.artworkPath}",
             albumName = album.name,
             description = album.description,
-            path = "${BuildConfig.FOV_URL}${album.path}",
+            path = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}${album.path}",
             likes = album.likes.size,
             streams = album.streams.size
         )
@@ -71,10 +71,10 @@ data class Album(
             Album(
                 albumId = album.id,
                 genres = listOf(),
-                artwork = "${BuildConfig.FOV_URL}/${album.artworkPath}",
+                artwork = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${album.artworkPath}",
                 albumName = album.name,
                 description = album.name,
-                path = "${BuildConfig.FOV_URL}/${album.path}",
+                path = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${album.path}",
                 userLikes = album.likes?.map { like ->
                     like?.userId ?: ""
                 } ?: emptyList(),
@@ -86,10 +86,10 @@ data class Album(
             Album(
                 albumId = album.id,
                 genres = listOf(),
-                artwork = "${BuildConfig.FOV_URL}/${album.artworkPath}",
+                artwork = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${album.artworkPath}",
                 albumName = album.name,
                 description = album.name,
-                path = "${BuildConfig.FOV_URL}/${album.path}",
+                path = "${BuildConfig.URL_PROTOCOL}${BuildConfig.FOV_URL}/${album.path}",
                 userLikes = album.likes?.map { like ->
                     like?.userId ?: ""
 

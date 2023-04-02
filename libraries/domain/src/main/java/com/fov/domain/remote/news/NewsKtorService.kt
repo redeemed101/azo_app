@@ -1,7 +1,6 @@
 package com.fov.domain.remote.news
 
 import com.fov.domain.models.general.ImagePagerResult
-import com.fov.domain.models.music.song.SongsResult
 import com.fov.domain.models.news.NewsResult
 import com.fov.domain.utils.constants.QueryConstants
 import io.ktor.client.*

@@ -5,7 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Keep
 @Serializable
-data class SongStream(
+data class SermonLike(
     @SerializedName("id") val id : String,
+    @SerializedName("userId") val userId : String,
     @SerializedName("sermonId") val sermonId : String,
 )

@@ -16,6 +16,7 @@ class AlbumsSource constructor(
     private val callback : () -> Unit = {}
 ) : PagingSource<Int, Album>() {
     override fun getRefreshKey(state: PagingState<Int, Album>): Int? {
+
         return state.anchorPosition?.let {
             state.closestPageToPosition(it)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(it)?.nextKey?.minus(1)
@@ -38,7 +39,7 @@ class AlbumsSource constructor(
                             LoadResult.Page(
                                 data = albums!!,
                                 prevKey = if (nextPage == 1) null else nextPage - 1,
-                                nextKey = nextPage.plus(1)
+                                nextKey = if (result.albumsPaginated.isNullOrEmpty()) null else nextPage.plus(1)
                             )
                         }
                         else{
@@ -62,7 +63,7 @@ class AlbumsSource constructor(
                         LoadResult.Page(
                             data = albums!!,
                             prevKey = if (nextPage == 1) null else nextPage - 1,
-                            nextKey = nextPage.plus(1)
+                            nextKey = if (result.likedAlbumsPaginated.isNullOrEmpty()) null else nextPage.plus(1)
                         )
                     }
                     else{
@@ -97,7 +98,7 @@ class AlbumsSource constructor(
                             Album.ModelMapper.from(album)
                         },
                         prevKey = if (nextPage == 1) null else nextPage - 1,
-                        nextKey = nextPage.plus(1)
+                        nextKey = if (albumResult.albums.isNullOrEmpty()) null else nextPage.plus(1)
                     )
 
 

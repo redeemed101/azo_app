@@ -27,10 +27,13 @@ object AlbumsMockResponse {
                                 artworkPath = "https://picsum.photos/200",
                                 previewPath = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
                                 description = "",
-                                songGenres = listOf(),
+                                genres = listOf(),
                                 likes = listOf(),
-                                streams = listOf()
-
+                                streams = listOf(),
+                                isTrending = true,
+                                series = null,
+                                createdAt = "",
+                                publishedAt = ""
                             )
                         }
                     )

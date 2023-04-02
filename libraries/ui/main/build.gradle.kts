@@ -22,6 +22,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
         buildConfigField("String", "FOV_URL", getProps("URL"))
+        buildConfigField("String", "URL_PROTOCOL", getProps("URL_PROTOCOL"))
 
         kapt {
             arguments {

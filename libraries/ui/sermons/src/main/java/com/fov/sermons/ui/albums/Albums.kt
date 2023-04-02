@@ -41,7 +41,8 @@ fun prevTopAlbums(){
 }
 @Composable
 fun Albums(
-    title: String, albums: Flow<PagingData<Album>>,
+    title: String,
+    albums: Flow<PagingData<Album>>,
     musicEvents: (event: MusicEvent) -> Unit,
     navigateTabAction: () -> Unit
 ){
