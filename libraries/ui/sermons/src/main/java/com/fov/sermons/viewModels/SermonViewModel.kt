@@ -54,6 +54,7 @@ class SermonViewModel @Inject constructor(
     val videoPager = Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
         VideoSource(
             videoInteractor = videoInteractor,
+            accessToken = accessToken!!
         )
     }.flow.cachedIn(viewModelScope)
     private val context = getApplication<Application>().applicationContext
@@ -439,6 +440,7 @@ class SermonViewModel @Inject constructor(
             val videosResult = Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
                 VideoSource(
                     videoInteractor = videoInteractor,
+                    accessToken = accessToken!!
                 )
             }.flow
 

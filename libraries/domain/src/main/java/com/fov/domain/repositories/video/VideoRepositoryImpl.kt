@@ -8,6 +8,6 @@ class VideoRepositoryImpl constructor(
     private val videoRemote: VideoRemote
 ) : VideoRepository
 {
-    override suspend fun getVideos(page: Int) = videoRemote.getVideos(page)
-    override suspend fun getShorts(page: Int) = videoRemote.getShorts(page)
+    override suspend fun getVideos(token:String,page: Int) = videoRemote.getVideos(token,page)
+    override suspend fun getShorts(token:String,page: Int) = videoRemote.getShorts(token,page)
 }

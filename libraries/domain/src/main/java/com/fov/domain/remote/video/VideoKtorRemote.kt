@@ -6,6 +6,6 @@ import com.fov.domain.models.shorts.ShortsResult
 class VideoKtorRemote constructor(
     private val videoKtorService: VideoKtorService
 ) : VideoRemote {
-    override suspend fun getVideos(page: Int) = videoKtorService.getVideos(page)
-    override suspend fun getShorts(page: Int) = videoKtorService.getShorts(page)
+    override suspend fun getVideos(token:String,page: Int) = videoKtorService.getVideos(token,page)
+    override suspend fun getShorts(token:String,page: Int) = videoKtorService.getShorts(token,page)
 }

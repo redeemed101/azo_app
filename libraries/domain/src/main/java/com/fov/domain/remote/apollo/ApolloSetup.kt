@@ -15,7 +15,7 @@ class ApolloSetup {
         val okHttp = OkHttpClient
             .Builder()
             .addInterceptor(logging)
-            .addInterceptor(MockInterceptor())
+            //.addInterceptor(MockInterceptor())
         if (token.isNotEmpty()) {
             okHttp.addInterceptor { chain ->
                 val original = chain.request()

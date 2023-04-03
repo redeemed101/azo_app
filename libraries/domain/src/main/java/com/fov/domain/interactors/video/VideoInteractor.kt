@@ -12,12 +12,12 @@ class VideoInteractor constructor(
  private val videoRepository: VideoRepository
 ) {
 
-    suspend fun  getVideos(page: Int) : VideosResult? = withContext(Dispatchers.IO) {
-            videoRepository.getVideos(page)
+    suspend fun  getVideos(token: String,page: Int) : VideosResult? = withContext(Dispatchers.IO) {
+            videoRepository.getVideos(token,page)
     }
-    suspend fun getShorts(page: Int) : ShortsResult? =  withContext(Dispatchers.IO) {
+    suspend fun getShorts(token:String, page: Int) : ShortsResult? =  withContext(Dispatchers.IO) {
 
-        videoRepository.getShorts(page)
+        videoRepository.getShorts(token,page)
     }
 
 }

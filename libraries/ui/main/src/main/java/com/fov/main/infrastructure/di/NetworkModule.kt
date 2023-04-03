@@ -6,7 +6,9 @@ import coil.util.CoilUtils
 import com.apollographql.apollo3.ApolloClient
 import com.apollographql.apollo3.network.okHttpClient
 import com.fov.core.BuildConfig
+import com.fov.core.di.Preferences
 import com.fov.core.utils.Utilities
+import com.fov.domain.interactors.authentication.Authenticate
 import com.fov.domain.remote.AuthInterceptor
 import com.fov.domain.remote.RequestInterceptor
 import com.fov.domain.remote.apollo.ApolloSetup
@@ -46,9 +48,14 @@ object NetworkModule {
         //val token = utilities.getToken()
         return OkHttpClient.Builder()
             .addInterceptor(RequestInterceptor())
-            .addInterceptor(AuthInterceptor("Bearer",""))
+            //.addInterceptor(AuthInterceptor("Bearer",""))
             //.cache(CoilUtils.createDefaultCache(context))
             .build()
+    }
+    @Provides
+    @Singleton
+    fun provideAuthInterceptor(sharedPrefs: Preferences) : AuthInterceptor {
+          return AuthInterceptor(sharedPrefs)
     }
 
     @Provides
@@ -109,13 +116,13 @@ object NetworkModule {
 
     @Provides
     @Singleton
-    fun providesKtorClient() : HttpClient {
+    fun providesKtorClient(authInteceptor : AuthInterceptor) : HttpClient {
 
         return if( BuildConfig.BUILD_TYPE.lowercase() == "debug") {
             //KtorMockClient.ktorHttpClient
-            KtorClient.ktorHttpClient
+            KtorClient.getClient(authInteceptor)
         } else{
-            KtorClient.ktorHttpClient
+            KtorClient.getClient(authInteceptor)
         }
 
     }

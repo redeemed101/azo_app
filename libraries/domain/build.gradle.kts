@@ -55,7 +55,7 @@ android {
 
 dependencies {
 
-    //implementation(project(":libraries:core"))
+    implementation(project(":libraries:core"))
 
     implementation(Libs.AndroidX.Core.core)
     implementation(Libs.AndroidX.Core.compat)
@@ -89,6 +89,7 @@ dependencies {
     implementation(Libs.SkyDoves.whatif)
 
     implementation(Libs.Networking.Ktor.client)
+    implementation(Libs.Networking.Ktor.okHttp)
     implementation(Libs.Networking.Ktor.negotiation)
     //implementation(Libs.Networking.Ktor.serialization)
     implementation(Libs.Networking.Ktor.kotlinx_json)

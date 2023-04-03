@@ -87,6 +87,7 @@ object Libs {
             const val client =  "io.ktor:ktor-client-android:$version"
             const val serialization =  "io.ktor:ktor-client-serialization:$version"
             const val auth = "io.ktor:ktor-client-auth:$version"
+            const val okHttp = "io.ktor:ktor-client-okhttp:$version"
             const val kotlinx_json =  "io.ktor:ktor-serialization-kotlinx-json:$version"
             const val logging = "io.ktor:ktor-client-logging-jvm:$version"
             const val negotiation = "io.ktor:ktor-client-content-negotiation:$version"

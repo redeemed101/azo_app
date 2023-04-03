@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.flowOf
 
 class VideoSource constructor(
     private val videoInteractor : VideoInteractor
+    , private val accessToken : String
 ) : PagingSource<Int, Video>(){
 
     override fun getRefreshKey(state: PagingState<Int, Video>): Int? {
@@ -25,7 +26,7 @@ class VideoSource constructor(
         Log.d("XXX","In Video Source")
         return try {
             val nextPage = params.key ?: 1
-            val videoResult = videoInteractor.getVideos(nextPage)
+            val videoResult = videoInteractor.getVideos(accessToken,nextPage)
             Log.d("XXX","${videoResult?.videos?.get(0)?.artwork}")
             val videos = videoResult?.videos?.map {
                 Video(
@@ -43,7 +44,7 @@ class VideoSource constructor(
             LoadResult.Page(
                 data = videos!!,
                 prevKey = if (nextPage == 1) null else nextPage - 1,
-                nextKey = nextPage.plus(1)
+                nextKey = if (videoResult.videos.isNullOrEmpty()) null else nextPage.plus(1)
             )
         }
         catch (e: Exception) {
