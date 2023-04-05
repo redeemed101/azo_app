@@ -4,6 +4,7 @@ import android.widget.Toast
 import androidx.compose.animation.*
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -58,6 +59,7 @@ fun BottomMusicPlayer(
                 val playerBox = Column {
                     val player = MiniMusicPlayer(
                         modifier = Modifier
+                            .border( width = if (musicState.isPlayerMinimized) 1.dp else 0.dp,color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f))
                             .background(MaterialTheme.colors.surface)
                             .fillMaxWidth()
                             .padding(bottom = if (musicState.isPlayerMinimized) 80.dp else 0.dp)

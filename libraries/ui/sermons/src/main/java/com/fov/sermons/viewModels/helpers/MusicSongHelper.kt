@@ -48,6 +48,26 @@ class MusicSongHelper constructor(
         }
         return flowOf(PagingData.from(emptyList()))
     }
+    fun getForYouSongs(scope : CoroutineScope, error : (Exception) -> Unit): Flow<PagingData<Song>> {
+
+        try {
+
+            return Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
+                SongsSource(
+                    musicInteractor = musicInteractor,
+                    accessToken = accessToken,
+                    songRequestType = SongRequestType.FOR_YOU,
+                )
+            }.flow
+                .cachedIn(scope)
+
+
+        }
+        catch(ex : Exception) {
+            error(ex)
+        }
+        return flowOf(PagingData.from(emptyList()))
+    }
 
    fun getRecentSongSearch(scope : CoroutineScope,error : (Exception) -> Unit): Flow<PagingData<Song>> {
 

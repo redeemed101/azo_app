@@ -69,7 +69,7 @@ fun Albums(
                     LazyRow(modifier = Modifier
                         .padding(top = 10.dp)
                         .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         itemsCustomized(lazyAlbumItems){ album,_ ->
                             AlbumItem(album = album!!, onDownloadedIconClicked = {}){

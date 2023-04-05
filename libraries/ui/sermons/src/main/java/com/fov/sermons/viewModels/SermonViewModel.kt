@@ -22,6 +22,7 @@ import com.fov.domain.database.models.RecentActivity
 import com.fov.domain.interactors.music.MusicInteractor
 import com.fov.domain.interactors.news.NewsInteractor
 import com.fov.domain.interactors.video.VideoInteractor
+import com.fov.domain.models.general.ImagePager
 import com.fov.navigation.NavigationManager
 import com.fov.navigation.SermonsDirections
 import com.fov.sermons.events.MusicEvent
@@ -182,11 +183,15 @@ class SermonViewModel @Inject constructor(
                 }
 
                 MusicEvent.LoadTopAlbums -> {
-                    isLoadingTopAlbums = true
-                    getTopAlbums()
+                    topAlbumsPaged = musicAlbumHelper?.getTopAlbums(viewModelScope){
+                        error = it.message
+                    }
+
                 }
                 MusicEvent.LoadForYou -> {
-                    getForYou()
+                    forYouPaged = musicSongHelper?.getForYouSongs(viewModelScope){
+                        error = it.message
+                    }
                 }
                 MusicEvent.ClearRecentSongSearch -> {
                     musicSongHelper?.deleteRecentSongSearch(viewModelScope){
@@ -393,7 +398,10 @@ class SermonViewModel @Inject constructor(
             try {
                 val result = newsInteractor.getImagePagers(1)
                 _uiState.value = uiState.value.build {
-                    musicPagerImages = result?.images?.map { it.path } ?: emptyList()
+                    musicPagerImages = result?.images?.map {
+                        val imagePager = ImagePager.ModelMapper.withFullUrls(it)
+                        imagePager.path
+                    } ?: emptyList()
                 }
             }
             catch (ex : Exception){

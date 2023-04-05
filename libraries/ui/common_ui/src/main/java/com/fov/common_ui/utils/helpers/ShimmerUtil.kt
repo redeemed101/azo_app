@@ -19,11 +19,12 @@ import com.fov.common_ui.theme.ShimmerColorShades
 @Composable
 fun ShimmerCircleItem(
     brush: Brush,
-    size : Dp
+    size : Dp,
+    padding: Dp = 10.dp
 ){
     Box(
         modifier = Modifier
-            .padding(10.dp)
+            .padding(padding)
     ){
 
         // creating a card for creating a circle image view.
@@ -58,12 +59,13 @@ fun ShimmerPreview(){
 fun ShimmerItem(
     brush: Brush,
     size : Dp,
-    showSmallSpacer : Boolean = true
+    showSmallSpacer : Boolean = true,
+    padding: Dp = 16.dp
     ) {
     // Column composable comtaining spacer shaped like a rectangle,
     // set the [background]'s [brush] with the brush receiving from [ShimmerAnimation]
     // Composable which is the Animation you are gonna create.
-    Column(modifier = Modifier.padding(16.dp)) {
+    Column(modifier = Modifier.padding(padding)) {
         Spacer(
             modifier = Modifier
                 .fillMaxWidth()
@@ -86,7 +88,8 @@ fun ShimmerItem(
 fun ShimmerAnimation(
     size : Dp,
     isCircle : Boolean,
-    showSmallSpacer: Boolean =  true
+    showSmallSpacer: Boolean =  true,
+    padding: Dp = 10.dp
 ) {
 
     /*
@@ -125,7 +128,7 @@ fun ShimmerAnimation(
         end = Offset(translateAnim, translateAnim)
     )
     if(isCircle)
-        ShimmerCircleItem(brush = brush, size = size)
+        ShimmerCircleItem(brush = brush, size = size, padding = padding)
     else
-        ShimmerItem(brush = brush, size = size,showSmallSpacer = showSmallSpacer)
+        ShimmerItem(brush = brush, size = size,showSmallSpacer = showSmallSpacer, padding = padding)
 }

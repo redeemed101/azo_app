@@ -18,6 +18,26 @@ class MusicAlbumHelper constructor(
     val musicInteractor: MusicInteractor,
     val accessToken : String
 ) {
+    fun getTopAlbums(scope : CoroutineScope, error : (Exception) -> Unit) : Flow<PagingData<Album>> {
+
+        try {
+
+            return Pager(PagingConfig(pageSize = Constants.NUM_PAGE)) {
+                AlbumsSource(
+                    musicInteractor = musicInteractor,
+                    accessToken = accessToken,
+                    albumRequestType = AlbumRequestType.TOP_ALBUMS,
+                )
+            }.flow
+                .cachedIn(scope)
+
+
+        }
+        catch(ex : Exception) {
+            error(ex)
+        }
+        return flowOf(PagingData.from(emptyList()))
+    }
     fun getNewAlbums(scope : CoroutineScope, error : (Exception) -> Unit) : Flow<PagingData<Album>> {
 
         try {

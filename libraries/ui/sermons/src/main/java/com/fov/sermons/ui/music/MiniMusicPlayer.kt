@@ -37,98 +37,98 @@ fun MiniMusicPlayer(
 ) : MediaPlayback {
 
     if(!alreadyPlaying)
-    LaunchedEffect(sources) {
+        LaunchedEffect(sources) {
 
 
-        val mediaItems: MutableList<MediaItem> = ArrayList()
-        sources.forEach { source ->
-            mediaItems.add(MediaItem.fromUri( Uri.parse(
-                source
-            )))
-        }
-
-        exoPlayer.setMediaItems(mediaItems)
-        exoPlayer.playWhenReady = true
-        exoPlayer.prepare()
-        exoPlayer.addListener(object: Player.Listener{
-
-            override fun onMediaItemTransition( mediaItem: MediaItem?, @MediaItemTransitionReason reason: Int) {
-               
-                //updateUiForPlayingMediaItem(mediaItem)
+            val mediaItems: MutableList<MediaItem> = ArrayList()
+            sources.forEach { source ->
+                mediaItems.add(MediaItem.fromUri( Uri.parse(
+                    source
+                )))
             }
 
-            override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
+            exoPlayer.setMediaItems(mediaItems)
+            exoPlayer.playWhenReady = true
+            exoPlayer.prepare()
+            exoPlayer.addListener(object: Player.Listener{
 
-                when (playbackState){
-                    Player.STATE_BUFFERING->
-                        onMediaBuffering()
-                    Player.STATE_READY->
-                        onMediaReady()
-                    Player.STATE_ENDED->
-                        onMediaEnded()
+                override fun onMediaItemTransition( mediaItem: MediaItem?, @MediaItemTransitionReason reason: Int) {
+
+                    //updateUiForPlayingMediaItem(mediaItem)
                 }
-            }
 
-            override fun onPlayerError(error: PlaybackException) {
-                onMediaError()
-            }
+                override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
 
-
-        })
-
-
-
-    }
-    val color = White009.toArgb()
-    if (minimized) {
-        AndroidViewBinding(
-            ExoPlayerCustomBinding::inflate,
-            modifier = modifier) {
-
-            player.apply {
-                player = exoPlayer
-                setOnClickListener {
-                    onClicked()
+                    when (playbackState){
+                        Player.STATE_BUFFERING->
+                            onMediaBuffering()
+                        Player.STATE_READY->
+                            onMediaReady()
+                        Player.STATE_ENDED->
+                            onMediaEnded()
+                    }
                 }
-                setShutterBackgroundColor(color)
-                useArtwork = false
-                showController()
-                controllerHideOnTouch = false
-                controllerShowTimeoutMs = 0
-                setRepeatToggleModes(RepeatModeUtil.REPEAT_TOGGLE_MODE_ONE or RepeatModeUtil.REPEAT_TOGGLE_MODE_ALL)
-                setShowShuffleButton(true)
+
+                override fun onPlayerError(error: PlaybackException) {
+                    onMediaError()
+                }
+
+
+            })
+
+
+
+        }
+        val color = White009.toArgb()
+        if (minimized) {
+            AndroidViewBinding(
+                ExoPlayerCustomBinding::inflate,
+                modifier = modifier) {
+
+                player.apply {
+                    player = exoPlayer
+                    setOnClickListener {
+                        onClicked()
+                    }
+                    setShutterBackgroundColor(color)
+                    useArtwork = false
+                    showController()
+                    controllerHideOnTouch = false
+                    controllerShowTimeoutMs = 0
+                    setRepeatToggleModes(RepeatModeUtil.REPEAT_TOGGLE_MODE_ONE or RepeatModeUtil.REPEAT_TOGGLE_MODE_ALL)
+                    setShowShuffleButton(true)
+
+                }
+
+            }
+        }
+        else{
+
+
+            AndroidViewBinding(
+                ExoplayerMainCustomBinding::inflate,
+                modifier = modifier) {
+
+                mainPlayer.apply {
+
+
+                    player = exoPlayer
+                    if( alreadyPlaying)
+                    visibility = View.VISIBLE
+                    //setShutterBackgroundColor(color)
+                    useArtwork = false
+                    showController()
+                    controllerHideOnTouch = false
+                    controllerShowTimeoutMs = 0
+                    setRepeatToggleModes(RepeatModeUtil.REPEAT_TOGGLE_MODE_ONE or RepeatModeUtil.REPEAT_TOGGLE_MODE_ALL)
+                    setShowShuffleButton(true)
+
+                }
 
             }
 
-        }
-    }
-    else{
-
-
-        AndroidViewBinding(
-            ExoplayerMainCustomBinding::inflate,
-            modifier = modifier) {
-
-            mainPlayer.apply {
-
-
-                player = exoPlayer
-                if( alreadyPlaying)
-                visibility = View.VISIBLE
-                //setShutterBackgroundColor(color)
-                useArtwork = false
-                showController()
-                controllerHideOnTouch = false
-                controllerShowTimeoutMs = 0
-                setRepeatToggleModes(RepeatModeUtil.REPEAT_TOGGLE_MODE_ONE or RepeatModeUtil.REPEAT_TOGGLE_MODE_ALL)
-                setShowShuffleButton(true)
-
-            }
 
         }
-
-
-    }
     return remember(exoPlayer) {
         object: MediaPlayback {
             override fun playPause() {

@@ -14,7 +14,10 @@ object ImagePagerMockResponse {
                 ImagePager(
                     id = "1111 $it",
                     path = "https://picsum.photos/200",
-                    description = "This is $it"
+                    description = "This is $it",
+                    createdAt = "2023-02-01",
+                    show = true,
+
                 )
             }
         )

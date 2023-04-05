@@ -4,6 +4,8 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.fov.common_ui.models.NewsModel
 import com.fov.domain.interactors.news.NewsInteractor
+import com.fov.domain.models.general.ImagePager
+import com.fov.domain.models.news.News
 import com.fov.domain.models.news.NewsResult
 
 class NewsSource constructor(
@@ -32,10 +34,11 @@ class NewsSource constructor(
                 result = newsInteractor.getNews(nextPage)
             }
             val news = result?.news?.map {
+                val news = News.ModelMapper.withFullUrls(it)
                 NewsModel(
                     title = it.title,
-                    mainImage = it.mainImage.path,
-                    images = it.images.map {
+                    mainImage = news.mainImage.path,
+                    images = news.images.map {
                         it.path
                     },
                     summary = it.content,

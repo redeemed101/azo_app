@@ -386,7 +386,7 @@ private fun Song(
                             modifier = Modifier
                                 .padding(top = 10.dp)
                                 .fillMaxWidth(),
-                            horizontalArrangement = Arrangement.SpaceEvenly
+                            horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             itemsCustomized(songs!!) { song,_ ->
                                 MusicItem(song = song!!) {

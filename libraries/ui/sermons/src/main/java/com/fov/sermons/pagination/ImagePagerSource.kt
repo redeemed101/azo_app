@@ -4,6 +4,7 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.fov.common_ui.models.NewsModel
 import com.fov.domain.interactors.news.NewsInteractor
+import com.fov.domain.models.general.ImagePager
 import com.fov.sermons.models.ImagePagerModel
 
 class ImagePagerSource constructor(
@@ -22,9 +23,10 @@ class ImagePagerSource constructor(
             val nextPage = params.key ?: 1
             val result = newsInteractor.getImagePagers(nextPage)
             val news = result?.images?.map {
+                val imagePager = ImagePager.ModelMapper.withFullUrls(it)
                 ImagePagerModel(
                     id = it.id,
-                    path = it.path,
+                    path = imagePager.path,
                     description = it.description
                 )
             }

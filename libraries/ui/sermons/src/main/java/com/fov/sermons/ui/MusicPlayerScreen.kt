@@ -171,6 +171,7 @@ private fun MusicPlayerView(
                                     MiniMusicPlayer(
                                         modifier  = Modifier
                                             .background(MaterialTheme.colors.surface.copy(alpha = 1f))
+                                            .border(if (musicState.isPlayerMinimized) 1.dp else 0.dp,color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f))
                                             .fillMaxWidth()
                                             .padding(bottom = if (musicState.isPlayerMinimized) 50.dp else 0.dp)
                                             .height(if (musicState.isPlayerMinimized) 80.dp else maxHeight / 5f),

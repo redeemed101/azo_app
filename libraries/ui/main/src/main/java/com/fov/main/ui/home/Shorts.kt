@@ -13,7 +13,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
+import com.example.common_ui.utils.helpers.ShimmerAnimation
 import com.fov.common_ui.extensions.itemsCustomized
 import com.fov.main.ShortsActivity
 import com.fov.shorts.events.ShortEvent
@@ -47,51 +49,78 @@ private fun shorts(
     val lazyShorts = shortState.shorts?.collectAsLazyPagingItems()
 
     var backgroundColor = MaterialTheme.colors.onSurface.copy(alpha = 0.9f);
-
-    Column(
-        modifier = Modifier.background(backgroundColor)
-    ) {
-
-        Text(
-
-            title,
-            modifier = Modifier
-                .padding(top = 4.dp)
-                .padding(horizontal = 10.dp),
-            textAlign = TextAlign.Left,
-            style = MaterialTheme.typography.h2.copy(
-                MaterialTheme.colors.onSurface,
-                fontWeight = FontWeight.Bold,
-                fontSize = 14.sp
-
-            )
-        )
-
-        Row(
-
-            horizontalArrangement = Arrangement.SpaceEvenly
-        ){
-
-            LazyRow(modifier = Modifier
-                .padding(top = 10.dp)
-                .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
+    when(lazyShorts?.loadState?.refresh) {
+        is LoadState.Loading -> {
+            Column(
+                modifier = Modifier.background(backgroundColor)
             ) {
-                itemsCustomized(lazyShorts!!){ short,idx ->
-                    ShortItem(short = short!!) {
-                        events(ShortEvent.ShortSelected(short!!))
-                        var intent = Intent(context, ShortsActivity::class.java)
-                        intent.putExtra("shortType",short!!.type)
-                        intent.putExtra("shortPath",short!!.content)
-                        context.startActivity(intent)
-                        events(ShortEvent.ToggleShowShort(true))
-
-                    }
+                Row(
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    ShimmerAnimation(size = 100.dp, isCircle = true, padding = 10.dp)
+                    ShimmerAnimation(size = 100.dp, isCircle = true, padding = 10.dp)
+                    ShimmerAnimation(size = 100.dp, isCircle = true, padding = 10.dp)
                 }
+                Spacer(modifier = Modifier.height(10.dp))
+
+
             }
+            Spacer(modifier = Modifier.height(10.dp))
+        }
+        is LoadState.Error -> {
 
         }
-        Spacer(modifier = Modifier.height(10.dp))
+        else -> {
+            Column(
+                modifier = Modifier.background(backgroundColor)
+            ) {
+
+                Text(
+
+                    title,
+                    modifier = Modifier
+                        .padding(top = 4.dp)
+                        .padding(horizontal = 10.dp),
+                    textAlign = TextAlign.Left,
+                    style = MaterialTheme.typography.h2.copy(
+                        MaterialTheme.colors.onSurface,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 14.sp
+
+                    )
+                )
+
+                Row(
+
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ){
+
+                    LazyRow(modifier = Modifier
+                        .padding(top = 10.dp)
+                        .fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        itemsCustomized(lazyShorts!!){ short,idx ->
+                            ShortItem(short = short!!) {
+                                events(ShortEvent.ShortSelected(short!!))
+                                var intent = Intent(context, ShortsActivity::class.java)
+                                intent.putExtra("shortType",short!!.type)
+                                intent.putExtra("shortPath",short!!.content)
+                                context.startActivity(intent)
+                                events(ShortEvent.ToggleShowShort(true))
+
+                            }
+                        }
+                    }
+
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+            }
+        }
     }
+
 
 }

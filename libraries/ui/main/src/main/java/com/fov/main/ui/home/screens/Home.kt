@@ -81,6 +81,7 @@ private fun homeScreen(
             musicEvents(MusicEvent.LoadTopAlbums)
             musicEvents(MusicEvent.LoadForYou)
             events(CommonEvent.OnEndRefresh)
+            shortEvents(ShortEvent.ReloadShorts)
         }
     ) {
 

@@ -72,6 +72,9 @@ class ShortViewModel @Inject constructor(
 
                 }
                 ShortEvent.ReloadShorts -> {
+                    shorts = Pager(PagingConfig(pageSize = 20)) {
+                        ShortsDataSource(videoInteractor, accessToken!!)
+                    }.flow
 
                 }
                 is ShortEvent.ShortSelected -> {

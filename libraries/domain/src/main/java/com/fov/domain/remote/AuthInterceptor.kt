@@ -39,29 +39,36 @@ class AuthInterceptor constructor(private val sharedPrefs: Preferences): Interce
                                      token: String?,
                                      refreshToken: String?): Response {
          if(!token.isNullOrEmpty() && !refreshToken.isNullOrEmpty()) {
-             var refreshRequest = RefreshTokenRequest(token,refreshToken)
-             val gson = Gson()
-             var json = gson.toJson(refreshRequest)
-             var response = callApi(initialRequest,json,token)
-             // make an API call to get new token
-             if (response != null) {
+             try {
+                 var refreshRequest = RefreshTokenRequest(token, refreshToken)
+                 val gson = Gson()
+                 var json = gson.toJson(refreshRequest)
+                 var response = callApi(initialRequest, json, token)
+                 // make an API call to get new token
+                 if (response != null) {
                      val resString = response.body?.string()
                      response.close()
-                     Log.d("AuthInterceptor",resString.toString())
+                     Log.d("AuthInterceptor", resString.toString())
 
-                 var refreshResponse = gson.fromJson(resString,RefreshTokenResult::class.java)
-                 if (!refreshResponse.token.isNullOrEmpty()) {
-                     sharedPrefs.setAuthToken(refreshResponse.token)
-                     sharedPrefs.setRefreshToken(refreshResponse.refreshToken)
+                     var refreshResponse = gson.fromJson(resString, RefreshTokenResult::class.java)
+                     if (!refreshResponse.token.isNullOrEmpty()) {
+                         sharedPrefs.setAuthToken(refreshResponse.token)
+                         sharedPrefs.setRefreshToken(refreshResponse.refreshToken)
 
-                     val newRequest = initialRequest
-                         .newBuilder()
-                         .header("Authorization", "Bearer ${refreshResponse.token}")
-                         .build()
-                     return chain.proceed(newRequest)
+                         val newRequest = initialRequest
+                             .newBuilder()
+                             .header("Authorization", "Bearer ${refreshResponse.token}")
+                             .build()
+                         return chain.proceed(newRequest)
+                     }
                  }
+
+             }
+             catch(e : Exception){
+                 Log.d("AuthInterceptor", e.message.toString())
              }
          }
+
         return chain.proceed(initialRequest)
     }
     override fun intercept(chain: Interceptor.Chain): Response {

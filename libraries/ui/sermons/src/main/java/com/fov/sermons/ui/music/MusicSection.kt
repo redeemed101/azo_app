@@ -60,7 +60,7 @@ fun MusicSection(title : String,
                 modifier = Modifier
                     .padding(top = 10.dp)
                     .fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceEvenly
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 ShimmerAnimation(size = 100.dp, isCircle = false)
                 ShimmerAnimation(size = 100.dp, isCircle = false)
@@ -77,7 +77,7 @@ fun MusicSection(title : String,
                     LazyRow(modifier = Modifier
                         .padding(top = 10.dp)
                         .fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly
+                        horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         itemsCustomized(lazySongItems){ song,_ ->
                             MusicItem(song = song!!){
