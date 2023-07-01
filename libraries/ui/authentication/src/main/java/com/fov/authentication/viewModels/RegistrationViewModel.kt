@@ -18,6 +18,7 @@ import com.fov.navigation.NavigationManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -41,14 +42,17 @@ class RegistrationViewModel @Inject constructor(
     var localUser: User? = null
     init {
         viewModelScope.launch {
-             localUser = userDao.getUsers().first()?.first()
-
-            if(localUser != null) {
+             userDao.getUsers().collectLatest { users ->
+                 localUser = users.firstOrNull()
+                 if(localUser != null) {
                      Log.d("UserFound", localUser!!.id)
-                    _uiState.value = uiState.value.build {
-                       user = user
-                    }
-            }
+                     _uiState.value = uiState.value.build {
+                         user = user
+                     }
+                 }
+             }
+
+
         }
     }
 

@@ -114,7 +114,7 @@ fun MiniMusicPlayer(
 
                     player = exoPlayer
                     if( alreadyPlaying)
-                    visibility = View.VISIBLE
+                      visibility = View.VISIBLE
                     //setShutterBackgroundColor(color)
                     useArtwork = false
                     showController()
