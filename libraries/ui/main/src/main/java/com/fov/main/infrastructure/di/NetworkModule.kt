@@ -119,8 +119,8 @@ object NetworkModule {
     fun providesKtorClient(authInteceptor : AuthInterceptor) : HttpClient {
 
         return if( BuildConfig.BUILD_TYPE.lowercase() == "debug") {
-            //KtorMockClient.ktorHttpClient
-            KtorClient.getClient(authInteceptor)
+            giKtorMockClient.ktorHttpClient
+            //KtorClient.getClient(authInteceptor)
         } else{
             KtorClient.getClient(authInteceptor)
         }
@@ -164,5 +164,3 @@ object NetworkModule {
 
 
 
-
-}
